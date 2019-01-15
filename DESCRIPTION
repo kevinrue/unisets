@@ -3,13 +3,14 @@ Title: What the Package Does (one line, title case)
 Version: 0.0.0.9000
 Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
-Depends: R (>= 3.6.0)
+Depends: R (>= 3.6.0), S4Vectors
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    methods,
-    S4Vectors
+    methods
 RoxygenNote: 6.1.1
 Suggests: 
-    testthat
+    testthat,
+    covr
+Roxygen: list(markdown = TRUE)

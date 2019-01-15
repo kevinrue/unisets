@@ -3,20 +3,17 @@
 \docType{class}
 \name{BaseSet-class}
 \alias{BaseSet-class}
-\alias{BaseSet}
-\title{BaseSet objects}
-\value{
-A `BaseSet` object.
-}
+\title{BaseSet Class}
 \description{
-The `BaseSet` class implements a minimal container to describe distinct objects that make up sets.
+The \code{BaseSet} class implements a minimal container to describe distinct objects that make up sets.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{map}}{DataFrame.}
+\item{\code{map}}{DataFrame. Two columns provide mapping relationships between \code{"element"} and \code{"set"}.}
+
+\item{\code{elementData}}{DataFrame. Provide metadata for each unique element in \code{map$element}.}
+
+\item{\code{setData}}{DataFrame. Provide metadata for each unique element in \code{map$set}.}
 }}
 
-\examples{
-bs <- BaseSet()
-}

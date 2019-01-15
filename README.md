@@ -1,4 +1,5 @@
 [![Travis build status](https://travis-ci.org/kevinrue/uniset.svg?branch=master)](https://travis-ci.org/kevinrue/uniset)
+[![Coverage status](https://codecov.io/gh/kevinrue/uniset/branch/master/graph/badge.svg)](https://codecov.io/github/kevinrue/uniset?branch=master)
 
 # uniset
 
