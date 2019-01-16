@@ -121,6 +121,7 @@ BaseSet <- function(map, elementData, setData) {
         names(map$set) <- NULL
     }
 
+    # Add missing metadata
     if (missing(elementData)) {
         elementData <- DataFrame(row.names=sort(unique(map$element)))
     }
