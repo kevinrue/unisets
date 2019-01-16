@@ -27,7 +27,17 @@ gene_table <- DataFrame(
     element = unlist(gene_lists),
     set     = rep(names(gene_lists), lengths(gene_lists))
 )
-base_set <- BaseSet(gene_table)
+gene_data <- DataFrame(
+    row.names = c("A", "B", "C", "D"),
+    stat1     = c( 1,   2,   3,   4 ),
+    info1     = c("a", "b", "c", "d")
+)
+set_data <- DataFrame(
+    row.names = c("geneset1", "geneset2"),
+    stat1     = c(      100,        200 ),
+    info1     = c(     "abc",      "def")
+)
+base_set <- BaseSet(gene_table, gene_data, set_data)
 base_set
 ```
 
@@ -35,28 +45,28 @@ base_set
 BaseSet with 5 mappings between 4 elements and 2 sets
       element         set elementData     setData
   <character> <character> <DataFrame> <DataFrame>
-1           A    geneset1                        
-2           B    geneset1                        
-3           B    geneset2                        
-4           C    geneset2                        
-5           D    geneset2   
+1           A    geneset1         1:a     100:abc
+2           B    geneset1         2:b     100:abc
+3           B    geneset2         2:b     200:def
+4           C    geneset2         3:c     200:def
+5           D    geneset2         4:d     200:def
 ```
 
 More sophisticated classes are available to store additional information (e.g. `FuzzySet`).
 
 ``` r
 membership <- runif(nrow(gene_table))
-fuzzy_set <- FuzzySet(gene_table, membership = membership)
+fuzzy_set <- FuzzySet(gene_table, gene_data, set_data, membership = membership)
 fuzzy_set
 ```
 
 ```
 FuzzySet with 5 mappings between 4 elements and 2 sets
-      element         set           membership elementData     setData
-  <character> <character>            <numeric> <DataFrame> <DataFrame>
-1           A    geneset1     0.95690098265186                        
-2           B    geneset1    0.907051113899797                        
-3           B    geneset2 6.23832456767559e-05                        
-4           C    geneset2    0.878892858279869                        
-5           D    geneset2    0.284040126018226   
+      element         set        membership elementData     setData
+  <character> <character>         <numeric> <DataFrame> <DataFrame>
+1           A    geneset1 0.570553105324507         1:a     100:abc
+2           B    geneset1 0.539594167144969         2:b     100:abc
+3           B    geneset2 0.342863601865247         2:b     200:def
+4           C    geneset2 0.501708829076961         3:c     200:def
+5           D    geneset2 0.776408678852022         4:d     200:def
 ```
