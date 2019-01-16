@@ -34,6 +34,7 @@ setMethod("show", "FuzzySet", function(object) {
 #' @rdname FuzzySet-class
 #' @aliases as.list.FuzzySet
 #' @importFrom methods as
+#' @export
 as.list.FuzzySet <- function(object) {
     as(object, "list")
 }

@@ -79,6 +79,42 @@ fuzzy_set <- FuzzySet(gene_table, gene_data, set_data, membership=membership)
 fuzzy_set
 ```
 
+# Subsetting
+
+The `subset` method can be applied to a `BaseSet` object, using a logical expression referring to the `"element"` and `"set"` columns, and indicating rows to keep.
+
+```{r}
+subset(base_set, element %in% c("B", "C") | set == "geneset1")
+```
+
+Similarly, the `subset` method can be also applied to a `FuzzySet` object, where the logical expression may also refer to the `"membership"` slot.
+
+```{r}
+subset(fuzzy_set, set == "geneset2" & membership > 0.3)
+```
+
+# Converting to list
+
+It is possible to extract the gene sets as a `list`, for use with functions such as `lapply`.
+
+```{r}
+as.list(base_set)
+```
+
+# Additional information
+
+The size of each gene set can be obtained using the `setLengths` method.
+
+```{r}
+setLengths(fuzzy_set)
+```
+
+Conversely, the number of sets associated with each gene is returned by the `elementLengths` function.
+
+```{r}
+elementLengths(fuzzy_set)
+```
+
 # Session info {.unnumbered}
 
 ```{r sessionInfo, echo=FALSE}

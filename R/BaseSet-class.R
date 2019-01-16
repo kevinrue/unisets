@@ -34,6 +34,7 @@ setAs("BaseSet", "list", function(from) {
 #' @rdname BaseSet-class
 #' @aliases as.list.BaseSet as.list
 #' @importFrom methods as
+#' @export
 as.list.BaseSet <- function(object) {
     as(object, "list")
 }
