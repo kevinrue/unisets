@@ -1,16 +1,21 @@
 Package: uniset
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Title: Collection of Classes to Store Gene Sets
+Version: 0.99.0
+Authors@R: c(
+    person("Kevin", "Rue-Albrecht", email = "kevin.rue-albrecht@kennedy.ox.ac.uk", role = c("aut", "cre")),
+    person("Second", "Author", role = c("ctb"))
+    )
+Description: Classes to map elements to sets.
+    Slots are available to store element and set metadata.
+    Fuzzy sets (including membership functions) are supported.
 Depends: R (>= 3.6.0), S4Vectors
-License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
 Imports: 
-    methods
-RoxygenNote: 6.1.1
+    methods, BiocGenerics, utils
 Suggests: 
     testthat,
     covr
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)

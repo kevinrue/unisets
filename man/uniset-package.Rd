@@ -4,12 +4,19 @@
 \name{uniset-package}
 \alias{uniset}
 \alias{uniset-package}
-\title{uniset: What the Package Does (one line, title case)}
+\title{uniset: Collection of Classes to Store Gene Sets}
 \description{
-What the package does (one paragraph).
+Classes to map elements to sets.
+    Slots are available to store element and set metadata.
+    Fuzzy sets (including membership functions) are supported.
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com}
+\strong{Maintainer}: Kevin Rue-Albrecht \email{kevin.rue-albrecht@kennedy.ox.ac.uk}
+
+Other contributors:
+\itemize{
+  \item Second Author [contributor]
+}
 
 }
 \keyword{internal}
