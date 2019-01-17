@@ -1,4 +1,4 @@
-# uniset 0.99.0
+# unisets 0.99.0
 
 * Added a `NEWS.md` file to track changes to the package.
 * Added classes `BaseSets` and `FuzzySets`.

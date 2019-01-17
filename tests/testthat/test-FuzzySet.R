@@ -53,7 +53,7 @@ test_that("FuzzySets validity method identifies issues", {
 
     # Valid object
     out <- FuzzySets(map, membership=membership)
-    expect_true(uniset:::.valid.FuzzySets(out))
+    expect_true(unisets:::.valid.FuzzySets(out))
 
     # Invalid membership length
     expect_error(
@@ -64,7 +64,7 @@ test_that("FuzzySets validity method identifies issues", {
 
     out0 <- out
     out0@membership <- c(out0@membership, 0.5)
-    msg <- uniset:::.valid.FuzzySets(out0)
+    msg <- unisets:::.valid.FuzzySets(out0)
     expect_identical(
         msg,
         "length(membership) must be equal to nrow(map)"
@@ -79,7 +79,7 @@ test_that("FuzzySets validity method identifies issues", {
 
     out0 <- out
     out0@membership[1] <- -0.1
-    msg <- uniset:::.valid.FuzzySets(out0)
+    msg <- unisets:::.valid.FuzzySets(out0)
     expect_identical(
         msg,
         "membership function must be in the interval [0,1]"
@@ -93,7 +93,7 @@ test_that("FuzzySets validity method identifies issues", {
 
     out0 <- out
     out0@membership[1] <- 1.1
-    msg <- uniset:::.valid.FuzzySets(out0)
+    msg <- unisets:::.valid.FuzzySets(out0)
     expect_identical(
         msg,
         "membership function must be in the interval [0,1]"

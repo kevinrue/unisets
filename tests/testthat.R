@@ -1,4 +1,4 @@
 library(testthat)
-library(uniset)
+library(unisets)
 
-test_check("uniset")
+test_check("unisets")

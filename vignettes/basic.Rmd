@@ -1,6 +1,6 @@
 ---
 title: >
-  An introduction to the `r Githubpkg("uniset")` interface 
+  An introduction to the `r Githubpkg("unisets")` interface 
 author:
 - name: Kevin Rue-Albrecht
   affiliation: 
@@ -11,25 +11,25 @@ author:
   affiliation: Second Author's Affiliation
   email: corresponding@author.com
 date: "`r BiocStyle::doc_date()`"
-package: "`r BiocStyle::pkg_ver('uniset')`"
+package: "`r BiocStyle::pkg_ver('unisets')`"
 output: 
   BiocStyle::html_document:
     toc_float: true
 abstract: |
-  Introduction to the `uniset` package.
+  Introduction to the `unisets` package.
 vignette: |
-  %\VignetteIndexEntry{1. Introduction to uniset}
+  %\VignetteIndexEntry{1. Introduction to unisets}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}  
-  %\VignettePackage{uniset}
+  %\VignettePackage{unisets}
 ---
 
 # Installation
 
-You can install the released version of uniset from [GitHub](https://github.com/kevinrue/uniset) with:
+You can install the released version of unisets from [GitHub](https://github.com/kevinrue/unisets) with:
 
 ```{r, eval=FALSE}
-devtools::install_github("kevinrue/uniset")
+devtools::install_github("kevinrue/unisets")
 ```
 
 # Getting started
@@ -39,7 +39,7 @@ devtools::install_github("kevinrue/uniset")
 This is a basic example which shows you how to create a `BaseSets` object, to store simple associations between genes and sets:
 
 ```{r, message=FALSE}
-library(uniset)
+library(unisets)
 gene_lists <- list(
     geneset1 = c("A", "B"),
     geneset2 = c("B", "C", "D")

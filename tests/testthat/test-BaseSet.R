@@ -33,7 +33,7 @@ test_that("BaseSets validity method identifies issues", {
 
     # Valid object
     out <- BaseSets(map)
-    expect_true(uniset:::.valid.BaseSets(out))
+    expect_true(unisets:::.valid.BaseSets(out))
 
     # Invalid colnames(object@map)
     map0 <- map
@@ -46,7 +46,7 @@ test_that("BaseSets validity method identifies issues", {
 
     out0 <- out
     colnames(out0@map) <- c("A", "B")
-    msg <- uniset:::.valid.BaseSets(out0)
+    msg <- unisets:::.valid.BaseSets(out0)
     expect_identical(
         msg,
         "colnames(object@map) must be c(\"element\", \"set\")"
@@ -61,7 +61,7 @@ test_that("BaseSets validity method identifies issues", {
 
     out0 <- out
     out0@elementData <- rbind(out0@elementData, DataFrame(row.names="Z"))
-    msg <- uniset:::.valid.BaseSets(out0)
+    msg <- unisets:::.valid.BaseSets(out0)
     expect_identical(
         msg,
         "Mismatch between map$element and rownames(elementData)"
@@ -76,7 +76,7 @@ test_that("BaseSets validity method identifies issues", {
 
     out0 <- out
     out0@setData <- rbind(out0@setData, DataFrame(row.names="set999"))
-    msg <- uniset:::.valid.BaseSets(out0)
+    msg <- unisets:::.valid.BaseSets(out0)
     expect_identical(
         msg,
         "Mismatch between map$set and rownames(setData)"
@@ -109,7 +109,7 @@ test_that("show(BaseSets) works", {
 
     out <- show(bs)
     expect_identical(colnames(out), c("element", "set", "elementData", "setData"))
-    expect_identical(nrow(out), uniset:::get_showHeadLines() + uniset:::get_showTailLines() + 2L)
+    expect_identical(nrow(out), unisets:::get_showHeadLines() + unisets:::get_showTailLines() + 2L)
 
 })
 
