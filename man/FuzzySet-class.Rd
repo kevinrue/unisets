@@ -4,22 +4,19 @@
 \name{FuzzySet-class}
 \alias{FuzzySet-class}
 \alias{FuzzySet}
-\alias{show,FuzzySet-method}
 \alias{as.list.FuzzySet}
 \title{FuzzySet Class}
 \usage{
 FuzzySet(..., membership)
 
-\S4method{show}{FuzzySet}(object)
-
-\method{as.list}{FuzzySet}(object)
+\method{as.list}{FuzzySet}(x, ...)
 }
 \arguments{
 \item{...}{Arguments to pass to the \code{\link[=BaseSet]{BaseSet()}} constructor.}
 
 \item{membership}{Numeric. Vector of membership in the range \code{[0,1]}}
 
-\item{object}{An object that inherits from \code{FuzzySet}.}
+\item{x}{An object that inherits from \code{FuzzySet}.}
 }
 \value{
 A \code{FuzzySet} object.

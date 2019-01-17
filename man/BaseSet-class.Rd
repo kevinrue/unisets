@@ -7,7 +7,6 @@
 \alias{BaseSet}
 \alias{setLengths}
 \alias{elementLengths}
-\alias{show,BaseSet-method}
 \alias{as.list.BaseSet}
 \alias{as.list}
 \alias{setLengths,BaseSet-method}
@@ -16,17 +15,15 @@
 \usage{
 BaseSet(map, elementData, setData)
 
-setLengths(object)
+setLengths(x)
 
-elementLengths(object)
+elementLengths(x)
 
-\S4method{show}{BaseSet}(object)
+\method{as.list}{BaseSet}(x, ...)
 
-\method{as.list}{BaseSet}(object)
+\S4method{setLengths}{BaseSet}(x)
 
-\S4method{setLengths}{BaseSet}(object)
-
-\S4method{elementLengths}{BaseSet}(object)
+\S4method{elementLengths}{BaseSet}(x)
 }
 \arguments{
 \item{map}{DataFrame. Two columns provide mapping relationships between \code{"element"} and \code{"set"}.}
@@ -35,7 +32,9 @@ elementLengths(object)
 
 \item{setData}{DataFrame. Provide metadata for each unique element in \code{map$set}.}
 
-\item{object}{An object that inherits from \code{BaseSet}.}
+\item{x}{An object that inherits from \code{BaseSet}.}
+
+\item{...}{Additional arguments passed to and from methods.}
 }
 \value{
 A \code{BaseSet} object.

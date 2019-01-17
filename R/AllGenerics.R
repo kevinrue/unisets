@@ -5,7 +5,7 @@
 #' @exportMethod setLengths
 setGeneric(
     "setLengths",
-    function(object) standardGeneric("setLengths")
+    function(x) standardGeneric("setLengths")
 )
 
 #' Method elementLengths
@@ -15,5 +15,5 @@ setGeneric(
 #' @exportMethod elementLengths
 setGeneric(
     "elementLengths",
-    function(object) standardGeneric("elementLengths")
+    function(x) standardGeneric("elementLengths")
 )
