@@ -1,6 +1,6 @@
 #' Method setLengths
-#' @name BaseSet-class
-#' @rdname BaseSet-class
+#' @name BaseSets-class
+#' @rdname BaseSets-class
 #' @aliases setLengths
 #' @exportMethod setLengths
 setGeneric(
@@ -9,8 +9,8 @@ setGeneric(
 )
 
 #' Method elementLengths
-#' @name BaseSet-class
-#' @rdname BaseSet-class
+#' @name BaseSets-class
+#' @rdname BaseSets-class
 #' @aliases elementLengths
 #' @exportMethod elementLengths
 setGeneric(

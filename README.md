@@ -15,7 +15,7 @@ devtools::install_github("kevinrue/uniset")
 
 ## Example
 
-This is a basic example which shows you how to create a `BaseSet` object, to store simple associations between genes and sets:
+This is a basic example which shows you how to create a `BaseSets` object, to store simple associations between genes and sets:
 
 ``` r
 library(uniset)
@@ -37,12 +37,12 @@ set_data <- DataFrame(
     stat1     = c(      100,        200 ),
     info1     = c(     "abc",      "def")
 )
-base_set <- BaseSet(mapping_table, gene_data, set_data)
+base_set <- BaseSets(mapping_table, gene_data, set_data)
 base_set
 ```
 
 ```
-BaseSet with 5 mappings between 4 elements and 2 sets
+BaseSets with 5 mappings between 4 elements and 2 sets
       element         set elementData     setData
   <character> <character> <DataFrame> <DataFrame>
 1           A    geneset1         1:a     100:abc
@@ -52,16 +52,16 @@ BaseSet with 5 mappings between 4 elements and 2 sets
 5           D    geneset2         4:d     200:def
 ```
 
-More sophisticated classes are available to store additional information (e.g. `FuzzySet`).
+More sophisticated classes are available to store additional information (e.g. `FuzzySets`).
 
 ``` r
 membership <- runif(nrow(mapping_table))
-fuzzy_set <- FuzzySet(mapping_table, gene_data, set_data, membership = membership)
+fuzzy_set <- FuzzySets(mapping_table, gene_data, set_data, membership = membership)
 fuzzy_set
 ```
 
 ```
-FuzzySet with 5 mappings between 4 elements and 2 sets
+FuzzySets with 5 mappings between 4 elements and 2 sets
       element         set        membership elementData     setData
   <character> <character>         <numeric> <DataFrame> <DataFrame>
 1           A    geneset1 0.570553105324507         1:a     100:abc

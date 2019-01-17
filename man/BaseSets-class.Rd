@@ -2,28 +2,28 @@
 % Please edit documentation in R/AllClasses.R, R/AllGenerics.R,
 %   R/BaseSet-class.R
 \docType{class}
-\name{BaseSet-class}
-\alias{BaseSet-class}
-\alias{BaseSet}
+\name{BaseSets-class}
+\alias{BaseSets-class}
+\alias{BaseSets}
 \alias{setLengths}
 \alias{elementLengths}
-\alias{as.list.BaseSet}
+\alias{as.list.BaseSets}
 \alias{as.list}
-\alias{setLengths,BaseSet-method}
-\alias{elementLengths,BaseSet-method}
-\title{BaseSet Class}
+\alias{setLengths,BaseSets-method}
+\alias{elementLengths,BaseSets-method}
+\title{BaseSets Class}
 \usage{
-BaseSet(map, elementData, setData)
+BaseSets(map, elementData, setData)
 
 setLengths(x)
 
 elementLengths(x)
 
-\method{as.list}{BaseSet}(x, ...)
+\method{as.list}{BaseSets}(x, ...)
 
-\S4method{setLengths}{BaseSet}(x)
+\S4method{setLengths}{BaseSets}(x)
 
-\S4method{elementLengths}{BaseSet}(x)
+\S4method{elementLengths}{BaseSets}(x)
 }
 \arguments{
 \item{map}{DataFrame. Two columns provide mapping relationships between \code{"element"} and \code{"set"}.}
@@ -32,15 +32,15 @@ elementLengths(x)
 
 \item{setData}{DataFrame. Provide metadata for each unique element in \code{map$set}.}
 
-\item{x}{An object that inherits from \code{BaseSet}.}
+\item{x}{An object that inherits from \code{BaseSets}.}
 
 \item{...}{Additional arguments passed to and from methods.}
 }
 \value{
-A \code{BaseSet} object.
+A \code{BaseSets} object.
 }
 \description{
-The \code{BaseSet} class implements a container to describe distinct objects that make up sets, along with element metadata and set metadata.
+The \code{BaseSets} class implements a container to describe distinct objects that make up sets, along with element metadata and set metadata.
 }
 \section{Slots}{
 
@@ -67,7 +67,7 @@ map <- DataFrame(
   set=rep(names(sets), lengths(sets))
 )
 
-bs <- BaseSet(map)
+bs <- BaseSets(map)
 
 # Subsetting ----
 
