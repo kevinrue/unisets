@@ -1,6 +1,6 @@
 ---
 title: >
-  An introduction to the `r Githubpkg("uniset")` interface 
+  An introduction to the `r Githubpkg("unisets")` interface 
 author:
 - name: Kevin Rue-Albrecht
   affiliation: 
@@ -11,35 +11,35 @@ author:
   affiliation: Second Author's Affiliation
   email: corresponding@author.com
 date: "`r BiocStyle::doc_date()`"
-package: "`r BiocStyle::pkg_ver('uniset')`"
+package: "`r BiocStyle::pkg_ver('unisets')`"
 output: 
   BiocStyle::html_document:
     toc_float: true
 abstract: |
-  Introduction to the `uniset` package.
+  Introduction to the `unisets` package.
 vignette: |
-  %\VignetteIndexEntry{1. Introduction to uniset}
+  %\VignetteIndexEntry{1. Introduction to unisets}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}  
-  %\VignettePackage{uniset}
+  %\VignettePackage{unisets}
 ---
 
 # Installation
 
-You can install the released version of uniset from [GitHub](https://github.com/kevinrue/uniset) with:
+You can install the released version of unisets from [GitHub](https://github.com/kevinrue/unisets) with:
 
 ```{r, eval=FALSE}
-devtools::install_github("kevinrue/uniset")
+devtools::install_github("kevinrue/unisets")
 ```
 
 # Getting started
 
-## The BaseSet class
+## The BaseSets class
 
-This is a basic example which shows you how to create a `BaseSet` object, to store simple associations between genes and sets:
+This is a basic example which shows you how to create a `BaseSets` object, to store simple associations between genes and sets:
 
 ```{r, message=FALSE}
-library(uniset)
+library(unisets)
 gene_lists <- list(
     geneset1 = c("A", "B"),
     geneset2 = c("B", "C", "D")
@@ -48,7 +48,7 @@ mapping_table <- DataFrame(
     element = unlist(gene_lists),
     set     = rep(names(gene_lists), lengths(gene_lists))
 )
-base_set <- BaseSet(mapping_table)
+base_set <- BaseSets(mapping_table)
 base_set
 ```
 
@@ -65,29 +65,29 @@ set_data <- DataFrame(
     stat1     = c(      100,        200 ),
     info1     = c(     "abc",      "def")
 )
-base_set <- BaseSet(mapping_table, gene_data, set_data)
+base_set <- BaseSets(mapping_table, gene_data, set_data)
 base_set
 ```
 
-## The FuzzySet class
+## The FuzzySets class
 
-More sophisticated classes are available to store additional information (e.g. `FuzzySet`).
+More sophisticated classes are available to store additional information (e.g. `FuzzySets`).
 
 ```{r, message=FALSE}
 membership <- runif(nrow(mapping_table))
-fuzzy_set <- FuzzySet(mapping_table, gene_data, set_data, membership=membership)
+fuzzy_set <- FuzzySets(mapping_table, gene_data, set_data, membership=membership)
 fuzzy_set
 ```
 
 # Subsetting
 
-The `subset` method can be applied to a `BaseSet` object, using a logical expression referring to the `"element"` and `"set"` columns, and indicating rows to keep.
+The `subset` method can be applied to a `BaseSets` object, using a logical expression referring to the `"element"` and `"set"` columns, and indicating rows to keep.
 
 ```{r}
 subset(base_set, element %in% c("B", "C") | set == "geneset1")
 ```
 
-Similarly, the `subset` method can be also applied to a `FuzzySet` object, where the logical expression may also refer to the `"membership"` slot.
+Similarly, the `subset` method can be also applied to a `FuzzySets` object, where the logical expression may also refer to the `"membership"` slot.
 
 ```{r}
 subset(fuzzy_set, set == "geneset2" & membership > 0.3)

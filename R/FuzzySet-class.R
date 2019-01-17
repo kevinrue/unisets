@@ -1,7 +1,7 @@
 #' @importFrom BiocGenerics cbind eval
 NULL
 
-setMethod("subset", "FuzzySet", function(x, ...)  {
+setMethod("subset", "FuzzySets", function(x, ...)  {
     .local <- function (x, subset, select, drop = FALSE, ...) {
         table <- cbind(x@map, membership=x@membership)
 
@@ -12,12 +12,12 @@ setMethod("subset", "FuzzySet", function(x, ...)  {
         elementData <- x@elementData[unique(map$element), ]
         setData <- x@setData[unique(map$set), ]
 
-        FuzzySet(map, elementData, setData, membership=membership)
+        FuzzySets(map, elementData, setData, membership=membership)
     }
     .local(x, ...)
 })
 
-setMethod("show", "FuzzySet", function(object) {
+setMethod("show", "FuzzySets", function(object) {
     # Format the object
     x <- object@map
     x[["membership"]] <- object@membership
@@ -27,12 +27,12 @@ setMethod("show", "FuzzySet", function(object) {
     .showSetAsTable(class(object), x)
 })
 
-#' @param x An object that inherits from `FuzzySet`.
+#' @param x An object that inherits from `FuzzySets`.
 #'
-#' @rdname FuzzySet-class
-#' @aliases as.list.FuzzySet
+#' @rdname FuzzySets-class
+#' @aliases as.list.FuzzySets
 #' @importFrom methods as
 #' @export
-as.list.FuzzySet <- function(x, ...) {
+as.list.FuzzySets <- function(x, ...) {
     as(x, "list")
 }

@@ -1,13 +1,13 @@
-#' Validity Method for BaseSet Objects
+#' Validity Method for BaseSets Objects
 #'
-#' @rdname INTERNAL_valid_BaseSet
+#' @rdname INTERNAL_valid_BaseSets
 #'
-#' @param object An object that inherits from `BaseSet`.
+#' @param object An object that inherits from `BaseSets`.
 #'
 #' @return If the object is valid, \code{TRUE};
 #' otherwise, a character vector describing all the validity failures encountered.
 #' @importFrom methods slot
-.valid.BaseSet <- function(object){
+.valid.BaseSets <- function(object){
 
     errors <- c()
 
@@ -40,17 +40,17 @@
     return(TRUE)
 }
 
-#' BaseSet Class
+#' BaseSets Class
 #'
-#' The `BaseSet` class implements a container to describe distinct objects that make up sets, along with element metadata and set metadata.
+#' The `BaseSets` class implements a container to describe distinct objects that make up sets, along with element metadata and set metadata.
 #'
 #' @slot map DataFrame. Two columns provide mapping relationships between `"element"` and `"set"`.
 #' @slot elementData DataFrame. Provide metadata for each unique element in `map$element`.
 #' @slot setData DataFrame. Provide metadata for each unique element in `map$set`.
 #'
-#' @return A `BaseSet` object.
+#' @return A `BaseSets` object.
 #' @export
-#' @exportClass BaseSet
+#' @exportClass BaseSets
 #'
 #' @examples
 #' # Constructor ----
@@ -67,7 +67,7 @@
 #'   set=rep(names(sets), lengths(sets))
 #' )
 #'
-#' bs <- BaseSet(map)
+#' bs <- BaseSets(map)
 #'
 #' # Subsetting ----
 #'
@@ -76,7 +76,7 @@
 #' # Coercing to list ----
 #' ls1 <- as(bs, "list")
 setClass(
-    "BaseSet",
+    "BaseSets",
     slots=c(
         map="DataFrame",
         elementData="DataFrame",
@@ -94,19 +94,19 @@ setClass(
             row.names=character(0)
             )
         ),
-    validity=.valid.BaseSet
+    validity=.valid.BaseSets
 )
 
 #' @param map DataFrame. Two columns provide mapping relationships between `"element"` and `"set"`.
 #' @param elementData DataFrame. Provide metadata for each unique element in `map$element`.
 #' @param setData DataFrame. Provide metadata for each unique element in `map$set`.
 #'
-#' @rdname BaseSet-class
-#' @aliases BaseSet
+#' @rdname BaseSets-class
+#' @aliases BaseSets
 #' @export
 #' @importFrom S4Vectors DataFrame
 #' @importFrom methods new
-BaseSet <- function(map, elementData, setData) {
+BaseSets <- function(map, elementData, setData) {
     # Drop names if present
     if (!is.null(rownames(map))) {
         message("Setting rownames(map) to NULL")
@@ -129,18 +129,18 @@ BaseSet <- function(map, elementData, setData) {
         setData <- DataFrame(row.names=sort(unique(map$set)))
     }
 
-    new("BaseSet", map=map, elementData=elementData, setData=setData)
+    new("BaseSets", map=map, elementData=elementData, setData=setData)
 }
 
-#' Validity Method for BaseSet Objects
+#' Validity Method for BaseSets Objects
 #'
-#' @rdname INTERNAL_valid_FuzzySet
+#' @rdname INTERNAL_valid_FuzzySets
 #'
-#' @param object An object that inherits from `FuzzySet`.
+#' @param object An object that inherits from `FuzzySets`.
 #'
 #' @return If the object is valid, \code{TRUE};
 #' otherwise, a character vector describing all the validity failures encountered.
-.valid.FuzzySet <- function(object) {
+.valid.FuzzySets <- function(object) {
 
     errors <- c()
 
@@ -165,15 +165,15 @@ BaseSet <- function(map, elementData, setData) {
     return(TRUE)
 }
 
-#' FuzzySet Class
+#' FuzzySets Class
 #'
-#' The `FuzzySet` class extends the [`BaseSet`] class to implement a container that also describe different grades of membershipin the interval `[0,1]`.
+#' The `FuzzySets` class extends the [`BaseSets`] class to implement a container that also describe different grades of membershipin the interval `[0,1]`.
 #'
 #' @slot membership numeric. Membership function.
 #'
-#' @return A `FuzzySet` object.
+#' @return A `FuzzySets` object.
 #' @export
-#' @exportClass FuzzySet
+#' @exportClass FuzzySets
 #'
 #' @examples
 #' # Constructor ----
@@ -193,7 +193,7 @@ BaseSet <- function(map, elementData, setData) {
 #' # Generate random values for the membership function
 #' membership <- runif(nrow(map))
 #'
-#' fs <- FuzzySet(map=map, membership=membership)
+#' fs <- FuzzySets(map=map, membership=membership)
 #'
 #' # Subsetting ----
 #'
@@ -202,32 +202,32 @@ BaseSet <- function(map, elementData, setData) {
 #' # Coercing to list ----
 #' ls1 <- as(fs, "list")
 setClass(
-    "FuzzySet",
+    "FuzzySets",
     slots=c(
         membership="numeric"
         ),
     prototype=list(
        membership=numeric(0)
         ),
-    contains="BaseSet",
-    validity=.valid.FuzzySet
+    contains="BaseSets",
+    validity=.valid.FuzzySets
 )
 
-#' @param ... Arguments to pass to the [BaseSet()] constructor.
+#' @param ... Arguments to pass to the [BaseSets()] constructor.
 #' @param membership Numeric. Vector of membership in the range `[0,1]`
 #'
-#' @rdname FuzzySet-class
-#' @aliases FuzzySet
+#' @rdname FuzzySets-class
+#' @aliases FuzzySets
 #' @export
 #' @importFrom methods new
-FuzzySet <- function(..., membership) {
-    fs <- BaseSet(...)
+FuzzySets <- function(..., membership) {
+    fs <- BaseSets(...)
 
     if (!is.null(names(membership))) {
         message("Setting names(membership) to NULL")
         names(membership) <- NULL
     }
 
-    fs <- new("FuzzySet", fs, membership=membership)
+    fs <- new("FuzzySets", fs, membership=membership)
     fs
 }
