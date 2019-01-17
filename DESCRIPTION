@@ -10,7 +10,10 @@ Description: Classes to map elements to sets.
     Fuzzy sets (including membership functions) are supported.
 Depends: R (>= 3.6.0), S4Vectors
 Imports: 
-    methods, BiocGenerics, utils
+    methods,
+    BiocGenerics,
+    utils,
+    reshape2
 Suggests: 
     testthat,
     covr,

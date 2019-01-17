@@ -55,18 +55,18 @@ BaseSets with 5 mappings between 4 elements and 2 sets
 More sophisticated classes are available to store additional information (e.g. `FuzzySets`).
 
 ``` r
-membership <- runif(nrow(mapping_table))
+membership <- round(runif(nrow(mapping_table)), 2)
 fuzzy_set <- FuzzySets(mapping_table, gene_data, set_data, membership = membership)
 fuzzy_set
 ```
 
 ```
 FuzzySets with 5 mappings between 4 elements and 2 sets
-      element         set        membership elementData     setData
-  <character> <character>         <numeric> <DataFrame> <DataFrame>
-1           A    geneset1 0.570553105324507         1:a     100:abc
-2           B    geneset1 0.539594167144969         2:b     100:abc
-3           B    geneset2 0.342863601865247         2:b     200:def
-4           C    geneset2 0.501708829076961         3:c     200:def
-5           D    geneset2 0.776408678852022         4:d     200:def
+      element         set membership elementData     setData
+  <character> <character>  <numeric> <DataFrame> <DataFrame>
+1           A    geneset1        0.7         1:a     100:abc
+2           B    geneset1       0.99         2:b     100:abc
+3           B    geneset2       0.77         2:b     200:def
+4           C    geneset2       0.34         3:c     200:def
+5           D    geneset2       0.51         4:d     200:def
 ```

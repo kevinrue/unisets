@@ -1,45 +1,3 @@
-#' Validity Method for BaseSets Objects
-#'
-#' @rdname INTERNAL_valid_BaseSets
-#'
-#' @param object An object that inherits from `BaseSets`.
-#'
-#' @return If the object is valid, \code{TRUE};
-#' otherwise, a character vector describing all the validity failures encountered.
-#' @importFrom methods slot
-.valid.BaseSets <- function(object){
-
-    errors <- c()
-
-    slot.map <- slot(object, "map")
-    if (!identical(colnames(slot.map), c("element", "set"))) {
-        error <- "colnames(object@map) must be c(\"element\", \"set\")"
-        return(error)
-    }
-
-    # things to compute once
-    uniqueElements <- sort(unique(slot.map$element))
-    uniqueSets <- sort(unique(slot.map$set))
-
-    # TODO: rownames of metadata tables cannot be NULL!
-
-    if (!identical(uniqueElements, sort(rownames(slot(object, "elementData"))))) {
-        error <- "Mismatch between map$element and rownames(elementData)"
-        errors <- c(errors, error)
-    }
-
-    if (!identical(uniqueSets, sort(rownames(slot(object, "setData"))))) {
-        error <- "Mismatch between map$set and rownames(setData)"
-        errors <- c(errors, error)
-    }
-
-    if (length(errors > 0)){
-        return(errors)
-    }
-
-    return(TRUE)
-}
-
 #' BaseSets Class
 #'
 #' The `BaseSets` class implements a container to describe distinct objects that make up sets, along with element metadata and set metadata.
@@ -73,8 +31,12 @@
 #'
 #' bs1 <- subset(bs, set == "set1" | element == "E")
 #'
-#' # Coercing to list ----
+#' # Coercing ----
+#'
+#' # to list (gene sets)
 #' ls1 <- as(bs, "list")
+#' # to matrix (logical membership)
+#' m1 <- as(bs, "matrix")
 setClass(
     "BaseSets",
     slots=c(
@@ -93,9 +55,42 @@ setClass(
         setData=DataFrame(
             row.names=character(0)
             )
-        ),
-    validity=.valid.BaseSets
+        )
 )
+
+#' @importFrom methods slot
+setValidity("BaseSets", function(object) {
+
+    errors <- c()
+
+    slot.map <- slot(object, "map")
+    if (!identical(colnames(slot.map), c("element", "set"))) {
+        error <- "colnames(object@map) must be c(\"element\", \"set\")"
+        return(error)
+    }
+
+    # things to compute once
+    uniqueElements <- sort(unique(slot.map$element))
+    uniqueSets <- sort(unique(slot.map$set))
+
+    # TODO: rownames of metadata tables cannot be NULL!
+
+    if (!identical(uniqueElements, sort(rownames(slot(object, "elementData"))))) {
+        error <- "Mismatch between map$element and rownames(elementData)"
+        errors <- c(errors, error)
+    }
+
+    if (!identical(uniqueSets, sort(rownames(slot(object, "setData"))))) {
+        error <- "Mismatch between map$set and rownames(setData)"
+        errors <- c(errors, error)
+    }
+
+    if (length(errors > 0)){
+        return(errors)
+    }
+
+    return(TRUE)
+})
 
 #' @param map DataFrame. Two columns provide mapping relationships between `"element"` and `"set"`.
 #' @param elementData DataFrame. Provide metadata for each unique element in `map$element`.
@@ -132,15 +127,61 @@ BaseSets <- function(map, elementData, setData) {
     new("BaseSets", map=map, elementData=elementData, setData=setData)
 }
 
-#' Validity Method for BaseSets Objects
+#' FuzzySets Class
 #'
-#' @rdname INTERNAL_valid_FuzzySets
+#' The `FuzzySets` class extends the [`BaseSets`] class to implement a container that also describe different grades of membershipin the interval `[0,1]`.
 #'
-#' @param object An object that inherits from `FuzzySets`.
+#' @slot membership numeric. Membership function.
 #'
-#' @return If the object is valid, \code{TRUE};
-#' otherwise, a character vector describing all the validity failures encountered.
-.valid.FuzzySets <- function(object) {
+#' @return A `FuzzySets` object.
+#' @export
+#' @exportClass FuzzySets
+#'
+#' @seealso [`BaseSets`]
+#'
+#' @examples
+#' # Constructor ----
+#'
+#' # Visually intuitive definition of sets
+#' sets <- list(
+#'   set1=c("A", "B"),
+#'   set2=c("C", "D"),
+#'   set3=c("E"))
+#'
+#' # Reformat as a table
+#' map <- DataFrame(
+#'   element=unlist(sets),
+#'   set=rep(names(sets), lengths(sets))
+#' )
+#'
+#' # Generate random values for the membership function
+#' membership <- round(runif(nrow(map)), 2)
+#'
+#' fs <- FuzzySets(map=map, membership=membership)
+#'
+#' # Subsetting ----
+#'
+#' fs1 <- subset(fs, set == "set1" | membership > 0.5)
+#'
+#' # Coercing ----
+#'
+#' # to list (gene sets)
+#' ls1 <- as(fs, "list")
+#' # to matrix (continuous membership)
+#' ls1 <- as(fs, "matrix")
+setClass(
+    "FuzzySets",
+    slots=c(
+        membership="numeric"
+        ),
+    prototype=list(
+       membership=numeric(0)
+        ),
+    contains="BaseSets"
+)
+
+#' @importFrom methods slot
+setValidity("FuzzySets", function(object) {
 
     errors <- c()
 
@@ -163,55 +204,7 @@ BaseSets <- function(map, elementData, setData) {
     }
 
     return(TRUE)
-}
-
-#' FuzzySets Class
-#'
-#' The `FuzzySets` class extends the [`BaseSets`] class to implement a container that also describe different grades of membershipin the interval `[0,1]`.
-#'
-#' @slot membership numeric. Membership function.
-#'
-#' @return A `FuzzySets` object.
-#' @export
-#' @exportClass FuzzySets
-#'
-#' @examples
-#' # Constructor ----
-#'
-#' # Visually intuitive definition of sets
-#' sets <- list(
-#'   set1=c("A", "B"),
-#'   set2=c("C", "D"),
-#'   set3=c("E"))
-#'
-#' # Reformat as a table
-#' map <- DataFrame(
-#'   element=unlist(sets),
-#'   set=rep(names(sets), lengths(sets))
-#' )
-#'
-#' # Generate random values for the membership function
-#' membership <- runif(nrow(map))
-#'
-#' fs <- FuzzySets(map=map, membership=membership)
-#'
-#' # Subsetting ----
-#'
-#' fs1 <- subset(fs, set == "set1" | membership > 0.5)
-#'
-#' # Coercing to list ----
-#' ls1 <- as(fs, "list")
-setClass(
-    "FuzzySets",
-    slots=c(
-        membership="numeric"
-        ),
-    prototype=list(
-       membership=numeric(0)
-        ),
-    contains="BaseSets",
-    validity=.valid.FuzzySets
-)
+})
 
 #' @param ... Arguments to pass to the [BaseSets()] constructor.
 #' @param membership Numeric. Vector of membership in the range `[0,1]`

@@ -33,7 +33,6 @@ test_that("BaseSets validity method identifies issues", {
 
     # Valid object
     out <- BaseSets(map)
-    expect_true(unisets:::.valid.BaseSets(out))
 
     # Invalid colnames(object@map)
     map0 <- map
@@ -44,14 +43,6 @@ test_that("BaseSets validity method identifies issues", {
         fixed=TRUE
     )
 
-    out0 <- out
-    colnames(out0@map) <- c("A", "B")
-    msg <- unisets:::.valid.BaseSets(out0)
-    expect_identical(
-        msg,
-        "colnames(object@map) must be c(\"element\", \"set\")"
-    )
-
     # Mismatch between elements and  elementData
     expect_error(
         BaseSets(map, elementData=DataFrame(row.names="Z")),
@@ -59,27 +50,11 @@ test_that("BaseSets validity method identifies issues", {
         fixed=TRUE
     )
 
-    out0 <- out
-    out0@elementData <- rbind(out0@elementData, DataFrame(row.names="Z"))
-    msg <- unisets:::.valid.BaseSets(out0)
-    expect_identical(
-        msg,
-        "Mismatch between map$element and rownames(elementData)"
-    )
-
     # Mismatch between elements and  elementData
     expect_error(
         BaseSets(map, setData=DataFrame(row.names="set999")),
         "Mismatch between map$set and rownames(setData)",
         fixed=TRUE
-    )
-
-    out0 <- out
-    out0@setData <- rbind(out0@setData, DataFrame(row.names="set999"))
-    msg <- unisets:::.valid.BaseSets(out0)
-    expect_identical(
-        msg,
-        "Mismatch between map$set and rownames(setData)"
     )
 
 })
@@ -121,6 +96,45 @@ test_that("as(BaseSets, \"list\") works", {
     expect_identical(out, list(set1=c("A", "B"), set2=c("C", "D", "E")))
     out <- as.list(bs)
     expect_identical(out, list(set1=c("A", "B"), set2=c("C", "D", "E")))
+
+})
+
+test_that("as(BaseSets, \"matrix\") works", {
+
+    bs <- BaseSets(map)
+
+    expected.dim <- c(nrow(bs@elementData), nrow(bs@setData))
+
+    out <- as(bs, "matrix")
+    expect_type(out, "logical")
+    expect_identical(dim(out), expected.dim)
+
+    out <- as.matrix(bs)
+    expect_type(out, "logical")
+    expect_identical(dim(out), expected.dim)
+
+})
+
+test_that("as(matrix, \"BaseSets\") works", {
+
+    nGenes <- 3
+    nSets <- 2
+    bm <- matrix(
+        rep(c(TRUE, FALSE), nGenes),
+        nrow=nGenes, ncol=nSets,
+        dimnames=list(
+            gene = paste0("gene", seq_len(nGenes)),
+            set  = paste0("set", seq_len(nSets))
+            )
+        )
+
+    out <- as(bm, "BaseSets")
+    expect_s4_class(out, "BaseSets")
+    expect_identical(nrow(out@map), 3L) # 3 TRUE values above
+
+    out <- as.BaseSets.matrix(bm, "BaseSets")
+    expect_s4_class(out, "BaseSets")
+    expect_identical(nrow(out@map), 3L) # 3 TRUE values above
 
 })
 
