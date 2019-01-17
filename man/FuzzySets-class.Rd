@@ -5,11 +5,14 @@
 \alias{FuzzySets-class}
 \alias{FuzzySets}
 \alias{as.list.FuzzySets}
+\alias{as.matrix.FuzzySets}
 \title{FuzzySets Class}
 \usage{
 FuzzySets(..., membership)
 
 \method{as.list}{FuzzySets}(x, ...)
+
+\method{as.matrix}{FuzzySets}(x, ...)
 }
 \arguments{
 \item{...}{Arguments to pass to the \code{\link[=BaseSets]{BaseSets()}} constructor.}
@@ -46,7 +49,7 @@ map <- DataFrame(
 )
 
 # Generate random values for the membership function
-membership <- runif(nrow(map))
+membership <- round(runif(nrow(map)), 2)
 
 fs <- FuzzySets(map=map, membership=membership)
 
@@ -54,6 +57,13 @@ fs <- FuzzySets(map=map, membership=membership)
 
 fs1 <- subset(fs, set == "set1" | membership > 0.5)
 
-# Coercing to list ----
+# Coercing ----
+
+# to list (gene sets)
 ls1 <- as(fs, "list")
+# to matrix (continuous membership)
+ls1 <- as(fs, "matrix")
+}
+\seealso{
+\code{\link{BaseSets}}
 }

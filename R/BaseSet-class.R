@@ -2,7 +2,7 @@
 NULL
 
 setMethod("subset", "BaseSets", function(x, ...)  {
-    .local <- function (x, subset, select, drop = FALSE, ...) {
+    .local <- function (x, subset, select, drop=FALSE, ...) {
         table <- x@map
 
         i <- eval(substitute(subset), table)
@@ -56,3 +56,34 @@ setMethod("elementLengths", "BaseSets", function(x) {
     x <- split(x@map$set, x@map$element)
     lengths(x)
 })
+
+#' @importFrom reshape2 acast
+setAs("BaseSets", "matrix", function(from) {
+    x <- cbind(as.data.frame(from@map), value=TRUE)
+    out <- acast(x, element~set, value.var="value", fill=FALSE)
+    out
+})
+
+#' @rdname BaseSets-class
+#' @aliases as.matrix.BaseSets as.matrix
+#' @importFrom methods as
+#' @export
+as.matrix.BaseSets <- function(x, ...)  {
+    as(x, "matrix")
+}
+
+#' @importFrom reshape2 melt
+#' @importFrom S4Vectors DataFrame
+setAs("matrix", "BaseSets", function(from) {
+    storage.mode(from) <- "logical"
+    x <- melt(from, varnames=c("element", "set"), as.is=TRUE)
+    x <- x[which(x$value), c("element", "set")]
+    x <- DataFrame(x)
+    BaseSets(x)
+})
+
+#' @aliases as.BaseSets.matrix as.BaseSets
+#' @importFrom methods as
+as.BaseSets.matrix <- function(x, ...)  {
+    as(x, "BaseSets")
+}

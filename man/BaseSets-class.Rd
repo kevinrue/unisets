@@ -11,6 +11,8 @@
 \alias{as.list}
 \alias{setLengths,BaseSets-method}
 \alias{elementLengths,BaseSets-method}
+\alias{as.matrix.BaseSets}
+\alias{as.matrix}
 \title{BaseSets Class}
 \usage{
 BaseSets(map, elementData, setData)
@@ -24,6 +26,8 @@ elementLengths(x)
 \S4method{setLengths}{BaseSets}(x)
 
 \S4method{elementLengths}{BaseSets}(x)
+
+\method{as.matrix}{BaseSets}(x, ...)
 }
 \arguments{
 \item{map}{DataFrame. Two columns provide mapping relationships between \code{"element"} and \code{"set"}.}
@@ -73,6 +77,10 @@ bs <- BaseSets(map)
 
 bs1 <- subset(bs, set == "set1" | element == "E")
 
-# Coercing to list ----
+# Coercing ----
+
+# to list (gene sets)
 ls1 <- as(bs, "list")
+# to matrix (logical membership)
+m1 <- as(bs, "matrix")
 }

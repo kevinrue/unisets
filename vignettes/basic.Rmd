@@ -48,8 +48,8 @@ mapping_table <- DataFrame(
     element = unlist(gene_lists),
     set     = rep(names(gene_lists), lengths(gene_lists))
 )
-base_set <- BaseSets(mapping_table)
-base_set
+base_sets <- BaseSets(mapping_table)
+base_sets
 ```
 
 Metadata for each element and set can be provided as `DataFrame` objects:
@@ -65,8 +65,8 @@ set_data <- DataFrame(
     stat1     = c(      100,        200 ),
     info1     = c(     "abc",      "def")
 )
-base_set <- BaseSets(mapping_table, gene_data, set_data)
-base_set
+base_sets <- BaseSets(mapping_table, gene_data, set_data)
+base_sets
 ```
 
 ## The FuzzySets class
@@ -74,9 +74,9 @@ base_set
 More sophisticated classes are available to store additional information (e.g. `FuzzySets`).
 
 ```{r, message=FALSE}
-membership <- runif(nrow(mapping_table))
-fuzzy_set <- FuzzySets(mapping_table, gene_data, set_data, membership=membership)
-fuzzy_set
+membership <- round(runif(nrow(mapping_table)), 2)
+fuzzy_sets <- FuzzySets(mapping_table, gene_data, set_data, membership=membership)
+fuzzy_sets
 ```
 
 # Subsetting
@@ -84,21 +84,53 @@ fuzzy_set
 The `subset` method can be applied to a `BaseSets` object, using a logical expression referring to the `"element"` and `"set"` columns, and indicating rows to keep.
 
 ```{r}
-subset(base_set, element %in% c("B", "C") | set == "geneset1")
+subset(base_sets, element %in% c("B", "C") | set == "geneset1")
 ```
 
 Similarly, the `subset` method can be also applied to a `FuzzySets` object, where the logical expression may also refer to the `"membership"` slot.
 
 ```{r}
-subset(fuzzy_set, set == "geneset2" & membership > 0.3)
+subset(fuzzy_sets, set == "geneset2" & membership > 0.3)
 ```
 
-# Converting to list
+# Converting to other formats
 
 It is possible to extract the gene sets as a `list`, for use with functions such as `lapply`.
 
 ```{r}
-as.list(base_set)
+as.list(base_sets)
+```
+
+It is also possible to visualize membership between gene and gene sets as a matrix.
+
+Notably, `BaseSets` return a `logical` matrix of binary membership:
+
+```{r}
+base_matrix <- as(base_sets, "matrix")
+base_matrix
+```
+
+In contrast, `FuzzySets` return a `double` matrix displaying the membership function for each relation:
+
+```{r}
+fuzzy_matrix <- as(fuzzy_sets, "matrix")
+fuzzy_matrix
+```
+
+# Converting from other formats
+
+Conversely, it is also possible to make objects from incidence matrices.
+
+Notably, `BaseSets` are suitable for `logical` matrices indicating binary membership:
+
+```{r}
+as(base_matrix, "BaseSets")
+```
+
+Similarly, `FuzzySets` are suitable for `double` matrices indicating the membership function for each relation:
+
+```{r}
+as(fuzzy_matrix, "FuzzySets")
 ```
 
 # Additional information
@@ -106,13 +138,13 @@ as.list(base_set)
 The size of each gene set can be obtained using the `setLengths` method.
 
 ```{r}
-setLengths(fuzzy_set)
+setLengths(fuzzy_sets)
 ```
 
 Conversely, the number of sets associated with each gene is returned by the `elementLengths` function.
 
 ```{r}
-elementLengths(fuzzy_set)
+elementLengths(fuzzy_sets)
 ```
 
 # Session info {.unnumbered}

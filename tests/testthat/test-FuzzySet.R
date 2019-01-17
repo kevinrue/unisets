@@ -53,21 +53,12 @@ test_that("FuzzySets validity method identifies issues", {
 
     # Valid object
     out <- FuzzySets(map, membership=membership)
-    expect_true(unisets:::.valid.FuzzySets(out))
 
     # Invalid membership length
     expect_error(
         FuzzySets(map, membership=runif(nrow(map)-1)),
         "length(membership) must be equal to nrow(map)",
         fixed=TRUE
-    )
-
-    out0 <- out
-    out0@membership <- c(out0@membership, 0.5)
-    msg <- unisets:::.valid.FuzzySets(out0)
-    expect_identical(
-        msg,
-        "length(membership) must be equal to nrow(map)"
     )
 
     # membership function out of range [0,1]
@@ -77,26 +68,10 @@ test_that("FuzzySets validity method identifies issues", {
         fixed=TRUE
     )
 
-    out0 <- out
-    out0@membership[1] <- -0.1
-    msg <- unisets:::.valid.FuzzySets(out0)
-    expect_identical(
-        msg,
-        "membership function must be in the interval [0,1]"
-    )
-
     expect_error(
         FuzzySets(map, membership=rep(1.1, nrow(map))),
         "membership function must be in the interval [0,1]",
         fixed=TRUE
-    )
-
-    out0 <- out
-    out0@membership[1] <- 1.1
-    msg <- unisets:::.valid.FuzzySets(out0)
-    expect_identical(
-        msg,
-        "membership function must be in the interval [0,1]"
     )
 
 })
@@ -131,20 +106,60 @@ test_that("as(FuzzySets, \"list\") works", {
 
 })
 
+test_that("as(FuzzySets, \"matrix\") works", {
+
+    fs <- FuzzySets(map, membership=membership)
+
+    expected.dim <- c(nrow(fs@elementData), nrow(fs@setData))
+
+    out <- as(fs, "matrix")
+    expect_type(out, "double")
+    expect_identical(dim(out), expected.dim)
+
+    out <- as.matrix(fs)
+    expect_type(out, "double")
+    expect_identical(dim(out), expected.dim)
+
+})
+
+test_that("as(matrix, \"FuzzySets\") works", {
+
+    nGenes <- 3
+    nSets <- 2
+    membership <- c(runif(nGenes*nSets-1), NA)
+    fm <- matrix(
+        membership,
+        nrow=nGenes, ncol=nSets,
+        dimnames=list(
+            gene = paste0("gene", seq_len(nGenes)),
+            set  = paste0("set", seq_len(nSets))
+        )
+    )
+
+    out <- as(fm, "FuzzySets")
+    expect_s4_class(out, "FuzzySets")
+    expect_identical(nrow(out@map), as.integer(nGenes*nSets-1))
+
+    out <- as.FuzzySets.matrix(fm, "FuzzySets")
+    expect_s4_class(out, "FuzzySets")
+    expect_identical(nrow(out@map), as.integer(nGenes*nSets-1))
+
+})
+
 test_that("setLengths(FuzzySets) works", {
 
-    bs <- FuzzySets(map, membership=membership)
+    fs <- FuzzySets(map, membership=membership)
 
-    out <- setLengths(bs)
+    out <- setLengths(fs)
     expect_identical(out, c(set1=2L, set2=3L))
 
 })
 
 test_that("setLengths(FuzzySets) works", {
 
-    bs <- FuzzySets(map, membership=membership)
+    fs <- FuzzySets(map, membership=membership)
 
-    out <- elementLengths(bs)
+    out <- elementLengths(fs)
     expect_identical(out, c(A=1L, B=1L, C=1L, D=1L, E=1L))
 
 })
