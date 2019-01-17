@@ -17,10 +17,6 @@ setMethod("subset", "FuzzySet", function(x, ...)  {
     .local(x, ...)
 })
 
-#' @param object An object that inherits from `FuzzySet`.
-#'
-#' @rdname FuzzySet-class
-#' @aliases show,FuzzySet-method
 setMethod("show", "FuzzySet", function(object) {
     # Format the object
     x <- object@map
@@ -31,10 +27,12 @@ setMethod("show", "FuzzySet", function(object) {
     .showSetAsTable(class(object), x)
 })
 
+#' @param x An object that inherits from `FuzzySet`.
+#'
 #' @rdname FuzzySet-class
 #' @aliases as.list.FuzzySet
 #' @importFrom methods as
 #' @export
-as.list.FuzzySet <- function(object) {
-    as(object, "list")
+as.list.FuzzySet <- function(x, ...) {
+    as(x, "list")
 }

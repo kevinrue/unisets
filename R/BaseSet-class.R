@@ -16,8 +16,6 @@ setMethod("subset", "BaseSet", function(x, ...)  {
     .local(x, ...)
 })
 
-#' @rdname BaseSet-class
-#' @aliases show,BaseSet-method
 setMethod("show", "BaseSet", function(object) {
     # Format the object
     x <- object@map
@@ -31,28 +29,30 @@ setAs("BaseSet", "list", function(from) {
     split(from@map$element, from@map$set)
 })
 
+#' @param ... Additional arguments passed to and from methods.
+#'
 #' @rdname BaseSet-class
 #' @aliases as.list.BaseSet as.list
 #' @importFrom methods as
 #' @export
-as.list.BaseSet <- function(object) {
-    as(object, "list")
+as.list.BaseSet <- function(x, ...) {
+    as(x, "list")
 }
 
-#' @param object An object that inherits from `BaseSet`.
+#' @param x An object that inherits from `BaseSet`.
 #'
 #' @rdname BaseSet-class
 #' @aliases setLengths,BaseSet-method
 #' @importFrom methods as
-setMethod("setLengths", "BaseSet", function(object) {
-    x <- as(object, "list")
+setMethod("setLengths", "BaseSet", function(x) {
+    x <- as(x, "list")
     lengths(x)
 })
 
 #' @rdname BaseSet-class
 #' @aliases elementLengths,BaseSet-method
 #' @importFrom methods as
-setMethod("elementLengths", "BaseSet", function(object) {
-    x <- split(object@map$set, object@map$element)
+setMethod("elementLengths", "BaseSet", function(x) {
+    x <- split(x@map$set, x@map$element)
     lengths(x)
 })
