@@ -23,7 +23,7 @@ gene_lists <- list(
     geneset1 = c("A", "B"),
     geneset2 = c("B", "C", "D")
 )
-gene_table <- DataFrame(
+mapping_table <- DataFrame(
     element = unlist(gene_lists),
     set     = rep(names(gene_lists), lengths(gene_lists))
 )
@@ -37,7 +37,7 @@ set_data <- DataFrame(
     stat1     = c(      100,        200 ),
     info1     = c(     "abc",      "def")
 )
-base_set <- BaseSet(gene_table, gene_data, set_data)
+base_set <- BaseSet(mapping_table, gene_data, set_data)
 base_set
 ```
 
@@ -55,8 +55,8 @@ BaseSet with 5 mappings between 4 elements and 2 sets
 More sophisticated classes are available to store additional information (e.g. `FuzzySet`).
 
 ``` r
-membership <- runif(nrow(gene_table))
-fuzzy_set <- FuzzySet(gene_table, gene_data, set_data, membership = membership)
+membership <- runif(nrow(mapping_table))
+fuzzy_set <- FuzzySet(mapping_table, gene_data, set_data, membership = membership)
 fuzzy_set
 ```
 
