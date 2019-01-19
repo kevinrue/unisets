@@ -5,38 +5,118 @@
 \name{BaseSets-class}
 \alias{BaseSets-class}
 \alias{BaseSets}
+\alias{relations}
+\alias{relations<-}
+\alias{elementIds}
+\alias{elementIds<-}
+\alias{elementData}
+\alias{elementData<-}
+\alias{setIds}
+\alias{setIds<-}
+\alias{setData}
+\alias{setData<-}
+\alias{nRelations}
+\alias{nElements}
+\alias{nSets}
 \alias{setLengths}
 \alias{elementLengths}
-\alias{as.list.BaseSets}
-\alias{as.list}
+\alias{relations,BaseSets-method}
+\alias{relations<-,BaseSets-method}
+\alias{elementData,BaseSets-method}
+\alias{elementData<-,BaseSets-method}
+\alias{elementIds,BaseSets-method}
+\alias{elementIds<-,BaseSets-method}
+\alias{setData,BaseSets-method}
+\alias{setData<-,BaseSets-method}
+\alias{setIds,BaseSets-method}
+\alias{setIds<-,BaseSets-method}
+\alias{nRelations,BaseSets-method}
+\alias{nElements,BaseSets-method}
+\alias{nSets,BaseSets-method}
 \alias{setLengths,BaseSets-method}
 \alias{elementLengths,BaseSets-method}
+\alias{as.list.BaseSets}
+\alias{as.list}
 \alias{as.matrix.BaseSets}
 \alias{as.matrix}
 \title{BaseSets Class}
 \usage{
-BaseSets(map, elementData, setData)
+BaseSets(relations, elementData, setData)
+
+relations(x)
+
+relations(x) <- value
+
+elementIds(x)
+
+elementIds(x) <- value
+
+elementData(x)
+
+elementData(x) <- value
+
+setIds(x)
+
+setIds(x) <- value
+
+setData(x)
+
+setData(x) <- value
+
+nRelations(x)
+
+nElements(x)
+
+nSets(x)
 
 setLengths(x)
 
 elementLengths(x)
 
-\method{as.list}{BaseSets}(x, ...)
+\S4method{relations}{BaseSets}(x)
+
+\S4method{relations}{BaseSets}(x) <- value
+
+\S4method{elementData}{BaseSets}(x)
+
+\S4method{elementData}{BaseSets}(x) <- value
+
+\S4method{elementIds}{BaseSets}(x)
+
+\S4method{elementIds}{BaseSets}(x) <- value
+
+\S4method{setData}{BaseSets}(x)
+
+\S4method{setData}{BaseSets}(x) <- value
+
+\S4method{setIds}{BaseSets}(x)
+
+\S4method{setIds}{BaseSets}(x) <- value
+
+\S4method{nRelations}{BaseSets}(x)
+
+\S4method{nElements}{BaseSets}(x)
+
+\S4method{nSets}{BaseSets}(x)
 
 \S4method{setLengths}{BaseSets}(x)
 
 \S4method{elementLengths}{BaseSets}(x)
 
+\method{as.list}{BaseSets}(x, ...)
+
 \method{as.matrix}{BaseSets}(x, ...)
 }
 \arguments{
-\item{map}{DataFrame. Two columns provide mapping relationships between \code{"element"} and \code{"set"}.}
+\item{relations}{DataFrame. Two columns provide mapping relationships between \code{"element"} and \code{"set"}.}
 
-\item{elementData}{DataFrame. Provide metadata for each unique element in \code{map$element}.}
+\item{elementData}{DataFrame. Provide metadata for each unique element in \code{relations$element}.}
 
-\item{setData}{DataFrame. Provide metadata for each unique element in \code{map$set}.}
+\item{setData}{DataFrame. Provide metadata for each unique element in \code{relations$set}.}
 
 \item{x}{An object that inherits from \code{BaseSets}.}
+
+\item{value}{An object of a class specified in the S4 method signature or as outlined in 'Slots'.}
 
 \item{...}{Additional arguments passed to and from methods.}
 }
@@ -49,11 +129,11 @@ The \code{BaseSets} class implements a container to describe distinct objects th
 \section{Slots}{
 
 \describe{
-\item{\code{map}}{DataFrame. Two columns provide mapping relationships between \code{"element"} and \code{"set"}.}
+\item{\code{relations}}{DataFrame. Two columns provide mapping relationships between \code{"element"} and \code{"set"}.}
 
-\item{\code{elementData}}{DataFrame. Provide metadata for each unique element in \code{map$element}.}
+\item{\code{elementData}}{DataFrame. Provide metadata for each unique element in \code{relations$element}.}
 
-\item{\code{setData}}{DataFrame. Provide metadata for each unique element in \code{map$set}.}
+\item{\code{setData}}{DataFrame. Provide metadata for each unique element in \code{relations$set}.}
 }}
 
 \examples{
@@ -62,16 +142,16 @@ The \code{BaseSets} class implements a container to describe distinct objects th
 # Visually intuitive definition of sets
 sets <- list(
   set1=c("A", "B"),
-  set2=c("C", "D"),
+  set2=c("B", "C", "D"),
   set3=c("E"))
 
 # Reformat as a table
-map <- DataFrame(
+relations <- DataFrame(
   element=unlist(sets),
   set=rep(names(sets), lengths(sets))
 )
 
-bs <- BaseSets(map)
+bs <- BaseSets(relations)
 
 # Subsetting ----
 
@@ -83,4 +163,29 @@ bs1 <- subset(bs, set == "set1" | element == "E")
 ls1 <- as(bs, "list")
 # to matrix (logical membership)
 m1 <- as(bs, "matrix")
+
+# Read-only getters ----
+
+nRelations(bs)
+nElements(bs)
+nSets(bs)
+elementIds(bs)
+setIds(bs)
+
+setLengths(bs)
+elementLengths(bs)
+
+# Getters/Setters ----
+
+relations(bs)
+elementData(bs)
+setData(bs)
+
+bs1 <- bs
+relations(bs1) <- relations(bs1)[sample(nRelations(bs1)), , drop=FALSE]
+elementData(bs1) <- elementData(bs1)[sample(nElements(bs1)), , drop=FALSE]
+setData(bs1) <- setData(bs1)[sample(nSets(bs1)), , drop=FALSE]
+elementIds(bs) <- paste0("gene", seq_len(nElements(bs)))
+setIds(bs) <- paste0("geneset", seq_len(nSets(bs)))
+
 }
