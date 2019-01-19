@@ -13,6 +13,7 @@ setMethod("relations", "BaseSets", function(x)  {
 #' @rdname BaseSets-class
 #' @aliases relations<-,BaseSets-method
 #' @importFrom methods validObject
+#' @importFrom methods slot<-
 setMethod("relations<-", "BaseSets", function(x, value)  {
     slot(x, "relations") <- value
     validObject(x)
@@ -28,6 +29,7 @@ setMethod("elementData", "BaseSets", function(x)  {
 #' @rdname BaseSets-class
 #' @aliases elementData<-,BaseSets-method
 #' @importFrom methods validObject
+#' @importFrom methods slot<-
 setMethod("elementData<-", "BaseSets", function(x, value)  {
     slot(x, "elementData") <- value
     validObject(x)
@@ -64,6 +66,7 @@ setMethod("setData", "BaseSets", function(x)  {
 #' @rdname BaseSets-class
 #' @aliases setData<-,BaseSets-method
 #' @importFrom methods validObject
+#' @importFrom methods slot<-
 setMethod("setData<-", "BaseSets", function(x, value)  {
     slot(x, "setData") <- value
     validObject(x)
