@@ -2,9 +2,9 @@
 #'
 #' The `BaseSets` class implements a container to describe distinct objects that make up sets, along with element metadata and set metadata.
 #'
-#' @slot map DataFrame. Two columns provide mapping relationships between `"element"` and `"set"`.
-#' @slot elementData DataFrame. Provide metadata for each unique element in `map$element`.
-#' @slot setData DataFrame. Provide metadata for each unique element in `map$set`.
+#' @slot relations DataFrame. Two columns provide mapping relationships between `"element"` and `"set"`.
+#' @slot elementData DataFrame. Provide metadata for each unique element in `relations$element`.
+#' @slot setData DataFrame. Provide metadata for each unique element in `relations$set`.
 #'
 #' @return A `BaseSets` object.
 #' @export
@@ -16,16 +16,16 @@
 #' # Visually intuitive definition of sets
 #' sets <- list(
 #'   set1=c("A", "B"),
-#'   set2=c("C", "D"),
+#'   set2=c("B", "C", "D"),
 #'   set3=c("E"))
 #'
 #' # Reformat as a table
-#' map <- DataFrame(
+#' relations <- DataFrame(
 #'   element=unlist(sets),
 #'   set=rep(names(sets), lengths(sets))
 #' )
 #'
-#' bs <- BaseSets(map)
+#' bs <- BaseSets(relations)
 #'
 #' # Subsetting ----
 #'
@@ -37,15 +37,40 @@
 #' ls1 <- as(bs, "list")
 #' # to matrix (logical membership)
 #' m1 <- as(bs, "matrix")
+#'
+#' # Read-only getters ----
+#'
+#' nRelations(bs)
+#' nElements(bs)
+#' nSets(bs)
+#' elementIds(bs)
+#' setIds(bs)
+#'
+#' setLengths(bs)
+#' elementLengths(bs)
+#'
+#' # Getters/Setters ----
+#'
+#' relations(bs)
+#' elementData(bs)
+#' setData(bs)
+#'
+#' bs1 <- bs
+#' relations(bs1) <- relations(bs1)[sample(nRelations(bs1)), , drop=FALSE]
+#' elementData(bs1) <- elementData(bs1)[sample(nElements(bs1)), , drop=FALSE]
+#' setData(bs1) <- setData(bs1)[sample(nSets(bs1)), , drop=FALSE]
+#' elementIds(bs) <- paste0("gene", seq_len(nElements(bs)))
+#' setIds(bs) <- paste0("geneset", seq_len(nSets(bs)))
+#'
 setClass(
     "BaseSets",
     slots=c(
-        map="DataFrame",
+        relations="DataFrame",
         elementData="DataFrame",
         setData="DataFrame"
         ),
     prototype=list(
-        map=DataFrame(
+        relations=DataFrame(
             element=character(0),
             set=character(0)
             ),
@@ -63,25 +88,25 @@ setValidity("BaseSets", function(object) {
 
     errors <- c()
 
-    slot.map <- slot(object, "map")
-    if (!identical(colnames(slot.map), c("element", "set"))) {
-        error <- "colnames(object@map) must be c(\"element\", \"set\")"
+    slot.relations <- slot(object, "relations")
+    if (!identical(colnames(slot.relations), c("element", "set"))) {
+        error <- "colnames(relations(object)) must be c(\"element\", \"set\")"
         return(error)
     }
 
     # things to compute once
-    uniqueElements <- sort(unique(slot.map$element))
-    uniqueSets <- sort(unique(slot.map$set))
+    uniqueElements <- sort(unique(slot.relations$element))
+    uniqueSets <- sort(unique(slot.relations$set))
 
     # TODO: rownames of metadata tables cannot be NULL!
 
     if (!identical(uniqueElements, sort(rownames(slot(object, "elementData"))))) {
-        error <- "Mismatch between map$element and rownames(elementData)"
+        error <- "Mismatch between relations$element and rownames(elementData)"
         errors <- c(errors, error)
     }
 
     if (!identical(uniqueSets, sort(rownames(slot(object, "setData"))))) {
-        error <- "Mismatch between map$set and rownames(setData)"
+        error <- "Mismatch between relations$set and rownames(setData)"
         errors <- c(errors, error)
     }
 
@@ -92,39 +117,39 @@ setValidity("BaseSets", function(object) {
     return(TRUE)
 })
 
-#' @param map DataFrame. Two columns provide mapping relationships between `"element"` and `"set"`.
-#' @param elementData DataFrame. Provide metadata for each unique element in `map$element`.
-#' @param setData DataFrame. Provide metadata for each unique element in `map$set`.
+#' @param relations DataFrame. Two columns provide mapping relationships between `"element"` and `"set"`.
+#' @param elementData DataFrame. Provide metadata for each unique element in `relations$element`.
+#' @param setData DataFrame. Provide metadata for each unique element in `relations$set`.
 #'
 #' @rdname BaseSets-class
 #' @aliases BaseSets
 #' @export
 #' @importFrom S4Vectors DataFrame
 #' @importFrom methods new
-BaseSets <- function(map, elementData, setData) {
+BaseSets <- function(relations, elementData, setData) {
     # Drop names if present
-    if (!is.null(rownames(map))) {
-        message("Setting rownames(map) to NULL")
-        rownames(map) <- NULL
+    if (!is.null(rownames(relations))) {
+        message("Setting rownames(relations) to NULL")
+        rownames(relations) <- NULL
     }
-    if (!is.null(names(map$element))) {
-        message("Setting names(map$element) to NULL")
-        names(map$element) <- NULL
+    if (!is.null(names(relations$element))) {
+        message("Setting names(relations$element) to NULL")
+        names(relations$element) <- NULL
     }
-    if (!is.null(names(map$set))) {
-        message("Setting names(map$set) to NULL")
-        names(map$set) <- NULL
+    if (!is.null(names(relations$set))) {
+        message("Setting names(relations$set) to NULL")
+        names(relations$set) <- NULL
     }
 
     # Add missing metadata
     if (missing(elementData)) {
-        elementData <- DataFrame(row.names=sort(unique(map$element)))
+        elementData <- DataFrame(row.names=sort(unique(relations$element)))
     }
     if (missing(setData)) {
-        setData <- DataFrame(row.names=sort(unique(map$set)))
+        setData <- DataFrame(row.names=sort(unique(relations$set)))
     }
 
-    new("BaseSets", map=map, elementData=elementData, setData=setData)
+    new("BaseSets", relations=relations, elementData=elementData, setData=setData)
 }
 
 #' FuzzySets Class
@@ -145,19 +170,19 @@ BaseSets <- function(map, elementData, setData) {
 #' # Visually intuitive definition of sets
 #' sets <- list(
 #'   set1=c("A", "B"),
-#'   set2=c("C", "D"),
+#'   set2=c("B", "C", "D"),
 #'   set3=c("E"))
 #'
 #' # Reformat as a table
-#' map <- DataFrame(
+#' relations <- DataFrame(
 #'   element=unlist(sets),
 #'   set=rep(names(sets), lengths(sets))
 #' )
 #'
 #' # Generate random values for the membership function
-#' membership <- round(runif(nrow(map)), 2)
+#' membership <- round(runif(nrow(relations)), 2)
 #'
-#' fs <- FuzzySets(map=map, membership=membership)
+#' fs <- FuzzySets(relations=relations, membership=membership)
 #'
 #' # Subsetting ----
 #'
@@ -169,6 +194,13 @@ BaseSets <- function(map, elementData, setData) {
 #' ls1 <- as(fs, "list")
 #' # to matrix (continuous membership)
 #' ls1 <- as(fs, "matrix")
+#'
+#' # Getters/Setters ----
+#'
+#' membership(fs)
+#'
+#' fs1 <- fs
+#' membership(fs1) <- runif(nRelations(fs1))
 setClass(
     "FuzzySets",
     slots=c(
@@ -186,11 +218,11 @@ setValidity("FuzzySets", function(object) {
     errors <- c()
 
     # things to compute once
-    slot.map <- slot(object, "map")
+    slot.relations <- slot(object, "relations")
     slot.membership <- slot(object, "membership")
 
-    if (!identical(length(slot.membership), nrow(slot.map))) {
-        error <- "length(membership) must be equal to nrow(map)"
+    if (!identical(length(slot.membership), nrow(slot.relations))) {
+        error <- "length(membership) must be equal to nrow(relations)"
         errors <- c(errors, error)
     }
 
@@ -214,13 +246,15 @@ setValidity("FuzzySets", function(object) {
 #' @export
 #' @importFrom methods new
 FuzzySets <- function(..., membership) {
-    fs <- BaseSets(...)
-
+    # Drop names if present
     if (!is.null(names(membership))) {
         message("Setting names(membership) to NULL")
         names(membership) <- NULL
     }
-
+    # Pass basic arguments to BaseSets constructor
+    fs <- BaseSets(...)
     fs <- new("FuzzySets", fs, membership=membership)
+    # Remove relations with membership function equal to 0, to respect the inheritance from BaseSets
+    fs <- subset(fs, membership > 0)
     fs
 }

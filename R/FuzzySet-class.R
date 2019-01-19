@@ -1,28 +1,54 @@
-#' @importFrom BiocGenerics cbind eval
-NULL
+# Direct pointers ----
+
+#' @rdname FuzzySets-class
+#' @aliases membership,FuzzySets-method
+setMethod("membership", "FuzzySets", function(x)  {
+    x@membership
+})
+
+#' @param value An object of a class specified in the S4 method signature or as outlined in 'Slots'.
+#'
+#' @rdname FuzzySets-class
+#' @aliases membership<-,FuzzySets-method
+#' @importFrom methods validObject
+setMethod("membership<-", "FuzzySets", function(x, value)  {
+    x@membership <- value
+    validObject(x)
+    x
+})
+
+# subset ----
 
 setMethod("subset", "FuzzySets", function(x, ...)  {
     .local <- function (x, subset, select, drop=FALSE, ...) {
-        table <- cbind(x@map, membership=x@membership)
+        # Only difference with the BaseSets parent method
+        table <- cbind(relations(x), membership=membership(x))
 
         i <- eval(substitute(subset), table)
-        map <- x@map[i, ]
-        membership <- x@membership[i]
+        relations <- relations(x)[i, , drop=FALSE]
+        membership <- membership(x)[i]
 
-        elementData <- x@elementData[unique(map$element), ]
-        setData <- x@setData[unique(map$set), ]
+        elementData <- elementData(x)[unique(relations$element), , drop=FALSE]
+        setData <- setData(x)[unique(relations$set), , drop=FALSE]
 
-        FuzzySets(map, elementData, setData, membership=membership)
+        fs <- new(
+            "FuzzySets",
+            relations=relations,
+            elementData=elementData,
+            setData=setData,
+            membership=membership)
+        validObject(fs)
+        fs
     }
     .local(x, ...)
 })
 
 setMethod("show", "FuzzySets", function(object) {
     # Format the object
-    x <- object@map
-    x[["membership"]] <- object@membership
-    x[["elementData"]] <- object@elementData[x$element, ]
-    x[["setData"]] <- object@setData[x$set, ]
+    x <- relations(object)
+    x[["membership"]] <- membership(object)
+    x[["elementData"]] <- elementData(object)[x$element, , drop=FALSE]
+    x[["setData"]] <- setData(object)[x$set, , drop=FALSE]
 
     .showSetAsTable(class(object), x)
 })
@@ -39,8 +65,8 @@ as.list.FuzzySets <- function(x, ...) {
 
 #' @importFrom reshape2 acast
 setAs("FuzzySets", "matrix", function(from) {
-    x <- cbind(as.data.frame(from@map), value=from@membership)
-    out <- reshape2::acast(x, element ~ set, value.var="value", fill=0)
+    x <- cbind(as.data.frame(relations(from)), value=membership(from))
+    out <- acast(x, element ~ set, value.var="value", fill=0)
     out
 })
 
@@ -57,15 +83,26 @@ as.matrix.FuzzySets <- function(x, ...)  {
 setAs("matrix", "FuzzySets", function(from) {
     storage.mode(from) <- "double"
     x <- melt(from, varnames=c("element", "set"), as.is=TRUE)
-    x <- x[!is.na(x$value), ]
-    map <- x[, c("element", "set")]
-    map <- DataFrame(map)
+    x <- x[!is.na(x$value), , drop=FALSE]
+    relations <- x[, c("element", "set"), drop=FALSE]
+    relations <- DataFrame(relations)
     membership <- x$value
-    FuzzySets(map, membership=membership)
+    FuzzySets(relations, membership=membership)
 })
 
 #' @aliases as.FuzzySets.matrix as.FuzzySets
 #' @importFrom methods as
 as.FuzzySets.matrix <- function(x, ...)  {
+    as(x, "FuzzySets")
+}
+
+#' @importFrom methods new
+setAs("BaseSets", "FuzzySets", function(from) {
+    new("FuzzySets", from, membership=rep(1, nRelations(from)))
+})
+
+#' @aliases as.FuzzySets.BaseSets as.FuzzySets
+#' @importFrom methods as
+as.FuzzySets.BaseSets <- function(x, ...)  {
     as(x, "FuzzySets")
 }
