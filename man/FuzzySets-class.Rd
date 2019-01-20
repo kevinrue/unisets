@@ -25,16 +25,19 @@ membership(x) <- value
 
 \method{as.list}{FuzzySets}(x, ...)
 
-\method{as.matrix}{FuzzySets}(x, ...)
+\method{as.matrix}{FuzzySets}(x, ..., fill = 0)
 }
 \arguments{
-\item{...}{Arguments to pass to the \code{\link[=BaseSets]{BaseSets()}} constructor.}
+\item{...}{Arguments to pass to the \code{\link[=BaseSets]{BaseSets()}} constructor,
+or to and rom other functions.}
 
 \item{membership}{Numeric. Vector of membership in the range \code{[0,1]}}
 
 \item{x}{An object that inherits from \code{FuzzySets}.}
 
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Slots'.}
+
+\item{fill}{Value with which to fill in structural missings, defaults to 0 (element is not a member of the set).}
 }
 \value{
 A \code{FuzzySets} object.
@@ -47,6 +50,13 @@ The \code{FuzzySets} class extends the \code{\link{BaseSets}} class to implement
 \describe{
 \item{\code{membership}}{numeric. Membership function.}
 }}
+
+\section{Conversion to matrix}{
+
+As it is possible to store multiple relations between the same gene and gene set, it may be necessary to collapse multiple observations of the membership function into a single value.
+This can be controlled using the \code{fun.aggregate} argument passed down to the \code{acast} function.
+See examples below.
+}
 
 \examples{
 # Constructor ----
@@ -85,6 +95,11 @@ membership(fs)
 
 fs1 <- fs
 membership(fs1) <- runif(nRelations(fs1))
+
+# Converting to matrix: multiple observations ----
+
+as.matrix(fs, fun.aggregate=min)
+
 }
 \seealso{
 \code{\link{BaseSets}}

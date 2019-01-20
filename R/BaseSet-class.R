@@ -180,7 +180,7 @@ as.list.BaseSets <- function(x, ...) {
 #' @importFrom reshape2 acast
 setAs("BaseSets", "matrix", function(from) {
     x <- cbind(as.data.frame(relations(from)), value=TRUE)
-    out <- acast(x, element~set, value.var="value", fill=FALSE)
+    out <- acast(x, element~set, value.var="value", fun.aggregate=any, fill=FALSE)
     out
 })
 
