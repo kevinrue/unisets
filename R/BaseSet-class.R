@@ -207,3 +207,33 @@ setAs("matrix", "BaseSets", function(from) {
 as.BaseSets.matrix <- function(x, ...)  {
     as(x, "BaseSets")
 }
+
+#' @importClassesFrom AnnotationDbi Go3AnnDbBimap
+#' @importFrom AnnotationDbi select keys columns
+#' @importFrom S4Vectors DataFrame
+setAs("Go3AnnDbBimap", "BaseSets", function(from) {
+    # Import the relationships from the annotation BiMap
+    dataframe <- DataFrame(as.data.frame(from))
+    relations <- dataframe[, c("gene_id", "go_id")]
+    colnames(relations) <- c("element", "set")
+
+    # Prepare a default empty DataFrame if GO.db is not installed
+    setData <- DataFrame(row.names=unique(relations$set))
+    if ( requireNamespace("GO.db") ) {
+        db <- GO.db::GO.db
+        # Fetch GO metadata from GO.db if installed
+        setData <- select(db, keys(db), columns(db))
+        setData <- DataFrame(setData)
+        rownames(setData) <- setData$GOID
+        setData$GOID <- NULL
+        setData <- setData[unique(relations$set), , drop=FALSE]
+    }
+
+    BaseSets(relations, setData=setData)
+})
+
+#' @aliases as.BaseSets.Go3AnnDbBimap as.BaseSets
+#' @importFrom methods as
+as.BaseSets.Go3AnnDbBimap <- function(x, ...)  {
+    as(x, "BaseSets")
+}

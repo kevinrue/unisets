@@ -14,13 +14,18 @@ Imports:
     methods,
     BiocGenerics,
     utils,
-    reshape2
-Suggests: 
+    reshape2,
+    AnnotationDbi
+Suggests:
     testthat,
     covr,
     knitr,
     rmarkdown,
-    BiocStyle
+    BiocStyle,
+    org.Hs.eg.db,
+    GO.db,
+    ggplot2,
+    cowplot
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

@@ -1,0 +1,99 @@
+---
+title: >
+  Using Bioconductor annotation packages
+author:
+- name: Kevin Rue-Albrecht
+  affiliation: 
+  - &id4 Kennedy Institute of Rheumatology, University of Oxford,
+    Headington, Oxford OX3 7FY, UK.
+  email: kevin.rue-albrecht@kennedy.ox.ac.uk
+- name: Second Author
+  affiliation: Second Author's Affiliation
+date: "`r BiocStyle::doc_date()`"
+package: "`r BiocStyle::pkg_ver('unisets')`"
+output: 
+  BiocStyle::html_document:
+    toc_float: true
+abstract: |
+  Importing gene set relationships from Bioconductor annotation packages.
+vignette: |
+  %\VignetteIndexEntry{2. Using Bioconductor annotation packages}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}  
+  %\VignettePackage{unisets}
+---
+
+# Getting started
+
+## Bioconductor annotation packages
+
+Annotation packages are available from Bioconductor for a range of model species.
+Users may browse [BiocViews "AnnotationData"](https://bioconductor.org/packages/release/BiocViews.html#___AnnotationData)
+on the Bioconductor website or search packages programmatically using the command below.
+
+```{r, eval=FALSE}
+BiocManager::available("^org\\.")
+```
+
+Here, we load the human gene annotations.
+
+```{r message=FALSE}
+library(org.Hs.eg.db)
+```
+
+# Converting to unisets classes
+
+`Go3AnnDbBimap` objects (from the `r Biocpkg("AnnotationDbi")` package) are maps between Entrez gene identifiers and Gene Ontology (GO) identifiers.
+Those objects may be directly converted to `BaseSets` objects as demonstrated below.
+
+```{r message=FALSE}
+library(unisets)
+base_sets <- as(org.Hs.egGO, "BaseSets")
+relations(base_sets)
+```
+
+It is useful to note that this method of converting Gene Ontology maps to `r Githubpkg("unisets")` objects automatically fetches metadata for each GO identifier from the `GO.db` package.
+The metadata is stored it in the `setData` slot of the object returned.
+This metadata can be accessed using the accessor method of the same name.
+
+```{r}
+setData(base_sets)[, c("ONTOLOGY", "TERM")]
+```
+
+We may then visualize the distribution of set sizes, on a log~10~ scale.
+
+```{r message=FALSE}
+library(ggplot2)
+library(cowplot)
+ggplot(data.frame(setLengths=setLengths(base_sets))) +
+    geom_histogram(aes(setLengths), bins=100, color="black", fill="grey") +
+    scale_x_log10() + labs(y="Sets", x="Genes")
+```
+
+`org.Hs.egGO` is an R object that provides mappings between entrez gene identifiers and the GO identifiers that they are directly associated with.
+This mapping and its reverse mapping do NOT associate the child terms from the GO ontology with the gene.
+Only the directly evidenced terms are represented here.
+
+In contrast, `org.Hs.egGO2ALLEGS` is an R object that provides mappings between a given GO identifier and all of the Entrez Gene identifiers annotated at that GO term OR TO ONE OF IT'S CHILD NODES in the GO ontology.
+Thus, this mapping is much larger and more inclusive than `org.Hs.egGO2EG`.
+
+Below, we use the `nRelationsn` method to show the number of relations between genes and GO terms imported from the `org.Hs.egGO2ALLEGS` map.
+
+```{r message=FALSE}
+base_sets <- as(org.Hs.egGO2ALLEGS, "BaseSets")
+format(nRelations(base_sets), big.mark=",")
+```
+
+We may then again visualize the distribution of set sizes, indicating a larger number of GO terms associated with larger counts of genes
+
+```{r}
+ggplot(data.frame(setLengths=setLengths(base_sets))) +
+    geom_histogram(aes(setLengths), bins=100, color="black", fill="grey") +
+    scale_x_log10() + labs(y="Sets", x="Genes")
+```
+
+# Session info {.unnumbered}
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
