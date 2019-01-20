@@ -201,6 +201,7 @@ BaseSets <- function(relations, elementData, setData) {
 #'
 #' fs1 <- fs
 #' membership(fs1) <- runif(nRelations(fs1))
+#'
 setClass(
     "FuzzySets",
     slots=c(
@@ -238,7 +239,8 @@ setValidity("FuzzySets", function(object) {
     return(TRUE)
 })
 
-#' @param ... Arguments to pass to the [BaseSets()] constructor.
+#' @param ... Arguments to pass to the [BaseSets()] constructor,
+#' or to and rom other functions.
 #' @param membership Numeric. Vector of membership in the range `[0,1]`
 #'
 #' @rdname FuzzySets-class

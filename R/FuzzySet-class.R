@@ -63,20 +63,34 @@ as.list.FuzzySets <- function(x, ...) {
     as(x, "list")
 }
 
-#' @importFrom reshape2 acast
-setAs("FuzzySets", "matrix", function(from) {
-    x <- cbind(as.data.frame(relations(from)), value=membership(from))
-    out <- acast(x, element ~ set, value.var="value", fill=0)
-    out
-})
-
+#' @param fill Value with which to fill in structural missings, defaults to 0 (element is not a member of the set).
+#'
+#' @section Conversion to matrix:
+#' As it is possible to store multiple relations between the same gene and gene set, it may be necessary to collapse multiple observations of the membership function into a single value.
+#' This can be controlled using the `fun.aggregate` argument passed down to the `acast` function.
+#' See examples below.
+#'
 #' @rdname FuzzySets-class
 #' @aliases as.matrix.FuzzySets
 #' @importFrom methods as
+#' @importFrom reshape2 acast
 #' @export
-as.matrix.FuzzySets <- function(x, ...)  {
-    as(x, "matrix")
+#'
+#' @examples
+#' # Converting to matrix: multiple observations ----
+#'
+#' as.matrix(fs, fun.aggregate=min)
+#'
+as.matrix.FuzzySets <- function(x, ..., fill=0)  {
+    xbind <- cbind(as.data.frame(relations(x)), value=membership(x))
+    out <- acast(xbind, element ~ set, value.var="value", fill=fill, ...)
+    out
 }
+
+#' @importFrom reshape2 acast
+setAs("FuzzySets", "matrix", function(from) {
+    as.matrix.FuzzySets(from)
+})
 
 #' @importFrom reshape2 melt
 #' @importFrom S4Vectors DataFrame

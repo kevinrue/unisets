@@ -266,6 +266,24 @@ test_that("as(matrix, \"BaseSets\") works", {
 
 })
 
+# as(Go3AnnDbBimap, "BaseSets") ----
+
+test_that("as(Go3AnnDbBimap, \"BaseSets\") works", {
+
+    out <- as(org.Hs.egGO, "BaseSets")
+    expect_s4_class(out, "BaseSets")
+    expect_gt(nRelations(out), 0)
+    expect_gt(ncol(setData(out)), 0)
+    expect_gt(nrow(setData(out)), 0)
+
+    out <- as.BaseSets.Go3AnnDbBimap(org.Hs.egGO, "BaseSets")
+    expect_s4_class(out, "BaseSets")
+    expect_gt(nRelations(out), 0)
+    expect_gt(ncol(setData(out)), 0)
+    expect_gt(nrow(setData(out)), 0)
+
+})
+
 # setLengths() ----
 
 test_that("setLengths(BaseSets) works", {

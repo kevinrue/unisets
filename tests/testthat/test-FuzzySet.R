@@ -107,6 +107,8 @@ test_that("show(FuzzySets) works", {
 
 })
 
+# as.list() ----
+
 test_that("as(FuzzySets, \"list\") works", {
 
     fs <- FuzzySets(relations, membership=membership)
@@ -117,6 +119,8 @@ test_that("as(FuzzySets, \"list\") works", {
     expect_identical(out, list(set1=c("B"), set2=c("C", "D", "E")))
 
 })
+
+# as.matrix() ----
 
 test_that("as(FuzzySets, \"matrix\") works", {
 
@@ -133,6 +137,33 @@ test_that("as(FuzzySets, \"matrix\") works", {
     expect_identical(dim(out), expected.dim)
 
 })
+
+test_that("as(FuzzySets, \"matrix\") throws message for multiple membership observations", {
+
+    sets <- list(
+        set1=c("A", "A", "B"),
+        set2=c("C", "D", "E")
+    )
+
+    relations <- DataFrame(element=unlist(sets), set=rep(names(sets), lengths(sets)))
+    membership <- runif(nrow(relations))
+
+    fs <- FuzzySets(relations, membership=membership)
+
+    expect_message(
+        as(fs, "matrix"),
+        "Aggregation function missing: defaulting to length"
+    )
+
+    expected.dim <- c(nrow(fs@elementData), nrow(fs@setData))
+
+    out <- as(fs, "matrix")
+    expect_type(out, "double")
+    expect_identical(dim(out), expected.dim)
+
+})
+
+# as(matrix, "FuzzySets") ----
 
 test_that("as(matrix, \"FuzzySets\") works", {
 
@@ -158,6 +189,8 @@ test_that("as(matrix, \"FuzzySets\") works", {
 
 })
 
+# setLengths() ----
+
 test_that("setLengths(FuzzySets) works", {
 
     fs <- FuzzySets(relations, membership=membership)
@@ -167,7 +200,9 @@ test_that("setLengths(FuzzySets) works", {
 
 })
 
-test_that("setLengths(FuzzySets) works", {
+# elementLengths() ----
+
+test_that("elementLengths(FuzzySets) works", {
 
     fs <- FuzzySets(relations, membership=membership)
 

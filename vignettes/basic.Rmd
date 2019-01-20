@@ -9,7 +9,6 @@ author:
   email: kevin.rue-albrecht@kennedy.ox.ac.uk
 - name: Second Author
   affiliation: Second Author's Affiliation
-  email: corresponding@author.com
 date: "`r BiocStyle::doc_date()`"
 package: "`r BiocStyle::pkg_ver('unisets')`"
 output: 
@@ -80,7 +79,8 @@ setData(base_sets)
 
 ## The FuzzySets class
 
-More sophisticated classes are available to store additional information (e.g. `FuzzySets`).
+More sophisticated derived classes are available to store additional information.
+For instance, the `FuzzySets` class offers an additional slot `membership` that holds the degree of membership, a numeric scalar in the interval [0,1] that provides a measure of partial membership between elements and sets.
 
 ```{r, message=FALSE}
 membership <- round(runif(nrow(relations_table)), 2)
