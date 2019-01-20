@@ -113,7 +113,7 @@ subset(fuzzy_sets, set == "geneset2" & membership > 0.3)
 It is possible to extract the gene sets as a `list`, for use with functions such as `lapply`.
 
 ```{r}
-as.list(base_sets)
+as(base_sets, "list")
 ```
 
 It is also possible to visualize membership between gene and gene sets as a matrix.

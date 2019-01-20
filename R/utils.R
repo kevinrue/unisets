@@ -24,7 +24,7 @@ get_showTailLines <- function() { 5L }
     # Display
     cat(
         class, " with ",
-        nm, ifelse(nm == 1, " mapping", " mappings"), " between ",
+        nm, ifelse(nm == 1, " relation", " relations"), " between ",
         ne, ifelse(ne == 1, " element", " elements"), " and ",
         ns, ifelse(ns == 1, " set\n", " sets\n"),
         sep = "")
