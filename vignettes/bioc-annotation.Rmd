@@ -1,6 +1,6 @@
 ---
 title: >
-  Using Bioconductor annotation packages
+  Using `r Githubpkg("unisets")` with Bioconductor annotation packages
 author:
 - name: Kevin Rue-Albrecht
   affiliation: 
