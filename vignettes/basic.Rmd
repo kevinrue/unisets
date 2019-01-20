@@ -1,6 +1,6 @@
 ---
 title: >
-  An introduction to the `r Githubpkg("unisets")` interface 
+  An introduction to the `r Githubpkg("unisets")` package 
 author:
 - name: Kevin Rue-Albrecht
   affiliation: 
