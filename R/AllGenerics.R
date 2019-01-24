@@ -20,6 +20,16 @@ setGeneric(
     function(x, value) standardGeneric("relations<-")
 )
 
+#' Method elements
+#' @name BaseSets-class
+#' @rdname BaseSets-class
+#' @aliases elements
+#' @exportMethod elements
+setGeneric(
+    "elements",
+    function(x) standardGeneric("elements")
+)
+
 #' Method elementIds
 #' @name BaseSets-class
 #' @rdname BaseSets-class
@@ -58,6 +68,16 @@ setGeneric(
 setGeneric(
     "elementData<-",
     function(x, value) standardGeneric("elementData<-")
+)
+
+#' Method sets
+#' @name BaseSets-class
+#' @rdname BaseSets-class
+#' @aliases sets
+#' @exportMethod sets
+setGeneric(
+    "sets",
+    function(x) standardGeneric("sets")
 )
 
 #' Method setIds
@@ -118,6 +138,16 @@ setGeneric(
 setGeneric(
     "membership<-",
     function(x, value) standardGeneric("membership<-")
+)
+
+#' Method id
+#' @name IdVector-class
+#' @rdname IdVector-class
+#' @aliases id
+#' @exportMethod id
+setGeneric(
+    "id",
+    function(x) standardGeneric("id")
 )
 
 # Dimensions ----

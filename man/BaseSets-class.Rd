@@ -7,10 +7,12 @@
 \alias{BaseSets}
 \alias{relations}
 \alias{relations<-}
+\alias{elements}
 \alias{elementIds}
 \alias{elementIds<-}
 \alias{elementData}
 \alias{elementData<-}
+\alias{sets}
 \alias{setIds}
 \alias{setIds<-}
 \alias{setData}
@@ -22,10 +24,12 @@
 \alias{elementLengths}
 \alias{relations,BaseSets-method}
 \alias{relations<-,BaseSets-method}
+\alias{elements,BaseSets-method}
 \alias{elementData,BaseSets-method}
 \alias{elementData<-,BaseSets-method}
 \alias{elementIds,BaseSets-method}
 \alias{elementIds<-,BaseSets-method}
+\alias{sets,BaseSets-method}
 \alias{setData,BaseSets-method}
 \alias{setData<-,BaseSets-method}
 \alias{setIds,BaseSets-method}
@@ -47,6 +51,8 @@ relations(x)
 
 relations(x) <- value
 
+elements(x)
+
 elementIds(x)
 
 elementIds(x) <- value
@@ -54,6 +60,8 @@ elementIds(x) <- value
 elementData(x)
 
 elementData(x) <- value
+
+sets(x)
 
 setIds(x)
 
@@ -77,6 +85,8 @@ elementLengths(x)
 
 \S4method{relations}{BaseSets}(x) <- value
 
+\S4method{elements}{BaseSets}(x)
+
 \S4method{elementData}{BaseSets}(x)
 
 \S4method{elementData}{BaseSets}(x) <- value
@@ -84,6 +94,8 @@ elementLengths(x)
 \S4method{elementIds}{BaseSets}(x)
 
 \S4method{elementIds}{BaseSets}(x) <- value
+
+\S4method{sets}{BaseSets}(x)
 
 \S4method{setData}{BaseSets}(x)
 

@@ -72,6 +72,17 @@ test_that("nRelations(BaseSets) works", {
 
 })
 
+# elements() ----
+
+test_that("elements(BaseSets) works", {
+
+    bs <- BaseSets(relations)
+
+    out <- elements(bs)
+    expect_identical(out, IdVector(relations$element))
+
+})
+
 # nElements() ----
 
 test_that("nElements(BaseSets) works", {
@@ -80,6 +91,17 @@ test_that("nElements(BaseSets) works", {
 
     out <- nElements(bs)
     expect_identical(out, 5L)
+
+})
+
+# sets() ----
+
+test_that("elements(BaseSets) works", {
+
+    bs <- BaseSets(relations)
+
+    out <- sets(bs)
+    expect_identical(out, IdVector(relations$set))
 
 })
 
@@ -185,7 +207,7 @@ test_that("subset(BaseSets) works", {
     bs <- BaseSets(relations)
 
     out <- subset(bs, set == "set1")
-    expect_true(all(out@relations$set == "set1"))
+    expect_true(all(out@relations$set@id == "set1"))
     expect_identical(rownames(out@setData), "set1")
 
 })

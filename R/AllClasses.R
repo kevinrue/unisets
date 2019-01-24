@@ -132,13 +132,19 @@ BaseSets <- function(relations, elementData, setData) {
         message("Setting rownames(relations) to NULL")
         rownames(relations) <- NULL
     }
-    if (!is.null(names(relations$element))) {
-        message("Setting names(relations$element) to NULL")
-        names(relations$element) <- NULL
+    for (c in c("element", "set")) {
+        if (c %in% colnames(relations) && !inherits(relations[[c]], "IdVector")) {
+            message(sprintf("Setting names(relations$%s) to NULL", c))
+            names(relations[[c]]) <- NULL
+        }
     }
-    if (!is.null(names(relations$set))) {
-        message("Setting names(relations$set) to NULL")
-        names(relations$set) <- NULL
+
+    # Coerce to IdVectors
+    for (c in c("element", "set")) {
+        if (c %in% colnames(relations) && !inherits(relations[[c]], "IdVector")) {
+            message(sprintf("Coercing relations$%s to IdVector", c))
+            relations[[c]] <- as(relations[[c]], "IdVector")
+        }
     }
 
     # Add missing metadata
@@ -149,8 +155,7 @@ BaseSets <- function(relations, elementData, setData) {
         setData <- DataFrame(row.names=sort(unique(relations$set)))
     }
 
-    new("BaseSets", relations=relations, elementData=elementData, setData=setData)
-}
+    new("BaseSets", relations=relations, elementData=elementData, setData=setData)}
 
 #' FuzzySets Class
 #'
@@ -259,4 +264,95 @@ FuzzySets <- function(..., membership) {
     # Remove relations with membership function equal to 0, to respect the inheritance from BaseSets
     fs <- subset(fs, membership > 0)
     fs
+}
+
+#' IdVector Class
+#'
+#' The `IdVector` class extends the [`Vector`] class to implement a container that hold a vector of Entrez gene character identifiers.
+#'
+#' @slot id character. Entrez gene identifiers.
+#'
+#' @return A `IdVector` object.
+#' @export
+#' @exportClass IdVector
+#' @importClassesFrom S4Vectors Vector
+#'
+#' @seealso [`Vector`]
+#'
+#' @examples
+#' # Constructor ----
+#'
+#' tv <- IdVector(id=rep(head(LETTERS, 3), each=2))
+#'
+#' # Subsetting ----
+#'
+#' tv1 <- tv[1:5]
+#'
+setClass("IdVector",
+         contains="Vector",
+         representation(
+             id="character"
+         ),
+         prototype(
+             id=character(0)
+         )
+)
+
+#' @importFrom methods callNextMethod
+setMethod("parallelSlotNames", "IdVector", function(x) {
+    c("id", callNextMethod())
+})
+
+#' @importFrom methods slot
+setValidity("IdVector", function(object) {
+
+    errors <- c()
+
+    if (length(errors > 0)){
+        return(errors)
+    }
+
+    return(TRUE)
+})
+
+#' @param id character. Entrez gene identifiers.
+#'
+#' @rdname IdVector-class
+#' @aliases IdVector
+#' @export
+#' @importFrom methods new
+IdVector <- function(id) {
+    # Drop names if present
+    if (!is.null(names(id))) {
+        message("Setting names(id) to NULL")
+        names(id) <- NULL
+    }
+
+    new("IdVector", id=id)
+}
+
+#' @rdname IdVector-class
+#' @export
+#' @exportClass EntrezIdVector
+#'
+#' @seealso [`IdVector`]
+#'
+#' @examples
+#' # EntrezIdVector ----
+#'
+#' library(org.Hs.eg.db)
+#' ev <- EntrezIdVector(keys(org.Hs.eg.db))
+#'
+setClass("EntrezIdVector",
+         contains="IdVector"
+)
+
+#' @rdname IdVector-class
+#' @aliases EntrezIdVector
+#' @export
+EntrezIdVector <- function(id) {
+    # Pass basic arguments to IdVector constructor
+    iv <- IdVector(id)
+    iv <- new("EntrezIdVector", iv)
+    iv
 }
