@@ -1,9 +1,20 @@
 # Direct pointers ----
 
+#' @param x An object that inherits from `FuzzySets`.
+#'
+#' @rdname FuzzySets-class
+#' @aliases relations,FuzzySets-method
+#' @importFrom S4Vectors DataFrame
+setMethod("relations", "FuzzySets", function(x) {
+    out <- relations(as(x, "BaseSets"))
+    out$membership <- membership(x)
+    out
+})
+
 #' @rdname FuzzySets-class
 #' @aliases membership,FuzzySets-method
 setMethod("membership", "FuzzySets", function(x) {
-    x@membership
+    membership(x@relations)
 })
 
 #' @param value An object of a class specified in the S4 method signature or as outlined in 'Slots'.
@@ -12,7 +23,7 @@ setMethod("membership", "FuzzySets", function(x) {
 #' @aliases membership<-,FuzzySets-method
 #' @importFrom methods validObject
 setMethod("membership<-", "FuzzySets", function(x, value) {
-    x@membership <- value
+    membership(x@relations) <- value
     validObject(x)
     x
 })
@@ -22,19 +33,22 @@ setMethod("membership<-", "FuzzySets", function(x, value) {
 setMethod("subset", "FuzzySets", function(x, ...) {
     .local <- function (x, subset, select, drop=FALSE, ...) {
         # Only difference with the BaseSets parent method
-        table <- cbind(as(x, "data.frame"), membership=membership(x))
+        table <- cbind(as(x, "data.frame"), membership=membership(x@relations))
         i <- eval(substitute(subset), table)
 
-        keep.element <- unique(id(elementData(x))[from(relations(x))[i]])
-        keep.set <- unique(id(setData(x))[to(relations(x))[i]])
+        keep.element <- unique(id(elementData(x))[from(x@relations)[i]])
+        keep.set <- unique(id(setData(x))[to(x@relations)[i]])
 
         relations <- DataFrame(table[i, c("element", "set"), drop=FALSE])
         elementData <- elementData(x)[which(id(elementData(x)) %in% keep.element)]
         setData <- setData(x)[which(id(setData(x)) %in% keep.set)]
-        membership <- membership(x)[i]
+        membership <- membership(x@relations)[i]
 
         fs <- BaseSets(relations, elementData, setData)
-        fs <- new("FuzzySets", fs, membership=membership)
+        # Upgrade Hits to FuzzyHits
+        relations <- new("FuzzyHits", fs@relations, membership=membership)
+        fs@relations <- relations
+        fs <- new("FuzzySets", fs)
         validObject(fs)
         fs
     }
@@ -45,25 +59,23 @@ setMethod("subset", "FuzzySets", function(x, ...) {
 
 setMethod("show", "FuzzySets", function(object) {
     # Combine elementData, setData, and relations into a single DataFrame
-    element <- elementData(object)[from(relations(object))]
+    element <- elementData(object)[from(object@relations)]
     elementData <- elementMetadata(element)
     elementMetadata(element) <- NULL # avoid metadata columns
-    set <- setData(object)[to(relations(object))]
+    set <- setData(object)[to(object@relations)]
     setData <- elementMetadata(set)
     elementMetadata(set) <- NULL # avoid metadata columns
     x <- DataFrame(
         element=element,
         set=set
     )
-    x[["membership"]] <- membership(object)
+    x[["membership"]] <- membership(object@relations)
     x[["elementData"]] <- elementData
     x[["setData"]] <- setData
 
     .showSetAsTable(class(object), x)
 })
 
-#' @param x An object that inherits from `FuzzySets`.
-#'
 #' @rdname FuzzySets-class
 #' @aliases as.list.FuzzySets
 #' @importFrom methods as
@@ -92,7 +104,7 @@ as.list.FuzzySets <- function(x, ...) {
 #'
 as.matrix.FuzzySets <- function(x, ..., fill=0) {
     out <- as(x, "data.frame")
-    out[["value"]] <- membership(x)
+    out[["value"]] <- membership(x@relations)
     out <- acast(out, element~set, value.var="value", fill=fill, ...)
     out
 }
@@ -122,7 +134,12 @@ as.FuzzySets.matrix <- function(x, ...) {
 
 #' @importFrom methods new
 setAs("BaseSets", "FuzzySets", function(from) {
-    new("FuzzySets", from, membership=rep(1, nRelations(from)))
+    fuzzyhits <- as(from@relations, "FuzzyHits")
+    membership(fuzzyhits) <- rep(1, nRelations(from))
+    from@relations <- fuzzyhits
+    x <- new("FuzzySets", from)
+    validObject(x)
+    x
 })
 
 #' @aliases as.FuzzySets.BaseSets as.FuzzySets

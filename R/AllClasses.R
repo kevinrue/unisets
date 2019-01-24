@@ -161,7 +161,10 @@ setValidity("BaseSets", function(object) {
 #' @export
 #' @importFrom S4Vectors DataFrame
 #' @importFrom methods new
-BaseSets <- function(relations=DataFrame(), elementData, setData) {
+BaseSets <- function(
+    relations=DataFrame(element=character(0), set=character(0)),
+    elementData, setData
+) {
     relations <- as(relations, "DataFrame")
     if (!identical(colnames(relations), c("element", "set"))){
         stop('colnames(relations) must be c("element", "set")')
@@ -207,11 +210,102 @@ BaseSets <- function(relations=DataFrame(), elementData, setData) {
     new("BaseSets", relations=h, elementData=elementData, setData=setData)
 }
 
+#' FuzzyHits Class
+#'
+#' The `FuzzyHits` class extends the [`Hits`] class to represent hits that are associated with different grades of membershipin the interval `[0,1]`.
+#'
+#' @slot membership numeric. Membership function.
+#'
+#' @return A `FuzzyHits` object.
+#' @export
+#' @exportClass FuzzyHits
+#'
+#' @seealso [`Hits`], [`FuzzySets`]
+#'
+#' @examples
+#' # Constructor ----
+#'
+#' from <- c(5, 2, 3, 3, 3, 2)
+#' to <- c(11, 15, 5, 4, 5, 11)
+#' membership <- c(0, 0.1, 0.2, 0.3, 0.6, 0.8)
+#'
+#' fh <- FuzzyHits(from, to, 7, 15, membership)
+#'
+setClass(
+    "FuzzyHits",
+    slots=c(
+        membership="numeric"
+    ),
+    prototype=list(
+        membership=numeric(0)
+    ),
+    contains="Hits"
+)
+
+#' @importFrom methods callNextMethod
+setMethod("parallelSlotNames", "FuzzyHits", function(x) {
+    c(callNextMethod(), "membership")
+})
+
+#' @importFrom methods slot
+setValidity("FuzzyHits", function(object) {
+
+    errors <- c()
+
+    # things to compute once
+    slot.membership <- slot(object, "membership")
+
+    if (any(length(slot.membership) != length(object))) {
+        error <- "'membership(x)' is not parallel to 'x'"
+        errors <- c(errors, error)
+    }
+
+    if (any(slot.membership > 1 | slot.membership < 0)) {
+        error <- "membership function must be in the interval [0,1]"
+        errors <- c(errors, error)
+    }
+
+    if (length(errors > 0)){
+        return(errors)
+    }
+
+    return(TRUE)
+})
+
+#' @param from,to Two integer vectors of the same length.
+#' The values in `from` must be >= 1 and <= `nLnode`.
+#' The values in `to` must be >= 1 and <= `nRnode`.
+#' @param nLnode,nRnode Number of left and right nodes.
+#' @param membership Numeric. Vector of membership in the range `[0,1]`
+#' @param ... Arguments to pass to the [Hits()] constructor,
+#' or to and from other functions.
+#'
+#' @rdname FuzzyHits-class
+#' @aliases FuzzyHits
+#' @export
+#' @importFrom methods new
+FuzzyHits <- function(
+    from=integer(0), to=integer(0), nLnode=0L, nRnode=0L, membership=numeric(0), ...
+) {
+    # Drop names if present
+    if (!is.null(names(membership))) {
+        message("Setting names(membership) to NULL")
+        names(membership) <- NULL
+    }
+    # Pass basic arguments to BaseSets constructor
+    fh <- Hits(from, to, nLnode, nRnode, ...)
+    fh <- as(fh, "FuzzyHits")
+    fh@membership <- membership
+    # fh <- new("FuzzyHits", fh, membership=membership)
+    validObject(fh)
+    # Remove relations with membership function equal to 0, to respect the inheritance from BaseSets
+    fh <- subset(fh, membership > 0)
+    fh
+}
+
 #' FuzzySets Class
 #'
 #' The `FuzzySets` class extends the [`BaseSets`] class to implement a container that also describe different grades of membershipin the interval `[0,1]`.
-#'
-#' @slot membership numeric. Membership function.
 #'
 #' @return A `FuzzySets` object.
 #' @export
@@ -235,7 +329,7 @@ BaseSets <- function(relations=DataFrame(), elementData, setData) {
 #' )
 #'
 #' # Generate random values for the membership function
-#' membership <- round(runif(nrow(relations)), 2)
+#' membership <- c(0, 0.1, 0.2, 0.3, 0.6, 0.8)
 #'
 #' fs <- FuzzySets(relations=relations, membership=membership)
 #'
@@ -260,10 +354,10 @@ BaseSets <- function(relations=DataFrame(), elementData, setData) {
 setClass(
     "FuzzySets",
     slots=c(
-        membership="numeric"
+        relations="FuzzyHits"
         ),
     prototype=list(
-       membership=numeric(0)
+        relations=FuzzyHits()
         ),
     contains="BaseSets"
 )
@@ -272,20 +366,6 @@ setClass(
 setValidity("FuzzySets", function(object) {
 
     errors <- c()
-
-    # things to compute once
-    slot.relations <- slot(object, "relations")
-    slot.membership <- slot(object, "membership")
-
-    if (!identical(length(slot.membership), length(slot.relations))) {
-        error <- "length(membership) must be equal to nrow(relations)"
-        errors <- c(errors, error)
-    }
-
-    if (any(slot.membership > 1 | slot.membership < 0)) {
-        error <- "membership function must be in the interval [0,1]"
-        errors <- c(errors, error)
-    }
 
     if (length(errors > 0)){
         return(errors)
@@ -302,7 +382,7 @@ setValidity("FuzzySets", function(object) {
 #' @aliases FuzzySets
 #' @export
 #' @importFrom methods new
-FuzzySets <- function(..., membership) {
+FuzzySets <- function(..., membership=numeric(0)) {
     # Drop names if present
     if (!is.null(names(membership))) {
         message("Setting names(membership) to NULL")
@@ -310,7 +390,14 @@ FuzzySets <- function(..., membership) {
     }
     # Pass basic arguments to BaseSets constructor
     fs <- BaseSets(...)
-    fs <- new("FuzzySets", fs, membership=membership)
+    # Upgrade Hits to FuzzyHits
+    if (!identical(length(membership), nRelations(fs))) {
+        stop("length(membership) must be equal to nrow(relations)")
+    }
+    # Coerce to FuzzySets (with membership 1 for all relations)
+    fs <- as(fs, "FuzzySets")
+    # Set the correct membership
+    membership(fs) <- membership
     # Remove relations with membership function equal to 0, to respect the inheritance from BaseSets
     fs <- subset(fs, membership > 0)
     fs

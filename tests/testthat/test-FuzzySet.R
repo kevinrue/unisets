@@ -79,7 +79,7 @@ test_that("subset(FuzzySets) works", {
     fs <- FuzzySets(relations, membership=membership)
 
     out <- subset(fs, membership > 0.5)
-    expect_true(all(out@membership > 0.5))
+    expect_true(all(membership(out) > 0.5))
 
 })
 
@@ -212,11 +212,11 @@ test_that("as(BaseSets, \"FuzzySets\") works", {
     out <- as(bs, "FuzzySets")
     expect_s4_class(out, "FuzzySets")
     expect_identical(nrow(relations(out)), nrow(relations(bs)))
-    expect_identical(out@membership, rep(1, nRelations(out)))
+    expect_identical(membership(out), rep(1, nRelations(out)))
 
     out <- as.FuzzySets.BaseSets(bs)
     expect_s4_class(out, "FuzzySets")
     expect_identical(nrow(relations(out)), nrow(relations(bs)))
-    expect_identical(out@membership, rep(1, nRelations(out)))
+    expect_identical(membership(out), rep(1, nRelations(out)))
 
 })

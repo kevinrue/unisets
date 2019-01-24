@@ -39,7 +39,8 @@
 \alias{as.matrix}
 \title{BaseSets Class}
 \usage{
-BaseSets(relations = DataFrame(), elementData, setData)
+BaseSets(relations = DataFrame(element = character(0), set =
+  character(0)), elementData, setData)
 
 relations(x)
 
@@ -110,7 +111,7 @@ elementLengths(x)
 
 \item{x}{An object that inherits from \code{BaseSets}.}
 
-\item{value}{An object of a class specified in the S4 method signature.}
+\item{value}{An object of a class specified in the S4 method signature or as outlined in 'Slots'.}
 
 \item{...}{Additional arguments passed to and from methods.}
 }

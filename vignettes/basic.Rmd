@@ -18,9 +18,11 @@ abstract: |
   Introduction to the `unisets` package.
 vignette: |
   %\VignetteIndexEntry{1. Introduction to unisets}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}  
   %\VignettePackage{unisets}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 # Installation
@@ -68,14 +70,24 @@ base_sets <- BaseSets(relations_table, gene_data, set_data)
 base_sets
 ```
 
-The `relations`, `elementData`, and `setData` slots can directly accessed using the eponym getter methods.
+`elementData`, and `setData` slots can directly accessed using the eponym getter methods.
 
 ```{r}
-relations(base_sets)
 elementData(base_sets)
 setData(base_sets)
 ```
 
+Relations between elements and sets are internally stored as an `r Biocpkg("S4Vectors")` `Hits` object.
+
+```{r}
+base_sets@relations
+```
+
+Conveniently, the `relations` accessor returns relations as a `DataFrame` substituting hits for their corresponding element and set identifiers.
+
+```{r}
+relations(base_sets)
+```
 
 ## The FuzzySets class
 
@@ -88,10 +100,16 @@ fuzzy_sets <- FuzzySets(relations_table, gene_data, set_data, membership=members
 fuzzy_sets
 ```
 
-The `membership` slot can be directly accessed using the getter of the same name.
+The `membership` function associated with each relation can be directly accessed using the getter of the same name.
 
 ```{r}
 membership(fuzzy_sets)
+```
+
+Conveniently, the `relations` accessor returns fuzzy relations as a `DataFrame` that also includes the membership function as the `"membership"` column.
+
+```{r}
+relations(fuzzy_sets)
 ```
 
 # Subsetting

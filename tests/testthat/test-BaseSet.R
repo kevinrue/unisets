@@ -58,6 +58,18 @@ test_that("BaseSets validity method identifies issues", {
 
 })
 
+# relations() ----
+
+test_that("relations(BaseSets) works", {
+
+    bs <- BaseSets(relations)
+
+    out <- relations(bs)
+    expect_s4_class(out, "DataFrame")
+    expect_identical(colnames(out), c("element", "set"))
+
+})
+
 # nRelations() ----
 
 test_that("nRelations(BaseSets) works", {
@@ -242,11 +254,11 @@ test_that("as(matrix, \"BaseSets\") works", {
 
     out <- as(bm, "BaseSets")
     expect_s4_class(out, "BaseSets")
-    expect_identical(length(relations(out)), 3L) # 3 TRUE values above
+    expect_identical(length(out@relations), 3L) # 3 TRUE values above
 
     out <- as.BaseSets.matrix(bm, "BaseSets")
     expect_s4_class(out, "BaseSets")
-    expect_identical(length(relations(out)), 3L) # 3 TRUE values above
+    expect_identical(length(out@relations), 3L) # 3 TRUE values above
 
 })
 

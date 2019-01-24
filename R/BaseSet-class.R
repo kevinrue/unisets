@@ -4,8 +4,13 @@
 #'
 #' @rdname BaseSets-class
 #' @aliases relations,BaseSets-method
+#' @importFrom S4Vectors DataFrame
 setMethod("relations", "BaseSets", function(x) {
-    slot(x, "relations")
+    x <- DataFrame(
+        element=id(elementData(x))[from(x@relations)],
+        set=id(setData(x))[to(x@relations)]
+    )
+    x
 })
 
 #' @rdname BaseSets-class
@@ -18,7 +23,7 @@ setMethod("elementData", "BaseSets", function(x) {
 #' @aliases elements,BaseSets-method
 #' @importFrom S4Vectors from
 setMethod("elements", "BaseSets", function(x) {
-    elementData(x)[from(relations(x))]
+    elementData(x)[from(x@relations)]
 })
 
 #' @rdname BaseSets-class
@@ -27,7 +32,7 @@ setMethod("elementIds", "BaseSets", function(x) {
     id(elementData(x))
 })
 
-#' @param value An object of a class specified in the S4 method signature.
+#' @param value An object of a class specified in the S4 method signature or as outlined in 'Slots'.
 #'
 #' @rdname BaseSets-class
 #' @aliases elementIds<-,BaseSets-method
@@ -48,7 +53,7 @@ setMethod("setData", "BaseSets", function(x) {
 #' @aliases sets,BaseSets-method
 #' @importFrom S4Vectors to
 setMethod("sets", "BaseSets", function(x) {
-    setData(x)[to(relations(x))]
+    setData(x)[to(x@relations)]
 })
 
 #' @rdname BaseSets-class
@@ -71,7 +76,7 @@ setMethod("setIds<-", "BaseSets", function(x, value) {
 #' @rdname BaseSets-class
 #' @aliases nRelations,BaseSets-method
 setMethod("nRelations", "BaseSets", function(x) {
-    length(relations(x))
+    length(x@relations)
 })
 
 #' @rdname BaseSets-class
@@ -112,8 +117,8 @@ setMethod("subset", "BaseSets", function(x, ...) {
         table <- as(x, "data.frame")
         i <- eval(substitute(subset), table)
 
-        keep.element <- unique(id(elementData(x))[from(relations(x))[i]])
-        keep.set <- unique(id(setData(x))[to(relations(x))[i]])
+        keep.element <- unique(id(elementData(x))[from(x@relations)[i]])
+        keep.set <- unique(id(setData(x))[to(x@relations)[i]])
 
         relations <- DataFrame(table[i, , drop=FALSE])
         elementData <- elementData(x)[which(id(elementData(x)) %in% keep.element)]
@@ -129,10 +134,10 @@ setMethod("subset", "BaseSets", function(x, ...) {
 #' @importFrom S4Vectors elementMetadata
 setMethod("show", "BaseSets", function(object) {
     # Combine elementData, setData, and relations into a single DataFrame
-    element <- elementData(object)[from(relations(object))]
+    element <- elementData(object)[from(object@relations)]
     elementData <- elementMetadata(element)
     elementMetadata(element) <- NULL # avoid metadata columns
-    set <- setData(object)[to(relations(object))]
+    set <- setData(object)[to(object@relations)]
     setData <- elementMetadata(set)
     elementMetadata(set) <- NULL # avoid metadata columns
     x <- DataFrame(
@@ -148,11 +153,7 @@ setMethod("show", "BaseSets", function(object) {
 # as.data.frame.BaseSets() ----
 
 setAs("BaseSets", "DataFrame", function(from) {
-    x <- DataFrame(
-        element=id(elementData(from))[from(relations(from))],
-        set=id(setData(from))[to(relations(from))]
-    )
-    x
+    relations(from)
 })
 
 setAs("BaseSets", "data.frame", function(from) {

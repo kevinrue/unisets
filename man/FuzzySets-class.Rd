@@ -7,17 +7,20 @@
 \alias{FuzzySets}
 \alias{membership}
 \alias{membership<-}
+\alias{relations,FuzzySets-method}
 \alias{membership,FuzzySets-method}
 \alias{membership<-,FuzzySets-method}
 \alias{as.list.FuzzySets}
 \alias{as.matrix.FuzzySets}
 \title{FuzzySets Class}
 \usage{
-FuzzySets(..., membership)
+FuzzySets(..., membership = numeric(0))
 
 membership(x)
 
 membership(x) <- value
+
+\S4method{relations}{FuzzySets}(x)
 
 \S4method{membership}{FuzzySets}(x)
 
@@ -45,12 +48,6 @@ A \code{FuzzySets} object.
 \description{
 The \code{FuzzySets} class extends the \code{\link{BaseSets}} class to implement a container that also describe different grades of membershipin the interval \code{[0,1]}.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{membership}}{numeric. Membership function.}
-}}
-
 \section{Conversion to matrix}{
 
 As it is possible to store multiple relations between the same gene and gene set, it may be necessary to collapse multiple observations of the membership function into a single value.
@@ -74,7 +71,7 @@ relations <- DataFrame(
 )
 
 # Generate random values for the membership function
-membership <- round(runif(nrow(relations)), 2)
+membership <- c(0, 0.1, 0.2, 0.3, 0.6, 0.8)
 
 fs <- FuzzySets(relations=relations, membership=membership)
 
