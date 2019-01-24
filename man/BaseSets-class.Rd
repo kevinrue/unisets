@@ -6,32 +6,26 @@
 \alias{BaseSets-class}
 \alias{BaseSets}
 \alias{relations}
-\alias{relations<-}
 \alias{elements}
 \alias{elementIds}
 \alias{elementIds<-}
 \alias{elementData}
-\alias{elementData<-}
 \alias{sets}
 \alias{setIds}
 \alias{setIds<-}
 \alias{setData}
-\alias{setData<-}
 \alias{nRelations}
 \alias{nElements}
 \alias{nSets}
 \alias{setLengths}
 \alias{elementLengths}
 \alias{relations,BaseSets-method}
-\alias{relations<-,BaseSets-method}
-\alias{elements,BaseSets-method}
 \alias{elementData,BaseSets-method}
-\alias{elementData<-,BaseSets-method}
+\alias{elements,BaseSets-method}
 \alias{elementIds,BaseSets-method}
 \alias{elementIds<-,BaseSets-method}
-\alias{sets,BaseSets-method}
 \alias{setData,BaseSets-method}
-\alias{setData<-,BaseSets-method}
+\alias{sets,BaseSets-method}
 \alias{setIds,BaseSets-method}
 \alias{setIds<-,BaseSets-method}
 \alias{nRelations,BaseSets-method}
@@ -45,11 +39,9 @@
 \alias{as.matrix}
 \title{BaseSets Class}
 \usage{
-BaseSets(relations, elementData, setData)
+BaseSets(relations = DataFrame(), elementData, setData)
 
 relations(x)
-
-relations(x) <- value
 
 elements(x)
 
@@ -59,8 +51,6 @@ elementIds(x) <- value
 
 elementData(x)
 
-elementData(x) <- value
-
 sets(x)
 
 setIds(x)
@@ -68,8 +58,6 @@ setIds(x)
 setIds(x) <- value
 
 setData(x)
-
-setData(x) <- value
 
 nRelations(x)
 
@@ -83,23 +71,17 @@ elementLengths(x)
 
 \S4method{relations}{BaseSets}(x)
 
-\S4method{relations}{BaseSets}(x) <- value
-
-\S4method{elements}{BaseSets}(x)
-
 \S4method{elementData}{BaseSets}(x)
 
-\S4method{elementData}{BaseSets}(x) <- value
+\S4method{elements}{BaseSets}(x)
 
 \S4method{elementIds}{BaseSets}(x)
 
 \S4method{elementIds}{BaseSets}(x) <- value
 
-\S4method{sets}{BaseSets}(x)
-
 \S4method{setData}{BaseSets}(x)
 
-\S4method{setData}{BaseSets}(x) <- value
+\S4method{sets}{BaseSets}(x)
 
 \S4method{setIds}{BaseSets}(x)
 
@@ -128,7 +110,7 @@ elementLengths(x)
 
 \item{x}{An object that inherits from \code{BaseSets}.}
 
-\item{value}{An object of a class specified in the S4 method signature or as outlined in 'Slots'.}
+\item{value}{An object of a class specified in the S4 method signature.}
 
 \item{...}{Additional arguments passed to and from methods.}
 }
@@ -178,6 +160,10 @@ m1 <- as(bs, "matrix")
 
 # Read-only getters ----
 
+relations(bs)
+elementData(bs)
+setData(bs)
+
 nRelations(bs)
 nElements(bs)
 nSets(bs)
@@ -189,15 +175,8 @@ elementLengths(bs)
 
 # Getters/Setters ----
 
-relations(bs)
-elementData(bs)
-setData(bs)
-
 bs1 <- bs
-relations(bs1) <- relations(bs1)[sample(nRelations(bs1)), , drop=FALSE]
-elementData(bs1) <- elementData(bs1)[sample(nElements(bs1)), , drop=FALSE]
-setData(bs1) <- setData(bs1)[sample(nSets(bs1)), , drop=FALSE]
-elementIds(bs) <- paste0("gene", seq_len(nElements(bs)))
-setIds(bs) <- paste0("geneset", seq_len(nSets(bs)))
+elementIds(bs1) <- paste0("gene", seq_len(nElements(bs)))
+setIds(bs1) <- paste0("geneset", seq_len(nSets(bs)))
 
 }

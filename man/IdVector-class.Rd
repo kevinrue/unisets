@@ -8,18 +8,24 @@
 \alias{EntrezIdVector-class}
 \alias{EntrezIdVector}
 \alias{id}
+\alias{id<-}
 \alias{id,IdVector-method}
+\alias{id<-,IdVector-method}
 \alias{length,IdVector-method}
 \alias{[,IdVector-method}
 \title{IdVector Class}
 \usage{
-IdVector(id)
+IdVector(id = character(0))
 
 EntrezIdVector(id)
 
 id(x)
 
+id(x) <- value
+
 \S4method{id}{IdVector}(x)
+
+\S4method{id}{IdVector}(x) <- value
 
 \S4method{length}{IdVector}(x)
 
@@ -29,6 +35,8 @@ id(x)
 \item{id}{character. Entrez gene identifiers.}
 
 \item{x}{An object that inherits from \code{IdVector}.}
+
+\item{value}{An object of a class specified in the S4 method signature.}
 
 \item{i}{index specifying elements to extract or replace}
 

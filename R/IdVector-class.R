@@ -8,6 +8,18 @@ setMethod("id", "IdVector", function(x) {
     slot(x, "id")
 })
 
+# id<-() ----
+
+#' @param value An object of a class specified in the S4 method signature.
+#'
+#' @rdname IdVector-class
+#' @aliases id<-,IdVector-method
+#' @importFrom methods slot<-
+setMethod("id<-", "IdVector", function(x, value) {
+    slot(x, "id") <- value
+    x
+})
+
 # length() ----
 
 #' @rdname IdVector-class

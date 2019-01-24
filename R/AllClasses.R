@@ -1,3 +1,68 @@
+#' IdVector Class
+#'
+#' The `IdVector` class extends the [`Vector`] class to implement a container that hold a vector of Entrez gene character identifiers.
+#'
+#' @slot id character. Entrez gene identifiers.
+#'
+#' @return A `IdVector` object.
+#' @export
+#' @exportClass IdVector
+#' @importClassesFrom S4Vectors Vector
+#'
+#' @seealso [`Vector`]
+#'
+#' @examples
+#' # Constructor ----
+#'
+#' tv <- IdVector(id=rep(head(LETTERS, 3), each=2))
+#'
+#' # Subsetting ----
+#'
+#' tv1 <- tv[1:5]
+#'
+setClass("IdVector",
+         contains="Vector",
+         representation(
+             id="character"
+         ),
+         prototype(
+             id=character(0)
+         )
+)
+
+#' @importFrom methods callNextMethod
+setMethod("parallelSlotNames", "IdVector", function(x) {
+    c("id", callNextMethod())
+})
+
+#' @importFrom methods slot
+setValidity("IdVector", function(object) {
+
+    errors <- c()
+
+    if (length(errors > 0)){
+        return(errors)
+    }
+
+    return(TRUE)
+})
+
+#' @param id character. Entrez gene identifiers.
+#'
+#' @rdname IdVector-class
+#' @aliases IdVector
+#' @export
+#' @importFrom methods new
+IdVector <- function(id=character(0)) {
+    # Drop names if present
+    if (!is.null(names(id))) {
+        message("Setting names(id) to NULL")
+        names(id) <- NULL
+    }
+
+    new("IdVector", id=id)
+}
+
 #' BaseSets Class
 #'
 #' The `BaseSets` class implements a container to describe distinct objects that make up sets, along with element metadata and set metadata.
@@ -9,6 +74,8 @@
 #' @return A `BaseSets` object.
 #' @export
 #' @exportClass BaseSets
+#' @importClassesFrom S4Vectors Hits
+#' @importFrom S4Vectors Hits
 #'
 #' @examples
 #' # Constructor ----
@@ -40,6 +107,10 @@
 #'
 #' # Read-only getters ----
 #'
+#' relations(bs)
+#' elementData(bs)
+#' setData(bs)
+#'
 #' nRelations(bs)
 #' nElements(bs)
 #' nSets(bs)
@@ -51,35 +122,21 @@
 #'
 #' # Getters/Setters ----
 #'
-#' relations(bs)
-#' elementData(bs)
-#' setData(bs)
-#'
 #' bs1 <- bs
-#' relations(bs1) <- relations(bs1)[sample(nRelations(bs1)), , drop=FALSE]
-#' elementData(bs1) <- elementData(bs1)[sample(nElements(bs1)), , drop=FALSE]
-#' setData(bs1) <- setData(bs1)[sample(nSets(bs1)), , drop=FALSE]
-#' elementIds(bs) <- paste0("gene", seq_len(nElements(bs)))
-#' setIds(bs) <- paste0("geneset", seq_len(nSets(bs)))
+#' elementIds(bs1) <- paste0("gene", seq_len(nElements(bs)))
+#' setIds(bs1) <- paste0("geneset", seq_len(nSets(bs)))
 #'
 setClass(
     "BaseSets",
     slots=c(
-        relations="DataFrame",
-        elementData="DataFrame",
-        setData="DataFrame"
+        relations="Hits",
+        elementData="IdVector",
+        setData="IdVector"
         ),
     prototype=list(
-        relations=DataFrame(
-            element=character(0),
-            set=character(0)
-            ),
-        elementData=DataFrame(
-            row.names=character(0)
-            ),
-        setData=DataFrame(
-            row.names=character(0)
-            )
+        relations=Hits(),
+        elementData=IdVector(),
+        setData=IdVector()
         )
 )
 
@@ -87,28 +144,6 @@ setClass(
 setValidity("BaseSets", function(object) {
 
     errors <- c()
-
-    slot.relations <- slot(object, "relations")
-    if (!identical(colnames(slot.relations), c("element", "set"))) {
-        error <- "colnames(relations(object)) must be c(\"element\", \"set\")"
-        return(error)
-    }
-
-    # things to compute once
-    uniqueElements <- sort(unique(slot.relations$element))
-    uniqueSets <- sort(unique(slot.relations$set))
-
-    # TODO: rownames of metadata tables cannot be NULL!
-
-    if (!identical(uniqueElements, sort(rownames(slot(object, "elementData"))))) {
-        error <- "Mismatch between relations$element and rownames(elementData)"
-        errors <- c(errors, error)
-    }
-
-    if (!identical(uniqueSets, sort(rownames(slot(object, "setData"))))) {
-        error <- "Mismatch between relations$set and rownames(setData)"
-        errors <- c(errors, error)
-    }
 
     if (length(errors > 0)){
         return(errors)
@@ -126,36 +161,51 @@ setValidity("BaseSets", function(object) {
 #' @export
 #' @importFrom S4Vectors DataFrame
 #' @importFrom methods new
-BaseSets <- function(relations, elementData, setData) {
-    # Drop names if present
-    if (!is.null(rownames(relations))) {
-        message("Setting rownames(relations) to NULL")
-        rownames(relations) <- NULL
-    }
-    for (c in c("element", "set")) {
-        if (c %in% colnames(relations) && !inherits(relations[[c]], "IdVector")) {
-            message(sprintf("Setting names(relations$%s) to NULL", c))
-            names(relations[[c]]) <- NULL
-        }
-    }
-
-    # Coerce to IdVectors
-    for (c in c("element", "set")) {
-        if (c %in% colnames(relations) && !inherits(relations[[c]], "IdVector")) {
-            message(sprintf("Coercing relations$%s to IdVector", c))
-            relations[[c]] <- as(relations[[c]], "IdVector")
-        }
+BaseSets <- function(relations=DataFrame(), elementData, setData) {
+    relations <- as(relations, "DataFrame")
+    if (!identical(colnames(relations), c("element", "set"))){
+        stop('colnames(relations) must be c("element", "set")')
     }
 
     # Add missing metadata
     if (missing(elementData)) {
-        elementData <- DataFrame(row.names=sort(unique(relations$element)))
+        elementData <- IdVector(sort(unique(relations$element)))
+        elementMetadata(elementData) <- DataFrame(row.names=id(elementData))
     }
     if (missing(setData)) {
-        setData <- DataFrame(row.names=sort(unique(relations$set)))
+        setData <- IdVector(sort(unique(relations$set)))
+        elementMetadata(setData) <- DataFrame(row.names=id(setData))
     }
 
-    new("BaseSets", relations=relations, elementData=elementData, setData=setData)}
+    # Drop metadata for elements and sets not represented in relations
+    elementKeep <- (id(elementData) %in% relations$element)
+    if (!all(elementKeep)) {
+        message("Dropping elementData missing from relations$element")
+        elementData <- elementData[elementKeep]
+    }
+    setKeep <- (id(setData) %in% relations$set)
+    if (!all(setKeep)) {
+        message("Dropping setData missing from relations$set")
+        setData <- setData[setKeep]
+    }
+
+    elementIdx <- match(relations$element, id(elementData))
+    if (any(is.na(elementIdx))) {
+        stop("relations$element missing from id(elementData)")
+    }
+    setIdx <- match(relations$set, id(setData))
+    if (any(is.na(setIdx))) {
+        stop("relations$set missing from id(setData)")
+    }
+
+    h <- Hits(
+        from=elementIdx,
+        to=setIdx,
+        nLnode=length(elementData),
+        nRnode=length(setData))
+
+    new("BaseSets", relations=h, elementData=elementData, setData=setData)
+}
 
 #' FuzzySets Class
 #'
@@ -227,7 +277,7 @@ setValidity("FuzzySets", function(object) {
     slot.relations <- slot(object, "relations")
     slot.membership <- slot(object, "membership")
 
-    if (!identical(length(slot.membership), nrow(slot.relations))) {
+    if (!identical(length(slot.membership), length(slot.relations))) {
         error <- "length(membership) must be equal to nrow(relations)"
         errors <- c(errors, error)
     }
@@ -264,71 +314,6 @@ FuzzySets <- function(..., membership) {
     # Remove relations with membership function equal to 0, to respect the inheritance from BaseSets
     fs <- subset(fs, membership > 0)
     fs
-}
-
-#' IdVector Class
-#'
-#' The `IdVector` class extends the [`Vector`] class to implement a container that hold a vector of Entrez gene character identifiers.
-#'
-#' @slot id character. Entrez gene identifiers.
-#'
-#' @return A `IdVector` object.
-#' @export
-#' @exportClass IdVector
-#' @importClassesFrom S4Vectors Vector
-#'
-#' @seealso [`Vector`]
-#'
-#' @examples
-#' # Constructor ----
-#'
-#' tv <- IdVector(id=rep(head(LETTERS, 3), each=2))
-#'
-#' # Subsetting ----
-#'
-#' tv1 <- tv[1:5]
-#'
-setClass("IdVector",
-         contains="Vector",
-         representation(
-             id="character"
-         ),
-         prototype(
-             id=character(0)
-         )
-)
-
-#' @importFrom methods callNextMethod
-setMethod("parallelSlotNames", "IdVector", function(x) {
-    c("id", callNextMethod())
-})
-
-#' @importFrom methods slot
-setValidity("IdVector", function(object) {
-
-    errors <- c()
-
-    if (length(errors > 0)){
-        return(errors)
-    }
-
-    return(TRUE)
-})
-
-#' @param id character. Entrez gene identifiers.
-#'
-#' @rdname IdVector-class
-#' @aliases IdVector
-#' @export
-#' @importFrom methods new
-IdVector <- function(id) {
-    # Drop names if present
-    if (!is.null(names(id))) {
-        message("Setting names(id) to NULL")
-        names(id) <- NULL
-    }
-
-    new("IdVector", id=id)
 }
 
 #' @rdname IdVector-class

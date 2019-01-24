@@ -29,26 +29,13 @@ test_that("FuzzySets constructor produces valid objects", {
     )
 
     expect_message(FuzzySets(relations, membership=membership), "Setting names(membership) to NULL", fixed=TRUE)
-    expect_message(FuzzySets(relations, membership=membership), "Setting rownames(relations) to NULL", fixed=TRUE)
-    expect_message(FuzzySets(relations, membership=membership), "Setting names(relations$element) to NULL", fixed=TRUE)
-    expect_message(FuzzySets(relations, membership=membership), "Setting names(relations$set) to NULL", fixed=TRUE)
 
     out <- FuzzySets(relations, membership=membership)
 
     expect_s4_class(out, "FuzzySets")
-    expect_identical(slotNames(out), c("membership", "relations", "elementData", "setData"))
-
-    # Check that names were dropped
-    slot.relations <- slot(out, "relations")
-    expect_null(rownames(slot.relations))
-    expect_null(names(slot.relations$element))
-    expect_null(names(slot.relations$set))
 })
 
 test_that("FuzzySets validity method identifies issues", {
-
-    # Valid object
-    out <- FuzzySets(relations, membership=membership)
 
     # Invalid membership length
     expect_error(
@@ -72,15 +59,16 @@ test_that("FuzzySets validity method identifies issues", {
 
 })
 
-# relations<-() ----
+# membership<-() ----
 
-test_that("relations(BaseSets) <- value works", {
+test_that("membership(FuzzySets) <- value works", {
 
     fs <- FuzzySets(relations, membership=membership)
 
-    membership(fs) <- runif(nRelations(fs))
+    newValues <- runif(nRelations(fs))
+    membership(fs) <- newValues
 
-    expect_true(validObject(fs))
+    expect_identical(membership(fs), newValues)
 
 })
 
@@ -103,7 +91,7 @@ test_that("show(FuzzySets) works", {
 
     out <- show(fs)
     expect_identical(colnames(out), c("element", "set", "membership", "elementData", "setData"))
-    expect_identical(nrow(out), nrow(fs@relations)+1L)
+    expect_identical(nrow(out), nRelations(fs)+1L)
 
 })
 
@@ -126,7 +114,7 @@ test_that("as(FuzzySets, \"matrix\") works", {
 
     fs <- FuzzySets(relations, membership=membership)
 
-    expected.dim <- c(nrow(fs@elementData), nrow(fs@setData))
+    expected.dim <- c(nElements(fs), nSets(fs))
 
     out <- as(fs, "matrix")
     expect_type(out, "double")
@@ -145,7 +133,10 @@ test_that("as(FuzzySets, \"matrix\") throws message for multiple membership obse
         set2=c("C", "D", "E")
     )
 
-    relations <- DataFrame(element=unlist(sets), set=rep(names(sets), lengths(sets)))
+    relations <- DataFrame(
+        element=unlist(sets),
+        set=rep(names(sets), lengths(sets))
+    )
     membership <- runif(nrow(relations))
 
     fs <- FuzzySets(relations, membership=membership)
@@ -155,7 +146,7 @@ test_that("as(FuzzySets, \"matrix\") throws message for multiple membership obse
         "Aggregation function missing: defaulting to length"
     )
 
-    expected.dim <- c(nrow(fs@elementData), nrow(fs@setData))
+    expected.dim <- c(nElements(fs), nSets(fs))
 
     out <- as(fs, "matrix")
     expect_type(out, "double")
@@ -181,11 +172,11 @@ test_that("as(matrix, \"FuzzySets\") works", {
 
     out <- as(fm, "FuzzySets")
     expect_s4_class(out, "FuzzySets")
-    expect_identical(nrow(out@relations), as.integer(nGenes*nSets-1))
+    expect_identical(nRelations(out), as.integer(nGenes*nSets-1))
 
     out <- as.FuzzySets.matrix(fm, "FuzzySets")
     expect_s4_class(out, "FuzzySets")
-    expect_identical(nrow(out@relations), as.integer(nGenes*nSets-1))
+    expect_identical(nRelations(out), as.integer(nGenes*nSets-1))
 
 })
 

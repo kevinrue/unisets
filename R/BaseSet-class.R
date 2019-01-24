@@ -8,24 +8,6 @@ setMethod("relations", "BaseSets", function(x) {
     slot(x, "relations")
 })
 
-#' @param value An object of a class specified in the S4 method signature or as outlined in 'Slots'.
-#'
-#' @rdname BaseSets-class
-#' @aliases relations<-,BaseSets-method
-#' @importFrom methods validObject
-#' @importFrom methods slot<-
-setMethod("relations<-", "BaseSets", function(x, value) {
-    slot(x, "relations") <- value
-    validObject(x)
-    x
-})
-
-#' @rdname BaseSets-class
-#' @aliases elements,BaseSets-method
-setMethod("elements", "BaseSets", function(x) {
-    slot(x, "relations")$element
-})
-
 #' @rdname BaseSets-class
 #' @aliases elementData,BaseSets-method
 setMethod("elementData", "BaseSets", function(x) {
@@ -33,40 +15,27 @@ setMethod("elementData", "BaseSets", function(x) {
 })
 
 #' @rdname BaseSets-class
-#' @aliases elementData<-,BaseSets-method
-#' @importFrom methods validObject
-#' @importFrom methods slot<-
-setMethod("elementData<-", "BaseSets", function(x, value) {
-    slot(x, "elementData") <- value
-    validObject(x)
-    x
+#' @aliases elements,BaseSets-method
+#' @importFrom S4Vectors from
+setMethod("elements", "BaseSets", function(x) {
+    elementData(x)[from(relations(x))]
 })
 
 #' @rdname BaseSets-class
 #' @aliases elementIds,BaseSets-method
 setMethod("elementIds", "BaseSets", function(x) {
-    rownames(elementData(x))
+    id(elementData(x))
 })
 
+#' @param value An object of a class specified in the S4 method signature.
+#'
 #' @rdname BaseSets-class
 #' @aliases elementIds<-,BaseSets-method
 #' @importFrom methods validObject
 setMethod("elementIds<-", "BaseSets", function(x, value) {
-    translation <- value
-    names(translation) <- rownames(elementData(x))
-    # Rename elements in both relations and metadata tables
-    # Use @ directly to avoid triggering the validObject method
-    rownames(x@elementData) <- value
-    x@relations$element@id <- translation[x@relations$element@id]
-
+    x@elementData@id <- value
     validObject(x)
     x
-})
-
-#' @rdname BaseSets-class
-#' @aliases sets,BaseSets-method
-setMethod("sets", "BaseSets", function(x) {
-    slot(x, "relations")$set
 })
 
 #' @rdname BaseSets-class
@@ -76,32 +45,23 @@ setMethod("setData", "BaseSets", function(x) {
 })
 
 #' @rdname BaseSets-class
-#' @aliases setData<-,BaseSets-method
-#' @importFrom methods validObject
-#' @importFrom methods slot<-
-setMethod("setData<-", "BaseSets", function(x, value) {
-    slot(x, "setData") <- value
-    validObject(x)
-    x
+#' @aliases sets,BaseSets-method
+#' @importFrom S4Vectors to
+setMethod("sets", "BaseSets", function(x) {
+    setData(x)[to(relations(x))]
 })
 
 #' @rdname BaseSets-class
 #' @aliases setIds,BaseSets-method
 setMethod("setIds", "BaseSets", function(x) {
-    rownames(setData(x))
+    id(setData(x))
 })
 
 #' @rdname BaseSets-class
 #' @aliases setIds<-,BaseSets-method
 #' @importFrom methods validObject
 setMethod("setIds<-", "BaseSets", function(x, value) {
-    translation <- value
-    names(translation) <- rownames(setData(x))
-    # Rename sets in both relations and metadata tables
-    # Use @ directly to avoid triggering the validObject method
-    rownames(x@setData) <- value
-    x@relations$set@id <- translation[x@relations$set@id]
-
+    x@setData@id <- value
     validObject(x)
     x
 })
@@ -111,19 +71,19 @@ setMethod("setIds<-", "BaseSets", function(x, value) {
 #' @rdname BaseSets-class
 #' @aliases nRelations,BaseSets-method
 setMethod("nRelations", "BaseSets", function(x) {
-    nrow(relations(x))
+    length(relations(x))
 })
 
 #' @rdname BaseSets-class
 #' @aliases nElements,BaseSets-method
 setMethod("nElements", "BaseSets", function(x) {
-    nrow(elementData(x))
+    length(elementData(x))
 })
 
 #' @rdname BaseSets-class
 #' @aliases nSets,BaseSets-method
 setMethod("nSets", "BaseSets", function(x) {
-    nrow(setData(x))
+    length(setData(x))
 })
 
 #' @rdname BaseSets-class
@@ -138,10 +98,9 @@ setMethod("setLengths", "BaseSets", function(x) {
 #' @aliases elementLengths,BaseSets-method
 #' @importFrom methods as
 setMethod("elementLengths", "BaseSets", function(x) {
-
-    x <- split(
-        relations(x)$set@id,
-        relations(x)$element@id)
+    # Note the difference between the argument and the method 'from'
+    x <- as(x, "DataFrame")
+    x <- split(x$set, x$element)
     lengths(x)
 })
 
@@ -150,16 +109,15 @@ setMethod("elementLengths", "BaseSets", function(x) {
 setMethod("subset", "BaseSets", function(x, ...) {
     .local <- function (x, subset, select, drop=FALSE, ...) {
         # Match code layout of the FuzzySets method
-        table <- relations(x)
-        # Coerce to character
-        table$element <- as.character(table$element)
-        table$set <- as.character(table$set)
-
+        table <- as(x, "data.frame")
         i <- eval(substitute(subset), table)
-        relations <- relations(x)[i, , drop=FALSE]
 
-        elementData <- elementData(x)[unique(relations$element), , drop=FALSE]
-        setData <- setData(x)[unique(relations$set), , drop=FALSE]
+        keep.element <- unique(id(elementData(x))[from(relations(x))[i]])
+        keep.set <- unique(id(setData(x))[to(relations(x))[i]])
+
+        relations <- DataFrame(table[i, , drop=FALSE])
+        elementData <- elementData(x)[which(id(elementData(x)) %in% keep.element)]
+        setData <- setData(x)[which(id(setData(x)) %in% keep.set)]
 
         BaseSets(relations, elementData, setData)
     }
@@ -168,22 +126,47 @@ setMethod("subset", "BaseSets", function(x, ...) {
 
 # show() ----
 
+#' @importFrom S4Vectors elementMetadata
 setMethod("show", "BaseSets", function(object) {
-    # Format the object
-    x <- relations(object)
-    # Use [[ to nest the DataFrame
-    x[["elementData"]] <- elementData(object)[x$element, , drop=FALSE]
-    x[["setData"]] <- setData(object)[x$set, , drop=FALSE]
+    # Combine elementData, setData, and relations into a single DataFrame
+    element <- elementData(object)[from(relations(object))]
+    elementData <- elementMetadata(element)
+    elementMetadata(element) <- NULL # avoid metadata columns
+    set <- setData(object)[to(relations(object))]
+    setData <- elementMetadata(set)
+    elementMetadata(set) <- NULL # avoid metadata columns
+    x <- DataFrame(
+        element=element,
+        set=set
+    )
+    x[["elementData"]] <- elementData
+    x[["setData"]] <- setData
 
     .showSetAsTable(class(object), x)
+})
+
+# as.data.frame.BaseSets() ----
+
+setAs("BaseSets", "DataFrame", function(from) {
+    x <- DataFrame(
+        element=id(elementData(from))[from(relations(from))],
+        set=id(setData(from))[to(relations(from))]
+    )
+    x
+})
+
+setAs("BaseSets", "data.frame", function(from) {
+    x <- as(from, "DataFrame")
+    x <- as(x, "data.frame")
+    x
 })
 
 # as.list() ----
 
 setAs("BaseSets", "list", function(from) {
-    split(
-        relations(from)$element@id,
-        relations(from)$set@id)
+    # Note the difference between the argument and the method 'from'
+    x <- as(from, "DataFrame")
+    split(x$element, x$set)
 })
 
 #' @param ... Additional arguments passed to and from methods.
@@ -200,7 +183,8 @@ as.list.BaseSets <- function(x, ...) {
 
 #' @importFrom reshape2 acast
 setAs("BaseSets", "matrix", function(from) {
-    x <- cbind(as.data.frame(relations(from)), value=TRUE)
+    x <- as(from, "data.frame")
+    x[["value"]] <- TRUE
     out <- acast(x, element~set, value.var="value", fun.aggregate=any, fill=FALSE)
     out
 })
@@ -233,29 +217,25 @@ as.BaseSets.matrix <- function(x, ...) {
 
 #' @importClassesFrom AnnotationDbi Go3AnnDbBimap
 #' @importFrom AnnotationDbi select keys columns
-#' @importFrom S4Vectors DataFrame
+#' @importFrom S4Vectors DataFrame elementMetadata<-
 setAs("Go3AnnDbBimap", "BaseSets", function(from) {
     # Import the relationships from the annotation BiMap
     dataframe <- DataFrame(as.data.frame(from))
     relations <- dataframe[, c("gene_id", "go_id")]
     colnames(relations) <- c("element", "set")
 
-    # Coerce to dedicated classes
-    relations$element <- EntrezIdVector(relations$element)
-
     # Prepare a default empty DataFrame if GO.db is not installed
-    setData <- DataFrame(row.names=unique(relations$set))
+    setData <- IdVector(unique(relations$set))
     if ( requireNamespace("GO.db") ) {
-        db <- GO.db::GO.db
         # Fetch GO metadata from GO.db if installed
-        setData <- select(db, keys(db), columns(db))
-        setData <- DataFrame(setData)
-        rownames(setData) <- setData$GOID
-        setData$GOID <- NULL
-        setData <- setData[unique(relations$set), , drop=FALSE]
+        db <- GO.db::GO.db
+        setData <- IdVector(keys(db))
+        elementMetadata(setData) <- DataFrame(select(db, keys(db), columns(db)))
     }
 
-    BaseSets(relations, setData=setData)
+    elementData <- EntrezIdVector(sort(unique(relations$element)))
+
+    BaseSets(relations, elementData, setData)
 })
 
 #' @aliases as.BaseSets.Go3AnnDbBimap as.BaseSets

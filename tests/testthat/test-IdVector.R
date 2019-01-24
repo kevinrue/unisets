@@ -22,6 +22,28 @@ test_that("IdVector constructor produces valid objects", {
     expect_identical(id(out), as.character(idValues))
 })
 
+# id() ----
+
+test_that("id(IdVector) works", {
+
+    iv <- IdVector(idValues)
+
+    id(iv) <- tail(LETTERS, length(iv))
+    expect_identical(id(iv), tail(LETTERS, length(iv)))
+
+})
+
+# id<-() ----
+
+test_that("id(IdVector) <- value works", {
+
+    iv <- IdVector(idValues)
+
+    out <- id(iv)
+    expect_identical(out, as.character(idValues))
+
+})
+
 # [ ----
 
 test_that("`[`IdVector works", {
@@ -31,6 +53,21 @@ test_that("`[`IdVector works", {
     out <- iv[1:5]
     expect_length(out, 5)
     expect_identical(id(out), head(as.character(idValues), 5))
+
+})
+
+# NSBS ----
+
+test_that("`NSBS(IdVector) works", {
+
+    idx <- as.integer(c(1, 3, 4, 5, 6))
+    iv <- IdVector(idValues[idx])
+
+    DF <- DataFrame(row.names = idValues)
+
+    out <- NSBS(iv, DF)
+    expect_length(out, 5)
+    expect_identical(out, idx)
 
 })
 

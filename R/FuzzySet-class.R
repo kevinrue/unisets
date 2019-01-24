@@ -2,7 +2,7 @@
 
 #' @rdname FuzzySets-class
 #' @aliases membership,FuzzySets-method
-setMethod("membership", "FuzzySets", function(x)  {
+setMethod("membership", "FuzzySets", function(x) {
     x@membership
 })
 
@@ -11,7 +11,7 @@ setMethod("membership", "FuzzySets", function(x)  {
 #' @rdname FuzzySets-class
 #' @aliases membership<-,FuzzySets-method
 #' @importFrom methods validObject
-setMethod("membership<-", "FuzzySets", function(x, value)  {
+setMethod("membership<-", "FuzzySets", function(x, value) {
     x@membership <- value
     validObject(x)
     x
@@ -19,36 +19,45 @@ setMethod("membership<-", "FuzzySets", function(x, value)  {
 
 # subset ----
 
-setMethod("subset", "FuzzySets", function(x, ...)  {
+setMethod("subset", "FuzzySets", function(x, ...) {
     .local <- function (x, subset, select, drop=FALSE, ...) {
         # Only difference with the BaseSets parent method
-        table <- cbind(relations(x), membership=membership(x))
-
+        table <- cbind(as(x, "data.frame"), membership=membership(x))
         i <- eval(substitute(subset), table)
-        relations <- relations(x)[i, , drop=FALSE]
+
+        keep.element <- unique(id(elementData(x))[from(relations(x))[i]])
+        keep.set <- unique(id(setData(x))[to(relations(x))[i]])
+
+        relations <- DataFrame(table[i, c("element", "set"), drop=FALSE])
+        elementData <- elementData(x)[which(id(elementData(x)) %in% keep.element)]
+        setData <- setData(x)[which(id(setData(x)) %in% keep.set)]
         membership <- membership(x)[i]
 
-        elementData <- elementData(x)[unique(relations$element), , drop=FALSE]
-        setData <- setData(x)[unique(relations$set), , drop=FALSE]
-
-        fs <- new(
-            "FuzzySets",
-            relations=relations,
-            elementData=elementData,
-            setData=setData,
-            membership=membership)
+        fs <- BaseSets(relations, elementData, setData)
+        fs <- new("FuzzySets", fs, membership=membership)
         validObject(fs)
         fs
     }
     .local(x, ...)
 })
 
+# show() ----
+
 setMethod("show", "FuzzySets", function(object) {
-    # Format the object
-    x <- relations(object)
+    # Combine elementData, setData, and relations into a single DataFrame
+    element <- elementData(object)[from(relations(object))]
+    elementData <- elementMetadata(element)
+    elementMetadata(element) <- NULL # avoid metadata columns
+    set <- setData(object)[to(relations(object))]
+    setData <- elementMetadata(set)
+    elementMetadata(set) <- NULL # avoid metadata columns
+    x <- DataFrame(
+        element=element,
+        set=set
+    )
     x[["membership"]] <- membership(object)
-    x[["elementData"]] <- elementData(object)[x$element, , drop=FALSE]
-    x[["setData"]] <- setData(object)[x$set, , drop=FALSE]
+    x[["elementData"]] <- elementData
+    x[["setData"]] <- setData
 
     .showSetAsTable(class(object), x)
 })
@@ -81,9 +90,10 @@ as.list.FuzzySets <- function(x, ...) {
 #'
 #' as.matrix(fs, fun.aggregate=min)
 #'
-as.matrix.FuzzySets <- function(x, ..., fill=0)  {
-    xbind <- cbind(as.data.frame(relations(x)), value=membership(x))
-    out <- acast(xbind, element ~ set, value.var="value", fill=fill, ...)
+as.matrix.FuzzySets <- function(x, ..., fill=0) {
+    out <- as(x, "data.frame")
+    out[["value"]] <- membership(x)
+    out <- acast(out, element~set, value.var="value", fill=fill, ...)
     out
 }
 
@@ -106,7 +116,7 @@ setAs("matrix", "FuzzySets", function(from) {
 
 #' @aliases as.FuzzySets.matrix as.FuzzySets
 #' @importFrom methods as
-as.FuzzySets.matrix <- function(x, ...)  {
+as.FuzzySets.matrix <- function(x, ...) {
     as(x, "FuzzySets")
 }
 
@@ -117,6 +127,6 @@ setAs("BaseSets", "FuzzySets", function(from) {
 
 #' @aliases as.FuzzySets.BaseSets as.FuzzySets
 #' @importFrom methods as
-as.FuzzySets.BaseSets <- function(x, ...)  {
+as.FuzzySets.BaseSets <- function(x, ...) {
     as(x, "FuzzySets")
 }
