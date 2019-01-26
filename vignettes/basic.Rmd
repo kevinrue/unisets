@@ -149,7 +149,7 @@ base_matrix
 ```
 
 In contrast, `FuzzySets` return a `double` matrix displaying the membership function for each relation.
-Relations that are not described in the `FuzzySets` are filled with `NA`.
+Relations that are not described in the `FuzzySets` are filled with `NA`, to contrast to relations explictly associated with a membership function of 0.
 
 ```{r}
 fuzzy_matrix <- as(fuzzy_sets, "matrix")
