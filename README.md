@@ -23,50 +23,52 @@ gene_lists <- list(
     geneset1 = c("A", "B"),
     geneset2 = c("B", "C", "D")
 )
-mapping_table <- DataFrame(
+relations_table <- DataFrame(
     element = unlist(gene_lists),
-    set     = rep(names(gene_lists), lengths(gene_lists))
+    set     = rep(names(gene_lists), lengths(gene_lists)),
+    extra1 = sample(c("ABC", "DEF"), 5L, replace=TRUE),
+    extra2 = rbinom(5L, 10L, 0.4)
 )
-gene_data <- DataFrame(
-    row.names = c("A", "B", "C", "D"),
+gene_data <- IdVector(c("A", "B", "C", "D"))
+elementMetadata(gene_data) <- DataFrame(
     stat1     = c( 1,   2,   3,   4 ),
     info1     = c("a", "b", "c", "d")
 )
-set_data <- DataFrame(
-    row.names = c("geneset1", "geneset2"),
-    stat1     = c(      100,        200 ),
-    info1     = c(     "abc",      "def")
+set_data <- IdVector(c("geneset1", "geneset2"))
+elementMetadata(set_data) <- DataFrame(
+    stat1     = c( 100,   200 ),
+    info1     = c("abc", "def")
 )
-base_set <- BaseSets(mapping_table, gene_data, set_data)
+base_set <- BaseSets(relations_table, gene_data, set_data)
 base_set
 ```
 
 ```
-BaseSets with 5 mappings between 4 elements and 2 sets
-      element         set elementData     setData
-  <character> <character> <DataFrame> <DataFrame>
-1           A    geneset1         1:a     100:abc
-2           B    geneset1         2:b     100:abc
-3           B    geneset2         2:b     200:def
-4           C    geneset2         3:c     200:def
-5           D    geneset2         4:d     200:def
+BaseSets with 5 relations between 4 elements and 2 sets
+     element        set relationData elementData     setData
+  <IdVector> <IdVector>  <DataFrame> <DataFrame> <DataFrame>
+1          A   geneset1        DEF:1         1:a     100:abc
+2          B   geneset1        DEF:3         2:b     100:abc
+3          B   geneset2        ABC:4         2:b     200:def
+4          C   geneset2        ABC:3         3:c     200:def
+5          D   geneset2        DEF:3         4:d     200:def
 ```
 
 More sophisticated classes are available to store additional information (e.g. `FuzzySets`).
 
 ``` r
-membership <- round(runif(nrow(mapping_table)), 2)
-fuzzy_set <- FuzzySets(mapping_table, gene_data, set_data, membership = membership)
-fuzzy_set
+relations_table$membership <- round(runif(nrow(relations_table)), 2)
+fuzzy_sets <- FuzzySets(relations_table, gene_data, set_data)
+fuzzy_sets
 ```
 
 ```
-FuzzySets with 5 mappings between 4 elements and 2 sets
-      element         set membership elementData     setData
-  <character> <character>  <numeric> <DataFrame> <DataFrame>
-1           A    geneset1        0.7         1:a     100:abc
-2           B    geneset1       0.99         2:b     100:abc
-3           B    geneset2       0.77         2:b     200:def
-4           C    geneset2       0.34         3:c     200:def
-5           D    geneset2       0.51         4:d     200:def
+FuzzySets with 5 relations between 4 elements and 2 sets
+      element         set relationData elementData     setData
+  <character> <character>  <DataFrame> <DataFrame> <DataFrame>
+1           A    geneset1   DEF:1:0.48         1:a     100:abc
+2           B    geneset1   DEF:3:0.11         2:b     100:abc
+3           B    geneset2   ABC:4:0.01         2:b     200:def
+4           C    geneset2   ABC:3:0.35         3:c     200:def
+5           D    geneset2   DEF:3:0.38         4:d     200:def
 ```
