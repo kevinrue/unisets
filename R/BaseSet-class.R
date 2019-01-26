@@ -6,11 +6,13 @@
 #' @aliases relations,BaseSets-method
 #' @importFrom S4Vectors DataFrame
 setMethod("relations", "BaseSets", function(x) {
-    x <- DataFrame(
-        element=id(elementData(x))[from(x@relations)],
-        set=id(setData(x))[to(x@relations)]
-    )
-    x
+    # use the built-in conversion of Hits to DataFrame
+    out <- as(x@relations, "DataFrame")
+    colnames(out)[1:2] <- c("element", "set")
+    # Substitute from/to by the corresponding identifiers
+    out$element <- id(elementData(x))[out$element]
+    out$set <- id(setData(x))[out$set]
+    out
 })
 
 #' @rdname BaseSets-class
@@ -74,8 +76,8 @@ setMethod("setIds<-", "BaseSets", function(x, value) {
 # Dimensions ----
 
 #' @rdname BaseSets-class
-#' @aliases nRelations,BaseSets-method
-setMethod("nRelations", "BaseSets", function(x) {
+#' @aliases length,BaseSets-method
+setMethod("length", "BaseSets", function(x) {
     length(x@relations)
 })
 
@@ -144,6 +146,7 @@ setMethod("show", "BaseSets", function(object) {
         element=element,
         set=set
     )
+    x[["relationData"]] <- elementMetadata(object@relations)
     x[["elementData"]] <- elementData
     x[["setData"]] <- setData
 

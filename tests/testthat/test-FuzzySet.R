@@ -1,58 +1,59 @@
 
+# Visually intuitive definition of fuzzy sets
 sets <- list(
-  set1=c("A", "B"),
-  set2=c("C", "D", "E")
+    set1=c("A"=0, "B"=0.1),
+    set2=c("B"=0.2, "C"=0.3, "D"=0.6),
+    set3=c("E"=0.8)
 )
 
-# prepare named vectors to check that names are dropped by the constructor
-elementsUnlist <- unlist(sets)
+# unlist the membership values
+membershipUnlist <- unlist(sets) # named
+# unlist the set names
 setsUnlist <- rep(names(sets), lengths(sets))
-names(setsUnlist) <- paste0("x", seq_along(setsUnlist))
+names(setsUnlist) <- paste0("name", seq_along(setsUnlist))
+# unlist the element names
+elementUnlist <- unlist(sapply(sets, names)) # named
 
-relations <- DataFrame(element=elementsUnlist, set=setsUnlist)
-
-# We add a relation with membership function 0, that will be dropped during construction
-membership <- seq(0, nrow(relations)-1) / nrow(relations)
-# Names will also be dropped
-names(membership) <- paste0("x", seq_along(membership))
+relations <- DataFrame(
+    element=elementUnlist,
+    set=setsUnlist,
+    membership=membershipUnlist)
 
 # FuzzySets() ----
 
 test_that("FuzzySets constructor produces valid objects", {
 
     expect_error(
-        expect_message(
-            FuzzySets(relations),
-            "argument \"membership\" is missing, with no default",
-            fixed=TRUE
-        )
+        FuzzySets(relations[, c("element", "set")]),
+        "colnames(relations) must include c(\"membership\")",
+        fixed=TRUE
     )
 
-    expect_message(FuzzySets(relations, membership=membership), "Setting names(membership) to NULL", fixed=TRUE)
+    expect_message(
+        FuzzySets(relations),
+        "Setting rownames(relations) to NULL",
+        fixed=TRUE
+    )
 
-    out <- FuzzySets(relations, membership=membership)
+    out <- FuzzySets(relations)
 
     expect_s4_class(out, "FuzzySets")
 })
 
 test_that("FuzzySets validity method identifies issues", {
 
-    # Invalid membership length
-    expect_error(
-        FuzzySets(relations, membership=runif(nrow(relations)-1)),
-        "length(membership) must be equal to nrow(relations)",
-        fixed=TRUE
-    )
-
     # membership function out of range [0,1]
+    relations0 <- relations
+    relations0$membership[1] <- -1
     expect_error(
-        FuzzySets(relations, membership=rep(-0.1, nrow(relations))),
+        FuzzySets(relations0),
         "membership function must be in the interval [0,1]",
         fixed=TRUE
     )
-
+    relations0 <- relations
+    relations0$membership[1] <- 2
     expect_error(
-        FuzzySets(relations, membership=rep(1.1, nrow(relations))),
+        FuzzySets(relations0),
         "membership function must be in the interval [0,1]",
         fixed=TRUE
     )
@@ -63,9 +64,9 @@ test_that("FuzzySets validity method identifies issues", {
 
 test_that("membership(FuzzySets) <- value works", {
 
-    fs <- FuzzySets(relations, membership=membership)
+    fs <- FuzzySets(relations)
 
-    newValues <- runif(nRelations(fs))
+    newValues <- runif(length(fs))
     membership(fs) <- newValues
 
     expect_identical(membership(fs), newValues)
@@ -76,7 +77,7 @@ test_that("membership(FuzzySets) <- value works", {
 
 test_that("subset(FuzzySets) works", {
 
-    fs <- FuzzySets(relations, membership=membership)
+    fs <- FuzzySets(relations)
 
     out <- subset(fs, membership > 0.5)
     expect_true(all(membership(out) > 0.5))
@@ -87,11 +88,13 @@ test_that("subset(FuzzySets) works", {
 
 test_that("show(FuzzySets) works", {
 
-    fs <- FuzzySets(relations, membership=membership)
+    fs <- FuzzySets(relations)
 
     out <- show(fs)
-    expect_identical(colnames(out), c("element", "set", "membership", "elementData", "setData"))
-    expect_identical(nrow(out), nRelations(fs)+1L)
+    expect_identical(
+        colnames(out),
+        c("element", "set", "relationData", "elementData", "setData"))
+    expect_identical(nrow(out), length(fs)+1L)
 
 })
 
@@ -99,12 +102,14 @@ test_that("show(FuzzySets) works", {
 
 test_that("as(FuzzySets, \"list\") works", {
 
-    fs <- FuzzySets(relations, membership=membership)
+    fs <- FuzzySets(relations)
+
+    expected <- list(set1 = c("A", "B"), set2 = c("B", "C", "D"), set3 = "E")
 
     out <- as(fs, "list")
-    expect_identical(out, list(set1=c("B"), set2=c("C", "D", "E")))
+    expect_identical(out, expected)
     out <- as.list(fs)
-    expect_identical(out, list(set1=c("B"), set2=c("C", "D", "E")))
+    expect_identical(out, expected)
 
 })
 
@@ -112,7 +117,7 @@ test_that("as(FuzzySets, \"list\") works", {
 
 test_that("as(FuzzySets, \"matrix\") works", {
 
-    fs <- FuzzySets(relations, membership=membership)
+    fs <- FuzzySets(relations)
 
     expected.dim <- c(nElements(fs), nSets(fs))
 
@@ -137,9 +142,9 @@ test_that("as(FuzzySets, \"matrix\") throws message for multiple membership obse
         element=unlist(sets),
         set=rep(names(sets), lengths(sets))
     )
-    membership <- runif(nrow(relations))
+    relations$membership <- runif(nrow(relations))
 
-    fs <- FuzzySets(relations, membership=membership)
+    fs <- FuzzySets(relations)
 
     expect_message(
         as(fs, "matrix"),
@@ -160,7 +165,7 @@ test_that("as(matrix, \"FuzzySets\") works", {
 
     nGenes <- 3
     nSets <- 2
-    membership <- c(runif(nGenes*nSets-1), NA)
+    membership <- runif(nGenes*nSets)
     fm <- matrix(
         membership,
         nrow=nGenes, ncol=nSets,
@@ -172,11 +177,11 @@ test_that("as(matrix, \"FuzzySets\") works", {
 
     out <- as(fm, "FuzzySets")
     expect_s4_class(out, "FuzzySets")
-    expect_identical(nRelations(out), as.integer(nGenes*nSets-1))
+    expect_identical(length(out), as.integer(nGenes*nSets))
 
     out <- as.FuzzySets.matrix(fm, "FuzzySets")
     expect_s4_class(out, "FuzzySets")
-    expect_identical(nRelations(out), as.integer(nGenes*nSets-1))
+    expect_identical(length(out), as.integer(nGenes*nSets))
 
 })
 
@@ -184,10 +189,10 @@ test_that("as(matrix, \"FuzzySets\") works", {
 
 test_that("setLengths(FuzzySets) works", {
 
-    fs <- FuzzySets(relations, membership=membership)
+    fs <- FuzzySets(relations)
 
     out <- setLengths(fs)
-    expect_identical(out, c(set1=1L, set2=3L))
+    expect_identical(out, c(set1 = 2L, set2 = 3L, set3 = 1L))
 
 })
 
@@ -195,10 +200,10 @@ test_that("setLengths(FuzzySets) works", {
 
 test_that("elementLengths(FuzzySets) works", {
 
-    fs <- FuzzySets(relations, membership=membership)
+    fs <- FuzzySets(relations)
 
     out <- elementLengths(fs)
-    expect_identical(out, c(B=1L, C=1L, D=1L, E=1L))
+    expect_identical(out, c(A = 1L, B = 2L, C = 1L, D = 1L, E = 1L))
 
 })
 
@@ -206,17 +211,31 @@ test_that("elementLengths(FuzzySets) works", {
 
 test_that("as(BaseSets, \"FuzzySets\") works", {
 
-    bs <- BaseSets(relations)
+    bs <- BaseSets(relations[, c("element", "set")])
 
     # Number of relations is preservedxw
     out <- as(bs, "FuzzySets")
     expect_s4_class(out, "FuzzySets")
     expect_identical(nrow(relations(out)), nrow(relations(bs)))
-    expect_identical(membership(out), rep(1, nRelations(out)))
+    expect_identical(membership(out), rep(1, length(bs)))
 
     out <- as.FuzzySets.BaseSets(bs)
     expect_s4_class(out, "FuzzySets")
     expect_identical(nrow(relations(out)), nrow(relations(bs)))
-    expect_identical(membership(out), rep(1, nRelations(out)))
+    expect_identical(membership(out), rep(1, length(bs)))
+
+    # if membership is present, it is used
+    bs <- BaseSets(relations[, c("element", "set", "membership")])
+
+    # Number of relations is preservedxw
+    out <- as(bs, "FuzzySets")
+    expect_s4_class(out, "FuzzySets")
+    expect_identical(nrow(relations(out)), nrow(relations(bs)))
+    expect_identical(membership(out), as.numeric(elementMetadata(bs@relations)[["membership"]]))
+
+    out <- as.FuzzySets.BaseSets(bs)
+    expect_s4_class(out, "FuzzySets")
+    expect_identical(nrow(relations(out)), nrow(relations(bs)))
+    expect_identical(membership(out), as.numeric(elementMetadata(bs@relations)[["membership"]]))
 
 })

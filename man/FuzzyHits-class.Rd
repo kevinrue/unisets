@@ -8,8 +8,8 @@
 \alias{membership<-,FuzzyHits-method}
 \title{FuzzyHits Class}
 \usage{
-FuzzyHits(from = integer(0), to = integer(0), nLnode = 0L,
-  nRnode = 0L, membership = numeric(0), ...)
+FuzzyHits(from = integer(0), to = integer(0),
+  membership = numeric(0), nLnode = 0L, nRnode = 0L, ...)
 
 \S4method{membership}{FuzzyHits}(x)
 
@@ -20,12 +20,12 @@ FuzzyHits(from = integer(0), to = integer(0), nLnode = 0L,
 The values in \code{from} must be >= 1 and <= \code{nLnode}.
 The values in \code{to} must be >= 1 and <= \code{nRnode}.}
 
-\item{nLnode, nRnode}{Number of left and right nodes.}
-
 \item{membership}{Numeric. Vector of membership in the range \code{[0,1]}}
 
-\item{...}{Arguments to pass to the \code{\link[=Hits]{Hits()}} constructor,
-or to and from other functions.}
+\item{nLnode, nRnode}{Number of left and right nodes.}
+
+\item{...}{Arguments metadata columns to set on the \code{FuzzyHits} object.
+All the metadata columns must be vector-like objects of the same length as \code{from}, \code{to}, and \code{membership}.}
 
 \item{x}{An object that inherits from \code{FuzzyHits}.}
 
@@ -37,12 +37,6 @@ A \code{FuzzyHits} object.
 \description{
 The \code{FuzzyHits} class extends the \code{\link{Hits}} class to represent hits that are associated with different grades of membershipin the interval \code{[0,1]}.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{membership}}{numeric. Membership function.}
-}}
-
 \examples{
 # Constructor ----
 
@@ -50,7 +44,7 @@ from <- c(5, 2, 3, 3, 3, 2)
 to <- c(11, 15, 5, 4, 5, 11)
 membership <- c(0, 0.1, 0.2, 0.3, 0.6, 0.8)
 
-fh <- FuzzyHits(from, to, 7, 15, membership)
+fh <- FuzzyHits(from, to, membership, 7, 15)
 
 }
 \seealso{

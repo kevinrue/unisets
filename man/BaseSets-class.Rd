@@ -14,7 +14,6 @@
 \alias{setIds}
 \alias{setIds<-}
 \alias{setData}
-\alias{nRelations}
 \alias{nElements}
 \alias{nSets}
 \alias{setLengths}
@@ -28,7 +27,7 @@
 \alias{sets,BaseSets-method}
 \alias{setIds,BaseSets-method}
 \alias{setIds<-,BaseSets-method}
-\alias{nRelations,BaseSets-method}
+\alias{length,BaseSets-method}
 \alias{nElements,BaseSets-method}
 \alias{nSets,BaseSets-method}
 \alias{setLengths,BaseSets-method}
@@ -60,8 +59,6 @@ setIds(x) <- value
 
 setData(x)
 
-nRelations(x)
-
 nElements(x)
 
 nSets(x)
@@ -88,7 +85,7 @@ elementLengths(x)
 
 \S4method{setIds}{BaseSets}(x) <- value
 
-\S4method{nRelations}{BaseSets}(x)
+\S4method{length}{BaseSets}(x)
 
 \S4method{nElements}{BaseSets}(x)
 
@@ -165,7 +162,7 @@ relations(bs)
 elementData(bs)
 setData(bs)
 
-nRelations(bs)
+length(bs)
 nElements(bs)
 nSets(bs)
 elementIds(bs)

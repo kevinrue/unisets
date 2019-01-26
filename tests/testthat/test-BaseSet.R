@@ -1,7 +1,8 @@
 
 sets <- list(
-  set1=c("A", "B"),
-  set2=c("C", "D", "E")
+    set1=c("A", "B"),
+    set2=c("B", "C", "D"),
+    set3=c("E")
 )
 
 # prepare named vectors to check that names are dropped by the constructor
@@ -27,7 +28,7 @@ test_that("BaseSets validity method identifies issues", {
     colnames(map0) <- c("A", "B")
     expect_error(
         BaseSets(relations=map0),
-        "colnames(relations) must be c(\"element\", \"set\")",
+        "colnames(relations) must include c(\"element\", \"set\")",
         fixed=TRUE
     )
 
@@ -70,14 +71,14 @@ test_that("relations(BaseSets) works", {
 
 })
 
-# nRelations() ----
+# length() ----
 
-test_that("nRelations(BaseSets) works", {
+test_that("length(BaseSets) works", {
 
     bs <- BaseSets(relations)
 
-    out <- nRelations(bs)
-    expect_identical(out, 5L)
+    out <- length(bs)
+    expect_identical(out, 6L)
 
 })
 
@@ -121,7 +122,7 @@ test_that("nSets(BaseSets) works", {
     bs <- BaseSets(relations)
 
     out <- nSets(bs)
-    expect_identical(out, 2L)
+    expect_identical(out, 3L)
 
 })
 
@@ -157,7 +158,7 @@ test_that("setIds(BaseSets) works", {
 
     out <- setIds(bs)
 
-    expect_identical(out, c("set1", "set2"))
+    expect_identical(out, c("set1", "set2", "set3"))
 
 })
 
@@ -194,14 +195,14 @@ test_that("show(BaseSets) works", {
     bs <- BaseSets(relations)
 
     out <- show(bs)
-    expect_identical(colnames(out), c("element", "set", "elementData", "setData"))
-    expect_identical(nrow(out), nRelations(bs)+1L)
+    expect_identical(colnames(out), c("element", "set", "relationData", "elementData", "setData"))
+    expect_identical(nrow(out), length(bs)+1L)
 
     # Large objects partially displayed
     bs <- BaseSets(relations=DataFrame(element=letters, set=LETTERS))
 
     out <- show(bs)
-    expect_identical(colnames(out), c("element", "set", "elementData", "setData"))
+    expect_identical(colnames(out), c("element", "set", "relationData", "elementData", "setData"))
     expect_identical(nrow(out), unisets:::get_showHeadLines() + unisets:::get_showTailLines() + 2L)
 
 })
@@ -212,10 +213,12 @@ test_that("as(BaseSets, \"list\") works", {
 
     bs <- BaseSets(relations)
 
+    expected <- list(set1 = c("A", "B"), set2 = c("B", "C", "D"), set3 = "E")
+
     out <- as(bs, "list")
-    expect_identical(out, list(set1=c("A", "B"), set2=c("C", "D", "E")))
+    expect_identical(out, expected)
     out <- as.list(bs)
-    expect_identical(out, list(set1=c("A", "B"), set2=c("C", "D", "E")))
+    expect_identical(out, expected)
 
 })
 
@@ -268,14 +271,14 @@ test_that("as(Go3AnnDbBimap, \"BaseSets\") works", {
 
     out <- as(org.Hs.egGO, "BaseSets")
     expect_s4_class(out, "BaseSets")
-    expect_gt(nRelations(out), 0)
+    expect_gt(length(out), 0)
     expect_gt(length(elementData(out)), 0)
     expect_gt(length(setData(out)), 0)
     expect_gt(ncol(elementMetadata(setData(out))), 0)
 
     out <- as.BaseSets.Go3AnnDbBimap(org.Hs.egGO, "BaseSets")
     expect_s4_class(out, "BaseSets")
-    expect_gt(nRelations(out), 0)
+    expect_gt(length(out), 0)
     expect_gt(length(elementData(out)), 0)
     expect_gt(length(setData(out)), 0)
     expect_gt(ncol(elementMetadata(setData(out))), 0)
@@ -289,7 +292,7 @@ test_that("setLengths(BaseSets) works", {
     bs <- BaseSets(relations)
 
     out <- setLengths(bs)
-    expect_identical(out, c(set1=2L, set2=3L))
+    expect_identical(out, c(set1 = 2L, set2 = 3L, set3 = 1L))
 
 })
 
@@ -300,7 +303,7 @@ test_that("elementLengths(BaseSets) works", {
     bs <- BaseSets(relations)
 
     out <- elementLengths(bs)
-    expect_identical(out, c(A=1L, B=1L, C=1L, D=1L, E=1L))
+    expect_identical(out, c(A = 1L, B = 2L, C = 1L, D = 1L, E = 1L))
 
 })
 

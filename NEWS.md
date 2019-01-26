@@ -5,7 +5,7 @@
 * Added getters and setters to slots.
 * Added method `subset` for classes `BaseSets` and `FuzzySets`.
 * Added method `show` for classes `BaseSets` and `FuzzySets`.
-* Added `elementIds`, `setIds`, `nRelations`, `nElements`, `nSets`, `setLengths`
+* Added `elementIds`, `setIds`, `length`, `nElements`, `nSets`, `setLengths`
     and `elementLengths` methods for classes `BaseSets` and `FuzzySets`.
 * Added `as.list` and `as.matrix` export methods for classes derived from `BaseSets`.
 * Added `as.BaseSets` and `as.FuzzySets` import methods for class `matrix`.

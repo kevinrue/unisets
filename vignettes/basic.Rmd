@@ -37,7 +37,7 @@ devtools::install_github("kevinrue/unisets")
 
 ## The BaseSets class
 
-This is a basic example which shows you how to create a `BaseSets` object, to store simple associations between genes and sets:
+This is a basic example which shows you how to create a `BaseSets` object, to store simple associations between genes and sets, along with optional metadata associated with each relation:
 
 ```{r, message=FALSE}
 library(unisets)
@@ -47,13 +47,15 @@ gene_lists <- list(
 )
 relations_table <- DataFrame(
     element = unlist(gene_lists),
-    set     = rep(names(gene_lists), lengths(gene_lists))
+    set     = rep(names(gene_lists), lengths(gene_lists)),
+    extra1 = sample(c("ABC", "DEF"), 5L, replace=TRUE),
+    extra2 = rbinom(5L, 10L, 0.4)
 )
 base_sets <- BaseSets(relations_table)
 base_sets
 ```
 
-Metadata for each element and set can be provided as `DataFrame` objects:
+Metadata for each element and set can be provided as separate `DataFrame` objects:
 
 ```{r, message=FALSE}
 gene_data <- IdVector(c("A", "B", "C", "D"))
@@ -70,20 +72,22 @@ base_sets <- BaseSets(relations_table, gene_data, set_data)
 base_sets
 ```
 
-`elementData`, and `setData` slots can directly accessed using the eponym getter methods.
+The `elementData`, and `setData` slots store metadata for each individual element and set that appears in the `relations` slot.
+Those metadata can be accessed directly using the getter methods of the same name.
 
 ```{r}
 elementData(base_sets)
 setData(base_sets)
 ```
 
-Relations between elements and sets are internally stored as an `r Biocpkg("S4Vectors")` `Hits` object.
+Note that relations between elements and sets are internally stored as an `r Biocpkg("S4Vectors")` `Hits` object.
+This container efficiently represents a set of hits between a set of _left nodes_ and a set of _right nodes_, with optional metadata accompanying each hit.
 
 ```{r}
 base_sets@relations
 ```
 
-Conveniently, the `relations` accessor returns relations as a `DataFrame` substituting hits for their corresponding element and set identifiers.
+Conveniently, the `relations` accessor returns relations and associated metadata as a `DataFrame` substituting hits for their corresponding element and set identifiers.
 
 ```{r}
 relations(base_sets)
@@ -91,12 +95,13 @@ relations(base_sets)
 
 ## The FuzzySets class
 
-More sophisticated derived classes are available to store additional information.
-For instance, the `FuzzySets` class offers an additional slot `membership` that holds the degree of membership, a numeric scalar in the interval [0,1] that provides a measure of partial membership between elements and sets.
+Classes derived from `BaseSets` may add additional constraints on the relations to define special types of relationships between elements and sets.
+
+For instance, the `FuzzySets` class is a direct extension of the `BaseSets` class where the metadata accompanying each relation must include at least a column called `"membership"` that holds the "membership function", a numeric value in the interval [0,1] that provides a measure of partial membership between elements and sets.
 
 ```{r, message=FALSE}
-membership <- round(runif(nrow(relations_table)), 2)
-fuzzy_sets <- FuzzySets(relations_table, gene_data, set_data, membership=membership)
+relations_table$membership <- round(runif(nrow(relations_table)), 2)
+fuzzy_sets <- FuzzySets(relations_table, gene_data, set_data)
 fuzzy_sets
 ```
 
@@ -106,7 +111,7 @@ The `membership` function associated with each relation can be directly accessed
 membership(fuzzy_sets)
 ```
 
-Conveniently, the `relations` accessor returns fuzzy relations as a `DataFrame` that also includes the membership function as the `"membership"` column.
+Conveniently, the `relations` accessor returns fuzzy relations as a `DataFrame` that includes the `"membership"` column, along with any other optional metadata accompanying the relations between elements and sets.
 
 ```{r}
 relations(fuzzy_sets)
@@ -114,13 +119,13 @@ relations(fuzzy_sets)
 
 # Subsetting
 
-The `subset` method can be applied to a `BaseSets` object, using a logical expression referring to the `"element"` and `"set"` columns, and indicating rows to keep.
+The `subset` method can be applied to a `BaseSets` object, using a logical expression that may refer to the `"element"` and `"set"` columns as well as any metadata associated with the relations, indicating rows to keep.
 
 ```{r}
-subset(base_sets, element %in% c("B", "C") | set == "geneset1")
+subset(base_sets, set == "geneset1" | element %in% c("C") | extra1 == "ABC")
 ```
 
-Similarly, the `subset` method can be also applied to a `FuzzySets` object, where the logical expression may also refer to the `"membership"` slot.
+Similarly, the `subset` method can be also applied to a `FuzzySets` object, where the logical expression may also refer to the additional `"membership"` metadata.
 
 ```{r}
 subset(fuzzy_sets, set == "geneset2" & membership > 0.3)
@@ -131,19 +136,20 @@ subset(fuzzy_sets, set == "geneset2" & membership > 0.3)
 It is possible to extract the gene sets as a `list`, for use with functions such as `lapply`.
 
 ```{r}
-as(base_sets, "list")
+as(fuzzy_sets, "list")
 ```
 
 It is also possible to visualize membership between gene and gene sets as a matrix.
 
-Notably, `BaseSets` return a `logical` matrix of binary membership:
+Notably, `BaseSets` return a `logical` matrix of binary membership that indicates whether each element is associated at least once with each set:
 
 ```{r}
 base_matrix <- as(base_sets, "matrix")
 base_matrix
 ```
 
-In contrast, `FuzzySets` return a `double` matrix displaying the membership function for each relation:
+In contrast, `FuzzySets` return a `double` matrix displaying the membership function for each relation.
+Relations that are not described in the `FuzzySets` are filled with `NA`.
 
 ```{r}
 fuzzy_matrix <- as(fuzzy_sets, "matrix")
@@ -152,21 +158,32 @@ fuzzy_matrix
 
 # Converting from other formats
 
-Conversely, it is also possible to make objects from incidence matrices.
+## Matrix {#fromMatrix}
 
-Notably, `BaseSets` are suitable for `logical` matrices indicating binary membership:
+It is possible to convert incidence matrices into objects derived from the `BaseSets` class.
+
+Notably, `BaseSets` are suitable for `logical` matrices indicating binary membership.
 
 ```{r}
 as(base_matrix, "BaseSets")
 ```
 
-Similarly, `FuzzySets` are suitable for `double` matrices indicating the membership function for each relation:
+Similarly, `FuzzySets` are suitable for `double` matrices indicating the membership function for each relation.
+Importantly, relations described as `NA` are not imported into the `FuzzySets` object.
+In contrast, relations with a membership function of 0 are imported and described as such.
 
 ```{r}
+fuzzy_matrix[1, 1] <- 0
 as(fuzzy_matrix, "FuzzySets")
 ```
 
 # Additional information
+
+The number of relations between elements and sets can be obtained using the `length` method.
+
+```{r}
+length(base_sets)
+```
 
 The number of unique elements and sets can be obtained using the `nElements` and `nSets` methods.
 

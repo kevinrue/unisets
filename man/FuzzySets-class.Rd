@@ -7,20 +7,18 @@
 \alias{FuzzySets}
 \alias{membership}
 \alias{membership<-}
-\alias{relations,FuzzySets-method}
 \alias{membership,FuzzySets-method}
 \alias{membership<-,FuzzySets-method}
 \alias{as.list.FuzzySets}
 \alias{as.matrix.FuzzySets}
 \title{FuzzySets Class}
 \usage{
-FuzzySets(..., membership = numeric(0))
+FuzzySets(relations = DataFrame(element = character(0), set =
+  character(0), membership = numeric(0)), ...)
 
 membership(x)
 
 membership(x) <- value
-
-\S4method{relations}{FuzzySets}(x)
 
 \S4method{membership}{FuzzySets}(x)
 
@@ -28,13 +26,12 @@ membership(x) <- value
 
 \method{as.list}{FuzzySets}(x, ...)
 
-\method{as.matrix}{FuzzySets}(x, ..., fill = 0)
+\method{as.matrix}{FuzzySets}(x, ..., fill = NA_real_)
 }
 \arguments{
-\item{...}{Arguments to pass to the \code{\link[=BaseSets]{BaseSets()}} constructor,
-or to and rom other functions.}
+\item{relations}{DataFrame. At least 3 columns provide mapping relationships between \code{"element"} and \code{"set"} with \code{"membership"} function in the range \code{[0,1]}.}
 
-\item{membership}{Numeric. Vector of membership in the range \code{[0,1]}}
+\item{...}{Arguments passed to the \code{\link[=BaseSets]{BaseSets()}} constructor and other functions.}
 
 \item{x}{An object that inherits from \code{FuzzySets}.}
 
@@ -58,22 +55,27 @@ See examples below.
 \examples{
 # Constructor ----
 
-# Visually intuitive definition of sets
+# Visually intuitive definition of sets, elements, and membership
 sets <- list(
-  set1=c("A", "B"),
-  set2=c("B", "C", "D"),
-  set3=c("E"))
+  set1=c("A"=0.1, "B"=0.2),
+  set2=c("B"=0.3, "C"=0.4, "D"=0.5),
+  set3=c("E"=0.8))
+
+# unlist the set names
+unlistSets <- rep(names(sets), lengths(sets))
+# unlist the element names
+unlistElements <- unlist(sapply(sets, names))
+# unlist the membership values
+unlistMembership <- unlist(sets)
 
 # Reformat as a table
 relations <- DataFrame(
-  element=unlist(sets),
-  set=rep(names(sets), lengths(sets))
+  element=unlistElements,
+  set=unlistSets,
+  membership=unlistMembership
 )
 
-# Generate random values for the membership function
-membership <- c(0, 0.1, 0.2, 0.3, 0.6, 0.8)
-
-fs <- FuzzySets(relations=relations, membership=membership)
+fs <- FuzzySets(relations=relations)
 
 # Subsetting ----
 
@@ -91,7 +93,7 @@ ls1 <- as(fs, "matrix")
 membership(fs)
 
 fs1 <- fs
-membership(fs1) <- runif(nRelations(fs1))
+membership(fs1) <- runif(length(fs1))
 
 # Converting to matrix: multiple observations ----
 
@@ -99,5 +101,7 @@ as.matrix(fs, fun.aggregate=min)
 
 }
 \seealso{
+\code{\link{BaseSets}}
+
 \code{\link{BaseSets}}
 }

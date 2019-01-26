@@ -80,11 +80,11 @@ Only the directly evidenced terms are represented here.
 In contrast, `org.Hs.egGO2ALLEGS` is an R object that provides mappings between a given GO identifier and all of the Entrez Gene identifiers annotated at that GO term OR TO ONE OF IT'S CHILD NODES in the GO ontology.
 Thus, this mapping is much larger and more inclusive than `org.Hs.egGO2EG`.
 
-Below, we use the `nRelationsn` method to show the number of relations between genes and GO terms imported from the `org.Hs.egGO2ALLEGS` map.
+Below, we use the `length` method to show the number of relations between genes and GO terms imported from the `org.Hs.egGO2ALLEGS` map.
 
 ```{r message=FALSE}
 base_sets <- as(org.Hs.egGO2ALLEGS, "BaseSets")
-format(nRelations(base_sets), big.mark=",")
+format(length(base_sets), big.mark=",")
 ```
 
 We may then again visualize the distribution of set sizes, indicating a larger number of GO terms associated with larger counts of genes

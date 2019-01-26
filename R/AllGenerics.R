@@ -132,16 +132,6 @@ setGeneric(
 
 # Dimensions ----
 
-#' Method nRelations
-#' @name BaseSets-class
-#' @rdname BaseSets-class
-#' @aliases nRelations
-#' @exportMethod nRelations
-setGeneric(
-    "nRelations",
-    function(x) standardGeneric("nRelations")
-)
-
 #' Method nElements
 #' @name BaseSets-class
 #' @rdname BaseSets-class
