@@ -89,6 +89,10 @@ test_that("show(IdVector) works", {
     # The show method invisibly returns the character vector of identifiers
     expect_identical(out, as.character(idValues))
 
+    # Large elementMetadata
+    elementMetadata(iv) <- DataFrame(a=1, b=2, c=3, d=4, e=5, f=6)
+    out <- show(iv)
+
 })
 
 # pcompare() ----

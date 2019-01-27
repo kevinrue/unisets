@@ -46,14 +46,30 @@ setMethod("show", "IdVector", function(object) {
     nu <- length(unique(slot(object, "id")))
     cat(
         class(object), " of length ", ne, " with ",
-        nu, " unique ", ifelse(ne == 1, "identifier", "identifiers"), "\n", sep = "")
-    ids <- paste(head(id(object), 4), collapse=", ")
-    if (ne > 4) {
-        ids <- paste0(ids, ", ...")
+        nu, " unique ", ifelse(ne == 1, "identifier", "identifiers"), "\n",
+        sep = ""
+    )
+    # Preview of identifiers if any
+    if (length(object) > 0) {
+        ids <- paste(head(id(object), 4), collapse=", ")
+        if (ne > 4) {
+            ids <- paste0(ids, ", ...")
+        }
+        ids <- paste0("Ids: ", ids)
+        cat(ids, "\n", sep = "")
     }
-    out <- paste0(
-        "Ids: ", ids, "\n")
-    cat(out)
+    # Preview of metadata if any
+    if (!is.null(elementMetadata(object))) {
+        nem <- ncol(elementMetadata(object))
+        metadata <- paste(head(colnames(elementMetadata(object)), 4), collapse=", ")
+        if (nem > 4) {
+            metadata <- paste0(metadata, ", ...")
+        }
+        metadata <- paste0(
+            "Metadata: ", metadata, " (", nem,
+            ifelse(nem == 1, " column", " columns"), ")")
+        cat(metadata, "\n", sep = "")
+    }
     invisible(id(object))
 })
 

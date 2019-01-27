@@ -14,7 +14,8 @@
 #' @examples
 #' # Constructor ----
 #'
-#' tv <- IdVector(id=rep(head(LETTERS, 3), each=2))
+#' tv <- IdVector(id=head(LETTERS, 6))
+#' elementMetadata(tv) <- DataFrame(row.names = id(tv), field1=runif(length(tv)))
 #'
 #' # Subsetting ----
 #'
