@@ -1,3 +1,68 @@
+#' IdVector Class
+#'
+#' The `IdVector` class extends the [`Vector`] class to implement a container that hold a vector of Entrez gene character identifiers.
+#'
+#' @slot id character. Entrez gene identifiers.
+#'
+#' @return A `IdVector` object.
+#' @export
+#' @exportClass IdVector
+#' @importClassesFrom S4Vectors Vector
+#'
+#' @seealso [`Vector`]
+#'
+#' @examples
+#' # Constructor ----
+#'
+#' tv <- IdVector(id=rep(head(LETTERS, 3), each=2))
+#'
+#' # Subsetting ----
+#'
+#' tv1 <- tv[1:5]
+#'
+setClass("IdVector",
+         contains="Vector",
+         representation(
+             id="character"
+         ),
+         prototype(
+             id=character(0)
+         )
+)
+
+#' @importFrom methods callNextMethod
+setMethod("parallelSlotNames", "IdVector", function(x) {
+    c("id", callNextMethod())
+})
+
+#' @importFrom methods slot
+setValidity("IdVector", function(object) {
+
+    errors <- c()
+
+    if (length(errors > 0)){
+        return(errors)
+    }
+
+    return(TRUE)
+})
+
+#' @param id character. Entrez gene identifiers.
+#'
+#' @rdname IdVector-class
+#' @aliases IdVector
+#' @export
+#' @importFrom methods new
+IdVector <- function(id=character(0)) {
+    # Drop names if present
+    if (!is.null(names(id))) {
+        message("Setting names(id) to NULL")
+        names(id) <- NULL
+    }
+
+    new("IdVector", id=id)
+}
+
 #' BaseSets Class
 #'
 #' The `BaseSets` class implements a container to describe distinct objects that make up sets, along with element metadata and set metadata.
@@ -9,6 +74,8 @@
 #' @return A `BaseSets` object.
 #' @export
 #' @exportClass BaseSets
+#' @importClassesFrom S4Vectors Hits
+#' @importFrom S4Vectors Hits
 #'
 #' @examples
 #' # Constructor ----
@@ -40,7 +107,11 @@
 #'
 #' # Read-only getters ----
 #'
-#' nRelations(bs)
+#' relations(bs)
+#' elementData(bs)
+#' setData(bs)
+#'
+#' length(bs)
 #' nElements(bs)
 #' nSets(bs)
 #' elementIds(bs)
@@ -51,35 +122,21 @@
 #'
 #' # Getters/Setters ----
 #'
-#' relations(bs)
-#' elementData(bs)
-#' setData(bs)
-#'
 #' bs1 <- bs
-#' relations(bs1) <- relations(bs1)[sample(nRelations(bs1)), , drop=FALSE]
-#' elementData(bs1) <- elementData(bs1)[sample(nElements(bs1)), , drop=FALSE]
-#' setData(bs1) <- setData(bs1)[sample(nSets(bs1)), , drop=FALSE]
-#' elementIds(bs) <- paste0("gene", seq_len(nElements(bs)))
-#' setIds(bs) <- paste0("geneset", seq_len(nSets(bs)))
+#' elementIds(bs1) <- paste0("gene", seq_len(nElements(bs)))
+#' setIds(bs1) <- paste0("geneset", seq_len(nSets(bs)))
 #'
 setClass(
     "BaseSets",
     slots=c(
-        relations="DataFrame",
-        elementData="DataFrame",
-        setData="DataFrame"
+        relations="Hits",
+        elementData="IdVector",
+        setData="IdVector"
         ),
     prototype=list(
-        relations=DataFrame(
-            element=character(0),
-            set=character(0)
-            ),
-        elementData=DataFrame(
-            row.names=character(0)
-            ),
-        setData=DataFrame(
-            row.names=character(0)
-            )
+        relations=Hits(),
+        elementData=IdVector(),
+        setData=IdVector()
         )
 )
 
@@ -87,28 +144,6 @@ setClass(
 setValidity("BaseSets", function(object) {
 
     errors <- c()
-
-    slot.relations <- slot(object, "relations")
-    if (!identical(colnames(slot.relations), c("element", "set"))) {
-        error <- "colnames(relations(object)) must be c(\"element\", \"set\")"
-        return(error)
-    }
-
-    # things to compute once
-    uniqueElements <- sort(unique(slot.relations$element))
-    uniqueSets <- sort(unique(slot.relations$set))
-
-    # TODO: rownames of metadata tables cannot be NULL!
-
-    if (!identical(uniqueElements, sort(rownames(slot(object, "elementData"))))) {
-        error <- "Mismatch between relations$element and rownames(elementData)"
-        errors <- c(errors, error)
-    }
-
-    if (!identical(uniqueSets, sort(rownames(slot(object, "setData"))))) {
-        error <- "Mismatch between relations$set and rownames(setData)"
-        errors <- c(errors, error)
-    }
 
     if (length(errors > 0)){
         return(errors)
@@ -126,37 +161,147 @@ setValidity("BaseSets", function(object) {
 #' @export
 #' @importFrom S4Vectors DataFrame
 #' @importFrom methods new
-BaseSets <- function(relations, elementData, setData) {
-    # Drop names if present
+BaseSets <- function(
+    relations=DataFrame(element=character(0), set=character(0)),
+    elementData, setData
+) {
+    relations <- as(relations, "DataFrame")
+
     if (!is.null(rownames(relations))) {
         message("Setting rownames(relations) to NULL")
         rownames(relations) <- NULL
     }
-    if (!is.null(names(relations$element))) {
-        message("Setting names(relations$element) to NULL")
-        names(relations$element) <- NULL
+
+    protectedFields <- c("element", "set")
+
+    if (!all(protectedFields %in% colnames(relations))){
+        stop('colnames(relations) must include c("element", "set")')
     }
-    if (!is.null(names(relations$set))) {
-        message("Setting names(relations$set) to NULL")
-        names(relations$set) <- NULL
-    }
+
+    extraFields <- setdiff(colnames(relations), protectedFields)
 
     # Add missing metadata
     if (missing(elementData)) {
-        elementData <- DataFrame(row.names=sort(unique(relations$element)))
+        elementData <- IdVector(sort(unique(relations$element)))
+        elementMetadata(elementData) <- DataFrame(row.names=id(elementData))
     }
     if (missing(setData)) {
-        setData <- DataFrame(row.names=sort(unique(relations$set)))
+        setData <- IdVector(sort(unique(relations$set)))
+        elementMetadata(setData) <- DataFrame(row.names=id(setData))
     }
 
-    new("BaseSets", relations=relations, elementData=elementData, setData=setData)
+    # Drop metadata for elements and sets not represented in relations
+    elementKeep <- (id(elementData) %in% relations$element)
+    if (!all(elementKeep)) {
+        message("Dropping elementData missing from relations$element")
+        elementData <- elementData[elementKeep]
+    }
+    setKeep <- (id(setData) %in% relations$set)
+    if (!all(setKeep)) {
+        message("Dropping setData missing from relations$set")
+        setData <- setData[setKeep]
+    }
+
+    elementIdx <- match(relations$element, id(elementData))
+    if (any(is.na(elementIdx))) {
+        stop("relations$element missing from id(elementData)")
+    }
+    setIdx <- match(relations$set, id(setData))
+    if (any(is.na(setIdx))) {
+        stop("relations$set missing from id(setData)")
+    }
+
+    h <- Hits(
+        from=elementIdx,
+        to=setIdx,
+        nLnode=length(elementData),
+        nRnode=length(setData))
+    elementMetadata(h) <- relations[, extraFields, drop=FALSE]
+
+    new("BaseSets", relations=h, elementData=elementData, setData=setData)
+}
+
+#' FuzzyHits Class
+#'
+#' The `FuzzyHits` class extends the [`Hits`] class to represent hits that are associated with different grades of membershipin the interval `[0,1]`.
+#'
+#' @return A `FuzzyHits` object.
+#' @export
+#' @exportClass FuzzyHits
+#'
+#' @seealso [`Hits`], [`FuzzySets`]
+#'
+#' @examples
+#' # Constructor ----
+#'
+#' from <- c(5, 2, 3, 3, 3, 2)
+#' to <- c(11, 15, 5, 4, 5, 11)
+#' membership <- c(0, 0.1, 0.2, 0.3, 0.6, 0.8)
+#'
+#' fh <- FuzzyHits(from, to, membership, 7, 15)
+#'
+setClass(
+    "FuzzyHits",
+    contains="Hits"
+)
+
+#' @importFrom methods slot
+setValidity("FuzzyHits", function(object) {
+    errors <- c()
+
+    if (! "membership" %in% colnames(elementMetadata(object))) {
+        error <- "membership column missing in elementMetadata(object)"
+        return(error)
+    }
+
+    membership <- elementMetadata(object)[["membership"]]
+
+    if (!is.numeric(membership)) {
+        error <- "membership function must be numeric"
+        return(error)
+    }
+
+    if (any(is.na(membership) | membership < 0 | membership > 1)) {
+        error <- "membership function must be in the interval [0,1]"
+        errors <- c(errors, error)
+    }
+
+    if (length(errors > 0)){
+        return(errors)
+    }
+
+    return(TRUE)
+})
+
+#' @param from,to Two integer vectors of the same length.
+#' The values in `from` must be >= 1 and <= `nLnode`.
+#' The values in `to` must be >= 1 and <= `nRnode`.
+#' @param membership Numeric. Vector of membership in the range `[0,1]`
+#' @param nLnode,nRnode Number of left and right nodes.
+#' @param ... Arguments metadata columns to set on the `FuzzyHits` object.
+#' All the metadata columns must be vector-like objects of the same length as `from`, `to`, and `membership`.
+#'
+#' @rdname FuzzyHits-class
+#' @aliases FuzzyHits
+#' @export
+#' @importFrom methods new
+FuzzyHits <- function(
+    from=integer(0), to=integer(0), membership=numeric(0), nLnode=0L, nRnode=0L,...
+) {
+    # Drop names if present
+    if (!is.null(names(membership))) {
+        message("Setting names(membership) to NULL")
+        names(membership) <- NULL
+    }
+    # Pass basic arguments to BaseSets constructor
+    fh <- Hits(from, to, nLnode, nRnode, membership=membership, ...)
+    fh <- as(fh, "FuzzyHits")
+    fh
 }
 
 #' FuzzySets Class
 #'
 #' The `FuzzySets` class extends the [`BaseSets`] class to implement a container that also describe different grades of membershipin the interval `[0,1]`.
-#'
-#' @slot membership numeric. Membership function.
 #'
 #' @return A `FuzzySets` object.
 #' @export
@@ -167,22 +312,27 @@ BaseSets <- function(relations, elementData, setData) {
 #' @examples
 #' # Constructor ----
 #'
-#' # Visually intuitive definition of sets
+#' # Visually intuitive definition of sets, elements, and membership
 #' sets <- list(
-#'   set1=c("A", "B"),
-#'   set2=c("B", "C", "D"),
-#'   set3=c("E"))
+#'   set1=c("A"=0.1, "B"=0.2),
+#'   set2=c("B"=0.3, "C"=0.4, "D"=0.5),
+#'   set3=c("E"=0.8))
+#'
+#' # unlist the set names
+#' unlistSets <- rep(names(sets), lengths(sets))
+#' # unlist the element names
+#' unlistElements <- unlist(sapply(sets, names))
+#' # unlist the membership values
+#' unlistMembership <- unlist(sets)
 #'
 #' # Reformat as a table
 #' relations <- DataFrame(
-#'   element=unlist(sets),
-#'   set=rep(names(sets), lengths(sets))
+#'   element=unlistElements,
+#'   set=unlistSets,
+#'   membership=unlistMembership
 #' )
 #'
-#' # Generate random values for the membership function
-#' membership <- round(runif(nrow(relations)), 2)
-#'
-#' fs <- FuzzySets(relations=relations, membership=membership)
+#' fs <- FuzzySets(relations=relations)
 #'
 #' # Subsetting ----
 #'
@@ -200,15 +350,15 @@ BaseSets <- function(relations, elementData, setData) {
 #' membership(fs)
 #'
 #' fs1 <- fs
-#' membership(fs1) <- runif(nRelations(fs1))
+#' membership(fs1) <- runif(length(fs1))
 #'
 setClass(
     "FuzzySets",
     slots=c(
-        membership="numeric"
+        relations="FuzzyHits"
         ),
     prototype=list(
-       membership=numeric(0)
+        relations=FuzzyHits()
         ),
     contains="BaseSets"
 )
@@ -218,19 +368,11 @@ setValidity("FuzzySets", function(object) {
 
     errors <- c()
 
-    # things to compute once
-    slot.relations <- slot(object, "relations")
-    slot.membership <- slot(object, "membership")
-
-    if (!identical(length(slot.membership), nrow(slot.relations))) {
-        error <- "length(membership) must be equal to nrow(relations)"
-        errors <- c(errors, error)
+    if (!all(c("membership") %in% colnames(relations(object)))){
+        error <- 'colnames(relations(object)) must include c("membership")'
+        return(error)
     }
 
-    if (any(slot.membership > 1 | slot.membership < 0)) {
-        error <- "membership function must be in the interval [0,1]"
-        errors <- c(errors, error)
-    }
 
     if (length(errors > 0)){
         return(errors)
@@ -239,24 +381,54 @@ setValidity("FuzzySets", function(object) {
     return(TRUE)
 })
 
-#' @param ... Arguments to pass to the [BaseSets()] constructor,
-#' or to and rom other functions.
-#' @param membership Numeric. Vector of membership in the range `[0,1]`
+#' @param relations DataFrame. At least 3 columns provide mapping relationships between `"element"` and `"set"` with `"membership"` function in the range `[0,1]`.
+#' @param ... Arguments passed to the [`BaseSets()`] constructor and other functions.
 #'
 #' @rdname FuzzySets-class
 #' @aliases FuzzySets
 #' @export
 #' @importFrom methods new
-FuzzySets <- function(..., membership) {
-    # Drop names if present
-    if (!is.null(names(membership))) {
-        message("Setting names(membership) to NULL")
-        names(membership) <- NULL
+#'
+#' @seealso [`BaseSets`]
+#'
+FuzzySets <- function(
+    relations=DataFrame(element=character(0), set=character(0), membership=numeric(0)),
+    ...
+) {
+    if (!"membership" %in% colnames(relations)) {
+        stop('colnames(relations) must include c("membership")')
     }
+
     # Pass basic arguments to BaseSets constructor
-    fs <- BaseSets(...)
-    fs <- new("FuzzySets", fs, membership=membership)
-    # Remove relations with membership function equal to 0, to respect the inheritance from BaseSets
-    fs <- subset(fs, membership > 0)
-    fs
+    object <- BaseSets(relations, ...)
+
+    # Coerce to FuzzySets
+    object <- as(object, "FuzzySets")
+    object
+}
+
+#' @rdname IdVector-class
+#' @export
+#' @exportClass EntrezIdVector
+#'
+#' @seealso [`IdVector`]
+#'
+#' @examples
+#' # EntrezIdVector ----
+#'
+#' library(org.Hs.eg.db)
+#' ev <- EntrezIdVector(keys(org.Hs.eg.db))
+#'
+setClass("EntrezIdVector",
+         contains="IdVector"
+)
+
+#' @rdname IdVector-class
+#' @aliases EntrezIdVector
+#' @export
+EntrezIdVector <- function(id) {
+    # Pass basic arguments to IdVector constructor
+    iv <- IdVector(id)
+    iv <- new("EntrezIdVector", iv)
+    iv
 }

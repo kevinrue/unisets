@@ -10,14 +10,14 @@ setGeneric(
     function(x) standardGeneric("relations")
 )
 
-#' Method relations<-
+#' Method elements
 #' @name BaseSets-class
 #' @rdname BaseSets-class
-#' @aliases relations<-
-#' @exportMethod relations<-
+#' @aliases elements
+#' @exportMethod elements
 setGeneric(
-    "relations<-",
-    function(x, value) standardGeneric("relations<-")
+    "elements",
+    function(x) standardGeneric("elements")
 )
 
 #' Method elementIds
@@ -50,14 +50,14 @@ setGeneric(
     function(x) standardGeneric("elementData")
 )
 
-#' Method elementData<-
+#' Method sets
 #' @name BaseSets-class
 #' @rdname BaseSets-class
-#' @aliases elementData<-
-#' @exportMethod elementData<-
+#' @aliases sets
+#' @exportMethod sets
 setGeneric(
-    "elementData<-",
-    function(x, value) standardGeneric("elementData<-")
+    "sets",
+    function(x) standardGeneric("sets")
 )
 
 #' Method setIds
@@ -90,16 +90,6 @@ setGeneric(
     function(x) standardGeneric("setData")
 )
 
-#' Method setData<-
-#' @name BaseSets-class
-#' @rdname BaseSets-class
-#' @aliases setData<-
-#' @exportMethod setData<-
-setGeneric(
-    "setData<-",
-    function(x, value) standardGeneric("setData<-")
-)
-
 #' Method membership
 #' @name FuzzySets-class
 #' @rdname FuzzySets-class
@@ -120,17 +110,27 @@ setGeneric(
     function(x, value) standardGeneric("membership<-")
 )
 
-# Dimensions ----
-
-#' Method nRelations
-#' @name BaseSets-class
-#' @rdname BaseSets-class
-#' @aliases nRelations
-#' @exportMethod nRelations
+#' Method id
+#' @name IdVector-class
+#' @rdname IdVector-class
+#' @aliases id
+#' @exportMethod id
 setGeneric(
-    "nRelations",
-    function(x) standardGeneric("nRelations")
+    "id",
+    function(x) standardGeneric("id")
 )
+
+#' Method id<-
+#' @name IdVector-class
+#' @rdname IdVector-class
+#' @aliases id<-
+#' @exportMethod id<-
+setGeneric(
+    "id<-",
+    function(x, value) standardGeneric("id<-")
+)
+
+# Dimensions ----
 
 #' Method nElements
 #' @name BaseSets-class

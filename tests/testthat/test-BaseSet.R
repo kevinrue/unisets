@@ -1,7 +1,8 @@
 
 sets <- list(
-  set1=c("A", "B"),
-  set2=c("C", "D", "E")
+    set1=c("A", "B"),
+    set2=c("B", "C", "D"),
+    set3=c("E")
 )
 
 # prepare named vectors to check that names are dropped by the constructor
@@ -15,60 +16,80 @@ relations <- DataFrame(element=elementsUnlist, set=setsUnlist)
 
 test_that("BaseSets constructor produces valid objects", {
 
-    expect_message(BaseSets(relations), "Setting rownames(relations) to NULL", fixed=TRUE)
-    expect_message(BaseSets(relations), "Setting names(relations$element) to NULL", fixed=TRUE)
-    expect_message(BaseSets(relations), "Setting names(relations$set) to NULL", fixed=TRUE)
-
     out <- BaseSets(relations)
 
     expect_s4_class(out, "BaseSets")
-    expect_identical(slotNames(out), c("relations", "elementData", "setData"))
-
-    # Check that names were dropped
-    slot.relations <- slot(out, "relations")
-    expect_null(rownames(slot.relations))
-    expect_null(names(slot.relations$element))
-    expect_null(names(slot.relations$set))
 })
 
 test_that("BaseSets validity method identifies issues", {
-
-    # Valid object
-    out <- BaseSets(relations)
 
     # Invalid colnames(object@relations)
     map0 <- relations
     colnames(map0) <- c("A", "B")
     expect_error(
-        BaseSets(map0),
-        "colnames(relations(object)) must be c(\"element\", \"set\")",
+        BaseSets(relations=map0),
+        "colnames(relations) must include c(\"element\", \"set\")",
         fixed=TRUE
     )
 
-    # Mismatch between elements and  elementData
+    # Mismatch between elements and elementData
     expect_error(
-        BaseSets(relations, elementData=DataFrame(row.names="Z")),
-        "Mismatch between relations$element and rownames(elementData)",
+        BaseSets(relations, elementData=IdVector("Z")),
+        "relations$element missing from id(elementData)",
         fixed=TRUE
     )
 
-    # Mismatch between elements and  elementData
     expect_error(
-        BaseSets(relations, setData=DataFrame(row.names="set999")),
-        "Mismatch between relations$set and rownames(setData)",
+        BaseSets(relations, setData=IdVector("set999")),
+        "relations$set missing from id(setData)",
+        fixed=TRUE
+    )
+
+    expect_message(
+        BaseSets(relations, elementData=IdVector(c(relations$element, "Z"))),
+        "Dropping elementData missing from relations$element",
+        fixed=TRUE
+    )
+
+    expect_message(
+        BaseSets(relations, setData=IdVector(c(relations$set, "set999"))),
+        "Dropping setData missing from relations$set",
         fixed=TRUE
     )
 
 })
 
-# nRelations() ----
+# relations() ----
 
-test_that("nRelations(BaseSets) works", {
+test_that("relations(BaseSets) works", {
 
     bs <- BaseSets(relations)
 
-    out <- nRelations(bs)
-    expect_identical(out, 5L)
+    out <- relations(bs)
+    expect_s4_class(out, "DataFrame")
+    expect_identical(colnames(out), c("element", "set"))
+
+})
+
+# length() ----
+
+test_that("length(BaseSets) works", {
+
+    bs <- BaseSets(relations)
+
+    out <- length(bs)
+    expect_identical(out, 6L)
+
+})
+
+# elements() ----
+
+test_that("elements(BaseSets) works", {
+
+    bs <- BaseSets(relations)
+
+    out <- elements(bs)
+    expect_identical(out, bs@elementData[bs@relations@from])
 
 })
 
@@ -83,6 +104,17 @@ test_that("nElements(BaseSets) works", {
 
 })
 
+# sets() ----
+
+test_that("elements(BaseSets) works", {
+
+    bs <- BaseSets(relations)
+
+    out <- sets(bs)
+    expect_identical(out, bs@setData[bs@relations@to])
+
+})
+
 # nSets() ----
 
 test_that("nSets(BaseSets) works", {
@@ -90,31 +122,7 @@ test_that("nSets(BaseSets) works", {
     bs <- BaseSets(relations)
 
     out <- nSets(bs)
-    expect_identical(out, 2L)
-
-})
-
-# relations<-() ----
-
-test_that("relations(BaseSets) <- value works", {
-
-    bs <- BaseSets(relations)
-
-    relations(bs) <- relations(bs)[sample(nRelations(bs)), , drop=FALSE]
-
-    expect_true(validObject(bs))
-
-})
-
-# elementData<-() ----
-
-test_that("elementData(BaseSets) <- value works", {
-
-    bs <- BaseSets(relations)
-
-    elementData(bs) <- elementData(bs)[sample(nElements(bs)), , drop=FALSE]
-
-    expect_true(validObject(bs))
+    expect_identical(out, 3L)
 
 })
 
@@ -138,19 +146,7 @@ test_that("elementIds(BaseSets) <- value works", {
 
     elementIds(bs) <- tail(LETTERS, nElements(bs))
 
-    expect_true(validObject(bs))
-
-})
-
-# setData<-() ----
-
-test_that("setData(BaseSets) <- value works", {
-
-    bs <- BaseSets(relations)
-
-    setData(bs) <- setData(bs)[sample(nSets(bs)), , drop=FALSE]
-
-    expect_true(validObject(bs))
+    expect_identical(elementIds(bs), tail(LETTERS, nElements(bs)))
 
 })
 
@@ -162,7 +158,7 @@ test_that("setIds(BaseSets) works", {
 
     out <- setIds(bs)
 
-    expect_identical(out, c("set1", "set2"))
+    expect_identical(out, c("set1", "set2", "set3"))
 
 })
 
@@ -174,7 +170,7 @@ test_that("setIds(BaseSets) <- value works", {
 
     setIds(bs) <- paste0("geneset", seq_len(nSets(bs)))
 
-    expect_true(validObject(bs))
+    expect_identical(setIds(bs), paste0("geneset", seq_len(nSets(bs))))
 
 })
 
@@ -185,8 +181,9 @@ test_that("subset(BaseSets) works", {
     bs <- BaseSets(relations)
 
     out <- subset(bs, set == "set1")
-    expect_true(all(out@relations$set == "set1"))
-    expect_identical(rownames(out@setData), "set1")
+
+    expect_true(all(id(setData(out)) == "set1"))
+    expect_identical(length(setData(out)), 1L)
 
 })
 
@@ -198,14 +195,14 @@ test_that("show(BaseSets) works", {
     bs <- BaseSets(relations)
 
     out <- show(bs)
-    expect_identical(colnames(out), c("element", "set", "elementData", "setData"))
-    expect_identical(nrow(out), nrow(bs@relations)+1L)
+    expect_identical(colnames(out), c("element", "set", "relationData", "elementData", "setData"))
+    expect_identical(nrow(out), length(bs)+1L)
 
     # Large objects partially displayed
     bs <- BaseSets(relations=DataFrame(element=letters, set=LETTERS))
 
     out <- show(bs)
-    expect_identical(colnames(out), c("element", "set", "elementData", "setData"))
+    expect_identical(colnames(out), c("element", "set", "relationData", "elementData", "setData"))
     expect_identical(nrow(out), unisets:::get_showHeadLines() + unisets:::get_showTailLines() + 2L)
 
 })
@@ -216,10 +213,12 @@ test_that("as(BaseSets, \"list\") works", {
 
     bs <- BaseSets(relations)
 
+    expected <- list(set1 = c("A", "B"), set2 = c("B", "C", "D"), set3 = "E")
+
     out <- as(bs, "list")
-    expect_identical(out, list(set1=c("A", "B"), set2=c("C", "D", "E")))
+    expect_identical(out, expected)
     out <- as.list(bs)
-    expect_identical(out, list(set1=c("A", "B"), set2=c("C", "D", "E")))
+    expect_identical(out, expected)
 
 })
 
@@ -229,7 +228,7 @@ test_that("as(BaseSets, \"matrix\") works", {
 
     bs <- BaseSets(relations)
 
-    expected.dim <- c(nrow(bs@elementData), nrow(bs@setData))
+    expected.dim <- c(nElements(bs), nSets(bs))
 
     out <- as(bs, "matrix")
     expect_type(out, "logical")
@@ -258,11 +257,11 @@ test_that("as(matrix, \"BaseSets\") works", {
 
     out <- as(bm, "BaseSets")
     expect_s4_class(out, "BaseSets")
-    expect_identical(nrow(out@relations), 3L) # 3 TRUE values above
+    expect_identical(length(out@relations), 3L) # 3 TRUE values above
 
     out <- as.BaseSets.matrix(bm, "BaseSets")
     expect_s4_class(out, "BaseSets")
-    expect_identical(nrow(out@relations), 3L) # 3 TRUE values above
+    expect_identical(length(out@relations), 3L) # 3 TRUE values above
 
 })
 
@@ -272,15 +271,17 @@ test_that("as(Go3AnnDbBimap, \"BaseSets\") works", {
 
     out <- as(org.Hs.egGO, "BaseSets")
     expect_s4_class(out, "BaseSets")
-    expect_gt(nRelations(out), 0)
-    expect_gt(ncol(setData(out)), 0)
-    expect_gt(nrow(setData(out)), 0)
+    expect_gt(length(out), 0)
+    expect_gt(length(elementData(out)), 0)
+    expect_gt(length(setData(out)), 0)
+    expect_gt(ncol(elementMetadata(setData(out))), 0)
 
     out <- as.BaseSets.Go3AnnDbBimap(org.Hs.egGO, "BaseSets")
     expect_s4_class(out, "BaseSets")
-    expect_gt(nRelations(out), 0)
-    expect_gt(ncol(setData(out)), 0)
-    expect_gt(nrow(setData(out)), 0)
+    expect_gt(length(out), 0)
+    expect_gt(length(elementData(out)), 0)
+    expect_gt(length(setData(out)), 0)
+    expect_gt(ncol(elementMetadata(setData(out))), 0)
 
 })
 
@@ -291,7 +292,7 @@ test_that("setLengths(BaseSets) works", {
     bs <- BaseSets(relations)
 
     out <- setLengths(bs)
-    expect_identical(out, c(set1=2L, set2=3L))
+    expect_identical(out, c(set1 = 2L, set2 = 3L, set3 = 1L))
 
 })
 
@@ -302,7 +303,7 @@ test_that("elementLengths(BaseSets) works", {
     bs <- BaseSets(relations)
 
     out <- elementLengths(bs)
-    expect_identical(out, c(A=1L, B=1L, C=1L, D=1L, E=1L))
+    expect_identical(out, c(A = 1L, B = 2L, C = 1L, D = 1L, E = 1L))
 
 })
 
