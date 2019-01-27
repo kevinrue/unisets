@@ -10,8 +10,8 @@ setMethod("relations", "BaseSets", function(x) {
     out <- as(x@relations, "DataFrame")
     colnames(out)[1:2] <- c("element", "set")
     # Substitute from/to by the corresponding identifiers
-    out$element <- id(elementData(x))[out$element]
-    out$set <- id(setData(x))[out$set]
+    out$element <- elementData(x)[out$element]
+    out$set <- setData(x)[out$set]
     out
 })
 
@@ -165,10 +165,15 @@ setAs("BaseSets", "data.frame", function(from) {
     x
 })
 
+# split() ----
+
+setMethod("split", c("IdVector", "IdVector"), function(x, f, drop = FALSE, ...)  {
+    split(x, as.vector(f), drop=drop, ...)
+})
+
 # as.list() ----
 
 setAs("BaseSets", "list", function(from) {
-    # Note the difference between the argument and the method 'from'
     x <- as(from, "DataFrame")
     split(x$element, x$set)
 })

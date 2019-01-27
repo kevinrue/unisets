@@ -213,12 +213,10 @@ test_that("as(BaseSets, \"list\") works", {
 
     bs <- BaseSets(relations)
 
-    expected <- list(set1 = c("A", "B"), set2 = c("B", "C", "D"), set3 = "E")
-
     out <- as(bs, "list")
-    expect_identical(out, expected)
+    expect_identical(lengths(out), c(set1 = 2L, set2 = 3L, set3 = 1L))
     out <- as.list(bs)
-    expect_identical(out, expected)
+    expect_identical(lengths(out), c(set1 = 2L, set2 = 3L, set3 = 1L))
 
 })
 

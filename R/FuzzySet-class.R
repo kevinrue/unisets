@@ -41,27 +41,7 @@ setMethod("subset", "FuzzySets", function(x, ...) {
     .local(x, ...)
 })
 
-# show() ----
-
-setMethod("show", "FuzzySets", function(object) {
-    # element <- elementData(object)[from(object@relations)]
-    # set <- setData(object)[to(object@relations)]
-    # setData <- elementMetadata(set)
-    # elementMetadata(set) <- NULL # avoid metadata columns
-    # Combine element and set identifiers into a DataFrame
-    x <- as(object, "DataFrame")
-    # Retain only the core columns
-    x <- x[, c("element", "set"), drop=FALSE]
-    # Show the rest of the relation metadata
-    x[["relationData"]] <- elementMetadata(object@relations)
-    # Show the element metadata
-    elementData <- elementData(object)[from(object@relations)]
-    x[["elementData"]] <-  elementMetadata(elementData)
-    # Show the set metadata
-    setData <- setData(object)[to(object@relations)]
-    x[["setData"]] <- elementMetadata(setData)
-    .showSetAsTable(class(object), x)
-})
+# as.list() ----
 
 #' @rdname FuzzySets-class
 #' @aliases as.list.FuzzySets
