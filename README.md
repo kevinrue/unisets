@@ -53,22 +53,3 @@ BaseSets with 5 relations between 4 elements and 2 sets
 4          C   geneset2        ABC:3         3:c     200:def
 5          D   geneset2        DEF:3         4:d     200:def
 ```
-
-More sophisticated classes are available to store additional information (e.g. `FuzzySets`).
-
-``` r
-relations_table$membership <- round(runif(nrow(relations_table)), 2)
-fuzzy_sets <- FuzzySets(relations_table, gene_data, set_data)
-fuzzy_sets
-```
-
-```
-FuzzySets with 5 relations between 4 elements and 2 sets
-      element         set relationData elementData     setData
-  <character> <character>  <DataFrame> <DataFrame> <DataFrame>
-1           A    geneset1   DEF:1:0.48         1:a     100:abc
-2           B    geneset1   DEF:3:0.11         2:b     100:abc
-3           B    geneset2   ABC:4:0.01         2:b     200:def
-4           C    geneset2   ABC:3:0.35         3:c     200:def
-5           D    geneset2   DEF:3:0.38         4:d     200:def
-```
