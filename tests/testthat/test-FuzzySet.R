@@ -104,12 +104,10 @@ test_that("as(FuzzySets, \"list\") works", {
 
     fs <- FuzzySets(relations)
 
-    expected <- list(set1 = c("A", "B"), set2 = c("B", "C", "D"), set3 = "E")
-
     out <- as(fs, "list")
-    expect_identical(out, expected)
+    expect_identical(lengths(out), c(set1 = 2L, set2 = 3L, set3 = 1L))
     out <- as.list(fs)
-    expect_identical(out, expected)
+    expect_identical(lengths(out), c(set1 = 2L, set2 = 3L, set3 = 1L))
 
 })
 

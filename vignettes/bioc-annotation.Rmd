@@ -49,7 +49,7 @@ Those objects may be directly converted to `BaseSets` objects as demonstrated be
 ```{r message=FALSE}
 library(unisets)
 base_sets <- as(org.Hs.egGO, "BaseSets")
-base_sets
+relations(base_sets)
 ```
 
 Notice how the `"element"` information is typed as `EntrezIdVector`, allowing the type of identifier to affect downstream methods (e.g., pathway analyses).
