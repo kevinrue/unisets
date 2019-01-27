@@ -224,9 +224,10 @@ as.BaseSets.matrix <- function(x, ...) {
 #' @importFrom S4Vectors DataFrame elementMetadata<-
 setAs("Go3AnnDbBimap", "BaseSets", function(from) {
     # Import the relationships from the annotation BiMap
-    dataframe <- DataFrame(as.data.frame(from))
-    relations <- dataframe[, c("gene_id", "go_id")]
-    colnames(relations) <- c("element", "set")
+    relations <- DataFrame(as.data.frame(from))
+    # Rename columns: gene_id -> element, go_id -> set
+    colIdx <- match(c("gene_id", "go_id"), colnames(relations))
+    colnames(relations)[colIdx] <- c("element", "set")
 
     # Prepare a default empty DataFrame if GO.db is not installed
     setData <- IdVector(unique(relations$set))
