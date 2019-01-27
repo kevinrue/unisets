@@ -48,8 +48,8 @@ gene_lists <- list(
 relations_table <- DataFrame(
     element = unlist(gene_lists),
     set     = rep(names(gene_lists), lengths(gene_lists)),
-    extra1 = sample(c("ABC", "DEF"), 5L, replace=TRUE),
-    extra2 = rbinom(5L, 10L, 0.4)
+    extra1  = sample(c("ABC", "DEF"), 5L, replace=TRUE),
+    extra2  = rbinom(5L, 10L, 0.4)
 )
 base_sets <- BaseSets(relations_table)
 base_sets
@@ -72,7 +72,7 @@ base_sets <- BaseSets(relations_table, gene_data, set_data)
 base_sets
 ```
 
-The `elementData`, and `setData` slots store metadata for each individual element and set that appears in the `relations` slot.
+The `elementData` and `setData` slots store metadata for each individual element and set that appears in the `relations` slot.
 Those metadata can be accessed directly using the getter methods of the same name.
 
 ```{r}
