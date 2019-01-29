@@ -1,6 +1,7 @@
 #' Import GMT File
 #'
 #' Imports a `.gmt` format file and produces a `BaseSets` class object. 
+#'
 #' A `.gmt` file is a non-rectangular tab-separated format, where each row 
 #' delimits a unique geneset. The first column is the geneset name, the second 
 #' column is the geneset source (such as a URL), and the third columns onwards 
@@ -12,9 +13,9 @@
 #' @return Returns a `BaseSets` object with slot `setData` containing set 
 #'   source information.
 #'
-#' @author Robert Amezquita, adapted from Kayla Morrell GeneSe pkg
+#' @author Robert Amezquita, adapted from Kayla Morrell GeneSet package
 #'
-#' @rdname import
+#' @rdname gmt
 #' @export
 #' @importFrom S4Vectors DataFrame
 #' @importFrom utils stack
@@ -22,7 +23,6 @@
 #' gmt_file <- system.file(package = "unisets", "extdata",
 #'     "example.gmt")
 #' gmt_BaseSet <- importGMT(gmtFile)
-
 importGMT <- function(path) {
     ## Read in GMT into a list format
     sets <- readLines(path)
@@ -53,4 +53,29 @@ importGMT <- function(path) {
         source = source)
 
     return(BaseSets(map, setData = source))
+}
+
+#' Export GMT File 
+#'
+#' Writes a `.gmt` format file from a `BaseSets` class object.
+#'
+#' @param x `BaseSets` object to write as a GMT file
+#' @param path a file name or URL to write
+#'
+#' @author Robert Amezquita, adapted from Kayla Morrell GeneSet package
+#' 
+#' @rdname gmt
+exportGMT <- function(x, path = tempfile(fileext = ".gmt")) {
+    stopifnot(is_tbl_geneset(tbl))
+
+    if(!"source" %in% names(tbl))
+        tbl <- mutate(tbl, source = rep(NA_character_, nrow(tbl)))
+
+    sets <- group_by(tbl, set) %>%
+        summarise(source = unique(source),
+                  gene = paste(gene, collapse = "\t"))
+
+
+    write.table(sets, path, sep = "\t",
+                col.names = FALSE, row.names = FALSE, quote = FALSE)
 }
