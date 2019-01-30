@@ -26,22 +26,20 @@ GMTFile <- function(resource) {
 
 setGeneric("import.gmt", function(con, ...) standardGeneric("import.gmt"))
 
+
 ## import() ----
 
 #' @importMethodsFrom rtracklayer import
 #' @importFrom rtracklayer FileForFormat
-setMethod("import.gmt", "ANY", function(con, ...) {
-    x <- FileForFormat(con)
-    print(x)
-    # print(file.exists(resource(x)))
-    import(x, ...)
-})
+setMethod("import.gmt", "ANY", function(con, ...) 
+    import(FileForFormat(con), ...)
+)
 
 #' @importFrom rtracklayer resource
 #' @importFrom S4Vectors DataFrame
 #' @importFrom utils stack
 setMethod("import", "GMTFile", function(con, format, text...) {
-    print("import GMTFile")
+    ## print("Import GMTFile ..")
     ## Read in GMT into a list format
     path <- resource(con)
     sets <- readLines(path)
@@ -89,19 +87,18 @@ setMethod("export.gmt", "ANY", function(object, con, ...) {
 #' @importFrom rtracklayer export
 #' @importFrom utils write.table
 setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...) {
-    x <- object
     path <- resource(con)
-    if (!"source" %in% colnames(elementMetadata(setData(x)))) {
-        message("'source' column not found in elementMetadata(setData(x)), setting to NA for export")
-        source <- DataFrame(source = rep(NA_character_, nSets(x)),
-                            row.names = id(setData(x)))
+    if (!"source" %in% colnames(elementMetadata(setData(object)))) {
+        message("'source' column not found in elementMetadata(setData(object)), setting to NA for export")
+        source <- DataFrame(source = rep(NA_character_, nSets(object)),
+                            row.names = id(setData(object)))
     } else {
-        source <- DataFrame(source = elementMetadata(setData(x))[["source"]],
-                            row.names = id(setData(x)))
+        source <- DataFrame(source = elementMetadata(setData(object))[["source"]],
+                            row.names = id(setData(object)))
     }
 
     ## Collapse into tab separated list
-    df <- data.frame(relations(x))
+    df <- data.frame(relations(object))
     df$source <- source[df$set, ]
     df <- df[order(df$set, df$element), ]
     set_list <- lapply(with(df, split(df, set)), function(x) {
