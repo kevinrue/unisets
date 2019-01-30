@@ -22,6 +22,18 @@ test_that("IdVector constructor produces valid objects", {
     expect_identical(id(out), as.character(idValues))
 })
 
+test_that("IdVector validity method identifies issues", {
+
+    # Invalid colnames(object@relations)
+    idValues0 <- c("A", "A", "B")
+    expect_error(
+        IdVector(idValues0),
+        "duplicated values in \"id\"",
+        fixed=TRUE
+    )
+
+})
+
 # id() ----
 
 test_that("id(IdVector) works", {
