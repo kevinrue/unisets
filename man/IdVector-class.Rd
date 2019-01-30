@@ -12,6 +12,7 @@
 \alias{id,IdVector-method}
 \alias{id<-,IdVector-method}
 \alias{length,IdVector-method}
+\alias{[,IdVector,ANY,ANY,ANY-method}
 \alias{[,IdVector-method}
 \title{IdVector Class}
 \usage{
@@ -29,7 +30,7 @@ id(x) <- value
 
 \S4method{length}{IdVector}(x)
 
-\S4method{[}{IdVector}(x, i, j, ..., drop = TRUE)
+\S4method{[}{IdVector,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 }
 \arguments{
 \item{id}{character. Entrez gene identifiers.}

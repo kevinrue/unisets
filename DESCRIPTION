@@ -15,7 +15,8 @@ Imports:
     BiocGenerics,
     utils,
     reshape2,
-    AnnotationDbi
+    AnnotationDbi,
+    rtracklayer
 Suggests:
     testthat,
     covr,

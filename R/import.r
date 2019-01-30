@@ -1,30 +1,24 @@
-#' Import GMT File
-#'
-#' Imports a `.gmt` format file and produces a `BaseSets` class object. 
-#'
-#' A `.gmt` file is a non-rectangular tab-separated format, where each row 
-#' delimits a unique geneset. The first column is the geneset name, the second 
-#' column is the geneset source (such as a URL), and the third columns onwards 
-#' contain the names of the geneset constituents, such that each geneset can 
-#' have a variable length.
-#'
-#' @param path a file name or URL containing gene sets.
-#' 
-#' @return Returns a `BaseSets` object with slot `setData` containing set 
-#'   source information.
-#'
-#' @author Robert Amezquita, adapted from Kayla Morrell GeneSet package
-#'
-#' @rdname gmt
-#' @export
+## credit to Michael Lawrence
+## implementation is largely based on:
+## https://github.com/lawremi/rtracklayer/blob/master/R/bed.R
+
+## extending RTLFile class to GMT ----
+#' @importClassesFrom rtracklayer RTLFile
+setGeneric("import.gmt", function(con, ...) standardGeneric("import.gmt"))
+
+## import() ----
+#' @importFrom rtracklayer import
+setMethod("import.gmt", "ANY", function(con, ...) {
+    import(con, format = "gmt", ...)
+})
+
+#' @importFrom rtracklayer import 
 #' @importFrom S4Vectors DataFrame
 #' @importFrom utils stack
-#' @examples
-#' gmt_file <- system.file(package = "unisets", "extdata",
-#'     "example.gmt")
-#' gmt_BaseSet <- importGMT(gmtFile)
-importGMT <- function(path) {
+setMethod("import", "GMTFile", function(con, format, text...) {
+    ## import.gmt <- function(path) 
     ## Read in GMT into a list format
+    path <- resource(con)
     sets <- readLines(path)
     sets <- strsplit(sets, "\t")
     names <- vapply(sets, function(set) set[[1]], character(1))
@@ -34,48 +28,26 @@ importGMT <- function(path) {
     ## Produce an error if names contains duplicates
     if (length(unique(names)) != length(names)) {
         dups <- names[duplicated(names)]
-        err <- paste0("Duplicated geneset names exist for the sets below. ",
+        err <- paste0("Duplicated geneset set names exist for the sets below. ",
             "Please check your GMT file.\n\n", 
             c(paste0(dups, collapse = '\n')), '\n\n')
         stop(err)
     }
 
-    ## Convert GMT to DataFrame of element:set
+    ## Convert GMT to DataFrame of element:set of relations
     map <- DataFrame(stack(genes))
     colnames(map) <- c("element", "set")
     map$set <- as.character(map$set)
 
-    ## Extract GMT source (url) for elementData slot
+    ## Extract GMT source (url) to create setData slot
     source <- vapply(sets, function(set) set[[2]], character(1))
     source[source=="NA" | !nzchar(source)] <- NA
-    source <- DataFrame(
-        row.names = names,
-        source = source)
+    set_data <- IdVector(id = names)
+    elementMetadata(set_data) <- DataFrame(source = source)
 
-    return(BaseSets(map, setData = source))
-}
-
-#' Export GMT File 
-#'
-#' Writes a `.gmt` format file from a `BaseSets` class object.
-#'
-#' @param x `BaseSets` object to write as a GMT file
-#' @param path a file name or URL to write
-#'
-#' @author Robert Amezquita, adapted from Kayla Morrell GeneSet package
-#' 
-#' @rdname gmt
-exportGMT <- function(x, path = tempfile(fileext = ".gmt")) {
-    stopifnot(is_tbl_geneset(tbl))
-
-    if(!"source" %in% names(tbl))
-        tbl <- mutate(tbl, source = rep(NA_character_, nrow(tbl)))
-
-    sets <- group_by(tbl, set) %>%
-        summarise(source = unique(source),
-                  gene = paste(gene, collapse = "\t"))
-
-
-    write.table(sets, path, sep = "\t",
-                col.names = FALSE, row.names = FALSE, quote = FALSE)
-}
+    ## Construct and return the BaseSet
+    bs <- BaseSets(map, setData = set_data)
+    return(bs)
+})
+              
+   
