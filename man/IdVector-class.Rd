@@ -65,7 +65,7 @@ elementMetadata(tv) <- DataFrame(row.names = id(tv), field1=runif(length(tv)))
 
 tv1 <- tv[1:5]
 
-# EntrezIdVector ----
+# Constructor ----
 
 library(org.Hs.eg.db)
 ev <- EntrezIdVector(keys(org.Hs.eg.db))

@@ -1,4 +1,6 @@
 
+# Setup ----
+
 sets <- list(
     set1=c("A", "B"),
     set2=c("B", "C", "D"),

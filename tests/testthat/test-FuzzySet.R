@@ -1,4 +1,6 @@
 
+# Setup ----
+
 # Visually intuitive definition of fuzzy sets
 sets <- list(
     set1=c("A"=0, "B"=0.1),

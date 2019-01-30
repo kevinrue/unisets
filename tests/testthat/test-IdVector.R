@@ -1,4 +1,6 @@
 
+# Setup ----
+
 nValues <- 10L
 
 idValues <- head(LETTERS, nValues)

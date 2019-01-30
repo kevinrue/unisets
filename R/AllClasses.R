@@ -415,7 +415,7 @@ FuzzySets <- function(
 #' @seealso [`IdVector`]
 #'
 #' @examples
-#' # EntrezIdVector ----
+#' # Constructor ----
 #'
 #' library(org.Hs.eg.db)
 #' ev <- EntrezIdVector(keys(org.Hs.eg.db))
