@@ -8,8 +8,8 @@
 \alias{import,GMTFile,ANY,ANY-method}
 \alias{import}
 \alias{export.gmt}
-\alias{export}
 \alias{export,BaseSets,GMTFile,ANY-method}
+\alias{export}
 \title{Import and export}
 \usage{
 GMTFile(resource)
@@ -34,7 +34,7 @@ If a \code{\linkS4class{RTLFile}} derivative, the data is loaded from or saved t
 
 \item{format, text}{Arguments defined in the \code{\link[rtracklayer:import]{rtracklayer::import()}} generic. Currently ignored.}
 
-\item{object}{An object that inherits from TODO}
+\item{object}{An object of class inheriting from \code{\link{GMTFile}}.}
 }
 \value{
 For \code{GMTFile()}, an object representing the path to a .gmt file on disk
