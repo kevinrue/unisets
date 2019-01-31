@@ -41,6 +41,9 @@ GMTFile <- function(resource) {
 ## credit to Michael Lawrence
 ## implementation is largely based on:
 ## https://github.com/lawremi/rtracklayer/blob/master/R/bed.R
+#' @rdname import
+#' @aliases import.gmt
+#' @export
 setGeneric("import.gmt", function(con, ...){
     standardGeneric("import.gmt")
 })
@@ -55,10 +58,11 @@ setGeneric("import.gmt", function(con, ...){
 #'
 #' @rdname import
 #'
+#' @export
 #' @importMethodsFrom rtracklayer import
 #' @importFrom rtracklayer FileForFormat
 setMethod("import.gmt", "ANY", function(con, ...)
-    import(FileForFormat(con), ...)
+    import(GMTFile(con), ...)
 )
 
 #' @param format,text Arguments defined in the [rtracklayer::import()] generic. Currently ignored.
@@ -109,19 +113,21 @@ setMethod("import", "GMTFile", function(con, format, text, ...) {
 
 ## export() ----
 
-#' @param object An object of class inheriting from [`GMTFile`].
-#'
 #' @rdname import
 #' @aliases export.gmt
-#'
-#' @importClassesFrom rtracklayer RTLFile
+#' @export
 setGeneric("export.gmt", function(object, con, ...){
     standardGeneric("export.gmt")
 })
 
+#' @param object An object of class inheriting from [`GMTFile`].
+#'
+#' @rdname import
+#'
+#' @export
 #' @importFrom rtracklayer export
 setMethod("export.gmt", "ANY", function(object, con, ...) {
-    export(object, con, "gmt", ...)
+    export(object, GMTFile(con), "gmt", ...)
 })
 
 #' @rdname import

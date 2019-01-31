@@ -1,9 +1,10 @@
 Package: unisets
 Title: Collection of Classes to Store Gene Sets
 Version: 0.99.0
+Date: 2019-01-15
 Authors@R: c(
     person("Kevin", "Rue-Albrecht", email = "kevin.rue-albrecht@kennedy.ox.ac.uk", role = c("aut", "cre")),
-    person("Second", "Author", role = c("ctb"))
+    person("Robert", "Amezquita", role = c("aut"))
     )
 Description: Classes to describe relationships between elements and sets,
     with an emphasis on gene sets.

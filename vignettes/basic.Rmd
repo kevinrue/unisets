@@ -4,13 +4,18 @@ title: >
 author:
 - name: Kevin Rue-Albrecht
   affiliation: 
-  - &id4 Kennedy Institute of Rheumatology, University of Oxford,
+  - &id1 Kennedy Institute of Rheumatology, University of Oxford,
     Headington, Oxford OX3 7FY, UK.
   email: kevin.rue-albrecht@kennedy.ox.ac.uk
+<<<<<<< HEAD
 - name: Robert A. Amezquita
   affiliation: 
   - &id4 Fred Hutchinson Cancer Research Center, Seattle, WA, USA, 98115
   email: robert.amezquita@fredhutch.org
+=======
+- name: Robert Amezquita
+  affiliation: Second Author's Affiliation Goes Here
+>>>>>>> 4d566ab78af845e7a46500cef87052902b94ca45
 date: "`r BiocStyle::doc_date()`"
 package: "`r BiocStyle::pkg_ver('unisets')`"
 output: 
@@ -37,7 +42,7 @@ devtools::install_github("kevinrue/unisets")
 
 # Getting started
 
-## The BaseSets class
+## The _BaseSets_ class
 
 This is a basic example which shows you how to create a `BaseSets` object, to store simple associations between genes and sets, along with optional metadata associated with each relation:
 
@@ -95,7 +100,7 @@ Conveniently, the `relations` accessor returns relations and associated metadata
 relations(base_sets)
 ```
 
-## The FuzzySets class
+## The _FuzzySets_ class
 
 Classes derived from `BaseSets` may add additional constraints on the relations to define special types of relationships between elements and sets.
 
@@ -220,11 +225,15 @@ setIds(base_sets)
 
 ## Gene Matrix Transpose (GMT) Format
 
-A common representation of gene sets is the GMT format, which is a non-rectangular format where each line is a set. The first column is the name of the set, the second column is a description of the source of the set (such as a URL), and the third column onwards are the elements of the set, such that each set may have a variable number of elements.
+A common representation of gene sets is the GMT format, which is a non-rectangular format where each line is a set.
+The first column is the name of the set, the second column is a description of the source of the set (such as a URL), and the third column onwards are the elements of the set, such that each set may have a variable number of elements.
 
-To import or export a GMT file, one can use the generic `import` and `export` methods, which autodetect the file format using the file extension (.gmt). These methods work with objects of the `BaseSets` class. Note that the .gmt extension is required for both cases.
+Importing from and exporting to GMT files is performed using the generic `import` and `export` methods, which recognize the ".gmt" file extenson as a trigger to export in the GMT file format.
+Alternatively, the `import.gmt` and `import.gmt` functions may be used to explicitly export to the GMT file format.
 
-When using `import`, a `BaseSets` class object is produced
+Any object that inherits from the `BaseSets` class may be exported to the GMT file format.
+However, any information that is not supported by the GMT file format will be lost during the export.
+Reciprocally, the `import` function produces a `BaseSets` object, which adequately represents all the information present in the GMT file format.
 
 ```{r}
 gmt_file <- system.file(package="unisets", "extdata", "example.gmt")
@@ -250,7 +259,6 @@ To export GMT files, the file extension should be .gmt, and a `BaseSets` class o
 tmp_file <- tempfile(fileext=".gmt")
 export(base_sets_from_gmt, tmp_file)
 ```
-
 
 # Session info {.unnumbered}
 
