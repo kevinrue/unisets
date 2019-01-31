@@ -109,10 +109,10 @@ setMethod("import", "GMTFile", function(con, format, text, ...) {
 
 ## export() ----
 
-#' @param object An object that inherits from TODO
+#' @param object An object of class inheriting from [`GMTFile`].
 #'
 #' @rdname import
-#' @aliases export
+#' @aliases export.gmt
 #'
 #' @importClassesFrom rtracklayer RTLFile
 setGeneric("export.gmt", function(object, con, ...){
