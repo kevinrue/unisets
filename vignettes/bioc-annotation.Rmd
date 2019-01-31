@@ -56,11 +56,11 @@ Notice how the `"element"` information is typed as `EntrezIdVector`, allowing th
 The `EntrezIdVector` class directly inherits from the `IdVector` class, and benefits of all the methods associated with the parent class.
 
 It is also useful to note that the conversion of `Go3AnnDbBimap` Gene Ontology maps to `r Githubpkg("unisets")` objects automatically fetches metadata for each GO identifier from the `GO.db` package.
-The metadata is stored it in the `elementMetadata` slot of the `setData` slot of the object returned.
+The metadata is stored it in the `mcols` (metadata-columns) slot of the `setData` slot of the object returned.
 This metadata can be accessed using the accessor method of the same name.
 
 ```{r}
-elementMetadata(setData(base_sets))[, c("ONTOLOGY", "TERM")]
+mcols(setData(base_sets))[, c("ONTOLOGY", "TERM")]
 ```
 
 We may then visualize the distribution of set sizes, on a log~10~ scale.
