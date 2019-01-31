@@ -7,8 +7,10 @@ author:
   - &id4 Kennedy Institute of Rheumatology, University of Oxford,
     Headington, Oxford OX3 7FY, UK.
   email: kevin.rue-albrecht@kennedy.ox.ac.uk
-- name: Second Author
-  affiliation: Second Author's Affiliation
+- name: Robert A. Amezquita
+  affiliation: 
+  - &id4 Fred Hutchinson Cancer Research Center, Seattle, WA, USA, 98115
+  email: robert.amezquita@fredhutch.org
 date: "`r BiocStyle::doc_date()`"
 package: "`r BiocStyle::pkg_ver('unisets')`"
 output: 
