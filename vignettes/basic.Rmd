@@ -154,6 +154,7 @@ Relations that are not described in the `FuzzySets` are filled with `NA`, to con
 ```{r}
 fuzzy_matrix <- as(fuzzy_sets, "matrix")
 fuzzy_matrix
+    
 ```
 
 # Converting from other formats
@@ -204,7 +205,7 @@ Conversely, the number of sets associated with each gene is returned by the `ele
 elementLengths(fuzzy_sets)
 ```
 
-The identifiers of elements and sets can be inspected and renamed using `setIds` and 
+The identifiers of elements and sets can be inspected and renamed using `elementIds` and `setIds` methods.
 
 ```{r}
 elementIds(base_sets) <- paste0("Gene", seq_len(nElements(base_sets)))
@@ -212,6 +213,42 @@ elementIds(base_sets)
 setIds(base_sets) <- paste0("Geneset", seq_len(nSets(base_sets)))
 setIds(base_sets)
 ```
+
+# Importing and exporting sets
+
+## Gene Matrix Transpose (GMT) Format
+
+A common representation of gene sets is the GMT format, which is a non-rectangular format where each line is a set. The first column is the name of the set, the second column is a description of the source of the set (such as a URL), and the third column onwards are the elements of the set, such that each set may have a variable number of elements.
+
+To import or export a GMT file, one can use the generic `import` and `export` methods, which autodetect the file format using the file extension (.gmt). These methods work with objects of the `BaseSets` class. Note that the .gmt extension is required for both cases.
+
+When using `import`, a `BaseSets` class object is produced
+
+```{r}
+gmt_file <- system.file(package="unisets", "extdata", "example.gmt")
+base_sets_from_gmt <- import(gmt_file)
+base_sets_from_gmt
+```
+
+The additional metadata corresponding to the source (second column of the GMT) per set is also added as metadata corresponding to the sets, accessible via `setData`, which returns an `IdVector` class object.
+
+```{r}
+setData(base_sets_from_gmt)
+```
+
+To access the internal DataFrame representation, the accessor `elementMetadata` can additionally be applied.
+
+```{r}
+elementMetadata(setData(base_sets_from_gmt))
+```
+
+To export GMT files, the file extension should be .gmt, and a `BaseSets` class object provided to the `export` method. Note that if no set metadata stored under the `source` heading is found, that this value will be filled in as `NA` in the output.
+
+```{r}
+tmp_file <- tempfile(fileext=".gmt")
+export(base_sets_from_gmt, tmp_file)
+```
+
 
 # Session info {.unnumbered}
 
