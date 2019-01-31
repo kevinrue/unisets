@@ -59,9 +59,9 @@ setMethod("show", "IdVector", function(object) {
         cat(ids, "\n", sep = "")
     }
     # Preview of metadata if any
-    if (!is.null(elementMetadata(object))) {
-        nem <- ncol(elementMetadata(object))
-        metadata <- paste(head(colnames(elementMetadata(object)), 4), collapse=", ")
+    if (!is.null(mcols(object))) {
+        nem <- ncol(mcols(object))
+        metadata <- paste(head(colnames(mcols(object)), 4), collapse=", ")
         if (nem > 4) {
             metadata <- paste0(metadata, ", ...")
         }

@@ -133,20 +133,20 @@ setMethod("subset", "BaseSets", function(x, ...) {
 
 # show() ----
 
-#' @importFrom S4Vectors elementMetadata
+#' @importFrom S4Vectors mcols
 setMethod("show", "BaseSets", function(object) {
     # Combine elementData, setData, and relations into a single DataFrame
     element <- elementData(object)[from(object@relations)]
-    elementData <- elementMetadata(element)
-    elementMetadata(element) <- NULL # avoid metadata columns
+    elementData <- mcols(element)
+    mcols(element) <- NULL # avoid metadata columns
     set <- setData(object)[to(object@relations)]
-    setData <- elementMetadata(set)
-    elementMetadata(set) <- NULL # avoid metadata columns
+    setData <- mcols(set)
+    mcols(set) <- NULL # avoid metadata columns
     x <- DataFrame(
         element=element,
         set=set
     )
-    x[["relationData"]] <- elementMetadata(object@relations)
+    x[["relationData"]] <- mcols(object@relations)
     x[["elementData"]] <- elementData
     x[["setData"]] <- setData
 
@@ -226,7 +226,7 @@ as.BaseSets.matrix <- function(x, ...) {
 
 #' @importClassesFrom AnnotationDbi Go3AnnDbBimap
 #' @importFrom AnnotationDbi select keys columns
-#' @importFrom S4Vectors DataFrame elementMetadata<-
+#' @importFrom S4Vectors DataFrame mcols<-
 setAs("Go3AnnDbBimap", "BaseSets", function(from) {
     # Import the relationships from the annotation BiMap
     relations <- DataFrame(as.data.frame(from))
@@ -240,7 +240,7 @@ setAs("Go3AnnDbBimap", "BaseSets", function(from) {
         # Fetch GO metadata from GO.db if installed
         db <- GO.db::GO.db
         setData <- IdVector(keys(db))
-        elementMetadata(setData) <- DataFrame(select(db, keys(db), columns(db)))
+        mcols(setData) <- DataFrame(select(db, keys(db), columns(db)))
     }
 
     elementData <- EntrezIdVector(sort(unique(relations$element)))

@@ -11,7 +11,6 @@ author:
   affiliation: 
   - &id2 Fred Hutchinson Cancer Research Center, Seattle, WA, USA, 98115
   email: robert.amezquita@fredhutch.org
-=======
 - name: Robert Amezquita
   affiliation: Second Author's Affiliation Goes Here
 date: "`r BiocStyle::doc_date()`"
@@ -64,12 +63,12 @@ Metadata for each element and set can be provided as separate `DataFrame` object
 
 ```{r, message=FALSE}
 gene_data <- IdVector(c("A", "B", "C", "D"))
-elementMetadata(gene_data) <- DataFrame(
+mcols(gene_data) <- DataFrame(
     stat1     = c( 1,   2,   3,   4 ),
     info1     = c("a", "b", "c", "d")
 )
 set_data <- IdVector(c("geneset1", "geneset2"))
-elementMetadata(set_data) <- DataFrame(
+mcols(set_data) <- DataFrame(
     stat1     = c( 100,   200 ),
     info1     = c("abc", "def")
 )
@@ -245,10 +244,10 @@ The additional metadata corresponding to the source (second column of the GMT) p
 setData(base_sets_from_gmt)
 ```
 
-To access the internal DataFrame representation, the accessor `elementMetadata` can additionally be applied.
+To access the internal DataFrame representation, the accessor `mcols` can additionally be applied.
 
 ```{r}
-elementMetadata(setData(base_sets_from_gmt))
+mcols(setData(base_sets_from_gmt))
 ```
 
 To export GMT files, the file extension should be .gmt, and a `BaseSets` class object provided to the `export` method. Note that if no set metadata stored under the `source` heading is found, that this value will be filled in as `NA` in the output.

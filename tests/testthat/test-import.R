@@ -51,7 +51,7 @@ test_that("GMT importing produces valid BaseSets with proper source", {
             HALLMARK_TNFA_SIGNALING_VIA_NFKB = 200L
         )
     )
-    expect_identical(elementMetadata(setData(out))[["source"]], expected_gs)
+    expect_identical(mcols(setData(out))[["source"]], expected_gs)
 
 })
 
@@ -81,7 +81,7 @@ test_that("GMT exporting produces a valid file from BaseSets.", {
     expect_silent(export(x, tmp))
     expect_message(
         export(basic_baseset, tmp),
-        "'source' column not found in elementMetadata(setData(object)), setting to \"unisets\"",
+        "'source' column not found in mcols(setData(object)), setting to \"unisets\"",
         fixed=TRUE
     )
 
@@ -112,7 +112,7 @@ test_that("GMT method export.gmt works as expected.", {
 
     expect_message(
         export.gmt(basic_baseset, tmp),
-        "'source' column not found in elementMetadata(setData(object)), setting to \"unisets\"",
+        "'source' column not found in mcols(setData(object)), setting to \"unisets\"",
         fixed=TRUE
     )
     expect_silent(export.gmt(out, tmp))

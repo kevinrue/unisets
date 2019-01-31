@@ -59,7 +59,7 @@ The \code{IdVector} class extends the \code{\link{Vector}} class to implement a 
 # Constructor ----
 
 tv <- IdVector(id=head(LETTERS, 6))
-elementMetadata(tv) <- DataFrame(row.names = id(tv), field1=runif(length(tv)))
+mcols(tv) <- DataFrame(row.names = id(tv), field1=runif(length(tv)))
 
 # Subsetting ----
 

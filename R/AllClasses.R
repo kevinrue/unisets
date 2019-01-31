@@ -15,7 +15,7 @@
 #' # Constructor ----
 #'
 #' tv <- IdVector(id=head(LETTERS, 6))
-#' elementMetadata(tv) <- DataFrame(row.names = id(tv), field1=runif(length(tv)))
+#' mcols(tv) <- DataFrame(row.names = id(tv), field1=runif(length(tv)))
 #'
 #' # Subsetting ----
 #'
@@ -184,11 +184,23 @@ BaseSets <- function(
     # Add missing metadata
     if (missing(elementData)) {
         elementData <- IdVector(sort(unique(relations$element)))
-        elementMetadata(elementData) <- DataFrame(row.names=id(elementData))
     }
     if (missing(setData)) {
         setData <- IdVector(sort(unique(relations$set)))
-        elementMetadata(setData) <- DataFrame(row.names=id(setData))
+    }
+    # Add missing mcols
+    if (is.null(mcols(elementData))) {
+        mcols(elementData) <- DataFrame(row.names=id(elementData))
+    }
+    if (is.null(mcols(setData))) {
+        mcols(setData) <- DataFrame(row.names=id(setData))
+    }
+    # Add missing rownames(mcols)
+    if (is.null(rownames(mcols(elementData)))) {
+        rownames(mcols(elementData)) <- id(elementData)
+    }
+    if (is.null(rownames(mcols(setData)))) {
+        rownames(mcols(setData)) <- id(setData)
     }
 
     # Drop metadata for elements and sets not represented in relations
@@ -217,7 +229,7 @@ BaseSets <- function(
         to=setIdx,
         nLnode=length(elementData),
         nRnode=length(setData))
-    elementMetadata(h) <- relations[, extraFields, drop=FALSE]
+    mcols(h) <- relations[, extraFields, drop=FALSE]
 
     new("BaseSets", relations=h, elementData=elementData, setData=setData)
 }
@@ -250,12 +262,12 @@ setClass(
 setValidity("FuzzyHits", function(object) {
     errors <- c()
 
-    if (! "membership" %in% colnames(elementMetadata(object))) {
-        error <- "membership column missing in elementMetadata(object)"
+    if (! "membership" %in% colnames(mcols(object))) {
+        error <- "membership column missing in mcols(object)"
         return(error)
     }
 
-    membership <- elementMetadata(object)[["membership"]]
+    membership <- mcols(object)[["membership"]]
 
     if (!is.numeric(membership)) {
         error <- "membership function must be numeric"

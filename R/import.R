@@ -103,7 +103,7 @@ setMethod("import", "GMTFile", function(con, format, text, ...) {
     source <- vapply(sets, function(set) set[[2]], character(1))
     source[source == "NA" | !nzchar(source)] <- NA
     set_data <- IdVector(id=names)
-    elementMetadata(set_data) <- DataFrame(source=source)
+    mcols(set_data) <- DataFrame(source=source)
 
     ## Construct and return the BaseSet
     bs <- BaseSets(map, setData=set_data)
@@ -140,9 +140,9 @@ setMethod("export.gmt", "ANY", function(object, con, ...) {
 #' @importFrom methods getPackageName
 setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...) {
     path <- resource(con)
-    if (! "source" %in% colnames(elementMetadata(setData(object)))) {
+    if (! "source" %in% colnames(mcols(setData(object)))) {
         message(
-            "'source' column not found in elementMetadata(setData(object)), ",
+            "'source' column not found in mcols(setData(object)), ",
             sprintf("setting to \"%s\"", getPackageName()))
         source <- DataFrame(
             source=rep(getPackageName(), nSets(object)),
@@ -150,7 +150,7 @@ setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...)
         )
     } else {
         source <- DataFrame(
-            source=elementMetadata(setData(object))[["source"]],
+            source=mcols(setData(object))[["source"]],
             row.names=id(setData(object))
         )
     }
