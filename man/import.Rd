@@ -4,21 +4,27 @@
 \name{GMTFile-class}
 \alias{GMTFile-class}
 \alias{GMTFile}
+\alias{import.gmt}
 \alias{import.gmt,ANY-method}
 \alias{import,GMTFile,ANY,ANY-method}
 \alias{import}
 \alias{export.gmt}
+\alias{export.gmt,ANY-method}
 \alias{export,BaseSets,GMTFile,ANY-method}
 \alias{export}
 \title{Import and export}
 \usage{
 GMTFile(resource)
 
+import.gmt(con, ...)
+
 \S4method{import.gmt}{ANY}(con, ...)
 
 \S4method{import}{GMTFile,ANY,ANY}(con, format, text, ...)
 
 export.gmt(object, con, ...)
+
+\S4method{export.gmt}{ANY}(object, con, ...)
 
 \S4method{export}{BaseSets,GMTFile,ANY}(object, con, format, ...)
 }
