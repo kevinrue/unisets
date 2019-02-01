@@ -110,24 +110,24 @@ setGeneric(
     function(x, value) standardGeneric("membership<-")
 )
 
-#' Method id
+#' Method ids
 #' @name IdVector-class
 #' @rdname IdVector-class
-#' @aliases id
-#' @exportMethod id
+#' @aliases ids
+#' @exportMethod ids
 setGeneric(
-    "id",
-    function(x) standardGeneric("id")
+    "ids",
+    function(x) standardGeneric("ids")
 )
 
-#' Method id<-
+#' Method ids<-
 #' @name IdVector-class
 #' @rdname IdVector-class
-#' @aliases id<-
-#' @exportMethod id<-
+#' @aliases ids<-
+#' @exportMethod ids<-
 setGeneric(
-    "id<-",
-    function(x, value) standardGeneric("id<-")
+    "ids<-",
+    function(x, value) standardGeneric("ids<-")
 )
 
 # Dimensions ----

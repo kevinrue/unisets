@@ -2,7 +2,7 @@
 #'
 #' The `IdVector` class extends the [`Vector`] class to implement a container that hold a vector of Entrez gene character identifiers.
 #'
-#' @slot id character. Entrez gene identifiers.
+#' @slot ids character. Entrez gene identifiers.
 #'
 #' @return A `IdVector` object.
 #' @export
@@ -14,8 +14,8 @@
 #' @examples
 #' # Constructor ----
 #'
-#' tv <- IdVector(id=head(LETTERS, 6))
-#' mcols(tv) <- DataFrame(row.names = id(tv), field1=runif(length(tv)))
+#' tv <- IdVector(ids=head(LETTERS, 6))
+#' mcols(tv) <- DataFrame(row.names = ids(tv), field1=runif(length(tv)))
 #'
 #' # Subsetting ----
 #'
@@ -24,16 +24,16 @@
 setClass("IdVector",
          contains="Vector",
          representation(
-             id="character"
+             ids="character"
          ),
          prototype(
-             id=character(0)
+             ids=character(0)
          )
 )
 
 #' @importFrom methods callNextMethod
 setMethod("parallelSlotNames", "IdVector", function(x) {
-    c("id", callNextMethod())
+    c("ids", callNextMethod())
 })
 
 #' @importFrom methods slot
@@ -48,20 +48,20 @@ setValidity("IdVector", function(object) {
     return(TRUE)
 })
 
-#' @param id character. Entrez gene identifiers.
+#' @param ids character. Entrez gene identifiers.
 #'
 #' @rdname IdVector-class
 #' @aliases IdVector
 #' @export
 #' @importFrom methods new
-IdVector <- function(id=character(0)) {
+IdVector <- function(ids=character(0)) {
     # Drop names if present
-    if (!is.null(names(id))) {
-        message("Setting names(id) to NULL")
-        names(id) <- NULL
+    if (!is.null(names(ids))) {
+        message("Setting names(ids) to NULL")
+        names(ids) <- NULL
     }
 
-    new("IdVector", id=id)
+    new("IdVector", ids=ids)
 }
 
 #' BaseSets Class
@@ -190,38 +190,31 @@ BaseSets <- function(
     }
     # Add missing mcols
     if (is.null(mcols(elementData))) {
-        mcols(elementData) <- DataFrame(row.names=id(elementData))
+        mcols(elementData) <- DataFrame(row.names=ids(elementData))
     }
     if (is.null(mcols(setData))) {
-        mcols(setData) <- DataFrame(row.names=id(setData))
-    }
-    # Add missing rownames(mcols)
-    if (is.null(rownames(mcols(elementData)))) {
-        rownames(mcols(elementData)) <- id(elementData)
-    }
-    if (is.null(rownames(mcols(setData)))) {
-        rownames(mcols(setData)) <- id(setData)
+        mcols(setData) <- DataFrame(row.names=ids(setData))
     }
 
     # Drop metadata for elements and sets not represented in relations
-    elementKeep <- (id(elementData) %in% relations$element)
+    elementKeep <- (ids(elementData) %in% relations$element)
     if (!all(elementKeep)) {
         message("Dropping elementData missing from relations$element")
         elementData <- elementData[elementKeep]
     }
-    setKeep <- (id(setData) %in% relations$set)
+    setKeep <- (ids(setData) %in% relations$set)
     if (!all(setKeep)) {
         message("Dropping setData missing from relations$set")
         setData <- setData[setKeep]
     }
 
-    elementIdx <- match(relations$element, id(elementData))
+    elementIdx <- match(relations$element, ids(elementData))
     if (any(is.na(elementIdx))) {
-        stop("relations$element missing from id(elementData)")
+        stop("relations$element missing from ids(elementData)")
     }
-    setIdx <- match(relations$set, id(setData))
+    setIdx <- match(relations$set, ids(setData))
     if (any(is.na(setIdx))) {
-        stop("relations$set missing from id(setData)")
+        stop("relations$set missing from ids(setData)")
     }
 
     h <- Hits(
@@ -439,9 +432,9 @@ setClass("EntrezIdVector",
 #' @rdname IdVector-class
 #' @aliases EntrezIdVector
 #' @export
-EntrezIdVector <- function(id) {
+EntrezIdVector <- function(ids) {
     # Pass basic arguments to IdVector constructor
-    iv <- IdVector(id)
+    iv <- IdVector(ids)
     iv <- new("EntrezIdVector", iv)
     iv
 }

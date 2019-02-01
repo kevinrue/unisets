@@ -102,7 +102,7 @@ setMethod("import", "GMTFile", function(con, format, text, ...) {
     ## Extract GMT source (url) to create setData slot
     source <- vapply(sets, function(set) set[[2]], character(1))
     source[source == "NA" | !nzchar(source)] <- NA
-    set_data <- IdVector(id=names)
+    set_data <- IdVector(names)
     mcols(set_data) <- DataFrame(source=source)
 
     ## Construct and return the BaseSet
@@ -146,12 +146,12 @@ setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...)
             sprintf("setting to \"%s\"", getPackageName()))
         source <- DataFrame(
             source=rep(getPackageName(), nSets(object)),
-            row.names=id(setData(object))
+            row.names=ids(setData(object))
         )
     } else {
         source <- DataFrame(
             source=mcols(setData(object))[["source"]],
-            row.names=id(setData(object))
+            row.names=ids(setData(object))
         )
     }
 

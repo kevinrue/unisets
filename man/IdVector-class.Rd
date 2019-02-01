@@ -7,33 +7,39 @@
 \alias{IdVector}
 \alias{EntrezIdVector-class}
 \alias{EntrezIdVector}
-\alias{id}
-\alias{id<-}
-\alias{id,IdVector-method}
-\alias{id<-,IdVector-method}
+\alias{ids}
+\alias{ids<-}
+\alias{ids,IdVector-method}
+\alias{ids<-,IdVector-method}
+\alias{names,IdVector-method}
+\alias{names<-,IdVector-method}
 \alias{length,IdVector-method}
 \alias{[,IdVector,ANY,ANY,ANY-method}
 \alias{[,IdVector-method}
 \title{IdVector Class}
 \usage{
-IdVector(id = character(0))
+IdVector(ids = character(0))
 
-EntrezIdVector(id)
+EntrezIdVector(ids)
 
-id(x)
+ids(x)
 
-id(x) <- value
+ids(x) <- value
 
-\S4method{id}{IdVector}(x)
+\S4method{ids}{IdVector}(x)
 
-\S4method{id}{IdVector}(x) <- value
+\S4method{ids}{IdVector}(x) <- value
+
+\S4method{names}{IdVector}(x)
+
+\S4method{names}{IdVector}(x) <- value
 
 \S4method{length}{IdVector}(x)
 
 \S4method{[}{IdVector,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 }
 \arguments{
-\item{id}{character. Entrez gene identifiers.}
+\item{ids}{character. Entrez gene identifiers.}
 
 \item{x}{An object that inherits from \code{IdVector}.}
 
@@ -52,14 +58,14 @@ The \code{IdVector} class extends the \code{\link{Vector}} class to implement a 
 \section{Slots}{
 
 \describe{
-\item{\code{id}}{character. Entrez gene identifiers.}
+\item{\code{ids}}{character. Entrez gene identifiers.}
 }}
 
 \examples{
 # Constructor ----
 
-tv <- IdVector(id=head(LETTERS, 6))
-mcols(tv) <- DataFrame(row.names = id(tv), field1=runif(length(tv)))
+tv <- IdVector(ids=head(LETTERS, 6))
+mcols(tv) <- DataFrame(row.names = ids(tv), field1=runif(length(tv)))
 
 # Subsetting ----
 

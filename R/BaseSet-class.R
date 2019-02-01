@@ -31,7 +31,7 @@ setMethod("elements", "BaseSets", function(x) {
 #' @rdname BaseSets-class
 #' @aliases elementIds,BaseSets-method
 setMethod("elementIds", "BaseSets", function(x) {
-    id(elementData(x))
+    ids(elementData(x))
 })
 
 #' @param value An object of a class specified in the S4 method signature or as outlined in 'Slots'.
@@ -40,7 +40,7 @@ setMethod("elementIds", "BaseSets", function(x) {
 #' @aliases elementIds<-,BaseSets-method
 #' @importFrom methods validObject
 setMethod("elementIds<-", "BaseSets", function(x, value) {
-    x@elementData@id <- value
+    x@elementData@ids <- value
     validObject(x)
     x
 })
@@ -61,14 +61,14 @@ setMethod("sets", "BaseSets", function(x) {
 #' @rdname BaseSets-class
 #' @aliases setIds,BaseSets-method
 setMethod("setIds", "BaseSets", function(x) {
-    id(setData(x))
+    ids(setData(x))
 })
 
 #' @rdname BaseSets-class
 #' @aliases setIds<-,BaseSets-method
 #' @importFrom methods validObject
 setMethod("setIds<-", "BaseSets", function(x, value) {
-    x@setData@id <- value
+    x@setData@ids <- value
     validObject(x)
     x
 })
@@ -119,12 +119,12 @@ setMethod("subset", "BaseSets", function(x, ...) {
         table <- as(x, "data.frame")
         i <- eval(substitute(subset), table)
 
-        keep.element <- unique(id(elementData(x))[from(x@relations)[i]])
-        keep.set <- unique(id(setData(x))[to(x@relations)[i]])
+        keep.element <- unique(ids(elementData(x))[from(x@relations)[i]])
+        keep.set <- unique(ids(setData(x))[to(x@relations)[i]])
 
         relations <- DataFrame(table[i, , drop=FALSE])
-        elementData <- elementData(x)[which(id(elementData(x)) %in% keep.element)]
-        setData <- setData(x)[which(id(setData(x)) %in% keep.set)]
+        elementData <- elementData(x)[which(ids(elementData(x)) %in% keep.element)]
+        setData <- setData(x)[which(ids(setData(x)) %in% keep.set)]
 
         BaseSets(relations, elementData, setData)
     }
