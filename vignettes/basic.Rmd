@@ -99,9 +99,12 @@ relations(base_sets)
 
 ## The _FuzzySets_ class
 
-Classes derived from `BaseSets` may add additional constraints on the relations to define special types of relationships between elements and sets.
+Classes derived from `Hits` may add additional constraints on the relations to define special types of relationships between elements and sets.
 
-For instance, the `FuzzySets` class is a direct extension of the `BaseSets` class where the metadata accompanying each relation must include at least a column called `"membership"` that holds the "membership function", a numeric value in the interval [0,1] that provides a measure of partial membership between elements and sets.
+For instance, the `FuzzyHits` class is a direct extension of the `Hits` class where the metadata accompanying each relation must include at least a column called `"membership"` that holds the "membership function", a numeric value in the interval [0,1] that provides a measure of partial membership between elements and sets.
+
+Simultaneously, the `FuzzySets` class is a direct extension of the `BaseSets` class where the `relations` slot must contain a `FuzzyHits`.
+As such, `FuzzySets` can be constructed exactly like `BaseSets`, with the only additional constraint that the relations table contains a `"membership"` column with numeric values in the interval [0,1].
 
 ```{r, message=FALSE}
 relations_table$membership <- round(runif(nrow(relations_table)), 2)
@@ -129,7 +132,7 @@ The `subset` method can be applied to a `BaseSets` object, using a logical expre
 subset(base_sets, set == "geneset1" | element %in% c("C") | extra1 == "ABC")
 ```
 
-Similarly, the `subset` method can be also applied to a `FuzzySets` object, where the logical expression may also refer to the additional `"membership"` metadata.
+Similarly, the `subset` method can be also applied to a `FuzzySets` object, where the logical expression may also refer to the additional `"membership"` metadata that is guaranted by the class validity method.
 
 ```{r}
 subset(fuzzy_sets, set == "geneset2" & membership > 0.3)
@@ -145,20 +148,20 @@ as(fuzzy_sets, "list")
 
 It is also possible to visualize membership between gene and gene sets as a matrix.
 
-Notably, `BaseSets` return a `logical` matrix of binary membership that indicates whether each element is associated at least once with each set:
+Notably, `BaseSets` objects produce a `logical` matrix of binary membership that indicates whether each element is associated at least once with each set:
 
 ```{r}
 base_matrix <- as(base_sets, "matrix")
 base_matrix
 ```
 
-In contrast, `FuzzySets` return a `double` matrix displaying the membership function for each relation.
+In contrast, `FuzzySets` objects produce a `double` matrix displaying the membership function for each relation.
 Relations that are not described in the `FuzzySets` are filled with `NA`, to contrast to relations explictly associated with a membership function of 0.
 
 ```{r}
+membership(fuzzy_sets)[1] <- 0
 fuzzy_matrix <- as(fuzzy_sets, "matrix")
 fuzzy_matrix
-    
 ```
 
 # Converting from other formats
@@ -167,13 +170,13 @@ fuzzy_matrix
 
 It is possible to convert incidence matrices into objects derived from the `BaseSets` class.
 
-Notably, `BaseSets` are suitable for `logical` matrices indicating binary membership.
+Notably, the `BaseSets` class is suitable for `logical` matrices indicating binary membership.
 
 ```{r}
 as(base_matrix, "BaseSets")
 ```
 
-Similarly, `FuzzySets` are suitable for `double` matrices indicating the membership function for each relation.
+Similarly, the `FuzzySets` class is suitable for `double` matrices indicating the membership function for each relation.
 Importantly, relations described as `NA` are not imported into the `FuzzySets` object.
 In contrast, relations with a membership function of 0 are imported and described as such.
 
@@ -184,13 +187,15 @@ as(fuzzy_matrix, "FuzzySets")
 
 # Additional information
 
-The number of relations between elements and sets can be obtained using the `length` method.
+## Count of relations, elements, and sets
+
+The count of relations between elements and sets can be obtained using the `length` method.
 
 ```{r}
 length(base_sets)
 ```
 
-The number of unique elements and sets can be obtained using the `nElements` and `nSets` methods.
+The count of unique elements and sets can be obtained using the `nElements` and `nSets` methods.
 
 ```{r}
 nElements(base_sets)
@@ -208,6 +213,8 @@ Conversely, the number of sets associated with each gene is returned by the `ele
 ```{r}
 elementLengths(fuzzy_sets)
 ```
+
+## Names of elements and sets
 
 The identifiers of elements and sets can be inspected and renamed using `elementIds` and `setIds` methods.
 
