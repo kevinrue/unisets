@@ -1,4 +1,6 @@
 
+# Setup ----
+
 # Visually intuitive definition of fuzzy sets
 sets <- list(
     set1=c("A"=0, "B"=0.1),
@@ -229,11 +231,11 @@ test_that("as(BaseSets, \"FuzzySets\") works", {
     out <- as(bs, "FuzzySets")
     expect_s4_class(out, "FuzzySets")
     expect_identical(nrow(relations(out)), nrow(relations(bs)))
-    expect_identical(membership(out), as.numeric(elementMetadata(bs@relations)[["membership"]]))
+    expect_identical(membership(out), as.numeric(mcols(bs@relations)[["membership"]]))
 
     out <- as.FuzzySets.BaseSets(bs)
     expect_s4_class(out, "FuzzySets")
     expect_identical(nrow(relations(out)), nrow(relations(bs)))
-    expect_identical(membership(out), as.numeric(elementMetadata(bs@relations)[["membership"]]))
+    expect_identical(membership(out), as.numeric(mcols(bs@relations)[["membership"]]))
 
 })

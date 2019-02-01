@@ -110,25 +110,19 @@ setGeneric(
     function(x, value) standardGeneric("membership<-")
 )
 
-#' Method id
+#' Method ids
 #' @name IdVector-class
 #' @rdname IdVector-class
-#' @aliases id
-#' @exportMethod id
-setGeneric(
-    "id",
-    function(x) standardGeneric("id")
-)
+#' @aliases ids
+#' @exportMethod ids
+setGeneric("ids", function(x) standardGeneric("ids"))
 
-#' Method id<-
+#' Method ids<-
 #' @name IdVector-class
 #' @rdname IdVector-class
-#' @aliases id<-
-#' @exportMethod id<-
-setGeneric(
-    "id<-",
-    function(x, value) standardGeneric("id<-")
-)
+#' @aliases ids<-
+#' @exportMethod ids<-
+setGeneric("ids<-", function(x, value) standardGeneric("ids<-"))
 
 # Dimensions ----
 
@@ -137,37 +131,25 @@ setGeneric(
 #' @rdname BaseSets-class
 #' @aliases nElements
 #' @exportMethod nElements
-setGeneric(
-    "nElements",
-    function(x) standardGeneric("nElements")
-)
+setGeneric("nElements", function(x) standardGeneric("nElements"))
 
 #' Method nSets
 #' @name BaseSets-class
 #' @rdname BaseSets-class
 #' @aliases nSets
 #' @exportMethod nSets
-setGeneric(
-    "nSets",
-    function(x) standardGeneric("nSets")
-)
+setGeneric("nSets", function(x) standardGeneric("nSets"))
 
 #' Method setLengths
 #' @name BaseSets-class
 #' @rdname BaseSets-class
 #' @aliases setLengths
 #' @exportMethod setLengths
-setGeneric(
-    "setLengths",
-    function(x) standardGeneric("setLengths")
-)
+setGeneric("setLengths", function(x) standardGeneric("setLengths"))
 
 #' Method elementLengths
 #' @name BaseSets-class
 #' @rdname BaseSets-class
 #' @aliases elementLengths
 #' @exportMethod elementLengths
-setGeneric(
-    "elementLengths",
-    function(x) standardGeneric("elementLengths")
-)
+setGeneric("elementLengths", function(x) standardGeneric("elementLengths"))

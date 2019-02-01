@@ -1,31 +1,55 @@
-# id() ----
+# ids() ----
 
 #' @param x An object that inherits from `IdVector`.
 #'
 #' @rdname IdVector-class
-#' @aliases id,IdVector-method
-setMethod("id", "IdVector", function(x) {
-    slot(x, "id")
+#' @aliases ids,IdVector-method
+setMethod("ids", "IdVector", function(x) {
+    slot(x, "ids")
 })
 
-# id<-() ----
+# ids<-() ----
 
 #' @param value An object of a class specified in the S4 method signature.
 #'
 #' @rdname IdVector-class
-#' @aliases id<-,IdVector-method
+#' @aliases ids<-,IdVector-method
 #' @importFrom methods slot<-
-setMethod("id<-", "IdVector", function(x, value) {
-    slot(x, "id") <- value
-    x
+setReplaceMethod("ids", "IdVector",
+    function(x, value)
+    {
+        slot(x, "ids") <- value
+        x
+    }
+)
+
+# names() ----
+
+#' @rdname IdVector-class
+#' @aliases names,IdVector-method
+setMethod("names", "IdVector", function(x) {
+    ids(x)
 })
+
+# names<-() ----
+
+#' @rdname IdVector-class
+#' @aliases names<-,IdVector-method
+#' @importFrom methods slot<-
+setReplaceMethod("names", "IdVector",
+    function(x, value)
+    {
+        ids(x) <- value
+        x
+    }
+)
 
 # length() ----
 
 #' @rdname IdVector-class
 #' @aliases length,IdVector-method
 setMethod("length", "IdVector", function(x) {
-    length(slot(x, "id"))
+    length(slot(x, "ids"))
 })
 
 # [ ----
@@ -43,7 +67,7 @@ setMethod("[", "IdVector", function(x, i, j, ..., drop = TRUE) {
 
 setMethod("show", "IdVector", function(object) {
     ne <- length(object)
-    nu <- length(unique(slot(object, "id")))
+    nu <- length(unique(slot(object, "ids")))
     cat(
         class(object), " of length ", ne, " with ",
         nu, " unique ", ifelse(ne == 1, "identifier", "identifiers"), "\n",
@@ -51,7 +75,7 @@ setMethod("show", "IdVector", function(object) {
     )
     # Preview of identifiers if any
     if (length(object) > 0) {
-        ids <- paste(head(id(object), 4), collapse=", ")
+        ids <- paste(head(ids(object), 4), collapse=", ")
         if (ne > 4) {
             ids <- paste0(ids, ", ...")
         }
@@ -59,9 +83,9 @@ setMethod("show", "IdVector", function(object) {
         cat(ids, "\n", sep = "")
     }
     # Preview of metadata if any
-    if (!is.null(elementMetadata(object))) {
-        nem <- ncol(elementMetadata(object))
-        metadata <- paste(head(colnames(elementMetadata(object)), 4), collapse=", ")
+    if (!is.null(mcols(object))) {
+        nem <- ncol(mcols(object))
+        metadata <- paste(head(colnames(mcols(object)), 4), collapse=", ")
         if (nem > 4) {
             metadata <- paste0(metadata, ", ...")
         }
@@ -70,26 +94,26 @@ setMethod("show", "IdVector", function(object) {
             ifelse(nem == 1, " column", " columns"), ")")
         cat(metadata, "\n", sep = "")
     }
-    invisible(id(object))
+    invisible(ids(object))
 })
 
 # showAsCell() ----
 
 setMethod("showAsCell", "IdVector", function(object) {
-    slot(object, "id")
+    slot(object, "ids")
 })
 
 # unique() ----
 
 unique.IdVector <- function(object) {
-    unique(id(object))
+    unique(ids(object))
 }
 
 # NSBS ----
 
 setMethod("NSBS", "IdVector", function(i, x, exact=TRUE, strict.upper.bound=TRUE, allow.NAs=FALSE)
 {
-    i <- match(id(i), rownames(x))
+    i <- match(ids(i), rownames(x))
     i
 })
 
@@ -97,24 +121,24 @@ setMethod("NSBS", "IdVector", function(i, x, exact=TRUE, strict.upper.bound=TRUE
 
 setMethod("as.vector", "IdVector", function(x, mode = "any")
 {
-    as.vector(id(x))
+    as.vector(ids(x))
 })
 
 # pcompare() ----
 
 setMethod("pcompare", c("IdVector", "IdVector"), function(x, y)
 {
-    id(x) == id(y)
+    ids(x) == ids(y)
 })
 
 setMethod("pcompare", c("ANY", "IdVector"), function(x, y)
 {
-    x == id(y)
+    x == ids(y)
 })
 
 setMethod("pcompare", c("IdVector", "ANY"), function(x, y)
 {
-    id(x) == y
+    ids(x) == y
 })
 
 # as.IdVector() ----
@@ -132,7 +156,7 @@ as.IdVector.character <- function(x, ...) {
 # as.character() ----
 
 setAs("IdVector", "character", function(from) {
-    id(from)
+    ids(from)
 })
 
 #' @aliases as.character.IdVector as.character

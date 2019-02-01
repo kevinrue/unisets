@@ -13,6 +13,12 @@ You can install the released version of unisets from [GitHub](https://github.com
 devtools::install_github("kevinrue/unisets")
 ```
 
+To compile the vignette as well, please use the following command:
+
+``` r
+devtools::install_github("kevinrue/unisets", build_opts = c("--no-resave-data", "--no-manual"))
+```
+
 ## Example
 
 This is a basic example which shows you how to create a `BaseSets` object, to store simple associations between genes and sets:
