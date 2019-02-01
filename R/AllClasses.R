@@ -22,13 +22,13 @@
 #' tv1 <- tv[1:5]
 #'
 setClass("IdVector",
-         contains="Vector",
-         representation(
-             ids="character"
-         ),
-         prototype(
-             ids=character(0)
-         )
+    contains="Vector",
+    slots=c(
+        ids="character"
+    ),
+    prototype= list(
+        ids=character(0)
+    )
 )
 
 #' @importFrom methods callNextMethod
@@ -127,18 +127,17 @@ IdVector <- function(ids=character(0)) {
 #' elementIds(bs1) <- paste0("gene", seq_len(nElements(bs)))
 #' setIds(bs1) <- paste0("geneset", seq_len(nSets(bs)))
 #'
-setClass(
-    "BaseSets",
+setClass("BaseSets",
     slots=c(
         relations="Hits",
         elementData="IdVector",
         setData="IdVector"
-        ),
+    ),
     prototype=list(
         relations=Hits(),
         elementData=IdVector(),
         setData=IdVector()
-        )
+    )
 )
 
 #' @importFrom methods slot
@@ -246,8 +245,7 @@ BaseSets <- function(
 #'
 #' fh <- FuzzyHits(from, to, membership, 7, 15)
 #'
-setClass(
-    "FuzzyHits",
+setClass("FuzzyHits",
     contains="Hits"
 )
 
@@ -358,14 +356,13 @@ FuzzyHits <- function(
 #' fs1 <- fs
 #' membership(fs1) <- runif(length(fs1))
 #'
-setClass(
-    "FuzzySets",
+setClass("FuzzySets",
     slots=c(
         relations="FuzzyHits"
-        ),
+    ),
     prototype=list(
         relations=FuzzyHits()
-        ),
+    ),
     contains="BaseSets"
 )
 
@@ -426,7 +423,7 @@ FuzzySets <- function(
 #' ev <- EntrezIdVector(keys(org.Hs.eg.db))
 #'
 setClass("EntrezIdVector",
-         contains="IdVector"
+    contains="IdVector"
 )
 
 #' @rdname IdVector-class
