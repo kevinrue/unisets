@@ -15,10 +15,13 @@ setMethod("ids", "IdVector", function(x) {
 #' @rdname IdVector-class
 #' @aliases ids<-,IdVector-method
 #' @importFrom methods slot<-
-setMethod("ids<-", "IdVector", function(x, value) {
-    slot(x, "ids") <- value
-    x
-})
+setReplaceMethod("ids", "IdVector",
+    function(x, value)
+    {
+        slot(x, "ids") <- value
+        x
+    }
+)
 
 # names() ----
 
@@ -33,10 +36,13 @@ setMethod("names", "IdVector", function(x) {
 #' @rdname IdVector-class
 #' @aliases names<-,IdVector-method
 #' @importFrom methods slot<-
-setMethod("names<-", "IdVector", function(x, value) {
-    ids(x) <- value
-    x
-})
+setReplaceMethod("names", "IdVector",
+    function(x, value)
+    {
+        ids(x) <- value
+        x
+    }
+)
 
 # length() ----
 

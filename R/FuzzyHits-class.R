@@ -14,10 +14,13 @@ setMethod("membership", "FuzzyHits", function(x) {
 #' @rdname FuzzyHits-class
 #' @aliases membership<-,FuzzyHits-method
 #' @importFrom methods validObject
-setMethod("membership<-", "FuzzyHits", function(x, value) {
-    mcols(x)[["membership"]] <- value
-    x
-})
+setReplaceMethod("membership", "FuzzyHits",
+    function(x, value)
+    {
+        mcols(x)[["membership"]] <- value
+        x
+    }
+)
 
 # show() ----
 

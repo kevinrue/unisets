@@ -13,11 +13,14 @@ setMethod("membership", "FuzzySets", function(x) {
 #' @rdname FuzzySets-class
 #' @aliases membership<-,FuzzySets-method
 #' @importFrom methods validObject
-setMethod("membership<-", "FuzzySets", function(x, value) {
-    membership(x@relations) <- value
-    validObject(x)
-    x
-})
+setReplaceMethod("membership", "FuzzySets",
+    function(x, value)
+    {
+        membership(x@relations) <- value
+        validObject(x)
+        x
+    }
+)
 
 # subset ----
 

@@ -39,11 +39,14 @@ setMethod("elementIds", "BaseSets", function(x) {
 #' @rdname BaseSets-class
 #' @aliases elementIds<-,BaseSets-method
 #' @importFrom methods validObject
-setMethod("elementIds<-", "BaseSets", function(x, value) {
-    x@elementData@ids <- value
-    validObject(x)
-    x
-})
+setReplaceMethod("elementIds", "BaseSets",
+    function(x, value)
+    {
+        x@elementData@ids <- value
+        validObject(x)
+        x
+    }
+)
 
 #' @rdname BaseSets-class
 #' @aliases setData,BaseSets-method
@@ -67,11 +70,14 @@ setMethod("setIds", "BaseSets", function(x) {
 #' @rdname BaseSets-class
 #' @aliases setIds<-,BaseSets-method
 #' @importFrom methods validObject
-setMethod("setIds<-", "BaseSets", function(x, value) {
-    x@setData@ids <- value
-    validObject(x)
-    x
-})
+setReplaceMethod("setIds", "BaseSets",
+    function(x, value)
+    {
+        x@setData@ids <- value
+        validObject(x)
+        x
+    }
+)
 
 # Dimensions ----
 
