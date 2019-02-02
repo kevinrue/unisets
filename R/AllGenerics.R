@@ -4,55 +4,37 @@
 #' @rdname BaseSets-methods
 #' @aliases relations
 #' @exportMethod relations
-setGeneric(
-    "relations",
-    function(x) standardGeneric("relations")
-)
+setGeneric("relations", function(x) standardGeneric("relations"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
 #' @aliases elements
 #' @exportMethod elements
-setGeneric(
-    "elements",
-    function(x) standardGeneric("elements")
-)
+setGeneric("elements", function(x) standardGeneric("elements"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
 #' @aliases elementIds
 #' @exportMethod elementIds
-setGeneric(
-    "elementIds",
-    function(x) standardGeneric("elementIds")
-)
+setGeneric("elementIds", function(x) standardGeneric("elementIds"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
 #' @aliases elementIds<-
 #' @exportMethod elementIds<-
-setGeneric(
-    "elementIds<-",
-    function(x, value) standardGeneric("elementIds<-")
-)
+setGeneric("elementIds<-", function(x, value) standardGeneric("elementIds<-"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
 #' @aliases elementData
 #' @exportMethod elementData
-setGeneric(
-    "elementData",
-    function(x) standardGeneric("elementData")
-)
+setGeneric("elementData", function(x) standardGeneric("elementData"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
 #' @aliases sets
 #' @exportMethod sets
-setGeneric(
-    "sets",
-    function(x) standardGeneric("sets")
-)
+setGeneric("sets", function(x) standardGeneric("sets"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
