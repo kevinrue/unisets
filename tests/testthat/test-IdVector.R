@@ -156,13 +156,13 @@ test_that("as(character, \"IdVector\") works", {
     expect_s4_class(out, "IdVector")
     expect_identical(ids(out), as.character(idValues))
 
-    out <- as.IdVector.character(idValues)
+    out <- as.IdVector.default(idValues)
     expect_s4_class(out, "IdVector")
     expect_identical(ids(out), as.character(idValues))
 
 })
 
-# as(, "character") ----
+# as(IdVector, "character") ----
 
 test_that("as(IdVector, \"character\") works", {
 
@@ -173,6 +173,22 @@ test_that("as(IdVector, \"character\") works", {
     expect_identical(out, ids(iv))
 
     out <- as.character.IdVector(iv)
+    expect_type(out, "character")
+    expect_identical(out, ids(iv))
+
+})
+
+# as(IdVector, "vector") ----
+
+test_that("as(IdVector, \"character\") works", {
+
+    iv <- IdVector(idValues)
+
+    out <- as(iv, "character")
+    expect_type(out, "character")
+    expect_identical(out, ids(iv))
+
+    out <- as.vector.IdVector(iv)
     expect_type(out, "character")
     expect_identical(out, ids(iv))
 

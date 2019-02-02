@@ -1,17 +1,19 @@
 # Direct pointers ----
 
-#' @param x An object that inherits from `FuzzySets`.
-#'
-#' @rdname FuzzySets-class
+#' @rdname FuzzySets-methods
 #' @aliases membership,FuzzySets-method
+#'
+#' @section Accessors:
+#' `membership(x)` returns a `numeric` vector of membership function for each relation.
+#'
+#' @importFrom S4Vectors DataFrame
 setMethod("membership", "FuzzySets", function(x) {
     as.numeric(membership(x@relations))
 })
 
-#' @param value An object of a class specified in the S4 method signature or as outlined in 'Slots'.
-#'
-#' @rdname FuzzySets-class
+#' @rdname FuzzySets-methods
 #' @aliases membership<-,FuzzySets-method
+#'
 #' @importFrom methods validObject
 setReplaceMethod("membership", "FuzzySets",
     function(x, value)
@@ -23,6 +25,23 @@ setReplaceMethod("membership", "FuzzySets",
 )
 
 # subset ----
+
+#' @rdname FuzzySets-methods
+#' @aliases subset.FuzzySets subset,FuzzySets-method
+#'
+#' @param ... Additional arguments passed to and from other methods.
+#'
+#' @section Subsetting:
+#' `subset(x, subset, ...)` returns subsets of relations which meet conditions.
+#' For `FuzzySets` objects, the `subset` argument should be a logical expression referring to any of `"element"`, `"set"`, `"membership"`, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
+#' In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.
+#'
+#' @importFrom methods as
+#' @importFrom BiocGenerics eval unique
+#' @importFrom S4Vectors from to subset
+#' @method subset FuzzySets
+#' @export
+subset.FuzzySets <- function(x, ...) subset(x, ...)
 
 setMethod("subset", "FuzzySets", function(x, ...) {
     .local <- function (x, subset, select, drop=FALSE, ...) {
@@ -44,35 +63,26 @@ setMethod("subset", "FuzzySets", function(x, ...) {
     .local(x, ...)
 })
 
-# as.list() ----
+# as.matrix.FuzzySets() ----
 
-#' @rdname FuzzySets-class
-#' @aliases as.list.FuzzySets
-#' @importFrom methods as
-#' @export
-as.list.FuzzySets <- function(x, ...) {
-    as(x, "list")
-}
-
-#' @param fill Value with which to fill in structural missings, defaults to 0 (element is not a member of the set).
-#'
-#' @section Conversion to matrix:
-#' As it is possible to store multiple relations between the same gene and gene set, it may be necessary to collapse multiple observations of the membership function into a single value.
-#' This can be controlled using the `fun.aggregate` argument passed down to the `acast` function.
-#' See examples below.
-#'
-#' @rdname FuzzySets-class
+#' @rdname FuzzySets-methods
 #' @aliases as.matrix.FuzzySets
+#'
+#' @param fill Value with which to fill in structural missings, passed to [`acast()`].
+#' Defaults to `NA_real_`, to contrast with relations explictly associated with a membership function of 0.
+#' @section Coercion:
+#' `as(x, "matrix")` and `as.matrix(x)` return a `matrix` with elements as rows, sets as columns, and a numeric value indicating the membership function.
+#'
+#' @section Coercion to matrix:
+#' As it is possible to store multiple relations between the same gene and gene set, it may be necessary to collapse multiple observations of the membership function into a single value.
+#' To this end, the form `as.matrix(x, fun.aggregate)` can be used to provide an aggregation function.
+#' See examples.
+#'
 #' @importFrom methods as
 #' @importFrom reshape2 acast
 #' @export
 #'
-#' @examples
-#' # Converting to matrix: multiple observations ----
-#'
-#' as.matrix(fs, fun.aggregate=min)
-#'
-as.matrix.FuzzySets <- function(x, ..., fill=NA_real_) {
+as.matrix.FuzzySets <- function(x, fill=NA_real_, ...) {
     out <- as(x, "data.frame")
     out[["value"]] <- membership(x)
     out <- acast(out, element~set, value.var="value", fill=fill, ...)
@@ -84,20 +94,29 @@ setAs("FuzzySets", "matrix", function(from) {
     as.matrix.FuzzySets(from)
 })
 
+# as.FuzzySets.matrix() ----
+
+#' @rdname FuzzySets-methods
+#' @aliases as.FuzzySets.matrix as.FuzzySets
+#'
+#' @param matrix A `matrix`.
+#' The matrix will be coerced to `double` type and the value will be taken to indicate the membership function.
+#'
+#' @importFrom methods as
+as.FuzzySets.matrix <- function(matrix, ...) {
+    storage.mode(matrix) <- "double"
+    relations <- melt(matrix, varnames=c("element", "set"), value.name="membership", as.is=TRUE)
+    relations <- DataFrame(relations)
+    FuzzySets(relations)
+}
+
 #' @importFrom reshape2 melt
 #' @importFrom S4Vectors DataFrame
 setAs("matrix", "FuzzySets", function(from) {
-    storage.mode(from) <- "double"
-    relations <- melt(from, varnames=c("element", "set"), value.name = "membership", as.is=TRUE)
-    relations <- DataFrame(relations)
-    FuzzySets(relations)
+    as.FuzzySets.matrix(from)
 })
 
-#' @aliases as.FuzzySets.matrix as.FuzzySets
-#' @importFrom methods as
-as.FuzzySets.matrix <- function(x, ...) {
-    as(x, "FuzzySets")
-}
+# as.FuzzySets.BaseSets() ----
 
 #' @importFrom methods new
 setAs("BaseSets", "FuzzySets", function(from) {
@@ -105,9 +124,3 @@ setAs("BaseSets", "FuzzySets", function(from) {
     to <- new("FuzzySets", from)
     to
 })
-
-#' @aliases as.FuzzySets.BaseSets as.FuzzySets
-#' @importFrom methods as
-as.FuzzySets.BaseSets <- function(x, ...) {
-    as(x, "FuzzySets")
-}

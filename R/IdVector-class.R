@@ -1,20 +1,21 @@
 # ids() ----
 
-#' @param x An object that inherits from `IdVector`.
-#'
-#' @rdname IdVector-class
+#' @rdname IdVector-methods
 #' @aliases ids,IdVector-method
+#'
+#' @section Accessors:
+#' `ids(x)` returns a `character` vector of element identifiers.
+#' `names(x)` is a synonym for compatibility with S4 methods such as `mcols(x, use.names = TRUE, ...) `.
+#'
+#' @importFrom methods slot
 setMethod("ids", "IdVector", function(x) {
     slot(x, "ids")
 })
 
 # ids<-() ----
 
-#' @param value An object of a class specified in the S4 method signature.
-#'
-#' @rdname IdVector-class
+#' @rdname IdVector-methods
 #' @aliases ids<-,IdVector-method
-#' @importFrom methods slot<-
 setReplaceMethod("ids", "IdVector",
     function(x, value)
     {
@@ -25,7 +26,7 @@ setReplaceMethod("ids", "IdVector",
 
 # names() ----
 
-#' @rdname IdVector-class
+#' @rdname IdVector-methods
 #' @aliases names,IdVector-method
 setMethod("names", "IdVector", function(x) {
     ids(x)
@@ -33,8 +34,9 @@ setMethod("names", "IdVector", function(x) {
 
 # names<-() ----
 
-#' @rdname IdVector-class
+#' @rdname IdVector-methods
 #' @aliases names<-,IdVector-method
+#'
 #' @importFrom methods slot<-
 setReplaceMethod("names", "IdVector",
     function(x, value)
@@ -46,25 +48,37 @@ setReplaceMethod("names", "IdVector",
 
 # length() ----
 
-#' @rdname IdVector-class
+#' @rdname IdVector-methods
 #' @aliases length,IdVector-method
+#'
+#' @section Dimensions:
+#' `length(x)` returns the number of elements in `x`.
+#'
+#' @importFrom methods slot
 setMethod("length", "IdVector", function(x) {
     length(slot(x, "ids"))
 })
 
 # [ ----
 
-#' @param i index specifying elements to extract or replace
-#' @param j,...,drop Ignored
-#'
-#' @rdname IdVector-class
+#' @rdname IdVector-methods
 #' @aliases [,IdVector-method
+#'
+#' @section Subsetting:
+#' `x[i]` returns new [`IdVector`][IdVector-class] object of the same class as `x` made of the elements selected by `i`. `i` can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or [`Rle`] object); or an [`IntegerRanges`][IntegerRanges-class] object.
+#'
+#' @param i index specifying elements to extract or replace.
+#' @param j,...,drop Ignored.
+#'
+#' @importFrom methods callNextMethod
+#' @importClassesFrom IRanges IntegerRanges
 setMethod("[", "IdVector", function(x, i, j, ..., drop = TRUE) {
     callNextMethod()
 })
 
 # show() ----
 
+#' @importFrom S4Vectors mcols
 setMethod("show", "IdVector", function(object) {
     ne <- length(object)
     nu <- length(unique(slot(object, "ids")))
@@ -99,15 +113,10 @@ setMethod("show", "IdVector", function(object) {
 
 # showAsCell() ----
 
+#' @importFrom methods slot
 setMethod("showAsCell", "IdVector", function(object) {
     slot(object, "ids")
 })
-
-# unique() ----
-
-unique.IdVector <- function(object) {
-    unique(ids(object))
-}
 
 # NSBS ----
 
@@ -117,11 +126,10 @@ setMethod("NSBS", "IdVector", function(i, x, exact=TRUE, strict.upper.bound=TRUE
     i
 })
 
-# as.vector() ----
+# split() ----
 
-setMethod("as.vector", "IdVector", function(x, mode = "any")
-{
-    as.vector(ids(x))
+setMethod("split", c("IdVector", "IdVector"), function(x, f, drop = FALSE, ...)  {
+    split(x, as.vector(f), drop=drop, ...)
 })
 
 # pcompare() ----
@@ -141,26 +149,61 @@ setMethod("pcompare", c("IdVector", "ANY"), function(x, y)
     ids(x) == y
 })
 
-# as.IdVector() ----
+# as.vector.IdVector() ----
 
-setAs("ANY", "IdVector", function(from) {
-    IdVector(as.character(from))
-})
-
-#' @aliases as.IdVector.character as.IdVector
+#' @rdname IdVector-methods
+#' @aliases as.vector.IdVector as.vector
+#'
+#' @param mode Ignored. The vector will be coerced to `character` mode, unless requested otherwise.
+#'
+#' @section Coercion:
+#' `as(x, "vector")` and `as.vector(x)` return an atomic vector of identifiers contained in `x`.
+#'
 #' @importFrom methods as
-as.IdVector.character <- function(x, ...) {
-    as(x, "IdVector")
+#' @export
+as.vector.IdVector <- function(x, mode="character") {
+    as.vector(ids(x), mode)
 }
+
+setAs("IdVector", "vector", function(from) {
+    as.vector.IdVector(ids(from))
+})
 
 # as.character() ----
 
+#' @rdname IdVector-methods
+#' @aliases as.character.IdVector as.character
+#'
+#' @section Coercion:
+#' `as(x, "vector")` and `as.vector(x)` return a `character` vector of identifiers contained in `x`.
+#'
+#' @importFrom methods as
+#' @export
+as.character.IdVector <- function(x, ...) {
+    as.vector.IdVector(x, "character")
+}
+
 setAs("IdVector", "character", function(from) {
-    ids(from)
+    as.character.IdVector(from)
 })
 
-#' @aliases as.character.IdVector as.character
+# as.IdVector.default() ----
+
+#' @rdname IdVector-methods
+#' @aliases as.IdVector.default as.IdVector
+#'
+#' @param ids An atomic vector of identifiers.
+#'
+#' @section Coercion:
+#' `as(x, "IdVector")` and `as.IdVector(x)` return an `IdVector` from the given atomic vector of identifiers.
+#'
 #' @importFrom methods as
-as.character.IdVector <- function(x) {
-    as(x, "character")
+#' @export
+as.IdVector.default <- function(ids, ...) {
+    IdVector(as.character(ids, ...))
 }
+
+setAs("ANY", "IdVector", function(from) {
+    as.IdVector.default(as.character(from))
+})
+
