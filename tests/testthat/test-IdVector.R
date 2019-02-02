@@ -46,6 +46,18 @@ test_that("ids(IdVector) <- value works", {
 
 })
 
+test_that("IdVector validity method identifies issues", {
+
+    # Invalid colnames(object@relations)
+    idValues0 <- c("A", "A", "B")
+    expect_error(
+        IdVector(idValues0),
+        "duplicated values in \"ids\"",
+        fixed=TRUE
+    )
+
+})
+
 # names() ----
 
 test_that("names(IdVector) works", {

@@ -41,6 +41,13 @@ setValidity("IdVector", function(object) {
 
     errors <- c()
 
+    slot.ids <- slot(object, "ids")
+
+    if (any(duplicated(slot.ids))) {
+        error <- 'duplicated values in "ids"'
+        return(error)
+    }
+
     if (length(errors > 0)){
         return(errors)
     }

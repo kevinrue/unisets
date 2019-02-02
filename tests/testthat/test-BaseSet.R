@@ -49,14 +49,26 @@ test_that("BaseSets validity method identifies issues", {
     )
 
     expect_message(
-        BaseSets(relations, elementData=IdVector(c(relations$element, "Z"))),
+        BaseSets(relations, elementData=IdVector(unique(c(relations$element, "Z")))),
         "Dropping elementData missing from relations$element",
         fixed=TRUE
     )
 
     expect_message(
-        BaseSets(relations, setData=IdVector(c(relations$set, "set999"))),
+        BaseSets(relations, setData=IdVector(unique(c(relations$set, "set999")))),
         "Dropping setData missing from relations$set",
+        fixed=TRUE
+    )
+
+    expect_error(
+        BaseSets(relations, elementData=IdVector(c(relations$element, "Z"))),
+        "duplicated values in \"ids\"",
+        fixed=TRUE
+    )
+
+    expect_error(
+        BaseSets(relations, setData=IdVector(c(relations$set, "set999"))),
+        "duplicated values in \"ids\"",
         fixed=TRUE
     )
 
