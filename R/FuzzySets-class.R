@@ -13,11 +13,14 @@ setMethod("membership", "FuzzySets", function(x) {
 #' @rdname FuzzySets-class
 #' @aliases membership<-,FuzzySets-method
 #' @importFrom methods validObject
-setMethod("membership<-", "FuzzySets", function(x, value) {
-    membership(x@relations) <- value
-    validObject(x)
-    x
-})
+setReplaceMethod("membership", "FuzzySets",
+    function(x, value)
+    {
+        membership(x@relations) <- value
+        validObject(x)
+        x
+    }
+)
 
 # subset ----
 
@@ -27,12 +30,12 @@ setMethod("subset", "FuzzySets", function(x, ...) {
         table <- as(x, "data.frame")
         i <- eval(substitute(subset), table)
 
-        keep.element <- unique(id(elementData(x))[from(x@relations)[i]])
-        keep.set <- unique(id(setData(x))[to(x@relations)[i]])
+        keep.element <- unique(ids(elementData(x))[from(x@relations)[i]])
+        keep.set <- unique(ids(setData(x))[to(x@relations)[i]])
 
         relations <- DataFrame(table[i, , drop=FALSE])
-        elementData <- elementData(x)[which(id(elementData(x)) %in% keep.element)]
-        setData <- setData(x)[which(id(setData(x)) %in% keep.set)]
+        elementData <- elementData(x)[which(ids(elementData(x)) %in% keep.element)]
+        setData <- setData(x)[which(ids(setData(x)) %in% keep.set)]
         membership <- membership(x)[i]
 
         out <- FuzzySets(relations, elementData, setData)

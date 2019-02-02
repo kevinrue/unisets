@@ -4,11 +4,15 @@ title: >
 author:
 - name: Kevin Rue-Albrecht
   affiliation: 
-  - &id4 Kennedy Institute of Rheumatology, University of Oxford,
+  - &id1 Kennedy Institute of Rheumatology, University of Oxford,
     Headington, Oxford OX3 7FY, UK.
   email: kevin.rue-albrecht@kennedy.ox.ac.uk
-- name: Second Author
-  affiliation: Second Author's Affiliation
+- name: Robert A. Amezquita
+  affiliation: 
+  - &id2 Fred Hutchinson Cancer Research Center, Seattle, WA, USA, 98115
+  email: robert.amezquita@fredhutch.org
+- name: Robert Amezquita
+  affiliation: Second Author's Affiliation Goes Here
 date: "`r BiocStyle::doc_date()`"
 package: "`r BiocStyle::pkg_ver('unisets')`"
 output: 
@@ -35,7 +39,7 @@ devtools::install_github("kevinrue/unisets")
 
 # Getting started
 
-## The BaseSets class
+## The _BaseSets_ class
 
 This is a basic example which shows you how to create a `BaseSets` object, to store simple associations between genes and sets, along with optional metadata associated with each relation:
 
@@ -59,12 +63,12 @@ Metadata for each element and set can be provided as separate `DataFrame` object
 
 ```{r, message=FALSE}
 gene_data <- IdVector(c("A", "B", "C", "D"))
-elementMetadata(gene_data) <- DataFrame(
+mcols(gene_data) <- DataFrame(
     stat1     = c( 1,   2,   3,   4 ),
     info1     = c("a", "b", "c", "d")
 )
 set_data <- IdVector(c("geneset1", "geneset2"))
-elementMetadata(set_data) <- DataFrame(
+mcols(set_data) <- DataFrame(
     stat1     = c( 100,   200 ),
     info1     = c("abc", "def")
 )
@@ -93,11 +97,14 @@ Conveniently, the `relations` accessor returns relations and associated metadata
 relations(base_sets)
 ```
 
-## The FuzzySets class
+## The _FuzzySets_ class
 
-Classes derived from `BaseSets` may add additional constraints on the relations to define special types of relationships between elements and sets.
+Classes derived from `Hits` may add additional constraints on the relations to define special types of relationships between elements and sets.
 
-For instance, the `FuzzySets` class is a direct extension of the `BaseSets` class where the metadata accompanying each relation must include at least a column called `"membership"` that holds the "membership function", a numeric value in the interval [0,1] that provides a measure of partial membership between elements and sets.
+For instance, the `FuzzyHits` class is a direct extension of the `Hits` class where the metadata accompanying each relation must include at least a column called `"membership"` that holds the "membership function", a numeric value in the interval [0,1] that provides a measure of partial membership between elements and sets.
+
+Simultaneously, the `FuzzySets` class is a direct extension of the `BaseSets` class where the `relations` slot must contain a `FuzzyHits`.
+As such, `FuzzySets` can be constructed exactly like `BaseSets`, with the only additional constraint that the relations table contains a `"membership"` column with numeric values in the interval [0,1].
 
 ```{r, message=FALSE}
 relations_table$membership <- round(runif(nrow(relations_table)), 2)
@@ -125,7 +132,7 @@ The `subset` method can be applied to a `BaseSets` object, using a logical expre
 subset(base_sets, set == "geneset1" | element %in% c("C") | extra1 == "ABC")
 ```
 
-Similarly, the `subset` method can be also applied to a `FuzzySets` object, where the logical expression may also refer to the additional `"membership"` metadata.
+Similarly, the `subset` method can be also applied to a `FuzzySets` object, where the logical expression may also refer to the additional `"membership"` metadata that is guaranted by the class validity method.
 
 ```{r}
 subset(fuzzy_sets, set == "geneset2" & membership > 0.3)
@@ -141,17 +148,18 @@ as(fuzzy_sets, "list")
 
 It is also possible to visualize membership between gene and gene sets as a matrix.
 
-Notably, `BaseSets` return a `logical` matrix of binary membership that indicates whether each element is associated at least once with each set:
+Notably, `BaseSets` objects produce a `logical` matrix of binary membership that indicates whether each element is associated at least once with each set:
 
 ```{r}
 base_matrix <- as(base_sets, "matrix")
 base_matrix
 ```
 
-In contrast, `FuzzySets` return a `double` matrix displaying the membership function for each relation.
+In contrast, `FuzzySets` objects produce a `double` matrix displaying the membership function for each relation.
 Relations that are not described in the `FuzzySets` are filled with `NA`, to contrast to relations explictly associated with a membership function of 0.
 
 ```{r}
+membership(fuzzy_sets)[1] <- 0
 fuzzy_matrix <- as(fuzzy_sets, "matrix")
 fuzzy_matrix
 ```
@@ -162,13 +170,13 @@ fuzzy_matrix
 
 It is possible to convert incidence matrices into objects derived from the `BaseSets` class.
 
-Notably, `BaseSets` are suitable for `logical` matrices indicating binary membership.
+Notably, the `BaseSets` class is suitable for `logical` matrices indicating binary membership.
 
 ```{r}
 as(base_matrix, "BaseSets")
 ```
 
-Similarly, `FuzzySets` are suitable for `double` matrices indicating the membership function for each relation.
+Similarly, the `FuzzySets` class is suitable for `double` matrices indicating the membership function for each relation.
 Importantly, relations described as `NA` are not imported into the `FuzzySets` object.
 In contrast, relations with a membership function of 0 are imported and described as such.
 
@@ -179,13 +187,15 @@ as(fuzzy_matrix, "FuzzySets")
 
 # Additional information
 
-The number of relations between elements and sets can be obtained using the `length` method.
+## Count of relations, elements, and sets
+
+The count of relations between elements and sets can be obtained using the `length` method.
 
 ```{r}
 length(base_sets)
 ```
 
-The number of unique elements and sets can be obtained using the `nElements` and `nSets` methods.
+The count of unique elements and sets can be obtained using the `nElements` and `nSets` methods.
 
 ```{r}
 nElements(base_sets)
@@ -204,13 +214,55 @@ Conversely, the number of sets associated with each gene is returned by the `ele
 elementLengths(fuzzy_sets)
 ```
 
-The identifiers of elements and sets can be inspected and renamed using `setIds` and 
+## Names of elements and sets
+
+The identifiers of elements and sets can be inspected and renamed using `elementIds` and `setIds` methods.
 
 ```{r}
 elementIds(base_sets) <- paste0("Gene", seq_len(nElements(base_sets)))
 elementIds(base_sets)
 setIds(base_sets) <- paste0("Geneset", seq_len(nSets(base_sets)))
 setIds(base_sets)
+```
+
+# Importing and exporting sets
+
+## Gene Matrix Transpose (GMT) Format
+
+A common representation of gene sets is the GMT format, which is a non-rectangular format where each line is a set.
+The first column is the name of the set, the second column is a description of the source of the set (such as a URL), and the third column onwards are the elements of the set, such that each set may have a variable number of elements.
+
+Importing from and exporting to GMT files is performed using the generic `import` and `export` methods, which recognize the ".gmt" file extenson as a trigger to export in the GMT file format.
+Alternatively, the `import.gmt` and `import.gmt` functions may be used to explicitly export to the GMT file format.
+
+Any object that inherits from the `BaseSets` class may be exported to the GMT file format.
+However, any information that is not supported by the GMT file format will be lost during the export.
+Reciprocally, the `import` function produces a `BaseSets` object, which adequately represents all the information present in the GMT file format.
+
+```{r}
+gmt_file <- system.file(package="unisets", "extdata", "example.gmt")
+base_sets_from_gmt <- import(gmt_file)
+base_sets_from_gmt
+```
+
+The additional metadata corresponding to the source (second column of the GMT) per set is also added as metadata corresponding to the sets, accessible via `setData`, which returns an `IdVector` class object.
+
+```{r}
+setData(base_sets_from_gmt)
+```
+
+To access the internal DataFrame representation, the accessor `mcols` can additionally be applied.
+
+```{r}
+mcols(setData(base_sets_from_gmt))
+## elementMetadata(setData(base_sets_from_gmt)) # equivalent to above
+```
+
+To export GMT files, the file extension should be .gmt, and a `BaseSets` class object provided to the `export` method. Note that if no set metadata stored under the `source` heading is found, that this value will be filled in as `NA` in the output.
+
+```{r}
+tmp_file <- tempfile(fileext=".gmt")
+export(base_sets_from_gmt, tmp_file)
 ```
 
 # Session info {.unnumbered}

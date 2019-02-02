@@ -14,9 +14,9 @@ Classes to describe relationships between elements and sets,
 \author{
 \strong{Maintainer}: Kevin Rue-Albrecht \email{kevin.rue-albrecht@kennedy.ox.ac.uk}
 
-Other contributors:
+Authors:
 \itemize{
-  \item Second Author [contributor]
+  \item Robert Amezquita
 }
 
 }

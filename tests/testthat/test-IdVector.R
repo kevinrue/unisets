@@ -1,4 +1,6 @@
 
+# Setup ----
+
 nValues <- 10L
 
 idValues <- head(LETTERS, nValues)
@@ -9,17 +11,39 @@ names(idValues) <- head(letters, nValues)
 
 test_that("IdVector constructor produces valid objects", {
 
-    expect_message(IdVector(idValues), "Setting names(id) to NULL", fixed=TRUE)
+    expect_message(IdVector(idValues), "Setting names(ids) to NULL", fixed=TRUE)
 
     out <- IdVector(idValues)
 
     expect_s4_class(out, "IdVector")
-    expect_identical(slotNames(out), c("id", "elementMetadata", "metadata"))
+    expect_identical(slotNames(out), c("ids", "elementMetadata", "metadata"))
 
     # Check that names were dropped
-    slot.id <- slot(out, "id")
-    expect_null(names(slot.id))
-    expect_identical(id(out), as.character(idValues))
+    slot.ids <- slot(out, "ids")
+    expect_null(names(slot.ids))
+    expect_identical(ids(out), as.character(idValues))
+})
+
+# ids() ----
+
+test_that("ids(IdVector) works", {
+
+    iv <- IdVector(idValues)
+
+    ids(iv) <- tail(LETTERS, length(iv))
+    expect_identical(ids(iv), tail(LETTERS, length(iv)))
+
+})
+
+# ids<-() ----
+
+test_that("ids(IdVector) <- value works", {
+
+    iv <- IdVector(idValues)
+
+    out <- ids(iv)
+    expect_identical(out, as.character(idValues))
+
 })
 
 test_that("IdVector validity method identifies issues", {
@@ -28,30 +52,30 @@ test_that("IdVector validity method identifies issues", {
     idValues0 <- c("A", "A", "B")
     expect_error(
         IdVector(idValues0),
-        "duplicated values in \"id\"",
+        "duplicated values in \"ids\"",
         fixed=TRUE
     )
 
 })
 
-# id() ----
+# names() ----
 
-test_that("id(IdVector) works", {
+test_that("names(IdVector) works", {
 
     iv <- IdVector(idValues)
 
-    id(iv) <- tail(LETTERS, length(iv))
-    expect_identical(id(iv), tail(LETTERS, length(iv)))
+    names(iv) <- tail(LETTERS, length(iv))
+    expect_identical(names(iv), tail(LETTERS, length(iv)))
 
 })
 
-# id<-() ----
+# names<-() ----
 
-test_that("id(IdVector) <- value works", {
+test_that("names(IdVector) <- value works", {
 
     iv <- IdVector(idValues)
 
-    out <- id(iv)
+    out <- names(iv)
     expect_identical(out, as.character(idValues))
 
 })
@@ -64,7 +88,7 @@ test_that("`[`IdVector works", {
 
     out <- iv[1:5]
     expect_length(out, 5)
-    expect_identical(id(out), head(as.character(idValues), 5))
+    expect_identical(ids(out), head(as.character(idValues), 5))
 
 })
 
@@ -102,7 +126,7 @@ test_that("show(IdVector) works", {
     expect_identical(out, as.character(idValues))
 
     # Large elementMetadata
-    elementMetadata(iv) <- DataFrame(a=1, b=2, c=3, d=4, e=5, f=6)
+    mcols(iv) <- DataFrame(a=1, b=2, c=3, d=4, e=5, f=6)
     out <- show(iv)
 
 })
@@ -130,11 +154,11 @@ test_that("as(character, \"IdVector\") works", {
 
     out <- as(idValues, "IdVector")
     expect_s4_class(out, "IdVector")
-    expect_identical(id(out), as.character(idValues))
+    expect_identical(ids(out), as.character(idValues))
 
     out <- as.IdVector.character(idValues)
     expect_s4_class(out, "IdVector")
-    expect_identical(id(out), as.character(idValues))
+    expect_identical(ids(out), as.character(idValues))
 
 })
 
@@ -146,10 +170,10 @@ test_that("as(IdVector, \"character\") works", {
 
     out <- as(iv, "character")
     expect_type(out, "character")
-    expect_identical(out, id(iv))
+    expect_identical(out, ids(iv))
 
     out <- as.character.IdVector(iv)
     expect_type(out, "character")
-    expect_identical(out, id(iv))
+    expect_identical(out, ids(iv))
 
 })

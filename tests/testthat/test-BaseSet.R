@@ -1,4 +1,6 @@
 
+# Setup ----
+
 sets <- list(
     set1=c("A", "B"),
     set2=c("B", "C", "D"),
@@ -19,6 +21,7 @@ test_that("BaseSets constructor produces valid objects", {
     out <- BaseSets(relations)
 
     expect_s4_class(out, "BaseSets")
+
 })
 
 test_that("BaseSets validity method identifies issues", {
@@ -35,13 +38,13 @@ test_that("BaseSets validity method identifies issues", {
     # Mismatch between elements and elementData
     expect_error(
         BaseSets(relations, elementData=IdVector("Z")),
-        "relations$element missing from id(elementData)",
+        "relations$element missing from ids(elementData)",
         fixed=TRUE
     )
 
     expect_error(
         BaseSets(relations, setData=IdVector("set999")),
-        "relations$set missing from id(setData)",
+        "relations$set missing from ids(setData)",
         fixed=TRUE
     )
 
@@ -59,15 +62,30 @@ test_that("BaseSets validity method identifies issues", {
 
     expect_error(
         BaseSets(relations, elementData=IdVector(c(relations$element, "Z"))),
-        "duplicated values in \"id\"",
+        "duplicated values in \"ids\"",
         fixed=TRUE
     )
 
     expect_error(
         BaseSets(relations, setData=IdVector(c(relations$set, "set999"))),
-        "duplicated values in \"id\"",
+        "duplicated values in \"ids\"",
         fixed=TRUE
     )
+
+    # Provide metadata columns without rownames set
+    relations0 <- DataFrame(element="element1", set="set1")
+    elementData=IdVector("element1")
+    mcols(elementData) <- DataFrame(field="elementValue")
+    setData=IdVector("set1")
+    mcols(setData) <- DataFrame(field="setValue")
+
+    # Check that rownames(mcols(x)) is not NULL (using the default use.names=TRUE)
+    # while the actual DataFrame does not store rownames
+    out <- BaseSets(relations0, elementData, setData)
+    expect_true(!is.null(rownames(mcols(elementData(out)))))
+    expect_null(rownames(out@elementData@elementMetadata))
+    expect_true(!is.null(rownames(mcols(setData(out)))))
+    expect_null(rownames(out@setData@elementMetadata))
 
 })
 
@@ -194,7 +212,7 @@ test_that("subset(BaseSets) works", {
 
     out <- subset(bs, set == "set1")
 
-    expect_true(all(id(setData(out)) == "set1"))
+    expect_true(all(ids(setData(out)) == "set1"))
     expect_identical(length(setData(out)), 1L)
 
 })
@@ -284,14 +302,14 @@ test_that("as(Go3AnnDbBimap, \"BaseSets\") works", {
     expect_gt(length(out), 0)
     expect_gt(length(elementData(out)), 0)
     expect_gt(length(setData(out)), 0)
-    expect_gt(ncol(elementMetadata(setData(out))), 0)
+    expect_gt(ncol(mcols(setData(out))), 0)
 
     out <- as.BaseSets.Go3AnnDbBimap(org.Hs.egGO, "BaseSets")
     expect_s4_class(out, "BaseSets")
     expect_gt(length(out), 0)
     expect_gt(length(elementData(out)), 0)
     expect_gt(length(setData(out)), 0)
-    expect_gt(ncol(elementMetadata(setData(out))), 0)
+    expect_gt(ncol(mcols(setData(out))), 0)
 
 })
 
