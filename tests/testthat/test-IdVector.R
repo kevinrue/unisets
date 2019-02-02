@@ -184,7 +184,7 @@ test_that("as(IdVector, \"character\") works", {
 
     iv <- IdVector(idValues)
 
-    out <- as(iv, "character")
+    out <- as(iv, "vector")
     expect_type(out, "character")
     expect_identical(out, ids(iv))
 

@@ -166,7 +166,7 @@ as.vector.IdVector <- function(x, mode="character") {
 }
 
 setAs("IdVector", "vector", function(from) {
-    as.vector.IdVector(ids(from))
+    as.vector.IdVector(from)
 })
 
 # as.character() ----
