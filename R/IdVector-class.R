@@ -4,18 +4,20 @@
 #' @aliases ids,IdVector-method
 #'
 #' @section Accessors:
-#' `ids(x)` returns a `character` vector of element identifiers.
-#' `names(x)` is a synonym for compatibility with S4 methods such as `mcols(x, use.names = TRUE, ...) `.
+#' `ids(object)` returns a `character` vector of element identifiers.
+#' `names(object)` is a synonym for compatibility with S4 methods such as `mcols(object, use.names = TRUE, ...) `.
 #'
 #' @importFrom methods slot
+#' @importMethodsFrom GSEABase ids
+#' @export
 #'
 #' @examples
 #'
 #' # Accessors ----
 #'
 #' ids(iv)
-setMethod("ids", "IdVector", function(x) {
-    slot(x, "ids")
+setMethod("ids", "IdVector", function(object) {
+    slot(object, "ids")
 })
 
 # ids<-() ----
@@ -23,14 +25,16 @@ setMethod("ids", "IdVector", function(x) {
 #' @rdname IdVector-methods
 #' @aliases ids<-,IdVector-method
 #'
+#' @export
+#'
 #' @examples
 #' iv1 <- iv
 #' ids(iv1)[1] <- "gene1"
 setReplaceMethod("ids", "IdVector",
-    function(x, value)
+    function(object, value)
     {
-        slot(x, "ids") <- value
-        x
+        slot(object, "ids") <- value
+        object
     }
 )
 
@@ -234,7 +238,7 @@ setAs("IdVector", "character", function(from) {
 #' @param ids An atomic vector of identifiers.
 #'
 #' @section Coercion:
-#' `as(x, "IdVector")` and `as.IdVector(x)` return an `IdVector` from the given atomic vector of identifiers.
+#' `as(object, "IdVector")` and `as.IdVector(object)` return an `IdVector` from the given atomic vector of identifiers.
 #'
 #' @importFrom methods as
 #' @export

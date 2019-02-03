@@ -18,7 +18,8 @@ Imports:
     reshape2,
     AnnotationDbi,
     rtracklayer,
-    IRanges
+    IRanges,
+    GSEABase
 Suggests:
     testthat,
     covr,

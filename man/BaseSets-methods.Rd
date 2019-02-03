@@ -46,63 +46,63 @@
 \alias{as.BaseSets.Go3AnnDbBimap}
 \title{Methods for \code{BaseSets} Objects}
 \usage{
-relations(x)
+relations(object)
 
-elements(x)
+elements(object)
 
-elementIds(x)
+elementIds(object)
 
-elementIds(x) <- value
+elementIds(object) <- value
 
-elementData(x)
+elementData(object)
 
-sets(x)
+sets(object)
 
-setIds(x)
+setIds(object)
 
-setIds(x) <- value
+setIds(object) <- value
 
-setData(x)
+setData(object)
 
-nElements(x)
+nElements(object)
 
-nSets(x)
+nSets(object)
 
-setLengths(x)
+setLengths(object)
 
-elementLengths(x)
+elementLengths(object)
 
-\S4method{relations}{BaseSets}(x)
+\S4method{relations}{BaseSets}(object)
 
-\S4method{elementData}{BaseSets}(x)
+\S4method{elementData}{BaseSets}(object)
 
-\S4method{setData}{BaseSets}(x)
+\S4method{setData}{BaseSets}(object)
 
-\S4method{elements}{BaseSets}(x)
+\S4method{elements}{BaseSets}(object)
 
-\S4method{sets}{BaseSets}(x)
+\S4method{sets}{BaseSets}(object)
 
-\S4method{elementIds}{BaseSets}(x)
+\S4method{elementIds}{BaseSets}(object)
 
-\S4method{elementIds}{BaseSets}(x) <- value
+\S4method{elementIds}{BaseSets}(object) <- value
 
-\S4method{setIds}{BaseSets}(x)
+\S4method{setIds}{BaseSets}(object)
 
-\S4method{setIds}{BaseSets}(x) <- value
+\S4method{setIds}{BaseSets}(object) <- value
 
 \S4method{length}{BaseSets}(x)
 
-\S4method{nElements}{BaseSets}(x)
+\S4method{nElements}{BaseSets}(object)
 
-\S4method{nSets}{BaseSets}(x)
+\S4method{nSets}{BaseSets}(object)
 
-\S4method{setLengths}{BaseSets}(x)
+\S4method{setLengths}{BaseSets}(object)
 
-\S4method{elementLengths}{BaseSets}(x)
+\S4method{elementLengths}{BaseSets}(object)
 
 \method{subset}{BaseSets}(x, ...)
 
-as.DataFrame.BaseSets(x, ...)
+as.DataFrame.BaseSets(object, ...)
 
 \method{as.data.frame}{BaseSets}(x, ...)
 
@@ -115,9 +115,9 @@ as.BaseSets.matrix(matrix, ...)
 as.BaseSets.Go3AnnDbBimap(Go3AnnDbBimap, ...)
 }
 \arguments{
-\item{x}{An object of class inheriting from \code{\link[=BaseSets-class]{BaseSets}}.}
-
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
+
+\item{x, object}{An object of class inheriting from \code{\link[=BaseSets-class]{BaseSets}}.}
 
 \item{...}{Additional arguments passed to and from other methods.}
 
@@ -133,25 +133,25 @@ and \code{value} is an object of a class specified in the S4 method signature or
 }
 \section{Accessors}{
 
-\code{relations(x)} returns a \code{DataFrame} of relations including \code{"element"}, \code{"set"}, and any relation-wise metadata available.
+\code{relations(object)} returns a \code{DataFrame} of relations including \code{"element"}, \code{"set"}, and any relation-wise metadata available.
 
 
-\code{elementData(x)} returns the metadata associated with each element as an object inheriting from \code{\link[=IdVector-class]{IdVector}}.
+\code{elementData(object)} returns the metadata associated with each element as an object inheriting from \code{\link[=IdVector-class]{IdVector}}.
 
 
-\code{setData(x)} returns the metadata associated with each set as an object inheriting from \code{\link[=IdVector-class]{IdVector}}.
+\code{setData(object)} returns the metadata associated with each set as an object inheriting from \code{\link[=IdVector-class]{IdVector}}.
 
 
-\code{elements(x)} returns an \code{IdVector} of sets and associated metadata as ordered in \code{relations(x)$element}.
+\code{elements(object)} returns an \code{IdVector} of sets and associated metadata as ordered in \code{relations(object)$element}.
 
 
-\code{sets(x)} returns an \code{IdVector} of sets and associated metadata as ordered in \code{relations(x)$set}.
+\code{sets(object)} returns an \code{IdVector} of sets and associated metadata as ordered in \code{relations(object)$set}.
 
 
-\code{elementIds(x)} and \code{elementIds(x) <- value} get and set the \code{character} vector of element identifiers.
+\code{elementIds(object)} and \code{elementIds(object) <- value} get and set the \code{character} vector of element identifiers.
 
 
-\code{setIds(x)} and \code{setIds(x) <- value} get and set the \code{character} vector of element identifiers.
+\code{setIds(object)} and \code{setIds(object) <- value} get and set the \code{character} vector of element identifiers.
 }
 
 \section{Dimensions}{
@@ -159,28 +159,28 @@ and \code{value} is an object of a class specified in the S4 method signature or
 \code{length(x)} returns the total count of relations.
 
 
-\code{nElements(x)} returns the count of unique elements.
+\code{nElements(object)} returns the count of unique elements.
 
 
-\code{nSets(x)} returns the count of unique sets.
+\code{nSets(object)} returns the count of unique sets.
 
 
-\code{setLengths(x)} returns the count of relations per set.
+\code{setLengths(object)} returns the count of relations per set.
 
 
-\code{elementLengths(x)} returns the count of relations per element.
+\code{elementLengths(object)} returns the count of relations per element.
 }
 
 \section{Subsetting}{
 
-\code{subset(x, subset, ...)} returns subsets of relations which meet conditions.
+\code{subset(object, subset, ...)} returns subsets of relations which meet conditions.
 For \code{FuzzySets} objects, the \code{subset} argument should be a logical expression referring to any of \code{"element"}, \code{"set"}, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
 In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.
 }
 
 \section{Coercion}{
 
-\code{as(x, "DataFrame")} and \code{as.DataFrame(x)} return a \code{DataFrame} including \code{"element"}, \code{"set"}, and any relation-wise metadata available.
+\code{as(object, "DataFrame")} and \code{as.DataFrame(object)} return a \code{DataFrame} including \code{"element"}, \code{"set"}, and any relation-wise metadata available.
 
 
 \code{as(x, "data.frame")} and \code{as.data.frame(x)}  return a \code{data.frame} including \code{"element"}, \code{"set"}, and any relation-wise metadata available.
@@ -196,7 +196,7 @@ In addition, metadata for elements and sets that are not represented in the rema
 
 \section{Coercion to BaseSets}{
 
-\code{as(matrix, "BaseSets")} and \code{as.BaseSets(x)} return a \code{BaseSets} from an incidence matrix.
+\code{as(matrix, "BaseSets")} and \code{as.BaseSets(object)} return a \code{BaseSets} from an incidence matrix.
 
 
 \code{as(Go3AnnDbBimap, "BaseSets")} and \code{as.BaseSets(Go3AnnDbBimap)} return a \code{BaseSets} from a Gene Ontology \code{Bimap} stored distributed in a Bioconductor annotation package.

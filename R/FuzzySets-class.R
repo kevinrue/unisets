@@ -4,7 +4,7 @@
 #' @aliases membership,FuzzySets-method
 #'
 #' @section Accessors:
-#' `membership(x)` returns a `numeric` vector of membership function for each relation.
+#' `membership(object)` returns a `numeric` vector of membership function for each relation.
 #'
 #' @importFrom S4Vectors DataFrame
 #'
@@ -13,8 +13,8 @@
 #' # Accessors ----
 #'
 #' membership(fs)
-setMethod("membership", "FuzzySets", function(x) {
-    as.numeric(membership(x@relations))
+setMethod("membership", "FuzzySets", function(object) {
+    as.numeric(membership(object@relations))
 })
 
 #' @rdname FuzzySets-methods
@@ -26,11 +26,11 @@ setMethod("membership", "FuzzySets", function(x) {
 #' fs1 <- fs
 #' membership(fs1)[1] <- 0
 setReplaceMethod("membership", "FuzzySets",
-    function(x, value)
+    function(object, value)
     {
-        membership(x@relations) <- value
-        validObject(x)
-        x
+        membership(object@relations) <- value
+        validObject(object)
+        object
     }
 )
 
