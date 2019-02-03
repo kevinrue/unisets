@@ -388,6 +388,41 @@ setAs("BaseSets", "FuzzySets", function(from) {
     to
 })
 
+# as.BaseSets.list() ----
+
+#' @rdname BaseSets-methods
+#' @aliases as.BaseSets.list as.BaseSets
+#'
+#' @param list A `list` of named character vectors.
+#' The names are taken as the set identifiers.
+#' The character vectors are taken as identifiers of elements that are member of each set.
+#'
+#' @section Coercion to BaseSets:
+#' `as(list, "BaseSets")` and `as.BaseSets(object)` return a `BaseSets` from a list of character vectors.
+#'
+#' @importFrom methods as
+#' @importFrom S4Vectors DataFrame
+#' @export
+#'
+#' @examples
+#'
+#' # Coercion to BaseSets ----
+#'
+#' # list
+#' bs1 <- as(list(set1=c("A", "B"), set2=c("B", "C")), "BaseSets")
+as.BaseSets.list <- function(list, ...) {
+    stopifnot(!is.null(names(list)))
+    relations <- DataFrame(
+        element=unlist(list, use.names=FALSE),
+        set=rep(names(list), lengths(list))
+    )
+    BaseSets(relations)
+}
+
+setAs("list", "BaseSets", function(from) {
+    as.BaseSets.list(from)
+})
+
 # as.BaseSets.matrix() ----
 
 #' @rdname BaseSets-methods
@@ -403,9 +438,7 @@ setAs("BaseSets", "FuzzySets", function(from) {
 #' @export
 #'
 #' @examples
-#'
-#' # Coercion to BaseSets ----
-#'
+#' # matrix
 #' bs1 <- as(m1, "BaseSets")
 as.BaseSets.matrix <- function(matrix, ...) {
     storage.mode(matrix) <- "logical"
