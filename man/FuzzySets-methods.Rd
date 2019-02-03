@@ -12,9 +12,9 @@
 \alias{as.FuzzySets}
 \title{Methods for \code{FuzzySets} Objects}
 \usage{
-\S4method{membership}{FuzzySets}(x)
+\S4method{membership}{FuzzySets}(object)
 
-\S4method{membership}{FuzzySets}(x) <- value
+\S4method{membership}{FuzzySets}(object) <- value
 
 \method{subset}{FuzzySets}(x, ...)
 
@@ -23,9 +23,9 @@
 as.FuzzySets.matrix(matrix, ...)
 }
 \arguments{
-\item{x}{An object of class inheriting from \code{\link[=FuzzySets-class]{FuzzySets}}.}
-
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
+
+\item{x, object}{An object of class inheriting from \code{\link[=FuzzySets-class]{FuzzySets}}.}
 
 \item{...}{Additional arguments passed to and from other methods.}
 
@@ -43,7 +43,7 @@ and \code{value} is an object of a class specified in the S4 method signature or
 }
 \section{Accessors}{
 
-\code{membership(x)} returns a \code{numeric} vector of membership function for each relation.
+\code{membership(object)} returns a \code{numeric} vector of membership function for each relation.
 }
 
 \section{Subsetting}{

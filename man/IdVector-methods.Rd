@@ -4,11 +4,11 @@
 \docType{methods}
 \name{IdVector-methods}
 \alias{IdVector-methods}
-\alias{ids}
 \alias{ids<-}
 \alias{ids,IdVector-method}
 \alias{ids<-,IdVector-method}
 \alias{names,IdVector-method}
+\alias{names<-,IdVector,ANY-method}
 \alias{names<-,IdVector-method}
 \alias{length,IdVector-method}
 \alias{[,IdVector,ANY,ANY,ANY-method}
@@ -21,17 +21,15 @@
 \alias{as.IdVector}
 \title{Methods for \code{IdVector} objects}
 \usage{
-ids(x)
+ids(object) <- value
 
-ids(x) <- value
+\S4method{ids}{IdVector}(object)
 
-\S4method{ids}{IdVector}(x)
-
-\S4method{ids}{IdVector}(x) <- value
+\S4method{ids}{IdVector}(object) <- value
 
 \S4method{names}{IdVector}(x)
 
-\S4method{names}{IdVector}(x) <- value
+\S4method{names}{IdVector,ANY}(x) <- value
 
 \S4method{length}{IdVector}(x)
 
@@ -44,9 +42,9 @@ ids(x) <- value
 as.IdVector.default(ids, ...)
 }
 \arguments{
-\item{x}{An object of class inheriting from \link[=IdVector-class]{IdVector}.}
-
 \item{value}{An object of a class specified in the S4 method signature.}
+
+\item{x, object}{An object of class inheriting from \link[=IdVector-class]{IdVector}.}
 
 \item{i}{index specifying elements to extract or replace.}
 
@@ -64,8 +62,8 @@ and \code{value} is an object of a class specified in the S4 method signature or
 }
 \section{Accessors}{
 
-\code{ids(x)} returns a \code{character} vector of element identifiers.
-\code{names(x)} is a synonym for compatibility with S4 methods such as \code{mcols(x, use.names = TRUE, ...) }.
+\code{ids(object)} returns a \code{character} vector of element identifiers.
+\code{names(object)} is a synonym for compatibility with S4 methods such as \code{mcols(object, use.names = TRUE, ...) }.
 }
 
 \section{Dimensions}{
@@ -86,7 +84,7 @@ and \code{value} is an object of a class specified in the S4 method signature or
 \code{as(x, "vector")} and \code{as.vector(x)} return a \code{character} vector of identifiers contained in \code{x}.
 
 
-\code{as(x, "IdVector")} and \code{as.IdVector(x)} return an \code{IdVector} from the given atomic vector of identifiers.
+\code{as(object, "IdVector")} and \code{as.IdVector(object)} return an \code{IdVector} from the given atomic vector of identifiers.
 }
 
 \examples{

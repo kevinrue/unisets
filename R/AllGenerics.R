@@ -4,37 +4,37 @@
 #' @rdname BaseSets-methods
 #' @aliases relations
 #' @exportMethod relations
-setGeneric("relations", function(x) standardGeneric("relations"))
+setGeneric("relations", function(object) standardGeneric("relations"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
 #' @aliases elements
 #' @exportMethod elements
-setGeneric("elements", function(x) standardGeneric("elements"))
+setGeneric("elements", function(object) standardGeneric("elements"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
 #' @aliases elementIds
 #' @exportMethod elementIds
-setGeneric("elementIds", function(x) standardGeneric("elementIds"))
+setGeneric("elementIds", function(object) standardGeneric("elementIds"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
 #' @aliases elementIds<-
 #' @exportMethod elementIds<-
-setGeneric("elementIds<-", function(x, value) standardGeneric("elementIds<-"))
+setGeneric("elementIds<-", function(object, value) standardGeneric("elementIds<-"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
 #' @aliases elementData
 #' @exportMethod elementData
-setGeneric("elementData", function(x) standardGeneric("elementData"))
+setGeneric("elementData", function(object) standardGeneric("elementData"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
 #' @aliases sets
 #' @exportMethod sets
-setGeneric("sets", function(x) standardGeneric("sets"))
+setGeneric("sets", function(object) standardGeneric("sets"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
@@ -42,7 +42,7 @@ setGeneric("sets", function(x) standardGeneric("sets"))
 #' @exportMethod setIds
 setGeneric(
     "setIds",
-    function(x) standardGeneric("setIds")
+    function(object) standardGeneric("setIds")
 )
 
 #' @name BaseSets-methods
@@ -51,7 +51,7 @@ setGeneric(
 #' @exportMethod setIds<-
 setGeneric(
     "setIds<-",
-    function(x, value) standardGeneric("setIds<-")
+    function(object, value) standardGeneric("setIds<-")
 )
 
 #' @name BaseSets-methods
@@ -60,7 +60,7 @@ setGeneric(
 #' @exportMethod setData
 setGeneric(
     "setData",
-    function(x) standardGeneric("setData")
+    function(object) standardGeneric("setData")
 )
 
 #' @name FuzzyHits-methods
@@ -69,7 +69,7 @@ setGeneric(
 #' @exportMethod membership
 setGeneric(
     "membership",
-    function(x) standardGeneric("membership")
+    function(object) standardGeneric("membership")
 )
 
 #' @name FuzzyHits-methods
@@ -78,20 +78,14 @@ setGeneric(
 #' @exportMethod membership<-
 setGeneric(
     "membership<-",
-    function(x, value) standardGeneric("membership<-")
+    function(object, value) standardGeneric("membership<-")
 )
-
-#' @name IdVector-methods
-#' @rdname IdVector-methods
-#' @aliases ids
-#' @exportMethod ids
-setGeneric("ids", function(x) standardGeneric("ids"))
 
 #' @name IdVector-methods
 #' @rdname IdVector-methods
 #' @aliases ids<-
 #' @exportMethod ids<-
-setGeneric("ids<-", function(x, value) standardGeneric("ids<-"))
+setGeneric("ids<-", function(object, value) standardGeneric("ids<-"))
 
 # Dimensions ----
 
@@ -99,22 +93,22 @@ setGeneric("ids<-", function(x, value) standardGeneric("ids<-"))
 #' @rdname BaseSets-methods
 #' @aliases nElements
 #' @exportMethod nElements
-setGeneric("nElements", function(x) standardGeneric("nElements"))
+setGeneric("nElements", function(object) standardGeneric("nElements"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
 #' @aliases nSets
 #' @exportMethod nSets
-setGeneric("nSets", function(x) standardGeneric("nSets"))
+setGeneric("nSets", function(object) standardGeneric("nSets"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
 #' @aliases setLengths
 #' @exportMethod setLengths
-setGeneric("setLengths", function(x) standardGeneric("setLengths"))
+setGeneric("setLengths", function(object) standardGeneric("setLengths"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
 #' @aliases elementLengths
 #' @exportMethod elementLengths
-setGeneric("elementLengths", function(x) standardGeneric("elementLengths"))
+setGeneric("elementLengths", function(object) standardGeneric("elementLengths"))
