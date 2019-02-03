@@ -18,8 +18,8 @@ get_showTailLines <- function() { 5L }
     ntail <- get_showTailLines()
     nm <- nrow(x)
     nc <- ncol(x)
-    ne <- length(unique(x$element))
-    ns <- length(unique(x$set))
+    ne <- length(unique(as.character(x$element)))
+    ns <- length(unique(as.character(x$set)))
 
     # Display
     cat(

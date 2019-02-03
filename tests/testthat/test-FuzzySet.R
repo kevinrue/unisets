@@ -84,6 +84,9 @@ test_that("subset(FuzzySets) works", {
     out <- subset(fs, membership > 0.5)
     expect_true(all(membership(out) > 0.5))
 
+    out <- subset.FuzzySets(fs, membership > 0.5)
+    expect_true(all(membership(out) > 0.5))
+
 })
 
 # show() ----
@@ -213,13 +216,8 @@ test_that("as(BaseSets, \"FuzzySets\") works", {
 
     bs <- BaseSets(relations[, c("element", "set")])
 
-    # Number of relations is preservedxw
+    # Number of relations is preserved
     out <- as(bs, "FuzzySets")
-    expect_s4_class(out, "FuzzySets")
-    expect_identical(nrow(relations(out)), nrow(relations(bs)))
-    expect_identical(membership(out), rep(1, length(bs)))
-
-    out <- as.FuzzySets.BaseSets(bs)
     expect_s4_class(out, "FuzzySets")
     expect_identical(nrow(relations(out)), nrow(relations(bs)))
     expect_identical(membership(out), rep(1, length(bs)))
@@ -227,15 +225,11 @@ test_that("as(BaseSets, \"FuzzySets\") works", {
     # if membership is present, it is used
     bs <- BaseSets(relations[, c("element", "set", "membership")])
 
-    # Number of relations is preservedxw
+    # Number of relations is preserved
     out <- as(bs, "FuzzySets")
     expect_s4_class(out, "FuzzySets")
     expect_identical(nrow(relations(out)), nrow(relations(bs)))
     expect_identical(membership(out), as.numeric(mcols(bs@relations)[["membership"]]))
 
-    out <- as.FuzzySets.BaseSets(bs)
-    expect_s4_class(out, "FuzzySets")
-    expect_identical(nrow(relations(out)), nrow(relations(bs)))
-    expect_identical(membership(out), as.numeric(mcols(bs@relations)[["membership"]]))
 
 })

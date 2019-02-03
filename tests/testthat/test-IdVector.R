@@ -31,7 +31,7 @@ test_that("ids(IdVector) works", {
     iv <- IdVector(idValues)
 
     ids(iv) <- tail(LETTERS, length(iv))
-    expect_identical(ids(iv), tail(LETTERS, length(iv)))
+    expect_identical(ids(iv), iv@ids)
 
 })
 
@@ -49,10 +49,14 @@ test_that("ids(IdVector) <- value works", {
 test_that("IdVector validity method identifies issues", {
 
     # Invalid colnames(object@relations)
-    idValues0 <- c("A", "A", "B")
+    iv0 <- IdVector(c("A", "A", "B", "B", "C", "C", "D", "D", "E", "E", "F"))
+    mcols(iv0) <- DataFrame(
+        dummy=c(rep(1:2, 5), 1)
+    )
+
     expect_error(
-        IdVector(idValues0),
-        "duplicated values in \"ids\"",
+        validObject(iv0),
+        "some identifiers do not have unique metadata: ",
         fixed=TRUE
     )
 
@@ -156,13 +160,13 @@ test_that("as(character, \"IdVector\") works", {
     expect_s4_class(out, "IdVector")
     expect_identical(ids(out), as.character(idValues))
 
-    out <- as.IdVector.character(idValues)
+    out <- as.IdVector.default(idValues)
     expect_s4_class(out, "IdVector")
     expect_identical(ids(out), as.character(idValues))
 
 })
 
-# as(, "character") ----
+# as(IdVector, "character") ----
 
 test_that("as(IdVector, \"character\") works", {
 
@@ -175,5 +179,34 @@ test_that("as(IdVector, \"character\") works", {
     out <- as.character.IdVector(iv)
     expect_type(out, "character")
     expect_identical(out, ids(iv))
+
+})
+
+# as(IdVector, "vector") ----
+
+test_that("as(IdVector, \"character\") works", {
+
+    iv <- IdVector(idValues)
+
+    out <- as(iv, "vector")
+    expect_type(out, "character")
+    expect_identical(out, ids(iv))
+
+    out <- as.vector.IdVector(iv)
+    expect_type(out, "character")
+    expect_identical(out, ids(iv))
+
+})
+
+# split(IdVector, IdVector) ----
+
+test_that("split(IdVector, IdVector) works", {
+
+    iv1 <- IdVector(head(letters, 6))
+    iv2 <- IdVector(c(rep("set1", 1), rep("set2", 2), rep("set3", 3)))
+
+    out <- split(iv1, iv2)
+    expect_named(out, c("set1", "set2", "set3"))
+    expect_identical(lengths(out), c(set1=1L, set2=2L, set3=3L))
 
 })

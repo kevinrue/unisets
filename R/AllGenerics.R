@@ -1,68 +1,43 @@
 # Direct pointers ----
 
-#' Method relations
-#' @name BaseSets-class
-#' @rdname BaseSets-class
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases relations
 #' @exportMethod relations
-setGeneric(
-    "relations",
-    function(x) standardGeneric("relations")
-)
+setGeneric("relations", function(x) standardGeneric("relations"))
 
-#' Method elements
-#' @name BaseSets-class
-#' @rdname BaseSets-class
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases elements
 #' @exportMethod elements
-setGeneric(
-    "elements",
-    function(x) standardGeneric("elements")
-)
+setGeneric("elements", function(x) standardGeneric("elements"))
 
-#' Method elementIds
-#' @name BaseSets-class
-#' @rdname BaseSets-class
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases elementIds
 #' @exportMethod elementIds
-setGeneric(
-    "elementIds",
-    function(x) standardGeneric("elementIds")
-)
+setGeneric("elementIds", function(x) standardGeneric("elementIds"))
 
-#' Method elementIds<-
-#' @name BaseSets-class
-#' @rdname BaseSets-class
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases elementIds<-
 #' @exportMethod elementIds<-
-setGeneric(
-    "elementIds<-",
-    function(x, value) standardGeneric("elementIds<-")
-)
+setGeneric("elementIds<-", function(x, value) standardGeneric("elementIds<-"))
 
-#' Method elementData
-#' @name BaseSets-class
-#' @rdname BaseSets-class
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases elementData
 #' @exportMethod elementData
-setGeneric(
-    "elementData",
-    function(x) standardGeneric("elementData")
-)
+setGeneric("elementData", function(x) standardGeneric("elementData"))
 
-#' Method sets
-#' @name BaseSets-class
-#' @rdname BaseSets-class
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases sets
 #' @exportMethod sets
-setGeneric(
-    "sets",
-    function(x) standardGeneric("sets")
-)
+setGeneric("sets", function(x) standardGeneric("sets"))
 
-#' Method setIds
-#' @name BaseSets-class
-#' @rdname BaseSets-class
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases setIds
 #' @exportMethod setIds
 setGeneric(
@@ -70,9 +45,8 @@ setGeneric(
     function(x) standardGeneric("setIds")
 )
 
-#' Method setIds<-
-#' @name BaseSets-class
-#' @rdname BaseSets-class
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases setIds<-
 #' @exportMethod setIds<-
 setGeneric(
@@ -80,9 +54,8 @@ setGeneric(
     function(x, value) standardGeneric("setIds<-")
 )
 
-#' Method setData
-#' @name BaseSets-class
-#' @rdname BaseSets-class
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases setData
 #' @exportMethod setData
 setGeneric(
@@ -90,9 +63,8 @@ setGeneric(
     function(x) standardGeneric("setData")
 )
 
-#' Method membership
-#' @name FuzzySets-class
-#' @rdname FuzzySets-class
+#' @name FuzzyHits-methods
+#' @rdname FuzzyHits-methods
 #' @aliases membership
 #' @exportMethod membership
 setGeneric(
@@ -100,9 +72,8 @@ setGeneric(
     function(x) standardGeneric("membership")
 )
 
-#' Method membership<-
-#' @name FuzzySets-class
-#' @rdname FuzzySets-class
+#' @name FuzzyHits-methods
+#' @rdname FuzzyHits-methods
 #' @aliases membership<-
 #' @exportMethod membership<-
 setGeneric(
@@ -110,46 +81,40 @@ setGeneric(
     function(x, value) standardGeneric("membership<-")
 )
 
-#' Method ids
-#' @name IdVector-class
-#' @rdname IdVector-class
+#' @name IdVector-methods
+#' @rdname IdVector-methods
 #' @aliases ids
 #' @exportMethod ids
 setGeneric("ids", function(x) standardGeneric("ids"))
 
-#' Method ids<-
-#' @name IdVector-class
-#' @rdname IdVector-class
+#' @name IdVector-methods
+#' @rdname IdVector-methods
 #' @aliases ids<-
 #' @exportMethod ids<-
 setGeneric("ids<-", function(x, value) standardGeneric("ids<-"))
 
 # Dimensions ----
 
-#' Method nElements
-#' @name BaseSets-class
-#' @rdname BaseSets-class
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases nElements
 #' @exportMethod nElements
 setGeneric("nElements", function(x) standardGeneric("nElements"))
 
-#' Method nSets
-#' @name BaseSets-class
-#' @rdname BaseSets-class
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases nSets
 #' @exportMethod nSets
 setGeneric("nSets", function(x) standardGeneric("nSets"))
 
-#' Method setLengths
-#' @name BaseSets-class
-#' @rdname BaseSets-class
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases setLengths
 #' @exportMethod setLengths
 setGeneric("setLengths", function(x) standardGeneric("setLengths"))
 
-#' Method elementLengths
-#' @name BaseSets-class
-#' @rdname BaseSets-class
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases elementLengths
 #' @exportMethod elementLengths
 setGeneric("elementLengths", function(x) standardGeneric("elementLengths"))

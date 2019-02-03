@@ -156,7 +156,7 @@ base_matrix
 ```
 
 In contrast, `FuzzySets` objects produce a `double` matrix displaying the membership function for each relation.
-Relations that are not described in the `FuzzySets` are filled with `NA`, to contrast to relations explictly associated with a membership function of 0.
+Relations that are not described in the `FuzzySets` are filled with `NA`, to contrast with relations explictly associated with a membership function of 0.
 
 ```{r}
 membership(fuzzy_sets)[1] <- 0
