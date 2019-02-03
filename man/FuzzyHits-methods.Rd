@@ -10,16 +10,16 @@
 \alias{membership<-,FuzzyHits-method}
 \title{Methods for \code{FuzzyHits} Objects}
 \usage{
-membership(x)
+membership(object)
 
-membership(x) <- value
+membership(object) <- value
 
-\S4method{membership}{FuzzyHits}(x)
+\S4method{membership}{FuzzyHits}(object)
 
-\S4method{membership}{FuzzyHits}(x) <- value
+\S4method{membership}{FuzzyHits}(object) <- value
 }
 \arguments{
-\item{x}{An object of class inheriting from \link[=FuzzyHits-class]{FuzzyHits}.}
+\item{object}{An object of class inheriting from \link[=FuzzyHits-class]{FuzzyHits}.}
 
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
 }
@@ -31,7 +31,7 @@ and \code{value} is an object of a class specified in the S4 method signature or
 }
 \section{Accessors}{
 
-\code{membership(x)} returns a \code{numeric} vector of membership function for each relation.
+\code{membership(object)} returns a \code{numeric} vector of membership function for each relation.
 }
 
 \examples{

@@ -62,13 +62,13 @@ test_that("BaseSets validity method identifies issues", {
 
     expect_error(
         BaseSets(relations, elementData=IdVector(relations$element)),
-        "duplicated values in ids(elementData(x))",
+        "duplicated values in ids(elementData(object))",
         fixed=TRUE
     )
 
     expect_error(
         BaseSets(relations, setData=IdVector(relations$set)),
-        "duplicated values in ids(setData(x))",
+        "duplicated values in ids(setData(object))",
         fixed=TRUE
     )
 

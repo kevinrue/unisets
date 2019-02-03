@@ -5,7 +5,7 @@
 #' @aliases membership,FuzzyHits-method
 #'
 #' @section Accessors:
-#' `membership(x)` returns a `numeric` vector of membership function for each relation.
+#' `membership(object)` returns a `numeric` vector of membership function for each relation.
 #'
 #' @importFrom methods slot
 #'
@@ -14,8 +14,8 @@
 #' # Accessors ----
 #'
 #' membership(fh)
-setMethod("membership", "FuzzyHits", function(x) {
-    mcols(x)[["membership"]]
+setMethod("membership", "FuzzyHits", function(object) {
+    mcols(object)[["membership"]]
 })
 
 #' @rdname FuzzyHits-methods
@@ -27,10 +27,10 @@ setMethod("membership", "FuzzyHits", function(x) {
 #' fh1 <- fh
 #' membership(fh1)[1] <- 0
 setReplaceMethod("membership", "FuzzyHits",
-    function(x, value)
+    function(object, value)
     {
-        mcols(x)[["membership"]] <- value
-        x
+        mcols(object)[["membership"]] <- value
+        object
     }
 )
 
