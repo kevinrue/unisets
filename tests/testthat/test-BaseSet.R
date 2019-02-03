@@ -49,14 +49,26 @@ test_that("BaseSets validity method identifies issues", {
     )
 
     expect_message(
-        BaseSets(relations, elementData=IdVector(c(relations$element, "Z"))),
+        BaseSets(relations, elementData=IdVector(unique(c(relations$element, "Z")))),
         "Dropping elementData missing from relations$element",
         fixed=TRUE
     )
 
     expect_message(
-        BaseSets(relations, setData=IdVector(c(relations$set, "set999"))),
+        BaseSets(relations, setData=IdVector(unique(c(relations$set, "set999")))),
         "Dropping setData missing from relations$set",
+        fixed=TRUE
+    )
+
+    expect_error(
+        BaseSets(relations, elementData=IdVector(relations$element)),
+        "duplicated values in ids(elementData(x))",
+        fixed=TRUE
+    )
+
+    expect_error(
+        BaseSets(relations, setData=IdVector(relations$set)),
+        "duplicated values in ids(setData(x))",
         fixed=TRUE
     )
 
@@ -203,6 +215,13 @@ test_that("subset(BaseSets) works", {
     expect_true(all(ids(setData(out)) == "set1"))
     expect_identical(length(setData(out)), 1L)
 
+    out <- subset.BaseSets(bs, set == "set1")
+
+    expect_true(all(ids(setData(out)) == "set1"))
+    expect_identical(length(setData(out)), 1L)
+
+
+
 })
 
 # show() ----
@@ -222,6 +241,40 @@ test_that("show(BaseSets) works", {
     out <- show(bs)
     expect_identical(colnames(out), c("element", "set", "relationData", "elementData", "setData"))
     expect_identical(nrow(out), unisets:::get_showHeadLines() + unisets:::get_showTailLines() + 2L)
+
+})
+
+# as.DataFrame() ----
+
+test_that("as(BaseSets, \"DataFrame\") works", {
+
+    bs <- BaseSets(relations)
+
+    out <- as(bs, "DataFrame")
+    expect_s4_class(out, "DataFrame")
+    expect_identical(colnames(out), c("element", "set"))
+    expect_identical(dim(out), dim(relations))
+
+    out <- as.DataFrame.BaseSets(bs)
+    expect_s4_class(out, "DataFrame")
+    expect_identical(colnames(out), c("element", "set"))
+    expect_identical(dim(out), dim(relations))
+
+})
+
+# as.data.frame() ----
+
+test_that("as(BaseSets, \"data.frame\") works", {
+
+    bs <- BaseSets(relations)
+
+    out <- as(bs, "data.frame")
+    expect_identical(colnames(out), c("element", "set"))
+    expect_identical(dim(out), dim(relations))
+
+    out <- as.data.frame.BaseSets(bs)
+    expect_identical(colnames(out), c("element", "set"))
+    expect_identical(dim(out), dim(relations))
 
 })
 
