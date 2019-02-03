@@ -309,6 +309,22 @@ test_that("as(BaseSets, \"matrix\") works", {
 
 })
 
+# as(list, "BaseSets") ----
+
+test_that("as(list, \"BaseSets\") works", {
+
+    bl <- list(set1=c("A", "B"), set2=c("B", "C"))
+
+    out <- as(bl, "BaseSets")
+    expect_s4_class(out, "BaseSets")
+    expect_identical(length(out@relations), 4L)
+
+    out <- as.BaseSets.list(bl, "BaseSets")
+    expect_s4_class(out, "BaseSets")
+    expect_identical(length(out@relations), 4L)
+
+})
+
 # as(matrix, "BaseSets") ----
 
 test_that("as(matrix, \"BaseSets\") works", {

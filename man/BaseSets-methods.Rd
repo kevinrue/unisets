@@ -43,6 +43,7 @@
 \alias{as.matrix}
 \alias{as.BaseSets.matrix}
 \alias{as.BaseSets}
+\alias{as.BaseSets.list}
 \alias{as.BaseSets.Go3AnnDbBimap}
 \title{Methods for \code{BaseSets} Objects}
 \usage{
@@ -110,6 +111,8 @@ as.DataFrame.BaseSets(object, ...)
 
 \method{as.matrix}{BaseSets}(x, ...)
 
+as.BaseSets.list(list, ...)
+
 as.BaseSets.matrix(matrix, ...)
 
 as.BaseSets.Go3AnnDbBimap(Go3AnnDbBimap, ...)
@@ -120,6 +123,10 @@ as.BaseSets.Go3AnnDbBimap(Go3AnnDbBimap, ...)
 \item{x, object}{An object of class inheriting from \code{\link[=BaseSets-class]{BaseSets}}.}
 
 \item{...}{Additional arguments passed to and from other methods.}
+
+\item{list}{A \code{list} of named character vectors.
+The names are taken as the set identifiers.
+The character vectors are taken as identifiers of elements that are member of each set.}
 
 \item{matrix}{A \code{matrix}.
 The matrix will be coerced to \code{logical} type and relations indicating \code{TRUE} will be stored in the \code{BaseSets}.}
@@ -196,6 +203,9 @@ In addition, metadata for elements and sets that are not represented in the rema
 
 \section{Coercion to BaseSets}{
 
+\code{as(list, "BaseSets")} and \code{as.BaseSets(object)} return a \code{BaseSets} from a list of character vectors.
+
+
 \code{as(matrix, "BaseSets")} and \code{as.BaseSets(object)} return a \code{BaseSets} from an incidence matrix.
 
 
@@ -251,6 +261,9 @@ fs <- as(bs, "FuzzySets")
 
 # Coercion to BaseSets ----
 
+# list
+bs1 <- as(list(set1=c("A", "B"), set2=c("B", "C")), "BaseSets")
+# matrix
 bs1 <- as(m1, "BaseSets")
 
 library(org.Hs.eg.db)
