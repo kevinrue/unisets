@@ -34,6 +34,17 @@ and \code{value} is an object of a class specified in the S4 method signature or
 \code{membership(x)} returns a \code{numeric} vector of membership function for each relation.
 }
 
+\examples{
+# Setup ----
+
+example("FuzzyHits-class", echo=FALSE)
+
+# Accessors ----
+
+membership(fh)
+fh1 <- fh
+membership(fh1)[1] <- 0
+}
 \seealso{
 \code{\linkS4class{FuzzyHits}}, \linkS4class{FuzzySets}.
 }

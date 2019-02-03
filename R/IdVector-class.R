@@ -8,6 +8,12 @@
 #' `names(x)` is a synonym for compatibility with S4 methods such as `mcols(x, use.names = TRUE, ...) `.
 #'
 #' @importFrom methods slot
+#'
+#' @examples
+#'
+#' # Accessors ----
+#'
+#' ids(iv)
 setMethod("ids", "IdVector", function(x) {
     slot(x, "ids")
 })
@@ -16,6 +22,10 @@ setMethod("ids", "IdVector", function(x) {
 
 #' @rdname IdVector-methods
 #' @aliases ids<-,IdVector-method
+#'
+#' @examples
+#' iv1 <- iv
+#' ids(iv1)[1] <- "gene1"
 setReplaceMethod("ids", "IdVector",
     function(x, value)
     {
@@ -28,6 +38,10 @@ setReplaceMethod("ids", "IdVector",
 
 #' @rdname IdVector-methods
 #' @aliases names,IdVector-method
+#'
+#' @examples
+#'
+#' names(iv)
 setMethod("names", "IdVector", function(x) {
     ids(x)
 })
@@ -38,6 +52,10 @@ setMethod("names", "IdVector", function(x) {
 #' @aliases names<-,IdVector-method
 #'
 #' @importFrom methods slot<-
+#'
+#' @examples
+#' iv1 <- iv
+#' names(iv1)[1] <- "GENE001"
 setReplaceMethod("names", "IdVector",
     function(x, value)
     {
@@ -55,6 +73,12 @@ setReplaceMethod("names", "IdVector",
 #' `length(x)` returns the number of elements in `x`.
 #'
 #' @importFrom methods slot
+#'
+#' @examples
+#'
+#' # Dimensions ----
+#'
+#' length(iv)
 setMethod("length", "IdVector", function(x) {
     length(slot(x, "ids"))
 })
@@ -72,6 +96,12 @@ setMethod("length", "IdVector", function(x) {
 #'
 #' @importFrom methods callNextMethod
 #' @importClassesFrom IRanges IntegerRanges
+#'
+#' @examples
+#'
+#' # Subsetting ----
+#'
+#' iv1 <- iv[1:5]
 setMethod("[", "IdVector", function(x, i, j, ..., drop = TRUE) {
     callNextMethod()
 })
@@ -84,7 +114,7 @@ setMethod("show", "IdVector", function(object) {
     nu <- length(unique(slot(object, "ids")))
     cat(
         class(object), " of length ", ne, " with ",
-        nu, " unique ", ifelse(ne == 1, "identifier", "identifiers"), "\n",
+        nu, " unique ", ifelse(nu == 1, "identifier", "identifiers"), "\n",
         sep = ""
     )
     # Preview of identifiers if any
@@ -129,7 +159,7 @@ setMethod("NSBS", "IdVector", function(i, x, exact=TRUE, strict.upper.bound=TRUE
 # split() ----
 
 setMethod("split", c("IdVector", "IdVector"), function(x, f, drop = FALSE, ...)  {
-    split(x, as.vector(f), drop=drop, ...)
+    split(x, as.character(f), drop=drop, ...)
 })
 
 # pcompare() ----
@@ -161,6 +191,12 @@ setMethod("pcompare", c("IdVector", "ANY"), function(x, y)
 #'
 #' @importFrom methods as
 #' @export
+#'
+#' @examples
+#'
+#' # Coercion from IdVector ----
+#'
+#' v1 <- as(iv, "vector")
 as.vector.IdVector <- function(x, mode="character") {
     as.vector(ids(x), mode)
 }
@@ -179,6 +215,9 @@ setAs("IdVector", "vector", function(from) {
 #'
 #' @importFrom methods as
 #' @export
+#'
+#' @examples
+#' c1 <- as(iv, "character")
 as.character.IdVector <- function(x, ...) {
     as.vector.IdVector(x, "character")
 }
@@ -207,3 +246,36 @@ setAs("ANY", "IdVector", function(from) {
     as.IdVector.default(as.character(from))
 })
 
+# setValidity ----
+
+#' @importFrom methods slot
+#' @importMethodsFrom S4Vectors mcols split
+setValidity("IdVector", function(object) {
+
+    errors <- c()
+
+    object.mcols <- mcols(object)
+
+    if (any(duplicated(ids(object)))) {
+        if (!is.null(object.mcols)) {
+            metadataById <- split(object.mcols, rownames(object.mcols))
+            uniqueRowsById <- vapply(metadataById, function(x){ nrow(unique(x)) }, integer(1))
+            nonUniqueIds <- names(which(uniqueRowsById > 1))
+            if (length(nonUniqueIds) > 0) {
+                # print(uniqueRowsById[uniqueRowsById > 1])
+                textIds <- paste(head(nonUniqueIds, 4), collapse = ", ")
+                if (length(nonUniqueIds) > 4) {
+                    textIds <- paste0(textIds, ", ...")
+                }
+                error <- paste0("some identifiers do not have unique metadata: ", textIds)
+                errors <- c(errors, error)
+            }
+        }
+    }
+
+    if (length(errors > 0)){
+        return(errors)
+    }
+
+    return(TRUE)
+})

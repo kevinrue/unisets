@@ -49,10 +49,6 @@ relations <- DataFrame(
 
 bs <- BaseSets(relations)
 
-# Subsetting ----
-
-bs1 <- subset(bs, set == "set1" | element == "E")
-
 # Coercing ----
 
 # to list (gene sets)
@@ -60,11 +56,13 @@ ls1 <- as(bs, "list")
 # to matrix (logical membership)
 m1 <- as(bs, "matrix")
 
-# Read-only getters ----
+# Accessors ----
 
 relations(bs)
 elementData(bs)
 setData(bs)
+
+# Dimensions ----
 
 length(bs)
 nElements(bs)
@@ -80,7 +78,6 @@ elementLengths(bs)
 bs1 <- bs
 elementIds(bs1) <- paste0("gene", seq_len(nElements(bs)))
 setIds(bs1) <- paste0("geneset", seq_len(nSets(bs)))
-
 }
 \seealso{
 BaseSets-methods

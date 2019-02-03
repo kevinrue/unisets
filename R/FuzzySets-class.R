@@ -7,6 +7,12 @@
 #' `membership(x)` returns a `numeric` vector of membership function for each relation.
 #'
 #' @importFrom S4Vectors DataFrame
+#'
+#' @examples
+#'
+#' # Accessors ----
+#'
+#' membership(fs)
 setMethod("membership", "FuzzySets", function(x) {
     as.numeric(membership(x@relations))
 })
@@ -15,6 +21,10 @@ setMethod("membership", "FuzzySets", function(x) {
 #' @aliases membership<-,FuzzySets-method
 #'
 #' @importFrom methods validObject
+#'
+#' @examples
+#' fs1 <- fs
+#' membership(fs1)[1] <- 0
 setReplaceMethod("membership", "FuzzySets",
     function(x, value)
     {
@@ -41,6 +51,12 @@ setReplaceMethod("membership", "FuzzySets",
 #' @importFrom S4Vectors from to subset
 #' @method subset FuzzySets
 #' @export
+#'
+#' @examples
+#'
+#' # Subsetting ----
+#'
+#' fs1 <- subset(fs, set == "set1" | membership > 0.5)
 subset.FuzzySets <- function(x, ...) subset(x, ...)
 
 setMethod("subset", "FuzzySets", function(x, ...) {
@@ -82,6 +98,11 @@ setMethod("subset", "FuzzySets", function(x, ...) {
 #' @importFrom reshape2 acast
 #' @export
 #'
+#' @examples
+#'
+#' # Coercion from/to FuzzySets ----
+#'
+#' matrix1 <- as(fs, "matrix")
 as.matrix.FuzzySets <- function(x, fill=NA_real_, ...) {
     out <- as(x, "data.frame")
     out[["value"]] <- membership(x)
@@ -103,6 +124,12 @@ setAs("FuzzySets", "matrix", function(from) {
 #' The matrix will be coerced to `double` type and the value will be taken to indicate the membership function.
 #'
 #' @importFrom methods as
+#'
+#' @examples
+#'
+#' # Coercion to FuzzySets ----
+#'
+#' fs1 <- as(matrix1, "FuzzySets")
 as.FuzzySets.matrix <- function(matrix, ...) {
     storage.mode(matrix) <- "double"
     relations <- melt(matrix, varnames=c("element", "set"), value.name="membership", as.is=TRUE)
@@ -116,11 +143,22 @@ setAs("matrix", "FuzzySets", function(from) {
     as.FuzzySets.matrix(from)
 })
 
-# as.FuzzySets.BaseSets() ----
+# setValidity ----
 
-#' @importFrom methods new
-setAs("BaseSets", "FuzzySets", function(from) {
-    from@relations <- as(from@relations, "FuzzyHits")
-    to <- new("FuzzySets", from)
-    to
+#' @importFrom methods slot
+setValidity("FuzzySets", function(object) {
+
+    errors <- c()
+
+    if (!all(c("membership") %in% colnames(relations(object)))){
+        error <- 'colnames(relations(object)) must include c("membership")'
+        return(error)
+    }
+
+
+    if (length(errors > 0)){
+        return(errors)
+    }
+
+    return(TRUE)
 })

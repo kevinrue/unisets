@@ -14,6 +14,11 @@
 #' @param value An object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 #'
 #' @seealso [`BaseSets-class`].
+#'
+#' @examples
+#' # Setup ----
+#'
+#' example("BaseSets-class", echo=FALSE)
 NULL
 
 # FuzzyHits ----
@@ -32,6 +37,11 @@ NULL
 #' @param value An object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 #'
 #' @seealso [`FuzzyHits-class`], [FuzzySets-class].
+#'
+#' @examples
+#' # Setup ----
+#'
+#' example("FuzzyHits-class", echo=FALSE)
 NULL
 
 # IdVector ----
@@ -50,6 +60,11 @@ NULL
 #' @param value An object of a class specified in the S4 method signature.
 #'
 #' @seealso [`IdVector-class`], [`Vector`][Vector-class], [`Vector-setops`].
+#'
+#' @examples
+#' # Setup ----
+#'
+#' example("IdVector-class", echo=FALSE)
 NULL
 
 # FuzzySets ----
@@ -68,5 +83,9 @@ NULL
 #' @param value An object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 #'
 #' @seealso [`FuzzySets-class`], [`BaseSets-methods`].
+#'
+#' @examples
+#' # Setup ----
+#'
+#' example("FuzzySets-class", echo=FALSE)
 NULL
-

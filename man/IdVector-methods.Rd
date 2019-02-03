@@ -89,6 +89,34 @@ and \code{value} is an object of a class specified in the S4 method signature or
 \code{as(x, "IdVector")} and \code{as.IdVector(x)} return an \code{IdVector} from the given atomic vector of identifiers.
 }
 
+\examples{
+# Setup ----
+
+example("IdVector-class", echo=FALSE)
+
+# Accessors ----
+
+ids(iv)
+iv1 <- iv
+ids(iv1)[1] <- "gene1"
+
+names(iv)
+iv1 <- iv
+names(iv1)[1] <- "GENE001"
+
+# Dimensions ----
+
+length(iv)
+
+# Subsetting ----
+
+iv1 <- iv[1:5]
+
+# Coercion from IdVector ----
+
+v1 <- as(iv, "vector")
+c1 <- as(iv, "character")
+}
 \seealso{
 \code{\linkS4class{IdVector}}, \code{\link[=Vector-class]{Vector}}, \code{\link{Vector-setops}}.
 }

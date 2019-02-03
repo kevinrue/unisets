@@ -38,11 +38,19 @@ mcols(iv) <- DataFrame(row.names = ids(iv), field1=runif(length(iv)))
 
 iv1 <- iv[1:5]
 
+# Identifiers/Names ----
+
+ids(iv)
+names(iv)
+
 # EntrezIdVector ----
 
 library(org.Hs.eg.db)
 ev <- EntrezIdVector(keys(org.Hs.eg.db))
+# EntrezIdVector ----
 
+library(org.Hs.eg.db)
+ev <- EntrezIdVector(keys(org.Hs.eg.db))
 }
 \seealso{
 \code{\link[=Vector-class]{Vector}}

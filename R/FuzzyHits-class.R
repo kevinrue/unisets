@@ -8,6 +8,12 @@
 #' `membership(x)` returns a `numeric` vector of membership function for each relation.
 #'
 #' @importFrom methods slot
+#'
+#' @examples
+#'
+#' # Accessors ----
+#'
+#' membership(fh)
 setMethod("membership", "FuzzyHits", function(x) {
     mcols(x)[["membership"]]
 })
@@ -16,6 +22,10 @@ setMethod("membership", "FuzzyHits", function(x) {
 #' @aliases membership<-,FuzzyHits-method
 #'
 #' @importFrom methods validObject
+#'
+#' @examples
+#' fh1 <- fh
+#' membership(fh1)[1] <- 0
 setReplaceMethod("membership", "FuzzyHits",
     function(x, value)
     {
@@ -43,4 +53,35 @@ setAs("Hits", "FuzzyHits", function(from) {
     from <- subset(from, !is.na(membership))
     to <- new("FuzzyHits", from)
     to
+})
+
+# setValidity ----
+
+#' @importFrom methods slot
+#' @importFrom S4Vectors mcols
+setValidity("FuzzyHits", function(object) {
+    errors <- c()
+
+    if (! "membership" %in% colnames(mcols(object))) {
+        error <- "membership column missing in mcols(object)"
+        return(error)
+    }
+
+    membership <- mcols(object)[["membership"]]
+
+    if (!is.numeric(membership)) {
+        error <- "membership function must be numeric"
+        return(error)
+    }
+
+    if (any(is.na(membership) | membership < 0 | membership > 1)) {
+        error <- "membership function must be in the interval [0,1]"
+        errors <- c(errors, error)
+    }
+
+    if (length(errors > 0)){
+        return(errors)
+    }
+
+    return(TRUE)
 })

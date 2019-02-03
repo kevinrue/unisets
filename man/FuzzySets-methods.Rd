@@ -65,6 +65,29 @@ To this end, the form \code{as.matrix(x, fun.aggregate)} can be used to provide 
 See examples.
 }
 
+\examples{
+# Setup ----
+
+example("FuzzySets-class", echo=FALSE)
+
+# Accessors ----
+
+membership(fs)
+fs1 <- fs
+membership(fs1)[1] <- 0
+
+# Subsetting ----
+
+fs1 <- subset(fs, set == "set1" | membership > 0.5)
+
+# Coercion from/to FuzzySets ----
+
+matrix1 <- as(fs, "matrix")
+
+# Coercion to FuzzySets ----
+
+fs1 <- as(matrix1, "FuzzySets")
+}
 \seealso{
 \code{\linkS4class{FuzzySets}}, \code{\link{BaseSets-methods}}.
 }

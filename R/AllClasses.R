@@ -21,6 +21,15 @@
 #'
 #' iv1 <- iv[1:5]
 #'
+#' # Identifiers/Names ----
+#'
+#' ids(iv)
+#' names(iv)
+#'
+#' # EntrezIdVector ----
+#'
+#' library(org.Hs.eg.db)
+#' ev <- EntrezIdVector(keys(org.Hs.eg.db))
 setClass("IdVector",
     contains="Vector",
     slots=c(
@@ -32,27 +41,9 @@ setClass("IdVector",
 )
 
 #' @importFrom methods callNextMethod
+#' @importMethodsFrom S4Vectors parallelSlotNames
 setMethod("parallelSlotNames", "IdVector", function(x) {
     c("ids", callNextMethod())
-})
-
-#' @importFrom methods slot
-setValidity("IdVector", function(object) {
-
-    errors <- c()
-
-    slot.ids <- slot(object, "ids")
-
-    if (any(duplicated(slot.ids))) {
-        error <- 'duplicated values in "ids"'
-        return(error)
-    }
-
-    if (length(errors > 0)){
-        return(errors)
-    }
-
-    return(TRUE)
 })
 
 #' @name IdVector-class
@@ -107,10 +98,6 @@ IdVector <- function(ids=character(0)) {
 #'
 #' bs <- BaseSets(relations)
 #'
-#' # Subsetting ----
-#'
-#' bs1 <- subset(bs, set == "set1" | element == "E")
-#'
 #' # Coercing ----
 #'
 #' # to list (gene sets)
@@ -118,11 +105,13 @@ IdVector <- function(ids=character(0)) {
 #' # to matrix (logical membership)
 #' m1 <- as(bs, "matrix")
 #'
-#' # Read-only getters ----
+#' # Accessors ----
 #'
 #' relations(bs)
 #' elementData(bs)
 #' setData(bs)
+#'
+#' # Dimensions ----
 #'
 #' length(bs)
 #' nElements(bs)
@@ -138,7 +127,6 @@ IdVector <- function(ids=character(0)) {
 #' bs1 <- bs
 #' elementIds(bs1) <- paste0("gene", seq_len(nElements(bs)))
 #' setIds(bs1) <- paste0("geneset", seq_len(nSets(bs)))
-#'
 setClass("BaseSets",
     slots=c(
         relations="Hits",
@@ -151,18 +139,6 @@ setClass("BaseSets",
         setData=IdVector()
     )
 )
-
-#' @importFrom methods slot
-setValidity("BaseSets", function(object) {
-
-    errors <- c()
-
-    if (length(errors > 0)){
-        return(errors)
-    }
-
-    return(TRUE)
-})
 
 #' @name BaseSets-class
 #' @rdname BaseSets-class
@@ -263,39 +239,9 @@ BaseSets <- function(
 #' membership <- c(0, 0.1, 0.2, 0.3, 0.6, 0.8)
 #'
 #' fh <- FuzzyHits(from, to, membership, 7, 15)
-#'
 setClass("FuzzyHits",
     contains="Hits"
 )
-
-#' @importFrom methods slot
-#' @importFrom S4Vectors mcols
-setValidity("FuzzyHits", function(object) {
-    errors <- c()
-
-    if (! "membership" %in% colnames(mcols(object))) {
-        error <- "membership column missing in mcols(object)"
-        return(error)
-    }
-
-    membership <- mcols(object)[["membership"]]
-
-    if (!is.numeric(membership)) {
-        error <- "membership function must be numeric"
-        return(error)
-    }
-
-    if (any(is.na(membership) | membership < 0 | membership > 1)) {
-        error <- "membership function must be in the interval [0,1]"
-        errors <- c(errors, error)
-    }
-
-    if (length(errors > 0)){
-        return(errors)
-    }
-
-    return(TRUE)
-})
 
 #' @name FuzzyHits-class
 #' @rdname FuzzyHits-class
@@ -384,7 +330,6 @@ FuzzyHits <- function(
 #'
 #' fs1 <- fs
 #' membership(fs1) <- runif(length(fs1))
-#'
 setClass("FuzzySets",
     slots=c(
         relations="FuzzyHits"
@@ -394,24 +339,6 @@ setClass("FuzzySets",
     ),
     contains="BaseSets"
 )
-
-#' @importFrom methods slot
-setValidity("FuzzySets", function(object) {
-
-    errors <- c()
-
-    if (!all(c("membership") %in% colnames(relations(object)))){
-        error <- 'colnames(relations(object)) must include c("membership")'
-        return(error)
-    }
-
-
-    if (length(errors > 0)){
-        return(errors)
-    }
-
-    return(TRUE)
-})
 
 #' @name FuzzySets-class
 #' @rdname FuzzySets-class
@@ -450,7 +377,6 @@ FuzzySets <- function(
 #'
 #' library(org.Hs.eg.db)
 #' ev <- EntrezIdVector(keys(org.Hs.eg.db))
-#'
 setClass("EntrezIdVector",
     contains="IdVector"
 )

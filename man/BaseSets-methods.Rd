@@ -19,11 +19,11 @@
 \alias{elementLengths}
 \alias{relations,BaseSets-method}
 \alias{elementData,BaseSets-method}
+\alias{setData,BaseSets-method}
 \alias{elements,BaseSets-method}
+\alias{sets,BaseSets-method}
 \alias{elementIds,BaseSets-method}
 \alias{elementIds<-,BaseSets-method}
-\alias{setData,BaseSets-method}
-\alias{sets,BaseSets-method}
 \alias{setIds,BaseSets-method}
 \alias{setIds<-,BaseSets-method}
 \alias{length,BaseSets-method}
@@ -76,15 +76,15 @@ elementLengths(x)
 
 \S4method{elementData}{BaseSets}(x)
 
+\S4method{setData}{BaseSets}(x)
+
 \S4method{elements}{BaseSets}(x)
+
+\S4method{sets}{BaseSets}(x)
 
 \S4method{elementIds}{BaseSets}(x)
 
 \S4method{elementIds}{BaseSets}(x) <- value
-
-\S4method{setData}{BaseSets}(x)
-
-\S4method{sets}{BaseSets}(x)
 
 \S4method{setIds}{BaseSets}(x)
 
@@ -139,16 +139,16 @@ and \code{value} is an object of a class specified in the S4 method signature or
 \code{elementData(x)} returns the metadata associated with each element as an object inheriting from \code{\link[=IdVector-class]{IdVector}}.
 
 
-\code{elements(x)} returns an \code{IdVector} of sets and associated metadata as ordered in \code{relations(x)$element}.
-
-
-\code{elementIds(x)} and \code{elementIds(x) <- value} get and set the \code{character} vector of element identifiers.
-
-
 \code{setData(x)} returns the metadata associated with each set as an object inheriting from \code{\link[=IdVector-class]{IdVector}}.
 
 
+\code{elements(x)} returns an \code{IdVector} of sets and associated metadata as ordered in \code{relations(x)$element}.
+
+
 \code{sets(x)} returns an \code{IdVector} of sets and associated metadata as ordered in \code{relations(x)$set}.
+
+
+\code{elementIds(x)} and \code{elementIds(x) <- value} get and set the \code{character} vector of element identifiers.
 
 
 \code{setIds(x)} and \code{setIds(x) <- value} get and set the \code{character} vector of element identifiers.
@@ -187,11 +187,75 @@ In addition, metadata for elements and sets that are not represented in the rema
 
 
 \code{as(x, "list")} and \code{as.list(x)} return a \code{data.frame} including \code{"element"}, \code{"set"}, and any relation-wise metadata available.
+}
 
+\section{Coercion from BaseSets}{
 
 \code{as(x, "matrix")} and \code{as.matrix(x)} return a \code{matrix} with elements as rows, sets as columns, and a \code{logical} value to indicate membership.
 }
 
+\section{Coercion to BaseSets}{
+
+\code{as(matrix, "BaseSets")} and \code{as.BaseSets(x)} return a \code{BaseSets} from an incidence matrix.
+
+
+\code{as(Go3AnnDbBimap, "BaseSets")} and \code{as.BaseSets(Go3AnnDbBimap)} return a \code{BaseSets} from a Gene Ontology \code{Bimap} stored distributed in a Bioconductor annotation package.
+}
+
+\examples{
+# Setup ----
+
+example("BaseSets-class", echo=FALSE)
+
+# Accessors ----
+
+relations(bs)
+elementData(bs)
+setData(bs)
+elements(bs)
+sets(bs)
+
+# Getter/Setters ----
+
+elementIds(bs)
+bs1 <- bs
+elementIds(bs1) <- paste0("gene", seq_len(nElements(bs)))
+
+setIds(bs1)
+bs1 <- bs
+setIds(bs1) <- paste0("geneset", seq_len(nSets(bs)))
+
+# Dimensions ----
+
+length(bs)
+nElements(bs)
+nSets(bs)
+setLengths(bs)
+elementLengths(bs)
+
+# Subsetting ----
+
+bs1 <- subset(bs, set == "set1" | element == "E")
+
+# Coercion from BaseSets ----
+
+DF1 <- as(bs, "DataFrame")
+
+df1 <- as(bs, "data.frame")
+
+l1 <- as(bs, "list")
+
+m1 <- as(bs, "matrix")
+
+fs <- as(bs, "FuzzySets")
+
+# Coercion to BaseSets ----
+
+bs1 <- as(m1, "BaseSets")
+
+library(org.Hs.eg.db)
+bs1 <- as(org.Hs.egGO, "BaseSets")
+}
 \seealso{
 \code{\linkS4class{BaseSets}}.
 }
