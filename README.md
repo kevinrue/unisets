@@ -32,8 +32,8 @@ gene_lists <- list(
 relations_table <- DataFrame(
     element = unlist(gene_lists),
     set     = rep(names(gene_lists), lengths(gene_lists)),
-    extra1 = sample(c("ABC", "DEF"), 5L, replace=TRUE),
-    extra2 = rbinom(5L, 10L, 0.4)
+    extra1  = sample(c("ABC", "DEF"), 5L, replace=TRUE),
+    extra2  = rbinom(5L, 10L, 0.4)
 )
 gene_data <- IdVector(c("A", "B", "C", "D"))
 elementMetadata(gene_data) <- DataFrame(
