@@ -137,3 +137,23 @@ test_that("GMT errors expected upon trying to import with bad extensions", {
     )
 
 })
+
+# import(Go3AnnDbBimap) ----
+
+test_that("import(Go3AnnDbBimap) works", {
+
+    out <- import(org.Hs.egGO)
+    expect_s4_class(out, "BaseSets")
+    expect_gt(length(out), 0)
+    expect_gt(length(elementData(out)), 0)
+    expect_gt(length(setData(out)), 0)
+    expect_gt(ncol(mcols(setData(out))), 0)
+
+    out <- import.Go3AnnDbBimap(org.Hs.egGO)
+    expect_s4_class(out, "BaseSets")
+    expect_gt(length(out), 0)
+    expect_gt(length(elementData(out)), 0)
+    expect_gt(length(setData(out)), 0)
+    expect_gt(ncol(mcols(setData(out))), 0)
+
+})

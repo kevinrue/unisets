@@ -48,7 +48,7 @@ Those objects may be directly converted to `BaseSets` objects as demonstrated be
 
 ```{r message=FALSE}
 library(unisets)
-base_sets <- as(org.Hs.egGO, "BaseSets")
+base_sets <- import(org.Hs.egGO)
 relations(base_sets)
 ```
 
@@ -82,17 +82,19 @@ Thus, this mapping is much larger and more inclusive than `org.Hs.egGO2EG`.
 
 Below, we use the `length` method to show the number of relations between genes and GO terms imported from the `org.Hs.egGO2ALLEGS` map.
 
-```{r message=FALSE}
-base_sets <- as(org.Hs.egGO2ALLEGS, "BaseSets")
+```{r}
+base_sets <- import(org.Hs.egGO2ALLEGS)
 format(length(base_sets), big.mark=",")
 ```
 
-We may then again visualize the distribution of set sizes, indicating a larger number of GO terms associated with larger counts of genes
+We can also examine the count of relations associated with each evidence code in each Gene Ontology namespace.
 
-```{r}
-ggplot(data.frame(setLengths=setLengths(base_sets))) +
-    geom_histogram(aes(setLengths), bins=100, color="black", fill="grey") +
-    scale_x_log10() + labs(y="Sets", x="Genes")
+```{r, fig.height=6}
+ggplot(as.data.frame(base_sets)) +
+    geom_bar(aes(Evidence)) + facet_wrap(~Ontology, ncol = 1) + coord_flip() +
+    # scale_y_continuous(labels = function(x){ format(as.integer(x), big.mark = ",") }) +
+    scale_y_continuous(labels = scales::comma) +
+    theme(axis.text.y = element_text(size=rel(0.7)))
 ```
 
 # Session info {.unnumbered}

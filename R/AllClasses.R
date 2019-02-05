@@ -174,10 +174,10 @@ BaseSets <- function(
 
     # Add missing metadata
     if (missing(elementData)) {
-        elementData <- IdVector(sort(unique(as.character(relations$element))))
+        elementData <- IdVector(unique(as.character(relations$element)))
     }
     if (missing(setData)) {
-        setData <- IdVector(sort(unique(as.character(relations$set))))
+        setData <- IdVector(unique(as.character(relations$set)))
     }
     # Add missing mcols
     if (is.null(mcols(elementData))) {

@@ -5,7 +5,7 @@
 #'
 #' The functions `import` and `export` load and save objects from and to particular file formats.
 #' The `unisets` package aims to implement support for a number of annotation and sequence formats.
-#' Currently, GMT files are supported.
+#' The following file formats are currently supported: [GMT](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29).
 #'
 #' @rdname import
 #'
@@ -48,17 +48,19 @@ setGeneric("import.gmt", function(con, ...){
     standardGeneric("import.gmt")
 })
 
-## import() ----
+## import.GMTFile() ----
 
 #' @param con The connection from which data is loaded or to which data is saved.
 #' If this is a character vector, it is assumed to be a filename
 #' and a corresponding file connection is created and then closed after exporting the object.
 #' If a [`RTLFile-class`] derivative, the data is loaded from or saved to the underlying resource.
+#' Certain subclasses of [`BiMap`][`AnnDbBimap`] are supported: [`Go3AnnDbBimap`].
 #' @param ... Parameters to pass to the format-specific method.
 #'
 #' @rdname import
 #'
 #' @export
+#' @importClassesFrom AnnotationDbi Bimap
 #' @importMethodsFrom rtracklayer import
 #' @importFrom rtracklayer FileForFormat
 setMethod("import.gmt", "ANY", function(con, ...)
@@ -73,7 +75,7 @@ setMethod("import.gmt", "ANY", function(con, ...)
 #' @export
 #'
 #' @importFrom rtracklayer resource
-#' @importFrom S4Vectors DataFrame
+#' @importFrom S4Vectors DataFrame mcols<-
 #' @importFrom utils stack
 setMethod("import", "GMTFile", function(con, format, text, ...) {
     ## Read in GMT into a list format
@@ -111,7 +113,7 @@ setMethod("import", "GMTFile", function(con, format, text, ...) {
 })
 
 
-## export() ----
+## export.GMTFile() ----
 
 #' @rdname import
 #' @aliases export.gmt
@@ -138,6 +140,7 @@ setMethod("export.gmt", "ANY", function(object, con, ...) {
 #' @importFrom rtracklayer export
 #' @importFrom utils write.table
 #' @importFrom methods getPackageName
+#' @importFrom S4Vectors mcols DataFrame
 setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...) {
     path <- resource(con)
     if (! "source" %in% colnames(mcols(setData(object)))) {
@@ -168,4 +171,50 @@ setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...)
     ## Collapse each set list into a row and write out
     out <- paste(unlist(set_list), collapse="\n")
     write.table(out, path, sep="\t", col.names=FALSE, row.names=FALSE, quote=FALSE)
+})
+
+# import.Go3AnnDbBimap() ----
+
+#' @rdname import
+#' @aliases import.Go3AnnDbBimap
+#'
+#' @param Go3AnnDbBimap A [`Go3AnnDbBimap`].
+#'
+#' @section Coercion to BaseSets:
+#' `as(Go3AnnDbBimap, "BaseSets")` and `as.BaseSets(Go3AnnDbBimap)` return a `BaseSets` from a Gene Ontology `Bimap` stored distributed in a Bioconductor annotation package.
+#'
+#' @importFrom methods as
+#' @importFrom AnnotationDbi select columns
+#' @export
+#'
+#' @examples
+#'
+#' library(org.Hs.eg.db)
+#' bs1 <- import(org.Hs.egGO)
+import.Go3AnnDbBimap <- function(con, format, text, ...)  {
+    # Import the relationships from the annotation BiMap
+    relations <- DataFrame(as.data.frame(con))
+    # Rename columns: gene_id -> element, go_id -> set
+    colIdx <- match(c("gene_id", "go_id"), colnames(relations))
+    colnames(relations)[colIdx] <- c("element", "set")
+
+    # Prepare a default empty DataFrame if GO.db is not installed
+    setData <- IdVector(unique(as.character(relations$set)))
+    if ( requireNamespace("GO.db") ) {
+        # Fetch GO metadata from GO.db if installed
+        db <- GO.db::GO.db
+        mcols(setData) <- DataFrame(select(db, ids(setData), columns(db)))
+    }
+
+    elementData <- EntrezIdVector(sort(unique(as.character(relations$element))))
+
+    BaseSets(relations, elementData, setData)
+}
+
+#' @rdname import
+#' @aliases import,Go3AnnDbBimap,ANY,ANY-method
+#' @export
+#' @importFrom methods setMethod
+setMethod("import", "Go3AnnDbBimap", function(con, format, text, ...)  {
+    import.Go3AnnDbBimap(con, format, text, ...)
 })
