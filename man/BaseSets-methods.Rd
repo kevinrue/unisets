@@ -44,7 +44,6 @@
 \alias{as.BaseSets.matrix}
 \alias{as.BaseSets}
 \alias{as.BaseSets.list}
-\alias{as.BaseSets.Go3AnnDbBimap}
 \title{Methods for \code{BaseSets} Objects}
 \usage{
 relations(object)
@@ -114,8 +113,6 @@ as.DataFrame.BaseSets(object, ...)
 as.BaseSets.list(list, ...)
 
 as.BaseSets.matrix(matrix, ...)
-
-as.BaseSets.Go3AnnDbBimap(Go3AnnDbBimap, ...)
 }
 \arguments{
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
@@ -130,8 +127,6 @@ The character vectors are taken as identifiers of elements that are member of ea
 
 \item{matrix}{A \code{matrix}.
 The matrix will be coerced to \code{logical} type and relations indicating \code{TRUE} will be stored in the \code{BaseSets}.}
-
-\item{Go3AnnDbBimap}{A \code{\link{Go3AnnDbBimap}}.}
 }
 \description{
 This page documents the S4 generics and methods defined for objects inheriting of the \code{\link[=BaseSets-class]{BaseSets}} class.
@@ -207,9 +202,6 @@ In addition, metadata for elements and sets that are not represented in the rema
 
 
 \code{as(matrix, "BaseSets")} and \code{as.BaseSets(object)} return a \code{BaseSets} from an incidence matrix.
-
-
-\code{as(Go3AnnDbBimap, "BaseSets")} and \code{as.BaseSets(Go3AnnDbBimap)} return a \code{BaseSets} from a Gene Ontology \code{Bimap} stored distributed in a Bioconductor annotation package.
 }
 
 \examples{
@@ -265,9 +257,6 @@ fs <- as(bs, "FuzzySets")
 bs1 <- as(list(set1=c("A", "B"), set2=c("B", "C")), "BaseSets")
 # matrix
 bs1 <- as(m1, "BaseSets")
-
-library(org.Hs.eg.db)
-bs1 <- as(org.Hs.egGO, "BaseSets")
 }
 \seealso{
 \code{\linkS4class{BaseSets}}.

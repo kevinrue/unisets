@@ -12,6 +12,8 @@
 \alias{export.gmt,ANY-method}
 \alias{export,BaseSets,GMTFile,ANY-method}
 \alias{export}
+\alias{import.Go3AnnDbBimap}
+\alias{import,Go3AnnDbBimap,ANY,ANY-method}
 \title{Import and export}
 \usage{
 GMTFile(resource)
@@ -27,6 +29,10 @@ export.gmt(object, con, ...)
 \S4method{export.gmt}{ANY}(object, con, ...)
 
 \S4method{export}{BaseSets,GMTFile,ANY}(object, con, format, ...)
+
+import.Go3AnnDbBimap(con, format, text, ...)
+
+\S4method{import}{Go3AnnDbBimap,ANY,ANY}(con, format, text, ...)
 }
 \arguments{
 \item{resource}{For \code{GMTFile()}, the .gmt file that will be imported in.}
@@ -34,13 +40,16 @@ export.gmt(object, con, ...)
 \item{con}{The connection from which data is loaded or to which data is saved.
 If this is a character vector, it is assumed to be a filename
 and a corresponding file connection is created and then closed after exporting the object.
-If a \code{\linkS4class{RTLFile}} derivative, the data is loaded from or saved to the underlying resource.}
+If a \code{\linkS4class{RTLFile}} derivative, the data is loaded from or saved to the underlying resource.
+Certain subclasses of \code{\link[=AnnDbBimap]{BiMap}} are supported: \code{\link{Go3AnnDbBimap}}.}
 
 \item{...}{Parameters to pass to the format-specific method.}
 
 \item{format, text}{Arguments defined in the \code{\link[rtracklayer:import]{rtracklayer::import()}} generic. Currently ignored.}
 
 \item{object}{An object of class inheriting from \code{\link{GMTFile}}.}
+
+\item{Go3AnnDbBimap}{A \code{\link{Go3AnnDbBimap}}.}
 }
 \value{
 For \code{GMTFile()}, an object representing the path to a .gmt file on disk
@@ -48,8 +57,13 @@ For \code{GMTFile()}, an object representing the path to a .gmt file on disk
 \description{
 The functions \code{import} and \code{export} load and save objects from and to particular file formats.
 The \code{unisets} package aims to implement support for a number of annotation and sequence formats.
-Currently, GMT files are supported.
+The following file formats are currently supported: \href{https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29}{GMT}.
 }
+\section{Coercion to BaseSets}{
+
+\code{as(Go3AnnDbBimap, "BaseSets")} and \code{as.BaseSets(Go3AnnDbBimap)} return a \code{BaseSets} from a Gene Ontology \code{Bimap} stored distributed in a Bioconductor annotation package.
+}
+
 \examples{
 # Example file ----
 
@@ -63,4 +77,7 @@ bs <- import(gmt)
 
 tf <- tempfile(fileext = ".gmt")
 export(bs, tf)
+
+library(org.Hs.eg.db)
+bs1 <- import(org.Hs.egGO)
 }

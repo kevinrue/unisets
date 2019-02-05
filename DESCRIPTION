@@ -12,24 +12,25 @@ Description: Classes to describe relationships between elements and sets,
     Fuzzy sets (including membership functions) are supported.
 Depends: R (>= 3.6.0), S4Vectors
 Imports: 
-    methods,
-    BiocGenerics,
-    utils,
-    reshape2,
     AnnotationDbi,
-    rtracklayer,
+    BiocGenerics,
+    GSEABase,
     IRanges,
-    GSEABase
+    methods,
+    reshape2,
+    rtracklayer,
+    utils
 Suggests:
-    testthat,
-    covr,
-    knitr,
-    rmarkdown,
     BiocStyle,
-    org.Hs.eg.db,
-    GO.db,
+    covr,
+    cowplot,
     ggplot2,
-    cowplot
+    GO.db,
+    knitr,
+    org.Hs.eg.db,
+    rmarkdown,
+    scales,
+    testthat
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

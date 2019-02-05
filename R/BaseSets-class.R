@@ -454,51 +454,6 @@ setAs("matrix", "BaseSets", function(from) {
     as.BaseSets.matrix(from)
 })
 
-# as.BaseSets.Go3AnnDbBimap() ----
-
-#' @rdname BaseSets-methods
-#' @aliases as.BaseSets.Go3AnnDbBimap as.BaseSets
-#'
-#' @param Go3AnnDbBimap A [`Go3AnnDbBimap`].
-#'
-#' @section Coercion to BaseSets:
-#' `as(Go3AnnDbBimap, "BaseSets")` and `as.BaseSets(Go3AnnDbBimap)` return a `BaseSets` from a Gene Ontology `Bimap` stored distributed in a Bioconductor annotation package.
-#'
-#' @importFrom methods as
-#' @export
-#'
-#' @examples
-#'
-#' library(org.Hs.eg.db)
-#' bs1 <- as(org.Hs.egGO, "BaseSets")
-as.BaseSets.Go3AnnDbBimap <- function(Go3AnnDbBimap, ...) {
-    # Import the relationships from the annotation BiMap
-    relations <- DataFrame(as.data.frame(Go3AnnDbBimap))
-    # Rename columns: gene_id -> element, go_id -> set
-    colIdx <- match(c("gene_id", "go_id"), colnames(relations))
-    colnames(relations)[colIdx] <- c("element", "set")
-
-    # Prepare a default empty DataFrame if GO.db is not installed
-    setData <- IdVector(unique(as.character(relations$set)))
-    if ( requireNamespace("GO.db") ) {
-        # Fetch GO metadata from GO.db if installed
-        db <- GO.db::GO.db
-        setData <- IdVector(keys(db))
-        mcols(setData) <- DataFrame(select(db, keys(db), columns(db)))
-    }
-
-    elementData <- EntrezIdVector(sort(unique(as.character(relations$element))))
-
-    BaseSets(relations, elementData, setData)
-}
-
-#' @importClassesFrom AnnotationDbi Go3AnnDbBimap
-#' @importFrom AnnotationDbi select keys columns
-#' @importFrom S4Vectors DataFrame mcols<-
-setAs("Go3AnnDbBimap", "BaseSets", function(from) {
-    as.BaseSets.Go3AnnDbBimap(from)
-})
-
 # setValidity ----
 
 #' @importFrom methods slot
