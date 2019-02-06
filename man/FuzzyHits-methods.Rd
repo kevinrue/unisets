@@ -35,9 +35,14 @@ and \code{value} is an object of a class specified in the S4 method signature or
 }
 
 \examples{
-# Setup ----
+# Constructor ----
 
-example("FuzzyHits-class", echo=FALSE)
+from <- c(5, 2, 3, 3, 3, 2)
+to <- c(11, 15, 5, 4, 5, 11)
+membership <- c(0, 0.1, 0.2, 0.3, 0.6, 0.8)
+
+fh <- FuzzyHits(from, to, membership, 7, 15)
+fh
 
 # Accessors ----
 

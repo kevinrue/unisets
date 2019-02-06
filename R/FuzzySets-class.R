@@ -9,6 +9,30 @@
 #' @importFrom S4Vectors DataFrame
 #'
 #' @examples
+#' # Constructor ----
+#'
+#' # Visually intuitive definition of sets, elements, and membership
+#' sets <- list(
+#'   set1=c("A"=0.1, "B"=0.2),
+#'   set2=c("B"=0.3, "C"=0.4, "D"=0.5),
+#'   set3=c("E"=0.8))
+#'
+#' # unlist the set names
+#' unlistSets <- rep(names(sets), lengths(sets))
+#' # unlist the element names
+#' unlistElements <- unlist(sapply(sets, names))
+#' # unlist the membership values
+#' unlistMembership <- unlist(sets)
+#'
+#' # Reformat as a table
+#' relations <- DataFrame(
+#'   element=unlistElements,
+#'   set=unlistSets,
+#'   membership=unlistMembership
+#' )
+#'
+#' fs <- FuzzySets(relations=relations)
+#' fs
 #'
 #' # Accessors ----
 #'

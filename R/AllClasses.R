@@ -16,10 +16,11 @@
 #'
 #' iv <- IdVector(ids=head(LETTERS, 6))
 #' mcols(iv) <- DataFrame(row.names = ids(iv), field1=runif(length(iv)))
+#' iv
 #'
 #' # Subsetting ----
 #'
-#' iv1 <- iv[1:5]
+#' iv[1:5]
 #'
 #' # Identifiers/Names ----
 #'
@@ -90,13 +91,7 @@ IdVector <- function(ids=character(0)) {
 #'   set2=c("B", "C", "D"),
 #'   set3=c("E"))
 #'
-#' # Reformat as a table
-#' relations <- DataFrame(
-#'   element=unlist(sets),
-#'   set=rep(names(sets), lengths(sets))
-#' )
-#'
-#' bs <- BaseSets(relations)
+#' bs <- as(sets, "BaseSets")
 #'
 #' # Coercing ----
 #'
@@ -239,6 +234,7 @@ BaseSets <- function(
 #' membership <- c(0, 0.1, 0.2, 0.3, 0.6, 0.8)
 #'
 #' fh <- FuzzyHits(from, to, membership, 7, 15)
+#' fh
 setClass("FuzzyHits",
     contains="Hits"
 )

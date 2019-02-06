@@ -41,13 +41,7 @@ sets <- list(
   set2=c("B", "C", "D"),
   set3=c("E"))
 
-# Reformat as a table
-relations <- DataFrame(
-  element=unlist(sets),
-  set=rep(names(sets), lengths(sets))
-)
-
-bs <- BaseSets(relations)
+bs <- as(sets, "BaseSets")
 
 # Coercing ----
 

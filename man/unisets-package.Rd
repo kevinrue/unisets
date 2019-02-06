@@ -11,8 +11,16 @@ Classes to describe relationships between elements and sets,
     Slots are available to store element and set metadata.
     Fuzzy sets (including membership functions) are supported.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/kevinrue/unisets}
+  \item \url{http://kevinrue.github.io/unisets}
+}
+
+}
 \author{
-\strong{Maintainer}: Kevin Rue-Albrecht \email{kevin.rue-albrecht@kennedy.ox.ac.uk}
+\strong{Maintainer}: Kevin Rue-Albrecht \email{kevin.rue-albrecht@kennedy.ox.ac.uk} (0000-0003-3899-3872)
 
 Authors:
 \itemize{

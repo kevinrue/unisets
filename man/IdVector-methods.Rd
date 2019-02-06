@@ -88,9 +88,11 @@ and \code{value} is an object of a class specified in the S4 method signature or
 }
 
 \examples{
-# Setup ----
+# Constructor ----
 
-example("IdVector-class", echo=FALSE)
+iv <- IdVector(ids=head(LETTERS, 6))
+mcols(iv) <- DataFrame(row.names = ids(iv), field1=runif(length(iv)))
+iv
 
 # Accessors ----
 
