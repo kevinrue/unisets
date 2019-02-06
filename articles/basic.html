@@ -139,11 +139,11 @@
 <pre><code>## BaseSets with 5 relations between 4 elements and 2 sets
 ##      element        set relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1          A   geneset1        ABC:8                        
-## 2          B   geneset1        DEF:3                        
-## 3          B   geneset2        ABC:2                        
-## 4          C   geneset2        ABC:4                        
-## 5          D   geneset2        DEF:4</code></pre>
+## 1          A   geneset1        ABC:3                        
+## 2          B   geneset1        ABC:4                        
+## 3          B   geneset2        DEF:3                        
+## 4          C   geneset2        ABC:6                        
+## 5          D   geneset2        ABC:5</code></pre>
 <p>Metadata for each element and set can be provided as separate <code>DataFrame</code> objects:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">gene_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/IdVector-class.html">IdVector</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>))</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">mcols</span>(gene_data) &lt;-<span class="st"> </span><span class="kw">DataFrame</span>(</a>
@@ -160,11 +160,11 @@
 <pre><code>## BaseSets with 5 relations between 4 elements and 2 sets
 ##      element        set relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1          A   geneset1        ABC:8         1:a     100:abc
-## 2          B   geneset1        DEF:3         2:b     100:abc
-## 3          B   geneset2        ABC:2         2:b     200:def
-## 4          C   geneset2        ABC:4         3:c     200:def
-## 5          D   geneset2        DEF:4         4:d     200:def</code></pre>
+## 1          A   geneset1        ABC:3         1:a     100:abc
+## 2          B   geneset1        ABC:4         2:b     100:abc
+## 3          B   geneset2        DEF:3         2:b     200:def
+## 4          C   geneset2        ABC:6         3:c     200:def
+## 5          D   geneset2        ABC:5         4:d     200:def</code></pre>
 <p>The <code>elementData</code> and <code>setData</code> slots store metadata for each individual element and set that appears in the <code>relations</code> slot. Those metadata can be accessed directly using the getter methods of the same name.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">elementData</a></span>(base_sets)</a></code></pre></div>
 <pre><code>## IdVector of length 4 with 4 unique identifiers
@@ -179,11 +179,11 @@
 <pre><code>## Hits object with 5 hits and 2 metadata columns:
 ##            from        to |      extra1    extra2
 ##       &lt;integer&gt; &lt;integer&gt; | &lt;character&gt; &lt;integer&gt;
-##   [1]         1         1 |         ABC         8
-##   [2]         2         1 |         DEF         3
-##   [3]         2         2 |         ABC         2
-##   [4]         3         2 |         ABC         4
-##   [5]         4         2 |         DEF         4
+##   [1]         1         1 |         ABC         3
+##   [2]         2         1 |         ABC         4
+##   [3]         2         2 |         DEF         3
+##   [4]         3         2 |         ABC         6
+##   [5]         4         2 |         ABC         5
 ##   -------
 ##   nLnode: 4 / nRnode: 2</code></pre>
 <p>Conveniently, the <code>relations</code> accessor returns relations and associated metadata as a <code>DataFrame</code> substituting hits for their corresponding element and set identifiers.</p>
@@ -191,11 +191,11 @@
 <pre><code>## DataFrame with 5 rows and 4 columns
 ##      element        set      extra1    extra2
 ##   &lt;IdVector&gt; &lt;IdVector&gt; &lt;character&gt; &lt;integer&gt;
-## 1          A   geneset1         ABC         8
-## 2          B   geneset1         DEF         3
-## 3          B   geneset2         ABC         2
-## 4          C   geneset2         ABC         4
-## 5          D   geneset2         DEF         4</code></pre>
+## 1          A   geneset1         ABC         3
+## 2          B   geneset1         ABC         4
+## 3          B   geneset2         DEF         3
+## 4          C   geneset2         ABC         6
+## 5          D   geneset2         ABC         5</code></pre>
 </div>
 <div id="the-fuzzysets-class" class="section level2">
 <h2 class="hasAnchor">
@@ -209,24 +209,24 @@
 <pre><code>## FuzzySets with 5 relations between 4 elements and 2 sets
 ##      element        set relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1          A   geneset1   ABC:8:0.41         1:a     100:abc
-## 2          B   geneset1   DEF:3:0.67         2:b     100:abc
-## 3          B   geneset2   ABC:2:0.21         2:b     200:def
-## 4          C   geneset2   ABC:4:0.92         3:c     200:def
-## 5          D   geneset2   DEF:4:0.57         4:d     200:def</code></pre>
+## 1          A   geneset1   ABC:3:0.34         1:a     100:abc
+## 2          B   geneset1   ABC:4:0.76         2:b     100:abc
+## 3          B   geneset2   DEF:3:0.99         2:b     200:def
+## 4          C   geneset2   ABC:6:0.24         3:c     200:def
+## 5          D   geneset2   ABC:5:0.37         4:d     200:def</code></pre>
 <p>The <code>membership</code> function associated with each relation can be directly accessed using the getter of the same name.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/FuzzyHits-methods.html">membership</a></span>(fuzzy_sets)</a></code></pre></div>
-<pre><code>## [1] 0.41 0.67 0.21 0.92 0.57</code></pre>
+<pre><code>## [1] 0.34 0.76 0.99 0.24 0.37</code></pre>
 <p>Conveniently, the <code>relations</code> accessor returns fuzzy relations as a <code>DataFrame</code> that includes the <code>"membership"</code> column, along with any other optional metadata accompanying the relations between elements and sets.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">relations</a></span>(fuzzy_sets)</a></code></pre></div>
 <pre><code>## DataFrame with 5 rows and 5 columns
 ##      element        set      extra1    extra2 membership
 ##   &lt;IdVector&gt; &lt;IdVector&gt; &lt;character&gt; &lt;integer&gt;  &lt;numeric&gt;
-## 1          A   geneset1         ABC         8       0.41
-## 2          B   geneset1         DEF         3       0.67
-## 3          B   geneset2         ABC         2       0.21
-## 4          C   geneset2         ABC         4       0.92
-## 5          D   geneset2         DEF         4       0.57</code></pre>
+## 1          A   geneset1         ABC         3       0.34
+## 2          B   geneset1         ABC         4       0.76
+## 3          B   geneset2         DEF         3       0.99
+## 4          C   geneset2         ABC         6       0.24
+## 5          D   geneset2         ABC         5       0.37</code></pre>
 </div>
 </div>
 <div id="subsetting" class="section level1">
@@ -234,20 +234,20 @@
 <a href="#subsetting" class="anchor"></a>Subsetting</h1>
 <p>The <code>subset</code> method can be applied to a <code>BaseSets</code> object, using a logical expression that may refer to the <code>"element"</code> and <code>"set"</code> columns as well as any metadata associated with the relations, indicating rows to keep.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/subset">subset</a></span>(base_sets, set <span class="op">==</span><span class="st"> "geneset1"</span> <span class="op">|</span><span class="st"> </span>element <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"C"</span>) <span class="op">|</span><span class="st"> </span>extra1 <span class="op">==</span><span class="st"> "ABC"</span>)</a></code></pre></div>
-<pre><code>## BaseSets with 4 relations between 3 elements and 2 sets
+<pre><code>## BaseSets with 4 relations between 4 elements and 2 sets
 ##      element        set relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1          A   geneset1        ABC:8         1:a     100:abc
-## 2          B   geneset1        DEF:3         2:b     100:abc
-## 3          B   geneset2        ABC:2         2:b     200:def
-## 4          C   geneset2        ABC:4         3:c     200:def</code></pre>
+## 1          A   geneset1        ABC:3         1:a     100:abc
+## 2          B   geneset1        ABC:4         2:b     100:abc
+## 3          C   geneset2        ABC:6         3:c     200:def
+## 4          D   geneset2        ABC:5         4:d     200:def</code></pre>
 <p>Similarly, the <code>subset</code> method can be also applied to a <code>FuzzySets</code> object, where the logical expression may also refer to the additional <code>"membership"</code> metadata that is guaranted by the class validity method.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/subset">subset</a></span>(fuzzy_sets, set <span class="op">==</span><span class="st"> "geneset2"</span> <span class="op">&amp;</span><span class="st"> </span>membership <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.3</span>)</a></code></pre></div>
 <pre><code>## FuzzySets with 2 relations between 2 elements and 1 set
 ##      element        set relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1          C   geneset2   ABC:4:0.92         3:c     200:def
-## 2          D   geneset2   DEF:4:0.57         4:d     200:def</code></pre>
+## 1          B   geneset2   DEF:3:0.99         2:b     200:def
+## 2          D   geneset2   ABC:5:0.37         4:d     200:def</code></pre>
 </div>
 <div id="converting-to-other-formats" class="section level1">
 <h1 class="hasAnchor">
@@ -271,9 +271,9 @@
 <a class="sourceLine" id="cb28-3" data-line-number="3">fuzzy_matrix</a></code></pre></div>
 <pre><code>##   geneset1 geneset2
 ## A     0.00       NA
-## B     0.67     0.21
-## C       NA     0.92
-## D       NA     0.57</code></pre>
+## B     0.76     0.99
+## C       NA     0.24
+## D       NA     0.37</code></pre>
 </div>
 <div id="converting-from-other-formats" class="section level1">
 <h1 class="hasAnchor">
@@ -299,10 +299,10 @@
 ##      element        set relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
 ## 1          A   geneset1            0                        
-## 2          B   geneset1         0.67                        
-## 3          B   geneset2         0.21                        
-## 4          C   geneset2         0.92                        
-## 5          D   geneset2         0.57</code></pre>
+## 2          B   geneset1         0.76                        
+## 3          B   geneset2         0.99                        
+## 4          C   geneset2         0.24                        
+## 5          D   geneset2         0.37</code></pre>
 </div>
 </div>
 <div id="additional-information" class="section level1">
