@@ -12,6 +12,11 @@
 #' @export
 #'
 #' @examples
+#' # Constructor ----
+#'
+#' iv <- IdVector(ids=head(LETTERS, 6))
+#' mcols(iv) <- DataFrame(row.names = ids(iv), field1=runif(length(iv)))
+#' iv
 #'
 #' # Accessors ----
 #'

@@ -33,10 +33,11 @@ Subclasses of \code{IdVector} may be defined to enable method dispatch according
 
 iv <- IdVector(ids=head(LETTERS, 6))
 mcols(iv) <- DataFrame(row.names = ids(iv), field1=runif(length(iv)))
+iv
 
 # Subsetting ----
 
-iv1 <- iv[1:5]
+iv[1:5]
 
 # Identifiers/Names ----
 

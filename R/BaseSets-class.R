@@ -10,6 +10,16 @@
 #' @importFrom S4Vectors DataFrame
 #'
 #' @examples
+#' # Constructor ----
+#'
+#' # Visually intuitive definition of sets
+#' sets <- list(
+#'   set1=c("A", "B"),
+#'   set2=c("B", "C", "D"),
+#'   set3=c("E"))
+#'
+#' bs <- as(sets, "BaseSets")
+#' bs
 #'
 #' # Accessors ----
 #'
