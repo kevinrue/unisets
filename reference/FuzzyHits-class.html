@@ -178,7 +178,18 @@ However, this class defines additional validity checks to ensure that every rela
 <span class='no'>to</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>11</span>, <span class='fl'>15</span>, <span class='fl'>5</span>, <span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>11</span>)
 <span class='no'>membership</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.1</span>, <span class='fl'>0.2</span>, <span class='fl'>0.3</span>, <span class='fl'>0.6</span>, <span class='fl'>0.8</span>)
 
-<span class='no'>fh</span> <span class='kw'>&lt;-</span> <span class='fu'>FuzzyHits</span>(<span class='no'>from</span>, <span class='no'>to</span>, <span class='no'>membership</span>, <span class='fl'>7</span>, <span class='fl'>15</span>)</div></pre>
+<span class='no'>fh</span> <span class='kw'>&lt;-</span> <span class='fu'>FuzzyHits</span>(<span class='no'>from</span>, <span class='no'>to</span>, <span class='no'>membership</span>, <span class='fl'>7</span>, <span class='fl'>15</span>)
+<span class='no'>fh</span></div><div class='output co'>#&gt; FuzzyHits object with 6 hits and 1 metadata column:
+#&gt;            from        to | membership
+#&gt;       &lt;integer&gt; &lt;integer&gt; |  &lt;numeric&gt;
+#&gt;   [1]         5        11 |          0
+#&gt;   [2]         2        15 |        0.1
+#&gt;   [3]         3         5 |        0.2
+#&gt;   [4]         3         4 |        0.3
+#&gt;   [5]         3         5 |        0.6
+#&gt;   [6]         2        11 |        0.8
+#&gt;   -------
+#&gt;   nLnode: 7 / nRnode: 15</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

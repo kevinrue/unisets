@@ -166,11 +166,14 @@ Subclasses of <code>IdVector</code> may be defined to enable method dispatch acc
 
 <span class='no'>iv</span> <span class='kw'>&lt;-</span> <span class='fu'>IdVector</span>(<span class='kw'>ids</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>LETTERS</span>, <span class='fl'>6</span>))
 <span class='fu'>mcols</span>(<span class='no'>iv</span>) <span class='kw'>&lt;-</span> <span class='fu'>DataFrame</span>(<span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fu'>ids</span>(<span class='no'>iv</span>), <span class='kw'>field1</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Uniform'>runif</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>iv</span>)))
-
+<span class='no'>iv</span></div><div class='output co'>#&gt; IdVector of length 6 with 6 unique identifiers
+#&gt; Ids: A, B, C, D, ...
+#&gt; Metadata: field1 (1 column)</div><div class='input'>
 <span class='co'># Subsetting ----</span>
 
-<span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>[<span class='fl'>1</span>:<span class='fl'>5</span>]
-
+<span class='no'>iv</span>[<span class='fl'>1</span>:<span class='fl'>5</span>]</div><div class='output co'>#&gt; IdVector of length 5 with 5 unique identifiers
+#&gt; Ids: A, B, C, D, ...
+#&gt; Metadata: field1 (1 column)</div><div class='input'>
 <span class='co'># Identifiers/Names ----</span>
 
 <span class='fu'>ids</span>(<span class='no'>iv</span>)</div><div class='output co'>#&gt; [1] "A" "B" "C" "D" "E" "F"</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>iv</span>)</div><div class='output co'>#&gt; [1] "A" "B" "C" "D" "E" "F"</div><div class='input'>

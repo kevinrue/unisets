@@ -177,13 +177,8 @@
   <span class='kw'>set2</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"B"</span>, <span class='st'>"C"</span>, <span class='st'>"D"</span>),
   <span class='kw'>set3</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"E"</span>))
 
-<span class='co'># Reformat as a table</span>
-<span class='no'>relations</span> <span class='kw'>&lt;-</span> <span class='fu'>DataFrame</span>(
-  <span class='kw'>element</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlist'>unlist</a></span>(<span class='no'>sets</span>),
-  <span class='kw'>set</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>sets</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lengths'>lengths</a></span>(<span class='no'>sets</span>))
-)
+<span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>sets</span>, <span class='st'>"BaseSets"</span>)
 
-<span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>BaseSets</span>(<span class='no'>relations</span>)</div><div class='output co'>#&gt; <span class='message'>Setting rownames(relations) to NULL</span></div><div class='input'>
 <span class='co'># Coercing ----</span>
 
 <span class='co'># to list (gene sets)</span>

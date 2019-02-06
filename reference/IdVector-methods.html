@@ -222,22 +222,32 @@ as.IdVector.default(ids, ...)</pre>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Setup ----</span>
+    <pre class="examples"><div class='input'><span class='co'># Constructor ----</span>
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/example'>example</a></span>(<span class='st'>"IdVector-class"</span>, <span class='kw'>echo</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: no help found for ‘IdVector-class’</span></div><div class='input'>
+<span class='no'>iv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='IdVector-class.html'>IdVector</a></span>(<span class='kw'>ids</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>LETTERS</span>, <span class='fl'>6</span>))
+<span class='fu'>mcols</span>(<span class='no'>iv</span>) <span class='kw'>&lt;-</span> <span class='fu'>DataFrame</span>(<span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fu'>ids</span>(<span class='no'>iv</span>), <span class='kw'>field1</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Uniform'>runif</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>iv</span>)))
+<span class='no'>iv</span></div><div class='output co'>#&gt; IdVector of length 6 with 6 unique identifiers
+#&gt; Ids: A, B, C, D, ...
+#&gt; Metadata: field1 (1 column)</div><div class='input'>
 <span class='co'># Accessors ----</span>
 
-<span class='fu'>ids</span>(<span class='no'>iv</span>)</div><div class='output co'>#&gt; <span class='error'>Error in ids(iv): object 'iv' not found</span></div><div class='input'><span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'iv' not found</span></div><div class='input'><span class='fu'>ids</span>(<span class='no'>iv1</span>)[<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='st'>"gene1"</span></div><div class='output co'>#&gt; <span class='error'>Error in ids(iv1)[1] &lt;- "gene1": object 'iv1' not found</span></div><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>iv</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'iv' not found</span></div><div class='input'><span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'iv' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>iv1</span>)[<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='st'>"GENE001"</span></div><div class='output co'>#&gt; <span class='error'>Error in names(iv1)[1] &lt;- "GENE001": object 'iv1' not found</span></div><div class='input'>
+<span class='fu'>ids</span>(<span class='no'>iv</span>)</div><div class='output co'>#&gt; [1] "A" "B" "C" "D" "E" "F"</div><div class='input'><span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>
+<span class='fu'>ids</span>(<span class='no'>iv1</span>)[<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='st'>"gene1"</span>
+
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>iv</span>)</div><div class='output co'>#&gt; [1] "A" "B" "C" "D" "E" "F"</div><div class='input'><span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>iv1</span>)[<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='st'>"GENE001"</span>
+
 <span class='co'># Dimensions ----</span>
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>iv</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'iv' not found</span></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>iv</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'>
 <span class='co'># Subsetting ----</span>
 
-<span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>[<span class='fl'>1</span>:<span class='fl'>5</span>]</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'iv' not found</span></div><div class='input'>
+<span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>[<span class='fl'>1</span>:<span class='fl'>5</span>]
+
 <span class='co'># Coercion from IdVector ----</span>
 
-<span class='no'>v1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>iv</span>, <span class='st'>"vector"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in .class1(object): object 'iv' not found</span></div><div class='input'><span class='no'>c1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>iv</span>, <span class='st'>"character"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in .class1(object): object 'iv' not found</span></div></pre>
+<span class='no'>v1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>iv</span>, <span class='st'>"vector"</span>)
+<span class='no'>c1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>iv</span>, <span class='st'>"character"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
