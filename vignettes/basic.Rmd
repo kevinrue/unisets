@@ -1,6 +1,6 @@
 ---
 title: >
-  An introduction to the `r Githubpkg("unisets")` package 
+  An introduction to the unisets package 
 author:
 - name: Kevin Rue-Albrecht
   affiliation: 
@@ -19,9 +19,9 @@ output:
   BiocStyle::html_document:
     toc_float: true
 abstract: |
-  Introduction to the `unisets` package.
+  Introduction to the unisets package.
 vignette: |
-  %\VignetteIndexEntry{1. Introduction to unisets}
+  %\VignetteIndexEntry{1. An introduction to the unisets package}
   %\VignetteEncoding{UTF-8}  
   %\VignettePackage{unisets}
   %\VignetteEngine{knitr::rmarkdown}
@@ -31,7 +31,7 @@ editor_options:
 
 # Installation
 
-You can install the released version of unisets from [GitHub](https://github.com/kevinrue/unisets) with:
+You can install the released version of `r Githubpkg("kevinrue/unisets")` from [GitHub](https://github.com/kevinrue/unisets) with:
 
 ```{r, eval=FALSE}
 devtools::install_github("kevinrue/unisets")
