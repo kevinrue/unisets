@@ -40,4 +40,4 @@ LazyData: true
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
-URL: https://github.com/kevinrue/unisets
+URL: https://github.com/kevinrue/unisets, http://kevinrue.github.io/unisets
