@@ -3,7 +3,10 @@ Title: Collection of Classes to Store Gene Sets
 Version: 0.99.0
 Date: 2019-01-15
 Authors@R: c(
-    person("Kevin", "Rue-Albrecht", email = "kevin.rue-albrecht@kennedy.ox.ac.uk", role = c("aut", "cre")),
+    person("Kevin", "Rue-Albrecht",
+        email = "kevin.rue-albrecht@kennedy.ox.ac.uk",
+        role = c("aut", "cre"),
+        comment = c(ORCID = "0000-0003-3899-3872")),
     person("Robert", "Amezquita", role = c("aut"))
     )
 Description: Classes to describe relationships between elements and sets,
@@ -37,3 +40,4 @@ LazyData: true
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
+URL: https://github.com/kevinrue/unisets
