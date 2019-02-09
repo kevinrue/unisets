@@ -10,7 +10,7 @@
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
 #'
-#' @param x,object An object of class inheriting from [`BaseSets`][BaseSets-class].
+#' @param object,x An object of class inheriting from [`BaseSets`][BaseSets-class].
 #' @param value An object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 #'
 #' @seealso [`BaseSets-class`].
@@ -46,7 +46,7 @@ NULL
 #' @name IdVector-methods
 #' @rdname IdVector-methods
 #'
-#' @param x,object An object of class inheriting from [IdVector][IdVector-class].
+#' @param object,x An object of class inheriting from [IdVector][IdVector-class].
 #' @param value An object of a class specified in the S4 method signature.
 #'
 #' @seealso [`IdVector-class`], [`Vector`][Vector-class], [`Vector-setops`].
@@ -64,7 +64,7 @@ NULL
 #' @name FuzzySets-methods
 #' @rdname FuzzySets-methods
 #'
-#' @param x,object An object of class inheriting from [`FuzzySets`][FuzzySets-class].
+#' @param object,x An object of class inheriting from [`FuzzySets`][FuzzySets-class].
 #' @param value An object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 #'
 #' @seealso [`FuzzySets-class`], [`BaseSets-methods`].

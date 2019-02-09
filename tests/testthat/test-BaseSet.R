@@ -220,8 +220,33 @@ test_that("subset(BaseSets) works", {
     expect_true(all(ids(setData(out)) == "set1"))
     expect_identical(length(setData(out)), 1L)
 
+    out <- bs[1:3]
+    expect_identical(length(out), 3L)
 
+})
 
+# duplicated() ----
+
+test_that("duplicated(BaseSets) works", {
+
+    bs <- BaseSets(relations)
+    bs1 <- bs
+    bs1@relations <- rep(bs1@relations, times=2)
+
+    out <- duplicated(bs1)
+    expect_identical(out, rep(c(FALSE, TRUE), each=length(bs)))
+})
+
+# unique() ----
+
+test_that("unique(BaseSets) works", {
+
+    bs <- BaseSets(relations)
+    bs1 <- bs
+    bs1@relations <- rep(bs1@relations, times=2)
+
+    out <- unique(bs1)
+    expect_identical(out, bs)
 })
 
 # show() ----

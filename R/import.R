@@ -29,6 +29,7 @@ setClass("GMTFile", contains="RTLFile")
 #' # Import ----
 #'
 #' bs <- import(gmt)
+#' bs
 #'
 #' # Export ----
 #'
@@ -189,8 +190,11 @@ setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...)
 #'
 #' @examples
 #'
+#' # Import (Go3AnnDbBimap) ----
+#'
 #' library(org.Hs.eg.db)
 #' bs1 <- import(org.Hs.egGO)
+#' bs1
 import.Go3AnnDbBimap <- function(con, format, text, ...)  {
     # Import the relationships from the annotation BiMap
     relations <- DataFrame(as.data.frame(con))

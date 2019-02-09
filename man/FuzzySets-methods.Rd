@@ -23,9 +23,9 @@
 as.FuzzySets.matrix(matrix, ...)
 }
 \arguments{
-\item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
+\item{object, x}{An object of class inheriting from \code{\link[=FuzzySets-class]{FuzzySets}}.}
 
-\item{x, object}{An object of class inheriting from \code{\link[=FuzzySets-class]{FuzzySets}}.}
+\item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
 
 \item{...}{Additional arguments passed to and from other methods.}
 
@@ -100,6 +100,7 @@ membership(fs1)[1] <- 0
 # Subsetting ----
 
 fs1 <- subset(fs, set == "set1" | membership > 0.5)
+fs1
 
 # Coercion from/to FuzzySets ----
 

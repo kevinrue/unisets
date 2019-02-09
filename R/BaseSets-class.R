@@ -221,6 +221,36 @@ setMethod("elementLengths", "BaseSets", function(object) {
     lengths(out)
 })
 
+# [ ----
+
+#' @rdname BaseSets-methods
+#' @aliases [,BaseSets-method
+#'
+#' @section Subsetting:
+#' `x[i]` returns new [`BaseSets-class`] object of the same class as `x` made of the elements selected by `i`. `i` can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or [`Rle`] object); or an [`IntegerRanges`][IntegerRanges-class] object.
+#'
+#' @param i index specifying elements to extract or replace.
+#' @param j,drop Ignored.
+#'
+#' @importFrom methods callNextMethod
+#' @importClassesFrom IRanges IntegerRanges
+#'
+#' @examples
+#'
+#' # Subsetting ----
+#'
+#' bs1 <- bs[1:5]
+setMethod("[", "BaseSets", function(x, i, j, ..., drop = TRUE) {
+    keep.element <- unique(ids(elementData(x))[from(x@relations)[i]])
+    keep.set <- unique(ids(setData(x))[to(x@relations)[i]])
+
+    relations <- DataFrame(as(x, "data.frame")[i, , drop=FALSE])
+    elementData <- elementData(x)[which(ids(elementData(x)) %in% keep.element)]
+    setData <- setData(x)[which(ids(setData(x)) %in% keep.set)]
+
+    BaseSets(relations, elementData, setData)
+})
+
 # subset() ----
 
 #' @rdname BaseSets-methods
@@ -241,9 +271,8 @@ setMethod("elementLengths", "BaseSets", function(object) {
 #'
 #' @examples
 #'
-#' # Subsetting ----
-#'
 #' bs1 <- subset(bs, set == "set1" | element == "E")
+#' bs1
 subset.BaseSets <- function(x, ...) subset(x, ...)
 
 setMethod("subset", "BaseSets", function(x, ...) {
@@ -251,15 +280,7 @@ setMethod("subset", "BaseSets", function(x, ...) {
         # Match code layout of the FuzzySets method
         table <- as(x, "data.frame")
         i <- eval(substitute(subset), table)
-
-        keep.element <- unique(ids(elementData(x))[from(x@relations)[i]])
-        keep.set <- unique(ids(setData(x))[to(x@relations)[i]])
-
-        relations <- DataFrame(table[i, , drop=FALSE])
-        elementData <- elementData(x)[which(ids(elementData(x)) %in% keep.element)]
-        setData <- setData(x)[which(ids(setData(x)) %in% keep.set)]
-
-        BaseSets(relations, elementData, setData)
+        x[i]
     }
     .local(x, ...)
 })
@@ -284,6 +305,51 @@ setMethod("show", "BaseSets", function(object) {
     x[["setData"]] <- setData
 
     .showSetAsTable(class(object), x)
+})
+
+# duplicated() ----
+
+#' @rdname BaseSets-methods
+#' @aliases duplicated,BaseSets-method
+#'
+#' @param incomparables Ignored.
+#'
+#' @section Duplication and uniqueness:
+#' `duplicated(x)` determines which relations of a [`BaseSets`] are duplicates of relations with smaller subscripts, and returns a logical vector indicating which relations are duplicates.
+#'
+#' `unique(x)` returns a `BaseSets` like `x` but with duplicate relations removed.
+#'
+#' @export
+#' @importMethodsFrom BiocGenerics duplicated
+#'
+#' @examples
+#'
+#' # Duplication and uniqueness ----
+#'
+#' bs1 <- bs
+#' bs1@relations <- rep(bs1@relations, each=2)
+#' table(duplicated(bs1))
+setMethod("duplicated", "BaseSets", function(x, incomparables = FALSE, ...) {
+    duplicated(slot(x, "relations"))
+})
+
+# unique() ----
+
+#' @rdname BaseSets-methods
+#' @aliases unique,BaseSets-method
+#'
+#' @section Duplication and uniqueness:
+#'
+#' `unique(x)` returns a `BaseSets` like `x` but with duplicate relations removed.
+#'
+#' @export
+#' @importMethodsFrom BiocGenerics unique
+#'
+#' @examples
+#' unique(bs1)
+setMethod("unique", "BaseSets", function(x, incomparables = FALSE, ...)  {
+    i <- !duplicated(x, incomparables = incomparables, ...)
+    x[i]
 })
 
 # as.data.frame.BaseSets() ----

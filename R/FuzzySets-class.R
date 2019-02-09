@@ -81,6 +81,7 @@ setReplaceMethod("membership", "FuzzySets",
 #' # Subsetting ----
 #'
 #' fs1 <- subset(fs, set == "set1" | membership > 0.5)
+#' fs1
 subset.FuzzySets <- function(x, ...) subset(x, ...)
 
 setMethod("subset", "FuzzySets", function(x, ...) {

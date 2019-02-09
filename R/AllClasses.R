@@ -30,7 +30,8 @@
 #' # EntrezIdVector ----
 #'
 #' library(org.Hs.eg.db)
-#' ev <- EntrezIdVector(keys(org.Hs.eg.db))
+#' eiv <- EntrezIdVector(keys(org.Hs.eg.db))
+#' eiv
 setClass("IdVector",
     contains="Vector",
     slots=c(
@@ -126,6 +127,7 @@ IdVector <- function(ids=character(0)) {
 #' bs1 <- bs
 #' elementIds(bs1) <- paste0("gene", seq_len(nElements(bs)))
 #' setIds(bs1) <- paste0("geneset", seq_len(nSets(bs)))
+#' bs1
 setClass("BaseSets",
     slots=c(
         relations="Hits",
@@ -382,7 +384,8 @@ FuzzySets <- function(
 #' # EntrezIdVector ----
 #'
 #' library(org.Hs.eg.db)
-#' ev <- EntrezIdVector(keys(org.Hs.eg.db))
+#' eiv <- EntrezIdVector(keys(org.Hs.eg.db))
+#' eiv
 setClass("EntrezIdVector",
     contains="IdVector"
 )
