@@ -263,6 +263,18 @@ tmp_file <- tempfile(fileext=".gmt")
 export(base_sets_from_gmt, tmp_file)
 ```
 
+# Additional information
+
+Bug reports can be posted as issues in the `r Githubpkg("kevinrue/unisets")` GitHub repository.
+The GitHub repository is the primary source for development versions of the package, where new functionality is added over time.
+The authors appreciate well-considered suggestions for improvements or new features, or even better, pull requests.
+
+If you use `r Githubpkg("kevinrue/unisets")` for your analysis, please cite it as shown below:
+
+```{r citation}
+citation("unisets")
+```
+
 # Session info {.unnumbered}
 
 ```{r sessionInfo, echo=FALSE}
