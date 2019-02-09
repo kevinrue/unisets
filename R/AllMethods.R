@@ -4,7 +4,7 @@
 #' Methods for `BaseSets` Objects
 #'
 #' This page documents the S4 generics and methods defined for objects inheriting of the [`BaseSets`][BaseSets-class] class.
-#' In the usage below, `x` represents an object of class inheriting from [`BaseSets`][BaseSets-class],
+#' In the usage below, `object` and `x` represent an object of class inheriting from [`BaseSets`][BaseSets-class],
 #' and `value` is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 #'
 #' @name BaseSets-methods
@@ -22,7 +22,7 @@ NULL
 #'
 #' This page documents the S4 generics and methods defined for objects inheriting of the [`FuzzyHits`][FuzzyHits-class] class.
 #' The `FuzzyHits` class directly extends [`Hits`][`Hits-class`] and thus inherits of all methods defined for the parent class.
-#' In the usage below, `x` represents an object of class inheriting from [`FuzzyHits`][FuzzyHits-class],
+#' In the usage below, `object` represents an object of class inheriting from [`FuzzyHits`][FuzzyHits-class],
 #' and `value` is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 #'
 #' @name FuzzyHits-methods
@@ -40,7 +40,7 @@ NULL
 #'
 #' This page documents the S4 generics and methods defined for objects inheriting of the [`IdVector`][IdVector-class] class.
 #' The `IdVector` class directly extends [`Vector`][`Vector-class`] and thus inherits of all methods defined for the parent class.
-#' In the usage below, `x` represents an object of class inheriting from [`IdVector`][IdVector-class],
+#' In the usage below, `object` and `x` represent an object of class inheriting from [`IdVector`][IdVector-class],
 #' and `value` is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 #'
 #' @name IdVector-methods
@@ -58,7 +58,7 @@ NULL
 #'
 #' This page documents the S4 generics and methods defined for objects inheriting of the [`FuzzySets`][FuzzySets-class] class.
 #' The `FuzzySets` class directly extends [`BaseSets`][`BaseSets-class`] and thus inherits of all methods defined for the parent class.
-#' In the usage below, `x` represents an object of class inheriting from [`FuzzySets`][FuzzySets-class],
+#' In the usage below, `object` and `x` represent an object of class inheriting from [`FuzzySets`][FuzzySets-class],
 #' and `value` is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 #'
 #' @name FuzzySets-methods

@@ -130,7 +130,7 @@ The matrix will be coerced to \code{logical} type and relations indicating \code
 }
 \description{
 This page documents the S4 generics and methods defined for objects inheriting of the \code{\link[=BaseSets-class]{BaseSets}} class.
-In the usage below, \code{x} represents an object of class inheriting from \code{\link[=BaseSets-class]{BaseSets}},
+In the usage below, \code{object} and \code{x} represent an object of class inheriting from \code{\link[=BaseSets-class]{BaseSets}},
 and \code{value} is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 }
 \section{Accessors}{

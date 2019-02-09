@@ -50,14 +50,15 @@ as.IdVector.default(ids, ...)
 
 \item{j, ..., drop}{Ignored.}
 
-\item{mode}{Ignored. The vector will be coerced to \code{character} mode, unless requested otherwise.}
+\item{mode}{Atomic type of the \code{\link[=vector]{vector()}} returned.
+character string naming an atomic mode or "list" or "expression" or (except for vector) "any".}
 
 \item{ids}{An atomic vector of identifiers.}
 }
 \description{
 This page documents the S4 generics and methods defined for objects inheriting of the \code{\link[=IdVector-class]{IdVector}} class.
 The \code{IdVector} class directly extends \code{\link[=Vector-class]{Vector}} and thus inherits of all methods defined for the parent class.
-In the usage below, \code{x} represents an object of class inheriting from \code{\link[=IdVector-class]{IdVector}},
+In the usage below, \code{object} and \code{x} represent an object of class inheriting from \code{\link[=IdVector-class]{IdVector}},
 and \code{value} is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 }
 \section{Accessors}{

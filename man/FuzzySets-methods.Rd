@@ -38,7 +38,7 @@ The matrix will be coerced to \code{double} type and the value will be taken to 
 \description{
 This page documents the S4 generics and methods defined for objects inheriting of the \code{\link[=FuzzySets-class]{FuzzySets}} class.
 The \code{FuzzySets} class directly extends \code{\link[=BaseSets-class]{BaseSets}} and thus inherits of all methods defined for the parent class.
-In the usage below, \code{x} represents an object of class inheriting from \code{\link[=FuzzySets-class]{FuzzySets}},
+In the usage below, \code{object} and \code{x} represent an object of class inheriting from \code{\link[=FuzzySets-class]{FuzzySets}},
 and \code{value} is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 }
 \section{Accessors}{

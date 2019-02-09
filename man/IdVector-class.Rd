@@ -25,7 +25,7 @@ Subclasses of \code{IdVector} may be defined to enable method dispatch according
 \section{Slots}{
 
 \describe{
-\item{\code{ids}}{character. Unique identifiers.}
+\item{\code{ids}}{character. Identifiers.}
 }}
 
 \examples{
