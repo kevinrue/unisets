@@ -72,12 +72,19 @@ gmt <- system.file(package="unisets", "extdata", "example.gmt")
 # Import ----
 
 bs <- import(gmt)
+bs
 
 # Export ----
 
 tf <- tempfile(fileext = ".gmt")
 export(bs, tf)
 
+# Import (Go3AnnDbBimap) ----
+
 library(org.Hs.eg.db)
 bs1 <- import(org.Hs.egGO)
+bs1
+}
+\author{
+Robert A. Amezquita
 }

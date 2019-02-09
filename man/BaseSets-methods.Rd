@@ -31,8 +31,12 @@
 \alias{nSets,BaseSets-method}
 \alias{setLengths,BaseSets-method}
 \alias{elementLengths,BaseSets-method}
+\alias{[,BaseSets,ANY,ANY,ANY-method}
+\alias{[,BaseSets-method}
 \alias{subset.BaseSets}
 \alias{subset,BaseSets-method}
+\alias{duplicated,BaseSets-method}
+\alias{unique,BaseSets-method}
 \alias{as.DataFrame.BaseSets}
 \alias{as.DataFrame}
 \alias{as.data.frame.BaseSets}
@@ -100,7 +104,13 @@ elementLengths(object)
 
 \S4method{elementLengths}{BaseSets}(object)
 
+\S4method{[}{BaseSets,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
+
 \method{subset}{BaseSets}(x, ...)
+
+\S4method{duplicated}{BaseSets}(x, incomparables = FALSE, ...)
+
+\S4method{unique}{BaseSets}(x, incomparables = FALSE, ...)
 
 as.DataFrame.BaseSets(object, ...)
 
@@ -115,11 +125,17 @@ as.BaseSets.list(list, ...)
 as.BaseSets.matrix(matrix, ...)
 }
 \arguments{
+\item{object, x}{An object of class inheriting from \code{\link[=BaseSets-class]{BaseSets}}.}
+
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
 
-\item{x, object}{An object of class inheriting from \code{\link[=BaseSets-class]{BaseSets}}.}
+\item{i}{index specifying elements to extract or replace.}
+
+\item{j, drop}{Ignored.}
 
 \item{...}{Additional arguments passed to and from other methods.}
+
+\item{incomparables}{Ignored.}
 
 \item{list}{A \code{list} of named character vectors.
 The names are taken as the set identifiers.
@@ -175,9 +191,23 @@ and \code{value} is an object of a class specified in the S4 method signature or
 
 \section{Subsetting}{
 
+\code{x[i]} returns new \code{\linkS4class{BaseSets}} object of the same class as \code{x} made of the elements selected by \code{i}. \code{i} can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or \code{\link{Rle}} object); or an \code{\link[=IntegerRanges-class]{IntegerRanges}} object.
+
+
 \code{subset(object, subset, ...)} returns subsets of relations which meet conditions.
 For \code{FuzzySets} objects, the \code{subset} argument should be a logical expression referring to any of \code{"element"}, \code{"set"}, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
 In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.
+}
+
+\section{Duplication and uniqueness}{
+
+\code{duplicated(x)} determines which relations of a \code{\link{BaseSets}} are duplicates of relations with smaller subscripts, and returns a logical vector indicating which relations are duplicates.
+
+\code{unique(x)} returns a \code{BaseSets} like \code{x} but with duplicate relations removed.
+
+
+
+\code{unique(x)} returns a \code{BaseSets} like \code{x} but with duplicate relations removed.
 }
 
 \section{Coercion}{
@@ -244,7 +274,17 @@ elementLengths(bs)
 
 # Subsetting ----
 
+bs1 <- bs[1:5]
+
 bs1 <- subset(bs, set == "set1" | element == "E")
+bs1
+
+# Duplication and uniqueness ----
+
+bs1 <- bs
+bs1@relations <- rep(bs1@relations, each=2)
+table(duplicated(bs1))
+unique(bs1)
 
 # Coercion from BaseSets ----
 
@@ -267,4 +307,7 @@ bs1 <- as(m1, "BaseSets")
 }
 \seealso{
 \code{\linkS4class{BaseSets}}.
+}
+\author{
+Kevin Rue-Albrecht
 }

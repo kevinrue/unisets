@@ -80,7 +80,11 @@ elementLengths(bs)
 bs1 <- bs
 elementIds(bs1) <- paste0("gene", seq_len(nElements(bs)))
 setIds(bs1) <- paste0("geneset", seq_len(nSets(bs)))
+bs1
 }
 \seealso{
 BaseSets-methods
+}
+\author{
+Kevin Rue-Albrecht
 }

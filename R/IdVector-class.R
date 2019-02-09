@@ -111,6 +111,7 @@ setMethod("length", "IdVector", function(x) {
 #' # Subsetting ----
 #'
 #' iv1 <- iv[1:5]
+#' iv1
 setMethod("[", "IdVector", function(x, i, j, ..., drop = TRUE) {
     callNextMethod()
 })

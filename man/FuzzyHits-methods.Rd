@@ -53,3 +53,6 @@ membership(fh1)[1] <- 0
 \seealso{
 \code{\linkS4class{FuzzyHits}}, \linkS4class{FuzzySets}.
 }
+\author{
+Kevin Rue-Albrecht
+}

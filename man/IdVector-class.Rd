@@ -47,12 +47,17 @@ names(iv)
 # EntrezIdVector ----
 
 library(org.Hs.eg.db)
-ev <- EntrezIdVector(keys(org.Hs.eg.db))
+eiv <- EntrezIdVector(keys(org.Hs.eg.db))
+eiv
 # EntrezIdVector ----
 
 library(org.Hs.eg.db)
-ev <- EntrezIdVector(keys(org.Hs.eg.db))
+eiv <- EntrezIdVector(keys(org.Hs.eg.db))
+eiv
 }
 \seealso{
 \code{\link[=Vector-class]{Vector}}
+}
+\author{
+Kevin Rue-Albrecht
 }

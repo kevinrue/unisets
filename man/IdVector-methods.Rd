@@ -42,9 +42,9 @@ ids(object) <- value
 as.IdVector.default(ids, ...)
 }
 \arguments{
-\item{value}{An object of a class specified in the S4 method signature.}
+\item{object, x}{An object of class inheriting from \link[=IdVector-class]{IdVector}.}
 
-\item{x, object}{An object of class inheriting from \link[=IdVector-class]{IdVector}.}
+\item{value}{An object of a class specified in the S4 method signature.}
 
 \item{i}{index specifying elements to extract or replace.}
 
@@ -112,6 +112,7 @@ length(iv)
 # Subsetting ----
 
 iv1 <- iv[1:5]
+iv1
 
 # Coercion from IdVector ----
 
@@ -120,4 +121,7 @@ c1 <- as(iv, "character")
 }
 \seealso{
 \code{\linkS4class{IdVector}}, \code{\link[=Vector-class]{Vector}}, \code{\link{Vector-setops}}.
+}
+\author{
+Kevin Rue-Albrecht
 }

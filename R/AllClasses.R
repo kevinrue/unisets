@@ -30,7 +30,8 @@
 #' # EntrezIdVector ----
 #'
 #' library(org.Hs.eg.db)
-#' ev <- EntrezIdVector(keys(org.Hs.eg.db))
+#' eiv <- EntrezIdVector(keys(org.Hs.eg.db))
+#' eiv
 setClass("IdVector",
     contains="Vector",
     slots=c(
@@ -54,6 +55,8 @@ setMethod("parallelSlotNames", "IdVector", function(x) {
 #' @param ids character. Identifiers.
 #'
 #' @return An `IdVector` object.
+#'
+#' @author Kevin Rue-Albrecht
 #'
 #' @export
 #' @importFrom methods new
@@ -126,6 +129,7 @@ IdVector <- function(ids=character(0)) {
 #' bs1 <- bs
 #' elementIds(bs1) <- paste0("gene", seq_len(nElements(bs)))
 #' setIds(bs1) <- paste0("geneset", seq_len(nSets(bs)))
+#' bs1
 setClass("BaseSets",
     slots=c(
         relations="Hits",
@@ -152,6 +156,8 @@ setClass("BaseSets",
 #' Metadata for each unique set in `relations$set` is provided as `mcols(setData)`.
 #'
 #' @return A `BaseSets` object.
+#'
+#' @author Kevin Rue-Albrecht
 #'
 #' @export
 #' @importFrom S4Vectors DataFrame
@@ -261,6 +267,8 @@ setClass("FuzzyHits",
 #'
 #' @return A `FuzzyHits` object.
 #'
+#' @author Kevin Rue-Albrecht
+#'
 #' @export
 #' @importFrom methods new
 #' @importFrom S4Vectors Hits
@@ -355,6 +363,8 @@ setClass("FuzzySets",
 #'
 #' @return A `FuzzySets` object.
 #'
+#' @author Kevin Rue-Albrecht
+#'
 #' @export
 #' @importFrom methods new
 FuzzySets <- function(
@@ -382,7 +392,8 @@ FuzzySets <- function(
 #' # EntrezIdVector ----
 #'
 #' library(org.Hs.eg.db)
-#' ev <- EntrezIdVector(keys(org.Hs.eg.db))
+#' eiv <- EntrezIdVector(keys(org.Hs.eg.db))
+#' eiv
 setClass("EntrezIdVector",
     contains="IdVector"
 )
