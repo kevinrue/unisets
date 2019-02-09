@@ -27,6 +27,10 @@ editor_options:
   chunk_output_type: console
 ---
 
+# Overview
+
+The goal of the `r Githubpkg("kevinrue/unisets")` package is to provide a collection of S4 classes to store relationships between elements and sets, with a particular emphasis on gene sets.
+
 # Installation
 
 You can install the released version of `r Githubpkg("kevinrue/unisets")` from [GitHub](https://github.com/kevinrue/unisets) with:
@@ -230,7 +234,7 @@ setIds(base_sets)
 A common representation of gene sets is the GMT format, which is a non-rectangular format where each line is a set.
 The first column is the name of the set, the second column is a description of the source of the set (such as a URL), and the third column onwards are the elements of the set, such that each set may have a variable number of elements.
 
-Importing from and exporting to GMT files is performed using the generic `import` and `export` methods, which recognize the ".gmt" file extenson as a trigger to export in the GMT file format.
+Importing from and exporting to GMT files is performed using the generic `import` and `export` methods, which recognize the ".gmt" file extenson as a trigger to import from and export to the GMT file format.
 Alternatively, the `import.gmt` and `import.gmt` functions may be used to explicitly export to the GMT file format.
 
 Any object that inherits from the `BaseSets` class may be exported to the GMT file format.
@@ -256,7 +260,9 @@ mcols(setData(base_sets_from_gmt))
 ## elementMetadata(setData(base_sets_from_gmt)) # equivalent to above
 ```
 
-To export GMT files, the file extension should be .gmt, and a `BaseSets` class object provided to the `export` method. Note that if no set metadata stored under the `source` heading is found, that this value will be filled in as `NA` in the output.
+To export `BaseSets` objects in GMT file format, the `export` generic may be used if the file extension is ".gmt".
+Alternatively, data in GMT format may be exported to files with different extensions (e.g., ".txt") using the `export.gmt` function.
+Note that if `"source"` heading is not found in the set metadata (i.e., `mcols(setData(x))`), this value will be filled with `"unisets"` in the exported file.
 
 ```{r}
 tmp_file <- tempfile(fileext=".gmt")

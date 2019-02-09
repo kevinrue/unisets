@@ -3,7 +3,7 @@
 
 # unisets
 
-The goal of [_unisets_](https://github.com/kevinrue/unisets) is to provide a collection of classes to store gene sets.
+The goal of [_unisets_](https://github.com/kevinrue/unisets) is to provide a collection of classes to store relationships between elements and sets, with a particular emphasis on gene sets.
 
 ## Installation
 
