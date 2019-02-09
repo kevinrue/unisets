@@ -167,12 +167,12 @@ as.IdVector.default(ids, ...)</pre>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>value</th>
-      <td><p>An object of a class specified in the S4 method signature.</p></td>
+      <th>object, x</th>
+      <td><p>An object of class inheriting from <a href='IdVector-class.html'>IdVector</a>.</p></td>
     </tr>
     <tr>
-      <th>x, object</th>
-      <td><p>An object of class inheriting from <a href='IdVector-class.html'>IdVector</a>.</p></td>
+      <th>value</th>
+      <td><p>An object of a class specified in the S4 method signature.</p></td>
     </tr>
     <tr>
       <th>i</th>
@@ -243,7 +243,9 @@ character string naming an atomic mode or "list" or "expression" or (except for 
 <span class='co'># Subsetting ----</span>
 
 <span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>[<span class='fl'>1</span>:<span class='fl'>5</span>]
-
+<span class='no'>iv1</span></div><div class='output co'>#&gt; IdVector of length 5 with 5 unique identifiers
+#&gt; Ids: A, B, C, D, ...
+#&gt; Metadata: field1 (1 column)</div><div class='input'>
 <span class='co'># Coercion from IdVector ----</span>
 
 <span class='no'>v1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>iv</span>, <span class='st'>"vector"</span>)
@@ -267,6 +269,8 @@ character string naming an atomic mode or "list" or "expression" or (except for 
       <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p>Kevin Rue-Albrecht</p>
   </div>
 </div>
 

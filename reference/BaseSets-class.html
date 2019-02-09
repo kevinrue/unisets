@@ -218,7 +218,16 @@ Metadata for each unique set in <code>relations$set</code> is stored as <code>mc
 
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
 <span class='fu'><a href='BaseSets-methods.html'>elementIds</a></span>(<span class='no'>bs1</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"gene"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'><a href='BaseSets-methods.html'>nElements</a></span>(<span class='no'>bs</span>)))
-<span class='fu'><a href='BaseSets-methods.html'>setIds</a></span>(<span class='no'>bs1</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"geneset"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'><a href='BaseSets-methods.html'>nSets</a></span>(<span class='no'>bs</span>)))</div></pre>
+<span class='fu'><a href='BaseSets-methods.html'>setIds</a></span>(<span class='no'>bs1</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"geneset"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'><a href='BaseSets-methods.html'>nSets</a></span>(<span class='no'>bs</span>)))
+<span class='no'>bs1</span></div><div class='output co'>#&gt; BaseSets with 6 relations between 5 elements and 3 sets
+#&gt;      element        set relationData elementData     setData
+#&gt;   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
+#&gt; 1      gene1   geneset1                                     
+#&gt; 2      gene2   geneset1                                     
+#&gt; 3      gene2   geneset2                                     
+#&gt; 4      gene3   geneset2                                     
+#&gt; 5      gene4   geneset2                                     
+#&gt; 6      gene5   geneset3                                     </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -234,6 +243,8 @@ Metadata for each unique set in <code>relations$set</code> is stored as <code>mc
       <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p>Kevin Rue-Albrecht</p>
   </div>
 </div>
 

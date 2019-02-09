@@ -153,12 +153,12 @@ and <code>value</code> is an object of a class specified in the S4 method signat
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>value</th>
-      <td><p>An object of a class specified in the S4 method signature or as outlined in 'Accessors'.</p></td>
+      <th>object, x</th>
+      <td><p>An object of class inheriting from <code><a href='FuzzySets-class.html'>FuzzySets</a></code>.</p></td>
     </tr>
     <tr>
-      <th>x, object</th>
-      <td><p>An object of class inheriting from <code><a href='FuzzySets-class.html'>FuzzySets</a></code>.</p></td>
+      <th>value</th>
+      <td><p>An object of a class specified in the S4 method signature or as outlined in 'Accessors'.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -245,7 +245,12 @@ See examples.</p>
 <span class='co'># Subsetting ----</span>
 
 <span class='no'>fs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>fs</span>, <span class='no'>set</span> <span class='kw'>==</span> <span class='st'>"set1"</span> <span class='kw'>|</span> <span class='no'>membership</span> <span class='kw'>&gt;</span> <span class='fl'>0.5</span>)
-
+<span class='no'>fs1</span></div><div class='output co'>#&gt; FuzzySets with 3 relations between 3 elements and 2 sets
+#&gt;      element        set relationData elementData     setData
+#&gt;   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
+#&gt; 1          A       set1          0.1                        
+#&gt; 2          B       set1          0.2                        
+#&gt; 3          E       set3          0.8                        </div><div class='input'>
 <span class='co'># Coercion from/to FuzzySets ----</span>
 
 <span class='no'>matrix1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>fs</span>, <span class='st'>"matrix"</span>)
@@ -272,6 +277,8 @@ See examples.</p>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p>Kevin Rue-Albrecht</p>
   </div>
 </div>
 

@@ -207,14 +207,68 @@ Certain subclasses of <code>BiMap</code> are supported: <code>Go3AnnDbBimap</cod
 <span class='co'># Import ----</span>
 
 <span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>import</span>(<span class='no'>gmt</span>)
-
+<span class='no'>bs</span></div><div class='output co'>#&gt; BaseSets with 674 relations between 633 elements and 4 sets
+#&gt;      element                              set relationData elementData
+#&gt;   &lt;IdVector&gt;                       &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt;
+#&gt; 1       JUNB HALLMARK_TNFA_SIGNALING_VIA_NFKB                         
+#&gt; 2      CXCL2 HALLMARK_TNFA_SIGNALING_VIA_NFKB                         
+#&gt; 3       ATF3 HALLMARK_TNFA_SIGNALING_VIA_NFKB                         
+#&gt; 4     NFKBIA HALLMARK_TNFA_SIGNALING_VIA_NFKB                         
+#&gt; 5    TNFAIP3 HALLMARK_TNFA_SIGNALING_VIA_NFKB                         
+#&gt;          ...                              ...          ...         ...
+#&gt; 1     STK38L         HALLMARK_MITOTIC_SPINDLE                         
+#&gt; 2      YWHAE         HALLMARK_MITOTIC_SPINDLE                         
+#&gt; 3    RAPGEF5         HALLMARK_MITOTIC_SPINDLE                         
+#&gt; 4      CEP72         HALLMARK_MITOTIC_SPINDLE                         
+#&gt; 5     CSNK1D         HALLMARK_MITOTIC_SPINDLE                         
+#&gt;                                                                            setData
+#&gt;                                                                        &lt;DataFrame&gt;
+#&gt; 1 http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_TNFA_SIGNALING_VIA_NFKB
+#&gt; 2 http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_TNFA_SIGNALING_VIA_NFKB
+#&gt; 3 http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_TNFA_SIGNALING_VIA_NFKB
+#&gt; 4 http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_TNFA_SIGNALING_VIA_NFKB
+#&gt; 5 http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_TNFA_SIGNALING_VIA_NFKB
+#&gt;                                                                                ...
+#&gt; 1         http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_MITOTIC_SPINDLE
+#&gt; 2         http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_MITOTIC_SPINDLE
+#&gt; 3         http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_MITOTIC_SPINDLE
+#&gt; 4         http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_MITOTIC_SPINDLE
+#&gt; 5         http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_MITOTIC_SPINDLE</div><div class='input'>
 <span class='co'># Export ----</span>
 
 <span class='no'>tf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>(<span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".gmt"</span>)
 <span class='fu'>export</span>(<span class='no'>bs</span>, <span class='no'>tf</span>)
 
+<span class='co'># Import (Go3AnnDbBimap) ----</span>
+
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>org.Hs.eg.db</span>)
-<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'>import</span>(<span class='no'>org.Hs.egGO</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: GO.db</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div></pre>
+<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'>import</span>(<span class='no'>org.Hs.egGO</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: GO.db</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='input'><span class='no'>bs1</span></div><div class='output co'>#&gt; BaseSets with 313751 relations between 20408 elements and 17983 sets
+#&gt;            element        set relationData elementData
+#&gt;   &lt;EntrezIdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt;
+#&gt; 1                1 GO:0002576       TAS:BP            
+#&gt; 2                1 GO:0008150        ND:BP            
+#&gt; 3                1 GO:0043312       TAS:BP            
+#&gt; 4                2 GO:0001869       IDA:BP            
+#&gt; 5                2 GO:0002576       TAS:BP            
+#&gt;                ...        ...          ...         ...
+#&gt; 1        110599583 GO:0046872       IEA:MF            
+#&gt; 2        111089941 GO:0004571       IMP:MF            
+#&gt; 3        111089941 GO:0004571       TAS:MF            
+#&gt; 4        111089941 GO:0005509       IEA:MF            
+#&gt; 5        112441434 GO:0005515       IPI:MF            
+#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            setData
+#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;DataFrame&gt;
+#&gt; 1                                                                                                                                                                                                                                                                                                                                                                                                                                   GO:0002576:The regulated exocytosis of secretory granules containing preformed mediators such as histamine and serotonin by a platelet.:BP:...
+#&gt; 2 GO:0008150:A biological process represents a specific objective that the organism is genetically programmed to achieve. Biological processes are often described by their outcome or ending state, e.g., the biological process of cell division results in the creation of two daughter cells (a divided cell) from a single parent cell. A biological process is accomplished by a particular set of molecular functions carried out by specific gene products (or macromolecular complexes), often in a highly regulated manner and in a particular temporal sequence.:BP:...
+#&gt; 3                                                                                                                                                                                                                                                                                                                                                                                                          GO:0043312:The regulated exocytosis of secretory granules containing preformed mediators such as proteases, lipases, and inflammatory mediators by a neutrophil.:BP:...
+#&gt; 4                                                                                                                                                                                                                                                                                                                                                                                                                                                          GO:0001869:Any process that stops, prevents, or reduces the rate of complement activation by the lectin pathway.:BP:...
+#&gt; 5                                                                                                                                                                                                                                                                                                                                                                                                                                   GO:0002576:The regulated exocytosis of secretory granules containing preformed mediators such as histamine and serotonin by a platelet.:BP:...
+#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ...
+#&gt; 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 GO:0046872:Interacting selectively and non-covalently with any metal ion.:MF:...
+#&gt; 2                                                                                                                                                                                                                                                                                                                                                                                                                                        GO:0004571:Catalysis of the hydrolysis of the terminal (1-&gt;2)-linked alpha-D-mannose residues in an oligo-mannose oligosaccharide.:MF:...
+#&gt; 3                                                                                                                                                                                                                                                                                                                                                                                                                                        GO:0004571:Catalysis of the hydrolysis of the terminal (1-&gt;2)-linked alpha-D-mannose residues in an oligo-mannose oligosaccharide.:MF:...
+#&gt; 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           GO:0005509:Interacting selectively and non-covalently with calcium ions (Ca2+).:MF:...
+#&gt; 5                                                                                                                                                                                                                                                                                                                                                                                                GO:0005515:Interacting selectively and non-covalently with any protein or protein complex (a complex of two or more proteins that may include other nonprotein molecules).:MF:...</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -228,6 +282,8 @@ Certain subclasses of <code>BiMap</code> are supported: <code>Go3AnnDbBimap</cod
       <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p>Robert A. Amezquita</p>
   </div>
 </div>
 

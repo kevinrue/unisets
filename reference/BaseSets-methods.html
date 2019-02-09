@@ -133,106 +133,127 @@ and <code>value</code> is an object of a class specified in the S4 method signat
     
     </div>
 
-    <pre class="usage"><span class='fu'>relations</span>(<span class='no'>object</span>)
+    <pre class="usage">relations(object)
 
-<span class='fu'>elements</span>(<span class='no'>object</span>)
+elements(object)
 
-<span class='fu'>elementIds</span>(<span class='no'>object</span>)
+elementIds(object)
 
-<span class='fu'>elementIds</span>(<span class='no'>object</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
+elementIds(object) <- value
 
-<span class='fu'>elementData</span>(<span class='no'>object</span>)
+elementData(object)
 
-<span class='fu'>sets</span>(<span class='no'>object</span>)
+sets(object)
 
-<span class='fu'>setIds</span>(<span class='no'>object</span>)
+setIds(object)
 
-<span class='fu'>setIds</span>(<span class='no'>object</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
+setIds(object) <- value
 
-<span class='fu'>setData</span>(<span class='no'>object</span>)
+setData(object)
 
-<span class='fu'>nElements</span>(<span class='no'>object</span>)
+nElements(object)
 
-<span class='fu'>nSets</span>(<span class='no'>object</span>)
+nSets(object)
 
-<span class='fu'>setLengths</span>(<span class='no'>object</span>)
+setLengths(object)
 
-<span class='fu'>elementLengths</span>(<span class='no'>object</span>)
+elementLengths(object)
 
-<span class='co'># S4 method for BaseSets</span>
-<span class='fu'>relations</span>(<span class='no'>object</span>)
+# S4 method for BaseSets
+relations(object)
 
-<span class='co'># S4 method for BaseSets</span>
-<span class='fu'>elementData</span>(<span class='no'>object</span>)
+# S4 method for BaseSets
+elementData(object)
 
-<span class='co'># S4 method for BaseSets</span>
-<span class='fu'>setData</span>(<span class='no'>object</span>)
+# S4 method for BaseSets
+setData(object)
 
-<span class='co'># S4 method for BaseSets</span>
-<span class='fu'>elements</span>(<span class='no'>object</span>)
+# S4 method for BaseSets
+elements(object)
 
-<span class='co'># S4 method for BaseSets</span>
-<span class='fu'>sets</span>(<span class='no'>object</span>)
+# S4 method for BaseSets
+sets(object)
 
-<span class='co'># S4 method for BaseSets</span>
-<span class='fu'>elementIds</span>(<span class='no'>object</span>)
+# S4 method for BaseSets
+elementIds(object)
 
-<span class='co'># S4 method for BaseSets</span>
-<span class='fu'>elementIds</span>(<span class='no'>object</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
+# S4 method for BaseSets
+elementIds(object) <- value
 
-<span class='co'># S4 method for BaseSets</span>
-<span class='fu'>setIds</span>(<span class='no'>object</span>)
+# S4 method for BaseSets
+setIds(object)
 
-<span class='co'># S4 method for BaseSets</span>
-<span class='fu'>setIds</span>(<span class='no'>object</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
+# S4 method for BaseSets
+setIds(object) <- value
 
-<span class='co'># S4 method for BaseSets</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>x</span>)
+# S4 method for BaseSets
+length(x)
 
-<span class='co'># S4 method for BaseSets</span>
-<span class='fu'>nElements</span>(<span class='no'>object</span>)
+# S4 method for BaseSets
+nElements(object)
 
-<span class='co'># S4 method for BaseSets</span>
-<span class='fu'>nSets</span>(<span class='no'>object</span>)
+# S4 method for BaseSets
+nSets(object)
 
-<span class='co'># S4 method for BaseSets</span>
-<span class='fu'>setLengths</span>(<span class='no'>object</span>)
+# S4 method for BaseSets
+setLengths(object)
 
-<span class='co'># S4 method for BaseSets</span>
-<span class='fu'>elementLengths</span>(<span class='no'>object</span>)
+# S4 method for BaseSets
+elementLengths(object)
 
-<span class='co'># S3 method for BaseSets</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
+# S4 method for BaseSets,ANY,ANY,ANY
+[(x, i, j, ..., drop = TRUE)
 
-<span class='fu'>as.DataFrame.BaseSets</span>(<span class='no'>object</span>, <span class='no'>...</span>)
+# S3 method for BaseSets
+subset(x, ...)
 
-<span class='co'># S3 method for BaseSets</span>
-<span class='fu'>as.data.frame</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+# S4 method for BaseSets
+duplicated(x, incomparables = FALSE, ...)
 
-<span class='co'># S3 method for BaseSets</span>
-<span class='fu'>as.list</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+# S4 method for BaseSets
+unique(x, incomparables = FALSE, ...)
 
-<span class='co'># S3 method for BaseSets</span>
-<span class='fu'>as.matrix</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+as.DataFrame.BaseSets(object, ...)
 
-<span class='fu'>as.BaseSets.list</span>(<span class='no'>list</span>, <span class='no'>...</span>)
+# S3 method for BaseSets
+as.data.frame(x, ...)
 
-<span class='fu'>as.BaseSets.matrix</span>(<span class='no'>matrix</span>, <span class='no'>...</span>)</pre>
+# S3 method for BaseSets
+as.list(x, ...)
+
+# S3 method for BaseSets
+as.matrix(x, ...)
+
+as.BaseSets.list(list, ...)
+
+as.BaseSets.matrix(matrix, ...)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>object, x</th>
+      <td><p>An object of class inheriting from <code><a href='BaseSets-class.html'>BaseSets</a></code>.</p></td>
+    </tr>
+    <tr>
       <th>value</th>
       <td><p>An object of a class specified in the S4 method signature or as outlined in 'Accessors'.</p></td>
     </tr>
     <tr>
-      <th>x, object</th>
-      <td><p>An object of class inheriting from <code><a href='BaseSets-class.html'>BaseSets</a></code>.</p></td>
+      <th>i</th>
+      <td><p>index specifying elements to extract or replace.</p></td>
+    </tr>
+    <tr>
+      <th>j, drop</th>
+      <td><p>Ignored.</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>Additional arguments passed to and from other methods.</p></td>
+    </tr>
+    <tr>
+      <th>incomparables</th>
+      <td><p>Ignored.</p></td>
     </tr>
     <tr>
       <th>list</th>
@@ -270,9 +291,17 @@ The matrix will be coerced to <code>logical</code> type and relations indicating
     <h2 class="hasAnchor" id="subsetting"><a class="anchor" href="#subsetting"></a>Subsetting</h2>
 
     
+    <p><code>x[i]</code> returns new <code><a href='BaseSets-class.html'>BaseSets</a></code> object of the same class as <code>x</code> made of the elements selected by <code>i</code>. <code>i</code> can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or <code>Rle</code> object); or an <code>IntegerRanges</code> object.</p>
     <p><code><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset(object, subset, ...)</a></code> returns subsets of relations which meet conditions.
 For <code>FuzzySets</code> objects, the <code>subset</code> argument should be a logical expression referring to any of <code>"element"</code>, <code>"set"</code>, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
 In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.</p>
+    
+    <h2 class="hasAnchor" id="duplication-and-uniqueness"><a class="anchor" href="#duplication-and-uniqueness"></a>Duplication and uniqueness</h2>
+
+    
+    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/duplicated'>duplicated(x)</a></code> determines which relations of a <code><a href='BaseSets-class.html'>BaseSets</a></code> are duplicates of relations with smaller subscripts, and returns a logical vector indicating which relations are duplicates.</p>
+<p><code><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique(x)</a></code> returns a <code>BaseSets</code> like <code>x</code> but with duplicate relations removed.</p>
+    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique(x)</a></code> returns a <code>BaseSets</code> like <code>x</code> but with duplicate relations removed.</p>
     
     <h2 class="hasAnchor" id="coercion"><a class="anchor" href="#coercion"></a>Coercion</h2>
 
@@ -350,8 +379,30 @@ In addition, metadata for elements and sets that are not represented in the rema
 #&gt; 1 2 1 1 1 </div><div class='input'>
 <span class='co'># Subsetting ----</span>
 
-<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>bs</span>, <span class='no'>set</span> <span class='kw'>==</span> <span class='st'>"set1"</span> <span class='kw'>|</span> <span class='no'>element</span> <span class='kw'>==</span> <span class='st'>"E"</span>)
+<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>[<span class='fl'>1</span>:<span class='fl'>5</span>]
 
+<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>bs</span>, <span class='no'>set</span> <span class='kw'>==</span> <span class='st'>"set1"</span> <span class='kw'>|</span> <span class='no'>element</span> <span class='kw'>==</span> <span class='st'>"E"</span>)
+<span class='no'>bs1</span></div><div class='output co'>#&gt; BaseSets with 3 relations between 3 elements and 2 sets
+#&gt;      element        set relationData elementData     setData
+#&gt;   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
+#&gt; 1          A       set1                                     
+#&gt; 2          B       set1                                     
+#&gt; 3          E       set3                                     </div><div class='input'>
+<span class='co'># Duplication and uniqueness ----</span>
+
+<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
+<span class='no'>bs1</span>@<span class='kw'>relations</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='no'>bs1</span>@<span class='kw'>relations</span>, <span class='kw'>each</span><span class='kw'>=</span><span class='fl'>2</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/duplicated'>duplicated</a></span>(<span class='no'>bs1</span>))</div><div class='output co'>#&gt; 
+#&gt; FALSE  TRUE 
+#&gt;     6     6 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>bs1</span>)</div><div class='output co'>#&gt; BaseSets with 6 relations between 5 elements and 3 sets
+#&gt;      element        set relationData elementData     setData
+#&gt;   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
+#&gt; 1          A       set1                                     
+#&gt; 2          B       set1                                     
+#&gt; 3          B       set2                                     
+#&gt; 4          C       set2                                     
+#&gt; 5          D       set2                                     
+#&gt; 6          E       set3                                     </div><div class='input'>
 <span class='co'># Coercion from BaseSets ----</span>
 
 <span class='no'>DF1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>bs</span>, <span class='st'>"DataFrame"</span>)
@@ -382,6 +433,8 @@ In addition, metadata for elements and sets that are not represented in the rema
 
       <li><a href="#subsetting">Subsetting</a></li>
 
+      <li><a href="#duplication-and-uniqueness">Duplication and uniqueness</a></li>
+
       <li><a href="#coercion">Coercion</a></li>
 
       <li><a href="#coercion-from-basesets">Coercion from BaseSets</a></li>
@@ -393,6 +446,8 @@ In addition, metadata for elements and sets that are not represented in the rema
       <li><a href="#examples">Examples</a></li>
     </ul>
 
+    <h2>Author</h2>
+    <p>Kevin Rue-Albrecht</p>
   </div>
 </div>
 
