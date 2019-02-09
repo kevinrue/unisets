@@ -193,7 +193,8 @@ setMethod("pcompare", c("IdVector", "ANY"), function(x, y)
 #' @rdname IdVector-methods
 #' @aliases as.vector.IdVector as.vector
 #'
-#' @param mode Ignored. The vector will be coerced to `character` mode, unless requested otherwise.
+#' @param mode Atomic type of the [`vector()`] returned.
+#' character string naming an atomic mode or "list" or "expression" or (except for vector) "any".
 #'
 #' @section Coercion:
 #' `as(x, "vector")` and `as.vector(x)` return an atomic vector of identifiers contained in `x`.

@@ -16,6 +16,7 @@ Useful links:
 \itemize{
   \item \url{https://github.com/kevinrue/unisets}
   \item \url{http://kevinrue.github.io/unisets}
+  \item Report bugs at \url{https://github.com/kevinrue/unisets/issues}
 }
 
 }

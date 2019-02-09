@@ -3,7 +3,7 @@
 #' The `IdVector` class extends the [`Vector`][Vector-class] class to implement a container that hold a vector of character identifiers.
 #' Subclasses of `IdVector` may be defined to enable method dispatch according to the nature of the identifiers (e.g., ENTREZ gene, Gene Ontology term).
 #'
-#' @slot ids character. Unique identifiers.
+#' @slot ids character. Identifiers.
 #'
 #' @export
 #' @exportClass IdVector
@@ -71,9 +71,13 @@ IdVector <- function(ids=character(0)) {
 #'
 #' The `BaseSets` class implements a container to describe distinct objects that make up sets, along with element metadata and set metadata.
 #'
-#' @slot relations DataFrame. Two columns provide mapping relationships between `"element"` and `"set"`.
-#' @slot elementData DataFrame. Provide metadata for each unique element in `relations$element`.
-#' @slot setData DataFrame. Provide metadata for each unique element in `relations$set`.
+#' @slot relations [`Hits-class`]
+#' The _left node_ and _right node_ of each hit stores the index of the `element` and `set` in `elementData` and `setData`, respectively.
+#' Metadata for each relation is stored as `mcols(object@relations)`.
+#' @slot elementData [`IdVector`].
+#' Metadata for each unique element in `relations$element` is stored as `mcols(elementData)`.
+#' @slot setData [`IdVector`].
+#' Metadata for each unique set in `relations$set` is stored as `mcols(setData)`.
 #'
 #' @export
 #' @exportClass BaseSets
@@ -139,9 +143,13 @@ setClass("BaseSets",
 #' @rdname BaseSets-class
 #' @aliases BaseSets
 #'
-#' @param relations DataFrame. Two columns provide mapping relationships between `"element"` and `"set"`.
-#' @param elementData DataFrame. Provide metadata for each unique element in `relations$element`.
-#' @param setData DataFrame. Provide metadata for each unique element in `relations$set`.
+#' @param relations [`DataFrame-class`].
+#' At least two columns that provide mapping relationships between `"element"` and `"set"`.
+#' Additional columns are taken as relation metadata.
+#' @param elementData [`IdVector`].
+#' Metadata for each unique element in `relations$element` is provided as `mcols(elementData)`.
+#' @param setData [`IdVector`].
+#' Metadata for each unique set in `relations$set` is provided as `mcols(setData)`.
 #'
 #' @return A `BaseSets` object.
 #'
@@ -272,7 +280,7 @@ FuzzyHits <- function(
 
 #' FuzzySets Class
 #'
-#' The `FuzzySets` class extends the [`BaseSets`] class to implement a container that also describe different grades of membershipin the interval `[0,1]`.
+#' The `FuzzySets` class extends the [`BaseSets`] class to implement a container that also describe different grades of membership in the interval `[0,1]`.
 #'
 #' This class does not define any additional slot to the `BaseSets` class.
 #' However, this class defines additional validity checks to ensure that every relation stored in a `FuzzySets` are associated with a numeric membership funtion in the interval `[0,1]`.
@@ -340,7 +348,9 @@ setClass("FuzzySets",
 #' @rdname FuzzySets-class
 #' @aliases FuzzySets
 #'
-#' @param relations DataFrame. At least 3 columns provide mapping relationships between `"element"` and `"set"` with `"membership"` function in the range `[0,1]`.
+#' @param relations [`DataFrame-class`].
+#' At least 3 columns that provide mapping relationships between `"element"` and `"set"`, with `"membership"` function in the range `[0,1]`.
+#' Additional columns are taken as relation metadata.
 #' @param ... Arguments passed to the [`BaseSets()`] constructor and other functions.
 #'
 #' @return A `FuzzySets` object.

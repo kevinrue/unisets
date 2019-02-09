@@ -10,7 +10,9 @@ FuzzySets(relations = DataFrame(element = character(0), set =
   character(0), membership = numeric(0)), ...)
 }
 \arguments{
-\item{relations}{DataFrame. At least 3 columns provide mapping relationships between \code{"element"} and \code{"set"} with \code{"membership"} function in the range \code{[0,1]}.}
+\item{relations}{\code{\linkS4class{DataFrame}}.
+At least 3 columns that provide mapping relationships between \code{"element"} and \code{"set"}, with \code{"membership"} function in the range \code{[0,1]}.
+Additional columns are taken as relation metadata.}
 
 \item{...}{Arguments passed to the \code{\link[=BaseSets]{BaseSets()}} constructor and other functions.}
 }
@@ -18,7 +20,7 @@ FuzzySets(relations = DataFrame(element = character(0), set =
 A \code{FuzzySets} object.
 }
 \description{
-The \code{FuzzySets} class extends the \code{\link{BaseSets}} class to implement a container that also describe different grades of membershipin the interval \code{[0,1]}.
+The \code{FuzzySets} class extends the \code{\link{BaseSets}} class to implement a container that also describe different grades of membership in the interval \code{[0,1]}.
 }
 \details{
 This class does not define any additional slot to the \code{BaseSets} class.

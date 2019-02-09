@@ -26,7 +26,7 @@ membership(object) <- value
 \description{
 This page documents the S4 generics and methods defined for objects inheriting of the \code{\link[=FuzzyHits-class]{FuzzyHits}} class.
 The \code{FuzzyHits} class directly extends \code{\link[=Hits-class]{Hits}} and thus inherits of all methods defined for the parent class.
-In the usage below, \code{x} represents an object of class inheriting from \code{\link[=FuzzyHits-class]{FuzzyHits}},
+In the usage below, \code{object} represents an object of class inheriting from \code{\link[=FuzzyHits-class]{FuzzyHits}},
 and \code{value} is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 }
 \section{Accessors}{
