@@ -31,14 +31,6 @@ editor_options:
 
 The goal of the `r Githubpkg("kevinrue/unisets")` package is to provide a collection of S4 classes to store relationships between elements and sets, with a particular emphasis on gene sets.
 
-# Installation
-
-You can install the released version of `r Githubpkg("kevinrue/unisets")` from [GitHub](https://github.com/kevinrue/unisets) with:
-
-```{r, eval=FALSE}
-devtools::install_github("kevinrue/unisets")
-```
-
 # Getting started
 
 ## The _BaseSets_ class
