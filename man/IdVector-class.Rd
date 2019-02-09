@@ -58,3 +58,6 @@ eiv
 \seealso{
 \code{\link[=Vector-class]{Vector}}
 }
+\author{
+Kevin Rue-Albrecht
+}

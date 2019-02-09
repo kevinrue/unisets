@@ -56,6 +56,8 @@ setMethod("parallelSlotNames", "IdVector", function(x) {
 #'
 #' @return An `IdVector` object.
 #'
+#' @author Kevin Rue-Albrecht
+#'
 #' @export
 #' @importFrom methods new
 IdVector <- function(ids=character(0)) {
@@ -154,6 +156,8 @@ setClass("BaseSets",
 #' Metadata for each unique set in `relations$set` is provided as `mcols(setData)`.
 #'
 #' @return A `BaseSets` object.
+#'
+#' @author Kevin Rue-Albrecht
 #'
 #' @export
 #' @importFrom S4Vectors DataFrame
@@ -263,6 +267,8 @@ setClass("FuzzyHits",
 #'
 #' @return A `FuzzyHits` object.
 #'
+#' @author Kevin Rue-Albrecht
+#'
 #' @export
 #' @importFrom methods new
 #' @importFrom S4Vectors Hits
@@ -356,6 +362,8 @@ setClass("FuzzySets",
 #' @param ... Arguments passed to the [`BaseSets()`] constructor and other functions.
 #'
 #' @return A `FuzzySets` object.
+#'
+#' @author Kevin Rue-Albrecht
 #'
 #' @export
 #' @importFrom methods new

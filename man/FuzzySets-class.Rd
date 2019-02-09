@@ -74,3 +74,6 @@ membership(fs1) <- runif(length(fs1))
 \seealso{
 \code{\link[=BaseSets-class]{BaseSets}}, \code{\link[=FuzzyHits-class]{FuzzyHits}}, \code{\link{FuzzySets-methods}}.
 }
+\author{
+Kevin Rue-Albrecht
+}

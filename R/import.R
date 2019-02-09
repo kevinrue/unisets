@@ -184,6 +184,8 @@ setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...)
 #' @section Coercion to BaseSets:
 #' `as(Go3AnnDbBimap, "BaseSets")` and `as.BaseSets(Go3AnnDbBimap)` return a `BaseSets` from a Gene Ontology `Bimap` stored distributed in a Bioconductor annotation package.
 #'
+#' @author Robert A. Amezquita
+#'
 #' @importFrom methods as
 #' @importFrom AnnotationDbi select columns
 #' @export

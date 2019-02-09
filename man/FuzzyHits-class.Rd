@@ -44,3 +44,6 @@ fh
 \seealso{
 \code{\link[=Hits-class]{Hits}}, \code{\link[=FuzzySets-class]{FuzzySets}}
 }
+\author{
+Kevin Rue-Albrecht
+}

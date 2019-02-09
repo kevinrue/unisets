@@ -85,3 +85,6 @@ bs1
 \seealso{
 BaseSets-methods
 }
+\author{
+Kevin Rue-Albrecht
+}

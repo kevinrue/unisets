@@ -113,3 +113,6 @@ fs1 <- as(matrix1, "FuzzySets")
 \seealso{
 \code{\linkS4class{FuzzySets}}, \code{\link{BaseSets-methods}}.
 }
+\author{
+Kevin Rue-Albrecht
+}

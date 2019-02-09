@@ -13,6 +13,8 @@
 #' @param object,x An object of class inheriting from [`BaseSets`][BaseSets-class].
 #' @param value An object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 #'
+#' @author Kevin Rue-Albrecht
+#'
 #' @seealso [`BaseSets-class`].
 NULL
 
@@ -30,6 +32,8 @@ NULL
 #'
 #' @param object An object of class inheriting from [FuzzyHits][FuzzyHits-class].
 #' @param value An object of a class specified in the S4 method signature or as outlined in 'Accessors'.
+#'
+#' @author Kevin Rue-Albrecht
 #'
 #' @seealso [`FuzzyHits-class`], [FuzzySets-class].
 NULL
@@ -49,6 +53,8 @@ NULL
 #' @param object,x An object of class inheriting from [IdVector][IdVector-class].
 #' @param value An object of a class specified in the S4 method signature.
 #'
+#' @author Kevin Rue-Albrecht
+#'
 #' @seealso [`IdVector-class`], [`Vector`][Vector-class], [`Vector-setops`].
 NULL
 
@@ -66,6 +72,8 @@ NULL
 #'
 #' @param object,x An object of class inheriting from [`FuzzySets`][FuzzySets-class].
 #' @param value An object of a class specified in the S4 method signature or as outlined in 'Accessors'.
+#'
+#' @author Kevin Rue-Albrecht
 #'
 #' @seealso [`FuzzySets-class`], [`BaseSets-methods`].
 NULL

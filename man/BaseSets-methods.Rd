@@ -308,3 +308,6 @@ bs1 <- as(m1, "BaseSets")
 \seealso{
 \code{\linkS4class{BaseSets}}.
 }
+\author{
+Kevin Rue-Albrecht
+}

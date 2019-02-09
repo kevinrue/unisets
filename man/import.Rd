@@ -85,3 +85,6 @@ library(org.Hs.eg.db)
 bs1 <- import(org.Hs.egGO)
 bs1
 }
+\author{
+Robert A. Amezquita
+}

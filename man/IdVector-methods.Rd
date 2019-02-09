@@ -122,3 +122,6 @@ c1 <- as(iv, "character")
 \seealso{
 \code{\linkS4class{IdVector}}, \code{\link[=Vector-class]{Vector}}, \code{\link{Vector-setops}}.
 }
+\author{
+Kevin Rue-Albrecht
+}
