@@ -81,6 +81,42 @@ setGeneric(
     function(object, value) standardGeneric("membership<-")
 )
 
+#' @name GOHits-methods
+#' @rdname GOHits-methods
+#' @aliases ontology
+#' @exportMethod ontology
+setGeneric(
+    "ontology",
+    function(object) standardGeneric("ontology")
+)
+
+#' @name GOHits-methods
+#' @rdname GOHits-methods
+#' @aliases ontology<-
+#' @exportMethod ontology<-
+setGeneric(
+    "ontology<-",
+    function(object, value) standardGeneric("ontology<-")
+)
+
+#' @name GOHits-methods
+#' @rdname GOHits-methods
+#' @aliases evidence
+#' @exportMethod evidence
+setGeneric(
+    "evidence",
+    function(object) standardGeneric("evidence")
+)
+
+#' @name GOHits-methods
+#' @rdname GOHits-methods
+#' @aliases evidence<-
+#' @exportMethod evidence<-
+setGeneric(
+    "evidence<-",
+    function(object, value) standardGeneric("evidence<-")
+)
+
 #' @name IdVector-methods
 #' @rdname IdVector-methods
 #' @aliases ids<-

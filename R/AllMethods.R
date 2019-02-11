@@ -77,3 +77,49 @@ NULL
 #'
 #' @seealso [`FuzzySets-class`], [`BaseSets-methods`].
 NULL
+
+# GOHits ----
+
+#' Methods for `GOHits` Objects
+#'
+#' This page documents the S4 generics and methods defined for objects inheriting of the [`GOHits`][GOHits-class] class.
+#' The `GOHits` class directly extends [`Hits`][`Hits-class`] and thus inherits of all methods defined for the parent class.
+#' In the usage below, `object` represents an object of class inheriting from [`GOHits`][GOHits-class],
+#' and `value` is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
+#'
+#' @name GOHits-methods
+#' @rdname GOHits-methods
+#'
+#' @param object An object of class inheriting from [GOHits][GOHits-class].
+#' @param value An object of a class specified in the S4 method signature or as outlined in 'Accessors'.
+#'
+#' @author Kevin Rue-Albrecht
+#'
+#' @seealso [`GOHits-class`], [GOHits-class].
+#'
+#' @examples
+#' # Controlled vocabulary ----
+#'
+#' GOEvidenceCodes
+#' GOOntologyCodes
+NULL
+
+# GOSets ----
+
+#' Methods for `GOSets` Objects
+#'
+#' This page documents the S4 generics and methods defined for objects inheriting of the [`GOSets`][GOSets-class] class.
+#' The `GOSets` class directly extends [`BaseSets`][`BaseSets-class`] and thus inherits of all methods defined for the parent class.
+#' In the usage below, `object` and `x` represent an object of class inheriting from [`GOSets`][GOSets-class],
+#' and `value` is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
+#'
+#' @name GOSets-methods
+#' @rdname GOSets-methods
+#'
+#' @param object,x An object of class inheriting from [`GOSets`][GOSets-class].
+#' @param value An object of a class specified in the S4 method signature or as outlined in 'Accessors'.
+#'
+#' @author Kevin Rue-Albrecht
+#'
+#' @seealso [`GOSets-class`], [`BaseSets-methods`].
+NULL

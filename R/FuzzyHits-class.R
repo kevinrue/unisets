@@ -46,8 +46,7 @@ setReplaceMethod("membership", "FuzzyHits",
 
 #' @importFrom S4Vectors mcols
 setMethod("show", "FuzzyHits", function(object) {
-    mcols(object) <- mcols(object)[, "membership", drop=FALSE]
-    S4Vectors:::showHits(object, margin="  ", print.classinfo=TRUE, print.nnode=TRUE)
+    callNextMethod()
 })
 
 # as(Hits, "FuzzyHits") ----
@@ -58,6 +57,7 @@ setAs("Hits", "FuzzyHits", function(from) {
     if (! "membership" %in% colnames(mcols(from))) {
         mcols(from)[["membership"]] <- rep(1, length(from))
     }
+    # NA is not allowed for the membership function
     from <- subset(from, !is.na(membership))
     to <- new("FuzzyHits", from)
     to

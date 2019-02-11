@@ -200,12 +200,13 @@ setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...)
 import.Go3AnnDbBimap <- function(con, format, text, ...)  {
     # Import the relationships from the annotation BiMap
     relations <- DataFrame(as.data.frame(con))
-    # Rename columns: gene_id -> element, go_id -> set
-    colIdx <- match(c("gene_id", "go_id"), colnames(relations))
-    colnames(relations)[colIdx] <- c("element", "set")
+    # Rename columns: gene_id -> element, go_id -> set, Element -> element; Ontology -> ontology
+    protectedColumns <- c("gene_id", "go_id", "Evidence", "Ontology")
+    colIdx <- match(protectedColumns, colnames(relations))
+    colnames(relations)[colIdx] <- c("element", "set", "evidence", "ontology")
 
     # Prepare a default empty DataFrame if GO.db is not installed
-    setData <- IdVector(unique(as.character(relations$set)))
+    setData <- GOIdVector(unique(as.character(relations$set)))
     if ( requireNamespace("GO.db") ) {
         # Fetch GO metadata from GO.db if installed
         db <- GO.db::GO.db
@@ -214,7 +215,7 @@ import.Go3AnnDbBimap <- function(con, format, text, ...)  {
 
     elementData <- EntrezIdVector(sort(unique(as.character(relations$element))))
 
-    BaseSets(relations, elementData, setData)
+    GOSets(relations, elementData, setData)
 }
 
 #' @rdname import

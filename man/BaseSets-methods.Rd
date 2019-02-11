@@ -45,9 +45,11 @@
 \alias{as.list}
 \alias{as.matrix.BaseSets}
 \alias{as.matrix}
-\alias{as.BaseSets.matrix}
-\alias{as.BaseSets}
+\alias{as.FuzzySets.BaseSets}
+\alias{as.GOSets.BaseSets}
 \alias{as.BaseSets.list}
+\alias{as.BaseSets}
+\alias{as.BaseSets.matrix}
 \title{Methods for \code{BaseSets} Objects}
 \usage{
 relations(object)
@@ -297,6 +299,13 @@ l1 <- as(bs, "list")
 m1 <- as(bs, "matrix")
 
 fs <- as(bs, "FuzzySets")
+
+# Fetch a sample of GO annotations
+library(org.Hs.eg.db)
+gs <- import(org.Hs.egGO)
+bs1 <- as(gs, "BaseSets")
+colnames(mcols(bs1@relations)) <- c("evidence", "ontology")
+gs1 <- as(bs1, "GOSets")
 
 # Coercion to BaseSets ----
 

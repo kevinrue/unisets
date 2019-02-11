@@ -1,3 +1,24 @@
+
+#' Check Presence of Required Metadata Columns
+#'
+#' This function throws an error if required columns are not present in the metadata columns of the `relations` slot.
+#'
+#' @rdname INTERNAL_checkRelationMetadata
+#'
+#' @param required Character vector of required column names.
+#' @param present Character vector of column names present.
+#'
+#' @return This function is called only for its by-product: an error thrown if any of the required column names is not found.
+.checkRelationMetadata <- function(required, present) {
+    for (field in required) {
+        if (! field %in% present) {
+            stop(sprintf('colnames(relations) must include "%s"', field))
+        }
+    }
+}
+
+# IdVector ----
+
 #' IdVector Class
 #'
 #' The `IdVector` class extends the [`Vector`][Vector-class] class to implement a container that hold a vector of character identifiers.
@@ -69,6 +90,8 @@ IdVector <- function(ids=character(0)) {
 
     new("IdVector", ids=ids)
 }
+
+# BaseSets ----
 
 #' BaseSets Class
 #'
@@ -197,22 +220,22 @@ BaseSets <- function(
     }
 
     # Drop metadata for elements and sets not represented in relations
-    elementKeep <- (ids(elementData) %in% relations$element)
+    elementKeep <- (ids(elementData) %in% as.character(relations$element))
     if (!all(elementKeep)) {
         message("Dropping elementData missing from relations$element")
         elementData <- elementData[elementKeep]
     }
-    setKeep <- (ids(setData) %in% relations$set)
+    setKeep <- (ids(setData) %in% as.character(relations$set))
     if (!all(setKeep)) {
         message("Dropping setData missing from relations$set")
         setData <- setData[setKeep]
     }
 
-    elementIdx <- match(relations$element, ids(elementData))
+    elementIdx <- match(as.character(relations$element), ids(elementData))
     if (any(is.na(elementIdx))) {
         stop("relations$element missing from ids(elementData)")
     }
-    setIdx <- match(relations$set, ids(setData))
+    setIdx <- match(as.character(relations$set), ids(setData))
     if (any(is.na(setIdx))) {
         stop("relations$set missing from ids(setData)")
     }
@@ -226,6 +249,8 @@ BaseSets <- function(
 
     new("BaseSets", relations=h, elementData=elementData, setData=setData)
 }
+
+# FuzzyHits ----
 
 #' FuzzyHits Class
 #'
@@ -285,6 +310,8 @@ FuzzyHits <- function(
     fh <- as(fh, "FuzzyHits")
     fh
 }
+
+# FuzzySets ----
 
 #' FuzzySets Class
 #'
@@ -371,9 +398,8 @@ FuzzySets <- function(
     relations=DataFrame(element=character(0), set=character(0), membership=numeric(0)),
     ...
 ) {
-    if (!"membership" %in% colnames(relations)) {
-        stop('colnames(relations) must include c("membership")')
-    }
+    protectedRelationMetadata <- c("membership")
+    .checkRelationMetadata(protectedRelationMetadata, colnames(relations))
 
     # Pass basic arguments to BaseSets constructor
     object <- BaseSets(relations, ...)
@@ -383,7 +409,10 @@ FuzzySets <- function(
     object
 }
 
+# EntrezIdVector ----
+
 #' @rdname IdVector-class
+#' @aliases EntrezIdVector-class
 #'
 #' @export
 #' @exportClass EntrezIdVector
@@ -406,4 +435,245 @@ EntrezIdVector <- function(ids) {
     iv <- IdVector(ids)
     iv <- new("EntrezIdVector", iv)
     iv
+}
+
+# GOIdVector ----
+
+#' @rdname IdVector-class
+#' @aliases GOIdVector-class
+#'
+#' @export
+#' @exportClass GOIdVector
+#'
+#' @examples
+#' # GOIdVector ----
+#'
+#' library(org.Hs.eg.db)
+#' giv <- GOIdVector(keys(org.Hs.eg.db, keytype = "GO"))
+#' giv
+setClass("GOIdVector",
+    contains="IdVector"
+)
+
+#' @rdname IdVector-class
+#' @aliases GOIdVector
+#' @export
+GOIdVector <- function(ids) {
+    # Pass basic arguments to IdVector constructor
+    giv <- IdVector(ids)
+    giv <- new("GOIdVector", giv)
+    giv
+}
+
+# GOHits ----
+
+#' @name GOHits-class
+#' @rdname GOHits-class
+#' @aliases GOEvidenceCodes
+#'
+#' @section Controlled vocabulary:
+#' Gene Ontology evidence codes were obtained from http://geneontology.org/docs/guide-go-evidence-codes/
+#'
+#' @export
+#'
+#' @examples
+#' # Controlled vocabulary ----
+#'
+#' GOEvidenceCodes
+GOEvidenceCodes <- c(
+    "EXP"="Inferred from Experiment",
+    "IDA"="Inferred from Direct Assay",
+    "IPI"="Inferred from Physical Interaction",
+    "IMP"="Inferred from Mutant Phenotype",
+    "IGI"="Inferred from Genetic Interaction",
+    "IEP"="Inferred from Expression Pattern",
+    "HTP"="Inferred from High Throughput Experiment",
+    "HDA"="Inferred from High Throughput Direct Assay",
+    "HMP"="Inferred from High Throughput Mutant Phenotype",
+    "HGI"="Inferred from High Throughput Genetic Interaction",
+    "HEP"="Inferred from High Throughput Expression Pattern",
+    "IBA"="Inferred from Biological characteristic of Ancestor",
+    "IBD"="Inferred from Biological characteristic of Descendant",
+    "IKR"="Inferred loss due to absence of Key Residues",
+    "IRD"="Inferred loss after Rapid Divergence",
+    "ISS"="Inferred from Sequence or structural Similarity",
+    "ISO"="Inferred from Sequence Orthology",
+    "ISA"="Inferred from Sequence Alignment",
+    "ISM"="Inferred from Sequence Model",
+    "IGC"="Inferred from Genomic Context",
+    "RCA"="Inferred from Reviewed Computational Analysis",
+    "TAS"="Traceable Author Statement",
+    "NAS"="Non-traceable Author Statement",
+    "IC"="Inferred by Curator",
+    "ND"="No biological Data available",
+    "IEA"="Inferred from Electronic Annotation"
+)
+
+#' @name GOHits-class
+#' @rdname GOHits-class
+#' @aliases GOOntologyCodes
+#'
+#' @section Controlled vocabulary:
+#' Gene Ontology namespaces were obtained from http://geneontology.org/docs/ontology-documentation/
+#'
+#' @export
+#'
+#' @examples
+#' GOOntologyCodes
+GOOntologyCodes <- c(
+    "BP"="Biological Process",
+    "MF"="Molecular Function",
+    "CC"="Cellular Component"
+)
+
+#' GOHits Class
+#'
+#' The `GOHits` class extends the [`Hits`][Hits-class] class to represent hits that also describe relations between genes and sets using the Gene Ontology controlled vocabulary.
+#'
+#' This class does not define any additional slot to the `Hits` class.
+#' However, this class defines additional validity checks to ensure that every relation stored in a `GOHits` are respect the Gene Ontology evidence and ontology codes.
+#' Refer to [`GOOntologyCodes`] and [`GOEvidenceCodes`] for valid code and vocabulary.
+#'
+#' @export
+#' @exportClass GOHits
+#' @importClassesFrom S4Vectors Hits
+#'
+#' @seealso [`Hits`][Hits-class], [`FuzzySets`][FuzzySets-class]
+#'
+#' @examples
+#'
+#' # Constructor ----
+#'
+#' from <- c(5, 2, 3, 3, 3, 2)
+#' to <- c(11, 15, 5, 4, 5, 11)
+#' ontology <- factor(c("BP", "BP", "BP", "MF", "MF", "CC"))
+#' evidence <- factor(c("IEA", "IDA", "IEA", "IDA", "IEA", "IDA"))
+#'
+#' gh <- GOHits(from, to, ontology, evidence, 7, 15)
+#' gh
+setClass("GOHits",
+    contains="Hits"
+)
+
+#' @name GOHits-class
+#' @rdname GOHits-class
+#' @aliases GOHits
+#'
+#' @param from,to Two integer vectors of the same length.
+#' The values in `from` must be >= 1 and <= `nLnode`.
+#' The values in `to` must be >= 1 and <= `nRnode`.
+#' @param evidence factor. Levels must be values in `names(GOEvidenceCodes)`.
+#' @param ontology factor. Levels must be values in `names(GOOntologyCodes)`.
+#' @param nLnode,nRnode Number of left and right nodes.
+#' @param ... Arguments metadata columns to set on the `GOHits` object.
+#' All the metadata columns must be vector-like objects of the same length as `from`, `to`, and `membership`.
+#'
+#' @return A `GOHits` object.
+#'
+#' @author Kevin Rue-Albrecht
+#'
+#' @export
+#' @importFrom methods new
+#' @importFrom S4Vectors Hits
+GOHits <- function(
+    from=integer(0), to=integer(0),
+    evidence=factor(character(0), names(GOEvidenceCodes)),
+    ontology=factor(character(0), names(GOOntologyCodes)),
+    nLnode=0L, nRnode=0L,...
+) {
+    # Drop names if present
+    if (!is.null(names(ontology))) {
+        message("Setting names(ontology) to NULL")
+        names(ontology) <- NULL
+    }
+    if (!is.null(names(evidence))) {
+        message("Setting names(evidence) to NULL")
+        names(evidence) <- NULL
+    }
+    # Pass basic arguments to BaseSets constructor
+    gh <- Hits(from, to, nLnode, nRnode, ontology=ontology, evidence=evidence, ...)
+    gh <- as(gh, "GOHits")
+    gh
+}
+
+# GOSets ----
+
+#' GOSets Class
+#'
+#' The `GOSets` class extends the [`BaseSets`] class to implement a container that also describes relations between genes and sets using the Gene Ontology controlled vocabulary.
+#' Refer to [`GOOntologyCodes`] and [`GOEvidenceCodes`] for valid vocabulary.
+#'
+#' @export
+#' @exportClass GOSets
+#'
+#' @seealso [`BaseSets`][BaseSets-class], [`GOHits`][GOHits-class], [`GOSets-methods`].
+#'
+#' @examples
+#' # Constructor ----
+#'
+#' # Fetch a sample of GO annotations
+#' library(org.Hs.eg.db)
+#' base_sets <- import(org.Hs.egGO)
+#' relations <- head(as(base_sets, "DataFrame"))
+#' colnames(relations)[3:4] <- c("evidence", "ontology")
+#'
+#' gs <- GOSets(relations)
+#'
+#' # Subsetting ----
+#'
+#' gs1 <- subset(gs, element == "1" & ontology == "BP" & evidence == "TAS")
+#' relations(gs1)
+#'
+#' # Getters/Setters ----
+#'
+#' evidence(gs)
+#' ontology(gs)
+#'
+#' gs1 <- gs
+#' evidence(gs1)[1] <- "EXP"
+#'
+#' gs1 <- gs
+#' ontology(gs1)[1] <- "CC"
+setClass("GOSets",
+    slots=c(
+        relations="GOHits"
+    ),
+    prototype=list(
+        relations=GOHits()
+    ),
+    contains="BaseSets"
+)
+
+#' @name GOSets-class
+#' @rdname GOSets-class
+#' @aliases GOSets
+#'
+#' @param relations [`DataFrame-class`].
+#' At least 3 columns that provide mapping relationships between `"element"` and `"set"`, with `"membership"` function in the range `[0,1]`.
+#' Additional columns are taken as relation metadata.
+#' @param ... Arguments passed to the [`BaseSets()`] constructor and other functions.
+#'
+#' @return A `GOSets` object.
+#'
+#' @author Kevin Rue-Albrecht
+#'
+#' @export
+#' @importFrom methods new
+GOSets <- function(
+    relations=DataFrame(
+        element=character(0), set=character(0),
+        ontology=factor(character(0), names(GOOntologyCodes)),
+        evidence=factor(character(0), names(GOEvidenceCodes))
+    ),
+    ...
+) {
+    protectedRelationMetadata <- c("evidence", "ontology")
+    .checkRelationMetadata(protectedRelationMetadata, colnames(relations))
+
+    # Pass basic arguments to BaseSets constructor
+    object <- BaseSets(relations, ...)
+
+    # Coerce to GOSets
+    object <- as(object, "GOSets")
+    object
 }

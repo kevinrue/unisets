@@ -85,23 +85,10 @@ setReplaceMethod("membership", "FuzzySets",
 subset.FuzzySets <- function(x, ...) subset(x, ...)
 
 setMethod("subset", "FuzzySets", function(x, ...) {
-    .local <- function (x, subset, select, drop=FALSE, ...) {
-        # Only difference with the BaseSets parent method
-        table <- as(x, "data.frame")
-        i <- eval(substitute(subset), table)
+    out <- callNextMethod()
 
-        keep.element <- unique(ids(elementData(x))[from(x@relations)[i]])
-        keep.set <- unique(ids(setData(x))[to(x@relations)[i]])
-
-        relations <- DataFrame(table[i, , drop=FALSE])
-        elementData <- elementData(x)[which(ids(elementData(x)) %in% keep.element)]
-        setData <- setData(x)[which(ids(setData(x)) %in% keep.set)]
-        membership <- membership(x)[i]
-
-        out <- FuzzySets(relations, elementData, setData)
-        out
-    }
-    .local(x, ...)
+    out <- as(out, "FuzzySets")
+    out
 })
 
 # as.matrix.FuzzySets() ----
@@ -176,7 +163,7 @@ setValidity("FuzzySets", function(object) {
     errors <- c()
 
     if (!all(c("membership") %in% colnames(relations(object)))){
-        error <- 'colnames(relations(object)) must include c("membership")'
+        error <- 'colnames(relations(object)) must include "membership"'
         return(error)
     }
 

@@ -27,7 +27,7 @@ test_that("FuzzySets constructor produces valid objects", {
 
     expect_error(
         FuzzySets(relations[, c("element", "set")]),
-        "colnames(relations) must include c(\"membership\")",
+        "colnames(relations) must include \"membership\"",
         fixed=TRUE
     )
 

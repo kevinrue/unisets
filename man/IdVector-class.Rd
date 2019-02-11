@@ -6,11 +6,15 @@
 \alias{IdVector}
 \alias{EntrezIdVector-class}
 \alias{EntrezIdVector}
+\alias{GOIdVector-class}
+\alias{GOIdVector}
 \title{IdVector Class}
 \usage{
 IdVector(ids = character(0))
 
 EntrezIdVector(ids)
+
+GOIdVector(ids)
 }
 \arguments{
 \item{ids}{character. Identifiers.}
@@ -54,6 +58,11 @@ eiv
 library(org.Hs.eg.db)
 eiv <- EntrezIdVector(keys(org.Hs.eg.db))
 eiv
+# GOIdVector ----
+
+library(org.Hs.eg.db)
+giv <- GOIdVector(keys(org.Hs.eg.db, keytype = "GO"))
+giv
 }
 \seealso{
 \code{\link[=Vector-class]{Vector}}

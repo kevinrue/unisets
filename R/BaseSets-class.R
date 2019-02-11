@@ -451,7 +451,7 @@ setAs("BaseSets", "matrix", function(from) {
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
-#' @aliases as.BaseSets.matrix as.BaseSets
+#' @aliases as.FuzzySets.BaseSets
 #'
 #' @importFrom methods new
 #'
@@ -461,6 +461,28 @@ setAs("BaseSets", "matrix", function(from) {
 setAs("BaseSets", "FuzzySets", function(from) {
     from@relations <- as(from@relations, "FuzzyHits")
     to <- new("FuzzySets", from)
+    to
+})
+
+# as.GOSets.BaseSets() ----
+
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
+#' @aliases as.GOSets.BaseSets
+#'
+#' @importFrom methods new
+#'
+#' @examples
+#'
+#' # Fetch a sample of GO annotations
+#' library(org.Hs.eg.db)
+#' gs <- import(org.Hs.egGO)
+#' bs1 <- as(gs, "BaseSets")
+#' colnames(mcols(bs1@relations)) <- c("evidence", "ontology")
+#' gs1 <- as(bs1, "GOSets")
+setAs("BaseSets", "GOSets", function(from) {
+    from@relations <- as(from@relations, "GOHits")
+    to <- new("GOSets", from)
     to
 })
 
