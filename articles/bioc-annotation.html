@@ -94,7 +94,7 @@
       Fred Hutchinson Cancer Research Center, Seattle, WA, USA, 98115<br><a class="author_email" href="mailto:#"></a><a href="mailto:robert.amezquita@fredhutch.org">robert.amezquita@fredhutch.org</a>
       </address>
                   
-            <h4 class="date">9 February 2019</h4>
+            <h4 class="date">13 February 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/unisets/blob/master/vignettes/bioc-annotation.Rmd"><code>vignettes/bioc-annotation.Rmd</code></a></small>
       <div class="hidden name"><code>bioc-annotation.Rmd</code></div>
@@ -126,20 +126,22 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(unisets)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">base_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/import.html">import</a></span>(org.Hs.egGO)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="../reference/BaseSets-methods.html">relations</a></span>(base_sets)</a></code></pre></div>
-<pre><code>## DataFrame with 313751 rows and 4 columns
-##                 element        set    Evidence    Ontology
-##        &lt;EntrezIdVector&gt; &lt;IdVector&gt; &lt;character&gt; &lt;character&gt;
-## 1                     1 GO:0002576         TAS          BP
-## 2                     1 GO:0008150          ND          BP
-## 3                     1 GO:0043312         TAS          BP
-## 4                     2 GO:0001869         IDA          BP
-## 5                     2 GO:0002576         TAS          BP
-## ...                 ...        ...         ...         ...
-## 313747        110599583 GO:0046872         IEA          MF
-## 313748        111089941 GO:0004571         IMP          MF
-## 313749        111089941 GO:0004571         TAS          MF
-## 313750        111089941 GO:0005509         IEA          MF
-## 313751        112441434 GO:0005515         IPI          MF</code></pre>
+<pre><code>## GOHits object with 313751 hits and 2 metadata columns:
+##                 from        to | evidence ontology
+##            &lt;integer&gt; &lt;integer&gt; | &lt;factor&gt; &lt;factor&gt;
+##        [1]         1         1 |      TAS       BP
+##        [2]         1         2 |       ND       BP
+##        [3]         1         3 |      TAS       BP
+##        [4]      4426         4 |      IDA       BP
+##        [5]      4426         1 |      TAS       BP
+##        ...       ...       ... .      ...      ...
+##   [313747]      1677     13838 |      IEA       MF
+##   [313748]      1731     15982 |      IMP       MF
+##   [313749]      1731     15982 |      TAS       MF
+##   [313750]      1731     13885 |      IEA       MF
+##   [313751]      1859     13807 |      IPI       MF
+##   -------
+##   nLnode: 20408 / nRnode: 17983</code></pre>
 <p>Notice how the <code>"element"</code> information is typed as <code>EntrezIdVector</code>, allowing the type of identifier to affect downstream methods (e.g., pathway analyses). The <code>EntrezIdVector</code> class directly inherits from the <code>IdVector</code> class, and benefits of all the methods associated with the parent class.</p>
 <p>It is also useful to note that the conversion of <code>Go3AnnDbBimap</code> Gene Ontology maps to <em><a href="https://github.com/kevinrue/unisets">unisets</a></em> objects automatically fetches metadata for each GO identifier from the <code>GO.db</code> package, if installed. The metadata is stored it in the <code>mcols</code> (metadata-columns) slot of the <code>setData</code> slot of the object returned. This metadata can be accessed using the accessor method of the same name.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw"><a href="../reference/BaseSets-methods.html">setData</a></span>(base_sets))[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"ONTOLOGY"</span>, <span class="st">"TERM"</span>)]</a></code></pre></div>
@@ -182,20 +184,22 @@
 <p>Below, we use the <code>length</code> method to show the number of relations between genes and GO terms imported from the <code>org.Hs.egGO2ALLEGS</code> map.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">base_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/import.html">import</a></span>(org.Hs.egGO2ALLEGS)</a></code></pre></div>
 <pre><code>## 'select()' returned 1:1 mapping between keys and columns</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/format">format</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(base_sets), <span class="dt">big.mark=</span><span class="st">","</span>)</a></code></pre></div>
+<pre><code>## Coercing evidence to factor</code></pre>
+<pre><code>## Coercing ontology to factor</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/format">format</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(base_sets), <span class="dt">big.mark=</span><span class="st">","</span>)</a></code></pre></div>
 <pre><code>## [1] "3,430,396"</code></pre>
 <p>We can also examine the count of relations associated with each evidence code in each Gene Ontology namespace.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="../reference/BaseSets-methods.html">as.data.frame</a></span>(base_sets)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(Evidence)) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="op">~</span>Ontology, <span class="dt">ncol =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">    </span><span class="co"># scale_y_continuous(labels = function(x){ format(as.integer(x), big.mark = ",") }) +</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span>(<span class="dt">labels =</span> scales<span class="op">::</span>comma) <span class="op">+</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">axis.text.y =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(<span class="dt">size=</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">rel</a></span>(<span class="fl">0.7</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="../reference/BaseSets-methods.html">as.data.frame</a></span>(base_sets)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(evidence)) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="op">~</span>ontology, <span class="dt">ncol =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="st">    </span><span class="co"># scale_y_continuous(labels = function(x){ format(as.integer(x), big.mark = ",") }) +</span></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span>(<span class="dt">labels =</span> scales<span class="op">::</span>comma) <span class="op">+</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">axis.text.y =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(<span class="dt">size=</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">rel</a></span>(<span class="fl">0.7</span>)))</a></code></pre></div>
 <p><img src="bioc-annotation_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
 <div id="session-info" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<pre><code>## R Under development (unstable) (2019-02-08 r76078)
+<pre><code>## R Under development (unstable) (2019-02-13 r76098)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -224,7 +228,7 @@
 ## loaded via a namespace (and not attached):
 ##  [1] bit64_0.9-7                 assertthat_0.2.0           
 ##  [3] BiocManager_1.30.4          blob_1.1.1                 
-##  [5] GenomeInfoDbData_1.2.0      Rsamtools_1.35.2           
+##  [5] GenomeInfoDbData_1.2.0      Rsamtools_1.99.1           
 ##  [7] yaml_2.2.0                  pillar_1.3.1               
 ##  [9] RSQLite_2.1.1               backports_1.1.3            
 ## [11] lattice_0.20-38             digest_0.6.18              
@@ -235,18 +239,18 @@
 ## [21] pkgconfig_2.0.2             bookdown_0.9               
 ## [23] zlibbioc_1.29.0             xtable_1.8-3               
 ## [25] GO.db_3.7.0                 scales_1.0.0               
-## [27] BiocParallel_1.17.12        tibble_2.0.1               
+## [27] BiocParallel_1.17.13        tibble_2.0.1               
 ## [29] annotate_1.61.0             withr_2.1.2                
 ## [31] SummarizedExperiment_1.13.0 lazyeval_0.2.1             
 ## [33] magrittr_1.5                crayon_1.3.4               
-## [35] memoise_1.1.0               evaluate_0.12              
+## [35] memoise_1.1.0               evaluate_0.13              
 ## [37] fs_1.2.6                    MASS_7.3-51.1              
 ## [39] xml2_1.2.0                  graph_1.61.0               
 ## [41] tools_3.6.0                 matrixStats_0.54.0         
-## [43] stringr_1.3.1               munsell_0.5.0              
+## [43] stringr_1.4.0               munsell_0.5.0              
 ## [45] DelayedArray_0.9.8          Biostrings_2.51.2          
 ## [47] compiler_3.6.0              pkgdown_1.3.0              
-## [49] GenomeInfoDb_1.19.1         rlang_0.3.1                
+## [49] GenomeInfoDb_1.19.2         rlang_0.3.1                
 ## [51] grid_3.6.0                  RCurl_1.95-4.11            
 ## [53] labeling_0.3                bitops_1.0-6               
 ## [55] rmarkdown_1.11              gtable_0.2.0               
@@ -255,7 +259,7 @@
 ## [61] GenomicAlignments_1.19.1    knitr_1.21                 
 ## [63] rtracklayer_1.43.1          bit_1.1-14                 
 ## [65] commonmark_1.7              rprojroot_1.3-2            
-## [67] desc_1.2.0                  stringi_1.2.4              
+## [67] desc_1.2.0                  stringi_1.3.1              
 ## [69] Rcpp_1.0.0                  xfun_0.4</code></pre>
 </div>
   </div>

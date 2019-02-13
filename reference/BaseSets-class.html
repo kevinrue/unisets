@@ -138,18 +138,18 @@
     <tr>
       <th>relations</th>
       <td><p><code>DataFrame</code>.
-At least two columns that provide mapping relationships between <code>"element"</code> and <code>"set"</code>.
+At least two columns that provide mapping relationships between <code>"element"</code> and <code>"set"</code> identifiers.
 Additional columns are taken as relation metadata.</p></td>
     </tr>
     <tr>
       <th>elementData</th>
       <td><p><code><a href='IdVector-class.html'>IdVector</a></code>.
-Metadata for each unique element in <code>relations$element</code> is provided as <code>mcols(elementData)</code>.</p></td>
+Metadata for each unique identifier in <code>relations$element</code> is provided as <code>mcols(elementData)</code>.</p></td>
     </tr>
     <tr>
       <th>setData</th>
       <td><p><code><a href='IdVector-class.html'>IdVector</a></code>.
-Metadata for each unique set in <code>relations$set</code> is provided as <code>mcols(setData)</code>.</p></td>
+Metadata for each unique identifier in <code>relations$set</code> is provided as <code>mcols(setData)</code>.</p></td>
     </tr>
     </table>
     
@@ -163,7 +163,7 @@ Metadata for each unique set in <code>relations$set</code> is provided as <code>
     <dl class='dl-horizontal'>
 <dt><code>relations</code></dt><dd><p><code>Hits</code>
 The <em>left node</em> and <em>right node</em> of each hit stores the index of the <code>element</code> and <code>set</code> in <code>elementData</code> and <code>setData</code>, respectively.
-Metadata for each relation is stored as <code>mcols(object@relations)</code>.</p></dd>
+Metadata for each relation is stored as <code>mcols(relations(object))</code>.</p></dd>
     <dt><code>elementData</code></dt><dd><p><code><a href='IdVector-class.html'>IdVector</a></code>.
 Metadata for each unique element in <code>relations$element</code> is stored as <code>mcols(elementData)</code>.</p></dd>
     <dt><code>setData</code></dt><dd><p><code><a href='IdVector-class.html'>IdVector</a></code>.
@@ -172,7 +172,7 @@ Metadata for each unique set in <code>relations$set</code> is stored as <code>mc
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>BaseSets-methods</p></div>
+    <div class='dont-index'><p><code><a href='BaseSets-methods.html'>BaseSets-methods</a></code>.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -185,49 +185,51 @@ Metadata for each unique set in <code>relations$set</code> is stored as <code>mc
   <span class='kw'>set3</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"E"</span>))
 
 <span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>sets</span>, <span class='st'>"BaseSets"</span>)
-
+<span class='no'>bs</span></div><div class='output co'>#&gt; BaseSets with 6 relations between 5 elements and 3 sets
+#&gt;      element        set relationData elementData     setData
+#&gt;   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
+#&gt; 1          A       set1                                     
+#&gt; 2          B       set1                                     
+#&gt; 3          B       set2                                     
+#&gt; 4          C       set2                                     
+#&gt; 5          D       set2                                     
+#&gt; 6          E       set3                                     </div><div class='input'>
 <span class='co'># Coercing ----</span>
 
 <span class='co'># to list (gene sets)</span>
 <span class='no'>ls1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>bs</span>, <span class='st'>"list"</span>)
-<span class='co'># to matrix (logical membership)</span>
+<span class='no'>ls1</span></div><div class='output co'>#&gt; List of length 3
+#&gt; names(3): set1 set2 set3</div><div class='input'><span class='co'># to matrix (logical membership)</span>
 <span class='no'>m1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>bs</span>, <span class='st'>"matrix"</span>)
-
+<span class='no'>m1</span></div><div class='output co'>#&gt;    set1  set2  set3
+#&gt; A  TRUE FALSE FALSE
+#&gt; B  TRUE  TRUE FALSE
+#&gt; C FALSE  TRUE FALSE
+#&gt; D FALSE  TRUE FALSE
+#&gt; E FALSE FALSE  TRUE</div><div class='input'>
 <span class='co'># Accessors ----</span>
 
-<span class='fu'><a href='BaseSets-methods.html'>relations</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; DataFrame with 6 rows and 2 columns
-#&gt;      element        set
-#&gt;   &lt;IdVector&gt; &lt;IdVector&gt;
-#&gt; 1          A       set1
-#&gt; 2          B       set1
-#&gt; 3          B       set2
-#&gt; 4          C       set2
-#&gt; 5          D       set2
-#&gt; 6          E       set3</div><div class='input'><span class='fu'><a href='BaseSets-methods.html'>elementData</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 5 with 5 unique identifiers
+<span class='fu'><a href='BaseSets-methods.html'>relations</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; Hits object with 6 hits and 0 metadata columns:
+#&gt;            from        to
+#&gt;       &lt;integer&gt; &lt;integer&gt;
+#&gt;   [1]         1         1
+#&gt;   [2]         2         1
+#&gt;   [3]         2         2
+#&gt;   [4]         3         2
+#&gt;   [5]         4         2
+#&gt;   [6]         5         3
+#&gt;   -------
+#&gt;   nLnode: 5 / nRnode: 3</div><div class='input'><span class='fu'><a href='BaseSets-methods.html'>elementData</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 5 with 5 unique identifiers
 #&gt; Ids: A, B, C, D, ...
 #&gt; Metadata:  (0 columns)</div><div class='input'><span class='fu'><a href='BaseSets-methods.html'>setData</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 3 with 3 unique identifiers
 #&gt; Ids: set1, set2, set3
 #&gt; Metadata:  (0 columns)</div><div class='input'>
 <span class='co'># Dimensions ----</span>
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='fu'><a href='BaseSets-methods.html'>nElements</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'><a href='BaseSets-methods.html'>nSets</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'><span class='fu'><a href='BaseSets-methods.html'>elementIds</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] "A" "B" "C" "D" "E"</div><div class='input'><span class='fu'><a href='BaseSets-methods.html'>setIds</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] "set1" "set2" "set3"</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='fu'><a href='BaseSets-methods.html'>nElements</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'><a href='BaseSets-methods.html'>nSets</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'>
 <span class='fu'><a href='BaseSets-methods.html'>setLengths</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; set1 set2 set3 
 #&gt;    2    3    1 </div><div class='input'><span class='fu'><a href='BaseSets-methods.html'>elementLengths</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; A B C D E 
-#&gt; 1 2 1 1 1 </div><div class='input'>
-<span class='co'># Getters/Setters ----</span>
-
-<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
-<span class='fu'><a href='BaseSets-methods.html'>elementIds</a></span>(<span class='no'>bs1</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"gene"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'><a href='BaseSets-methods.html'>nElements</a></span>(<span class='no'>bs</span>)))
-<span class='fu'><a href='BaseSets-methods.html'>setIds</a></span>(<span class='no'>bs1</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"geneset"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'><a href='BaseSets-methods.html'>nSets</a></span>(<span class='no'>bs</span>)))
-<span class='no'>bs1</span></div><div class='output co'>#&gt; BaseSets with 6 relations between 5 elements and 3 sets
-#&gt;      element        set relationData elementData     setData
-#&gt;   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-#&gt; 1      gene1   geneset1                                     
-#&gt; 2      gene2   geneset1                                     
-#&gt; 3      gene2   geneset2                                     
-#&gt; 4      gene3   geneset2                                     
-#&gt; 5      gene4   geneset2                                     
-#&gt; 6      gene5   geneset3                                     </div></pre>
+#&gt; 1 2 1 1 1 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -135,21 +135,19 @@ and <code>value</code> is an object of a class specified in the S4 method signat
 
     <pre class="usage">relations(object)
 
+relations(object) <- value
+
 elements(object)
-
-elementIds(object)
-
-elementIds(object) <- value
 
 elementData(object)
 
+elementData(object) <- value
+
 sets(object)
 
-setIds(object)
-
-setIds(object) <- value
-
 setData(object)
+
+setData(object) <- value
 
 nElements(object)
 
@@ -163,28 +161,25 @@ elementLengths(object)
 relations(object)
 
 # S4 method for BaseSets
+relations(object) <- value
+
+# S4 method for BaseSets
 elementData(object)
 
 # S4 method for BaseSets
+elementData(object) <- value
+
+# S4 method for BaseSets
 setData(object)
+
+# S4 method for BaseSets
+setData(object) <- value
 
 # S4 method for BaseSets
 elements(object)
 
 # S4 method for BaseSets
 sets(object)
-
-# S4 method for BaseSets
-elementIds(object)
-
-# S4 method for BaseSets
-elementIds(object) <- value
-
-# S4 method for BaseSets
-setIds(object)
-
-# S4 method for BaseSets
-setIds(object) <- value
 
 # S4 method for BaseSets
 length(x)
@@ -271,13 +266,16 @@ The matrix will be coerced to <code>logical</code> type and relations indicating
     <h2 class="hasAnchor" id="accessors"><a class="anchor" href="#accessors"></a>Accessors</h2>
 
     
-    <p><code>relations(object)</code> returns a <code>DataFrame</code> of relations including <code>"element"</code>, <code>"set"</code>, and any relation-wise metadata available.</p>
-    <p><code>elementData(object)</code> returns the metadata associated with each element as an object inheriting from <code><a href='IdVector-class.html'>IdVector</a></code>.</p>
-    <p><code>setData(object)</code> returns the metadata associated with each set as an object inheriting from <code><a href='IdVector-class.html'>IdVector</a></code>.</p>
-    <p><code>elements(object)</code> returns an <code>IdVector</code> of sets and associated metadata as ordered in <code>relations(object)$element</code>.</p>
-    <p><code>sets(object)</code> returns an <code>IdVector</code> of sets and associated metadata as ordered in <code>relations(object)$set</code>.</p>
-    <p><code>elementIds(object)</code> and <code>elementIds(object) &lt;- value</code> get and set the <code>character</code> vector of element identifiers.</p>
-    <p><code>setIds(object)</code> and <code>setIds(object) &lt;- value</code> get and set the <code>character</code> vector of element identifiers.</p>
+    <p><code>relations(object)</code> returns the <code>relations</code> slot.
+A <code>Hits</code> objets storing the integer index of elements (<code>from</code>) and sets (<code>to</code>) in the <code>elementData</code> and <code>setData</code> slots, respectively, and associated relation metadata (<code>mcols</code>).</p>
+    <p><code>elementData(object)</code> returns the <code>elementData</code> slot.
+An <code><a href='IdVector-class.html'>IdVector</a></code> objets storing the unique element identifiers (<code>ids</code>) and associated element metadata (<code>mcols</code>).</p>
+    <p><code>setData(object)</code> returns the <code>setData</code> slot.
+An <code><a href='IdVector-class.html'>IdVector</a></code> objets storing the unique set identifiers (<code>ids</code>) and associated set metadata (<code>mcols</code>).</p>
+    <p><code>elements(object)</code> returns an <code><a href='IdVector-class.html'>IdVector</a></code> element identifiers and associated metadata as ordered in <code>relations(object)$element</code>
+(i.e., of length equal to <code><a href='https://www.rdocumentation.org/packages/base/topics/length'>length(object)</a></code>).</p>
+    <p><code>sets(object)</code> returns an <code><a href='IdVector-class.html'>IdVector</a></code> of set identifiers and associated metadata as ordered in <code>relations(object)$set</code>.
+(i.e., of length equal to <code><a href='https://www.rdocumentation.org/packages/base/topics/length'>length(object)</a></code>).</p>
     
     <h2 class="hasAnchor" id="dimensions"><a class="anchor" href="#dimensions"></a>Dimensions</h2>
 
@@ -291,28 +289,24 @@ The matrix will be coerced to <code>logical</code> type and relations indicating
     <h2 class="hasAnchor" id="subsetting"><a class="anchor" href="#subsetting"></a>Subsetting</h2>
 
     
-    <p><code>x[i]</code> returns new <code><a href='BaseSets-class.html'>BaseSets</a></code> object of the same class as <code>x</code> made of the elements selected by <code>i</code>. <code>i</code> can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or <code>Rle</code> object); or an <code>IntegerRanges</code> object.</p>
+    <p><code>x[i]</code> returns new <code><a href='BaseSets-class.html'>BaseSets</a></code> object of the same class as <code>x</code> made of the elements selected by <code>i</code>. <code>i</code> can be missing; an <code>NA</code>-free logical, numeric, or character vector or factor (as ordinary vector or <code>Rle</code> object); or an <code>IntegerRanges</code> object.</p>
     <p><code><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset(object, subset, ...)</a></code> returns subsets of relations which meet conditions.
-For <code>FuzzySets</code> objects, the <code>subset</code> argument should be a logical expression referring to any of <code>"element"</code>, <code>"set"</code>, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
+The <code>subset</code> argument should be a logical expression referring to any of <code>"element"</code>, <code>"set"</code>, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
 In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.</p>
     
     <h2 class="hasAnchor" id="duplication-and-uniqueness"><a class="anchor" href="#duplication-and-uniqueness"></a>Duplication and uniqueness</h2>
 
     
-    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/duplicated'>duplicated(x)</a></code> determines which relations of a <code><a href='BaseSets-class.html'>BaseSets</a></code> are duplicates of relations with smaller subscripts, and returns a logical vector indicating which relations are duplicates.</p>
-<p><code><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique(x)</a></code> returns a <code>BaseSets</code> like <code>x</code> but with duplicate relations removed.</p>
+    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/duplicated'>duplicated(x)</a></code> determines which relations of a <code>BaseSets</code> are duplicates of relations with smaller subscripts, and returns a logical vector indicating which relations are duplicates.</p>
     <p><code><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique(x)</a></code> returns a <code>BaseSets</code> like <code>x</code> but with duplicate relations removed.</p>
-    
-    <h2 class="hasAnchor" id="coercion"><a class="anchor" href="#coercion"></a>Coercion</h2>
-
-    
-    <p><code>as(object, "DataFrame")</code> and <code>as.DataFrame(object)</code> return a <code>DataFrame</code> including <code>"element"</code>, <code>"set"</code>, and any relation-wise metadata available.</p>
-    <p><code>as(x, "data.frame")</code> and <code>as.data.frame(x)</code>  return a <code>data.frame</code> including <code>"element"</code>, <code>"set"</code>, and any relation-wise metadata available.</p>
-    <p><code>as(x, "list")</code> and <code>as.list(x)</code> return a <code>data.frame</code> including <code>"element"</code>, <code>"set"</code>, and any relation-wise metadata available.</p>
     
     <h2 class="hasAnchor" id="coercion-from-basesets"><a class="anchor" href="#coercion-from-basesets"></a>Coercion from BaseSets</h2>
 
     
+    <p><code>as(object, "DataFrame")</code> and <code>as.DataFrame(object)</code> return a nested <code>DataFrame</code> including columns <code>"element"</code>, <code>"set"</code>, <code>"relationData"</code>, <code>"elementData"</code>, and <code>"setData"</code>.</p>
+    <p><code>as(x, "data.frame")</code> and <code>as.data.frame(x)</code>  return a flattened <code>data.frame</code> including <code>"element"</code>, <code>"set"</code>, and columns in <code>mcols(relations(x))</code> if any.</p>
+    <p><code>as(x, "list")</code> and <code>as.list(x)</code> return a named <code>list</code>.
+Names are set identifiers, and values are character vectors of element identifiers.</p>
     <p><code>as(x, "matrix")</code> and <code>as.matrix(x)</code> return a <code>matrix</code> with elements as rows, sets as columns, and a <code>logical</code> value to indicate membership.</p>
     
     <h2 class="hasAnchor" id="coercion-to-basesets"><a class="anchor" href="#coercion-to-basesets"></a>Coercion to BaseSets</h2>
@@ -347,31 +341,38 @@ In addition, metadata for elements and sets that are not represented in the rema
 #&gt; 6          E       set3                                     </div><div class='input'>
 <span class='co'># Accessors ----</span>
 
-<span class='fu'>relations</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; DataFrame with 6 rows and 2 columns
-#&gt;      element        set
-#&gt;   &lt;IdVector&gt; &lt;IdVector&gt;
-#&gt; 1          A       set1
-#&gt; 2          B       set1
-#&gt; 3          B       set2
-#&gt; 4          C       set2
-#&gt; 5          D       set2
-#&gt; 6          E       set3</div><div class='input'><span class='fu'>elementData</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 5 with 5 unique identifiers
+<span class='fu'>relations</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; Hits object with 6 hits and 0 metadata columns:
+#&gt;            from        to
+#&gt;       &lt;integer&gt; &lt;integer&gt;
+#&gt;   [1]         1         1
+#&gt;   [2]         2         1
+#&gt;   [3]         2         2
+#&gt;   [4]         3         2
+#&gt;   [5]         4         2
+#&gt;   [6]         5         3
+#&gt;   -------
+#&gt;   nLnode: 5 / nRnode: 3</div><div class='input'>
+<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
+<span class='fu'>mcols</span>(<span class='fu'>relations</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"NEW"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"value"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>bs1</span>)))
+
+<span class='fu'>elementData</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 5 with 5 unique identifiers
 #&gt; Ids: A, B, C, D, ...
-#&gt; Metadata:  (0 columns)</div><div class='input'><span class='fu'>setData</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 3 with 3 unique identifiers
-#&gt; Ids: set1, set2, set3
-#&gt; Metadata:  (0 columns)</div><div class='input'><span class='fu'>elements</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 6 with 5 unique identifiers
-#&gt; Ids: A, B, B, C, ...
-#&gt; Metadata:  (0 columns)</div><div class='input'><span class='fu'>sets</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 6 with 3 unique identifiers
-#&gt; Ids: set1, set1, set2, set2, ...
 #&gt; Metadata:  (0 columns)</div><div class='input'>
-<span class='co'># Getter/Setters ----</span>
+<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
+<span class='fu'>mcols</span>(<span class='fu'>elementData</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"NEW"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"value"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'>nElements</span>(<span class='no'>bs1</span>)))
 
-<span class='fu'>elementIds</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] "A" "B" "C" "D" "E"</div><div class='input'><span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
-<span class='fu'>elementIds</span>(<span class='no'>bs1</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"gene"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'>nElements</span>(<span class='no'>bs</span>)))
+<span class='fu'>setData</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 3 with 3 unique identifiers
+#&gt; Ids: set1, set2, set3
+#&gt; Metadata:  (0 columns)</div><div class='input'>
+<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
+<span class='fu'>mcols</span>(<span class='fu'>setData</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"NEW"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"value"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'>nSets</span>(<span class='no'>bs1</span>)))
 
-<span class='fu'>setIds</span>(<span class='no'>bs1</span>)</div><div class='output co'>#&gt; [1] "set1" "set2" "set3"</div><div class='input'><span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
-<span class='fu'>setIds</span>(<span class='no'>bs1</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"geneset"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'>nSets</span>(<span class='no'>bs</span>)))
-
+<span class='fu'>elements</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 6 with 5 unique identifiers
+#&gt; Ids: A, B, B, C, ...
+#&gt; Metadata:  (0 columns)</div><div class='input'><span class='fu'>ids</span>(<span class='fu'>elements</span>(<span class='no'>bs</span>))</div><div class='output co'>#&gt; [1] "A" "B" "B" "C" "D" "E"</div><div class='input'><span class='fu'>mcols</span>(<span class='fu'>elements</span>(<span class='no'>bs</span>))</div><div class='output co'>#&gt; DataFrame with 6 rows and 0 columns</div><div class='input'>
+<span class='fu'>sets</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 6 with 3 unique identifiers
+#&gt; Ids: set1, set1, set2, set2, ...
+#&gt; Metadata:  (0 columns)</div><div class='input'><span class='fu'>ids</span>(<span class='fu'>sets</span>(<span class='no'>bs</span>))</div><div class='output co'>#&gt; [1] "set1" "set1" "set2" "set2" "set2" "set3"</div><div class='input'><span class='fu'>mcols</span>(<span class='fu'>sets</span>(<span class='no'>bs</span>))</div><div class='output co'>#&gt; DataFrame with 6 rows and 0 columns</div><div class='input'>
 <span class='co'># Dimensions ----</span>
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='fu'>nElements</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'>nSets</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'><span class='fu'>setLengths</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; set1 set2 set3 
@@ -391,7 +392,7 @@ In addition, metadata for elements and sets that are not represented in the rema
 <span class='co'># Duplication and uniqueness ----</span>
 
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
-<span class='no'>bs1</span>@<span class='kw'>relations</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='no'>bs1</span>@<span class='kw'>relations</span>, <span class='kw'>each</span><span class='kw'>=</span><span class='fl'>2</span>)
+<span class='fu'>relations</span>(<span class='no'>bs1</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'>relations</span>(<span class='no'>bs1</span>), <span class='kw'>each</span><span class='kw'>=</span><span class='fl'>2</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/duplicated'>duplicated</a></span>(<span class='no'>bs1</span>))</div><div class='output co'>#&gt; 
 #&gt; FALSE  TRUE 
 #&gt;     6     6 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>bs1</span>)</div><div class='output co'>#&gt; BaseSets with 6 relations between 5 elements and 3 sets
@@ -413,7 +414,17 @@ In addition, metadata for elements and sets that are not represented in the rema
 
 <span class='no'>m1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>bs</span>, <span class='st'>"matrix"</span>)
 
-<span class='no'>fs</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>bs</span>, <span class='st'>"FuzzySets"</span>)
+<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
+<span class='fu'>mcols</span>(<span class='fu'>relations</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"membership"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Uniform'>runif</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>bs1</span>))
+<span class='no'>fs</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>bs1</span>, <span class='st'>"FuzzySets"</span>)
+
+<span class='co'># Fetch a sample of GO annotations</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>org.Hs.eg.db</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: AnnotationDbi</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: Biobase</span></div><div class='output co'>#&gt; <span class='message'>Welcome to Bioconductor</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    Vignettes contain introductory material; view with</span>
+#&gt; <span class='message'>    'browseVignettes()'. To cite Bioconductor, see</span>
+#&gt; <span class='message'>    'citation("Biobase")', and for packages 'citation("pkgname")'.</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: IRanges</span></div><div class='output co'>#&gt; </div><div class='input'><span class='no'>gs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='import.html'>import</a></span>(<span class='no'>org.Hs.egGO</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: GO.db</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='output co'>#&gt; <span class='message'>Coercing evidence to factor</span></div><div class='output co'>#&gt; <span class='message'>Coercing ontology to factor</span></div><div class='input'><span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>gs</span>, <span class='st'>"BaseSets"</span>)
+<span class='no'>gs1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>bs1</span>, <span class='st'>"GOSets"</span>)
 
 <span class='co'># Coercion to BaseSets ----</span>
 
@@ -434,8 +445,6 @@ In addition, metadata for elements and sets that are not represented in the rema
       <li><a href="#subsetting">Subsetting</a></li>
 
       <li><a href="#duplication-and-uniqueness">Duplication and uniqueness</a></li>
-
-      <li><a href="#coercion">Coercion</a></li>
 
       <li><a href="#coercion-from-basesets">Coercion from BaseSets</a></li>
 

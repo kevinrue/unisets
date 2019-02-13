@@ -179,13 +179,13 @@ The matrix will be coerced to <code>double</code> type and the value will be tak
     <h2 class="hasAnchor" id="accessors"><a class="anchor" href="#accessors"></a>Accessors</h2>
 
     
-    <p><code><a href='FuzzyHits-methods.html'>membership(object)</a></code> returns a <code>numeric</code> vector of membership function for each relation.</p>
+    <p><code><a href='FuzzyHits-methods.html'>membership(object)</a></code> returns a numeric vector of membership function for each relation.</p>
     
     <h2 class="hasAnchor" id="subsetting"><a class="anchor" href="#subsetting"></a>Subsetting</h2>
 
     
     <p><code><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset(x, subset, ...)</a></code> returns subsets of relations which meet conditions.
-For <code>FuzzySets</code> objects, the <code>subset</code> argument should be a logical expression referring to any of <code>"element"</code>, <code>"set"</code>, <code>"membership"</code>, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
+For <code>FuzzySets</code> objects, the <code>subset</code> argument should be a logical expression referring to any of <code>"element"</code>, <code>"set"</code>, <code>"membership"</code>, and other available relation metadata indicating elements or rows to keep: missing values are taken as false.
 In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.</p>
     
     <h2 class="hasAnchor" id="coercion"><a class="anchor" href="#coercion"></a>Coercion</h2>
@@ -217,9 +217,9 @@ See examples.</p>
 <span class='co'># unlist the set names</span>
 <span class='no'>unlistSets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>sets</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lengths'>lengths</a></span>(<span class='no'>sets</span>))
 <span class='co'># unlist the element names</span>
-<span class='no'>unlistElements</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlist'>unlist</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a></span>(<span class='no'>sets</span>, <span class='no'>names</span>))
+<span class='no'>unlistElements</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlist'>unlist</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a></span>(<span class='no'>sets</span>, <span class='no'>names</span>), <span class='kw'>use.names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='co'># unlist the membership values</span>
-<span class='no'>unlistMembership</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlist'>unlist</a></span>(<span class='no'>sets</span>)
+<span class='no'>unlistMembership</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlist'>unlist</a></span>(<span class='no'>sets</span>, <span class='kw'>use.names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># Reformat as a table</span>
 <span class='no'>relations</span> <span class='kw'>&lt;-</span> <span class='fu'>DataFrame</span>(
@@ -228,7 +228,8 @@ See examples.</p>
   <span class='kw'>membership</span><span class='kw'>=</span><span class='no'>unlistMembership</span>
 )
 
-<span class='no'>fs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='FuzzySets-class.html'>FuzzySets</a></span>(<span class='kw'>relations</span><span class='kw'>=</span><span class='no'>relations</span>)</div><div class='output co'>#&gt; <span class='message'>Setting rownames(relations) to NULL</span></div><div class='input'><span class='no'>fs</span></div><div class='output co'>#&gt; FuzzySets with 6 relations between 5 elements and 3 sets
+<span class='no'>fs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='FuzzySets-class.html'>FuzzySets</a></span>(<span class='kw'>relations</span><span class='kw'>=</span><span class='no'>relations</span>)
+<span class='no'>fs</span></div><div class='output co'>#&gt; FuzzySets with 6 relations between 5 elements and 3 sets
 #&gt;      element        set relationData elementData     setData
 #&gt;   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
 #&gt; 1          A       set1          0.1                        
@@ -257,7 +258,7 @@ See examples.</p>
 
 <span class='co'># Coercion to FuzzySets ----</span>
 
-<span class='no'>fs1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>matrix1</span>, <span class='st'>"FuzzySets"</span>)</div></pre>
+<span class='no'>fs1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>matrix1</span>, <span class='st'>"FuzzySets"</span>)</div><div class='output co'>#&gt; <span class='message'>Dropping relations with NA membership function</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

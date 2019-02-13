@@ -121,7 +121,7 @@ The following file formats are currently supported: GMT." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Import and export</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kevinrue/unisets/blob/master/R/import.R'><code>R/import.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/kevinrue/unisets/blob/master/R/io.R'><code>R/io.R</code></a></small>
     <div class="hidden name"><code>import.Rd</code></div>
     </div>
 
@@ -242,20 +242,20 @@ Certain subclasses of <code>BiMap</code> are supported: <code>Go3AnnDbBimap</cod
 <span class='co'># Import (Go3AnnDbBimap) ----</span>
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>org.Hs.eg.db</span>)
-<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'>import</span>(<span class='no'>org.Hs.egGO</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: GO.db</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='input'><span class='no'>bs1</span></div><div class='output co'>#&gt; BaseSets with 313751 relations between 20408 elements and 17983 sets
-#&gt;            element        set relationData elementData
-#&gt;   &lt;EntrezIdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt;
-#&gt; 1                1 GO:0002576       TAS:BP            
-#&gt; 2                1 GO:0008150        ND:BP            
-#&gt; 3                1 GO:0043312       TAS:BP            
-#&gt; 4                2 GO:0001869       IDA:BP            
-#&gt; 5                2 GO:0002576       TAS:BP            
-#&gt;                ...        ...          ...         ...
-#&gt; 1        110599583 GO:0046872       IEA:MF            
-#&gt; 2        111089941 GO:0004571       IMP:MF            
-#&gt; 3        111089941 GO:0004571       TAS:MF            
-#&gt; 4        111089941 GO:0005509       IEA:MF            
-#&gt; 5        112441434 GO:0005515       IPI:MF            
+<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'>import</span>(<span class='no'>org.Hs.egGO</span>)</div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='output co'>#&gt; <span class='message'>Coercing evidence to factor</span></div><div class='output co'>#&gt; <span class='message'>Coercing ontology to factor</span></div><div class='input'><span class='no'>bs1</span></div><div class='output co'>#&gt; GOSets with 313751 relations between 20408 elements and 17983 sets
+#&gt;            element          set relationData elementData
+#&gt;   &lt;EntrezIdVector&gt; &lt;GOIdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt;
+#&gt; 1                1   GO:0002576       TAS:BP            
+#&gt; 2                1   GO:0008150        ND:BP            
+#&gt; 3                1   GO:0043312       TAS:BP            
+#&gt; 4                2   GO:0001869       IDA:BP            
+#&gt; 5                2   GO:0002576       TAS:BP            
+#&gt;                ...          ...          ...         ...
+#&gt; 1        110599583   GO:0046872       IEA:MF            
+#&gt; 2        111089941   GO:0004571       IMP:MF            
+#&gt; 3        111089941   GO:0004571       TAS:MF            
+#&gt; 4        111089941   GO:0005509       IEA:MF            
+#&gt; 5        112441434   GO:0005515       IPI:MF            
 #&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            setData
 #&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        &lt;DataFrame&gt;
 #&gt; 1                                                                                                                                                                                                                                                                                                                                                                                                                                   GO:0002576:The regulated exocytosis of secretory granules containing preformed mediators such as histamine and serotonin by a platelet.:BP:...

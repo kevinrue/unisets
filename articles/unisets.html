@@ -94,7 +94,7 @@
       Fred Hutchinson Cancer Research Center, Seattle, WA, USA, 98115<br><a class="author_email" href="mailto:#"></a><a href="mailto:robert.amezquita@fredhutch.org">robert.amezquita@fredhutch.org</a>
       </address>
                   
-            <h4 class="date">9 February 2019</h4>
+            <h4 class="date">13 February 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/unisets/blob/master/vignettes/unisets.Rmd"><code>vignettes/unisets.Rmd</code></a></small>
       <div class="hidden name"><code>unisets.Rmd</code></div>
@@ -118,7 +118,7 @@
 <div id="the-basesets-class" class="section level2">
 <h2 class="hasAnchor">
 <a href="#the-basesets-class" class="anchor"></a>The <em>BaseSets</em> class</h2>
-<p>This is a basic example which shows you how to create a <code>BaseSets</code> object, to store simple associations between genes and sets, along with optional metadata associated with each relation:</p>
+<p>This is a basic example which shows you how to create a <code>BaseSets</code> object, to store simple associations between elements and sets, along with optional metadata associated with each relation:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(unisets)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">gene_lists &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">    <span class="dt">geneset1 =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"A"</span>, <span class="st">"B"</span>),</a>
@@ -127,158 +127,197 @@
 <a class="sourceLine" id="cb1-6" data-line-number="6">relations_table &lt;-<span class="st"> </span><span class="kw">DataFrame</span>(</a>
 <a class="sourceLine" id="cb1-7" data-line-number="7">    <span class="dt">element =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unlist">unlist</a></span>(gene_lists),</a>
 <a class="sourceLine" id="cb1-8" data-line-number="8">    <span class="dt">set     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(gene_lists), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lengths">lengths</a></span>(gene_lists)),</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">    <span class="dt">extra1  =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"ABC"</span>, <span class="st">"DEF"</span>), 5L, <span class="dt">replace=</span><span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">    <span class="dt">extra2  =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(5L, 10L, <span class="fl">0.4</span>)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">    <span class="dt">extra1  =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"ABC"</span>, <span class="st">"DEF"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(3L, 2L)),</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">    <span class="dt">extra2  =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> 5L)</a>
 <a class="sourceLine" id="cb1-11" data-line-number="11">)</a>
 <a class="sourceLine" id="cb1-12" data-line-number="12">base_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/BaseSets-class.html">BaseSets</a></span>(relations_table)</a>
 <a class="sourceLine" id="cb1-13" data-line-number="13">base_sets</a></code></pre></div>
 <pre><code>## BaseSets with 5 relations between 4 elements and 2 sets
 ##      element        set relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1          A   geneset1        DEF:4                        
-## 2          B   geneset1        DEF:3                        
-## 3          B   geneset2        ABC:1                        
-## 4          C   geneset2        ABC:4                        
-## 5          D   geneset2        DEF:6</code></pre>
-<p>Metadata for each element and set can be provided as separate <code>DataFrame</code> objects:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">gene_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/IdVector-class.html">IdVector</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>))</a>
+## 1          A   geneset1        ABC:0                        
+## 2          B   geneset1     ABC:0.25                        
+## 3          B   geneset2      ABC:0.5                        
+## 4          C   geneset2     DEF:0.75                        
+## 5          D   geneset2        DEF:1</code></pre>
+<p>Metadata for each element and set can be provided as separate <code>IdVector</code> objects. The <code>IdVector</code> class stores a vector of identifiers as a character vector, and associated metadata as a <code>DataFrame</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">gene_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/IdVector-class.html">IdVector</a></span>(<span class="dt">ids =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>))</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">mcols</span>(gene_data) &lt;-<span class="st"> </span><span class="kw">DataFrame</span>(</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="dt">stat1     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>( <span class="dv">1</span>,   <span class="dv">2</span>,   <span class="dv">3</span>,   <span class="dv">4</span> ),</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="dt">info1     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="dt">GeneStat1     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>( <span class="dv">1</span>,   <span class="dv">2</span>,   <span class="dv">3</span>,   <span class="dv">4</span> ),</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="dt">GeneInfo1     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>)</a>
 <a class="sourceLine" id="cb3-5" data-line-number="5">)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">set_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/IdVector-class.html">IdVector</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"geneset1"</span>, <span class="st">"geneset2"</span>))</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">set_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/IdVector-class.html">IdVector</a></span>(<span class="dt">ids =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"geneset1"</span>, <span class="st">"geneset2"</span>))</a>
 <a class="sourceLine" id="cb3-7" data-line-number="7"><span class="kw">mcols</span>(set_data) &lt;-<span class="st"> </span><span class="kw">DataFrame</span>(</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">    <span class="dt">stat1     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>( <span class="dv">100</span>,   <span class="dv">200</span> ),</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">    <span class="dt">info1     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"abc"</span>, <span class="st">"def"</span>)</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">    <span class="dt">SetStat1     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>( <span class="dv">100</span>,   <span class="dv">200</span> ),</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">    <span class="dt">SetInfo1     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"abc"</span>, <span class="st">"def"</span>)</a>
 <a class="sourceLine" id="cb3-10" data-line-number="10">)</a>
 <a class="sourceLine" id="cb3-11" data-line-number="11">base_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/BaseSets-class.html">BaseSets</a></span>(relations_table, gene_data, set_data)</a>
 <a class="sourceLine" id="cb3-12" data-line-number="12">base_sets</a></code></pre></div>
 <pre><code>## BaseSets with 5 relations between 4 elements and 2 sets
 ##      element        set relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1          A   geneset1        DEF:4         1:a     100:abc
-## 2          B   geneset1        DEF:3         2:b     100:abc
-## 3          B   geneset2        ABC:1         2:b     200:def
-## 4          C   geneset2        ABC:4         3:c     200:def
-## 5          D   geneset2        DEF:6         4:d     200:def</code></pre>
-<p>The <code>elementData</code> and <code>setData</code> slots store metadata for each individual element and set that appears in the <code>relations</code> slot. Those metadata can be accessed directly using the getter methods of the same name.</p>
+## 1          A   geneset1        ABC:0         1:a     100:abc
+## 2          B   geneset1     ABC:0.25         2:b     100:abc
+## 3          B   geneset2      ABC:0.5         2:b     200:def
+## 4          C   geneset2     DEF:0.75         3:c     200:def
+## 5          D   geneset2        DEF:1         4:d     200:def</code></pre>
+<p>The <code>elementData</code> and <code>setData</code> slots each store an <code>IdVector</code> that describes the identifier and metadata associated with each unique element and set, respectively. Those metadata can be directly accessed and updated using the corresponding accessor methods.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">elementData</a></span>(base_sets)</a></code></pre></div>
 <pre><code>## IdVector of length 4 with 4 unique identifiers
 ## Ids: A, B, C, D
-## Metadata: stat1, info1 (2 columns)</code></pre>
+## Metadata: GeneStat1, GeneInfo1 (2 columns)</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">setData</a></span>(base_sets)</a></code></pre></div>
 <pre><code>## IdVector of length 2 with 2 unique identifiers
 ## Ids: geneset1, geneset2
-## Metadata: stat1, info1 (2 columns)</code></pre>
-<p>Note that relations between elements and sets are internally stored as an <em><a href="https://bioconductor.org/packages/3.9/S4Vectors">S4Vectors</a></em> <code>Hits</code> object. This container efficiently represents a set of hits between a set of <em>left nodes</em> and a set of <em>right nodes</em>, with optional metadata accompanying each hit.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">base_sets<span class="op">@</span>relations</a></code></pre></div>
+## Metadata: SetStat1, SetInfo1 (2 columns)</code></pre>
+<p>Note that relations between elements and sets are internally stored as an <em><a href="https://bioconductor.org/packages/3.9/S4Vectors">S4Vectors</a></em> <code>Hits</code> object. This container efficiently represents edges between a set of <em>left nodes</em> and a set of <em>right nodes</em>, with optional metadata that describe each edge.</p>
+<p>To do so, the <code>DataFrame</code> provided as the <code>relations</code> argument of the <code>BaseSets</code> constructor is divided in two pieces of information:</p>
+<ul>
+<li>The required <code>"element"</code> and <code>"set"</code>columns are extracted and substitued by the index of the matching identifier in the <code>elementData</code> and <code>setData</code> slot, to create the <code>from</code> and <code>to</code> slots of a <code>Hits</code> object, respectively. If the <code>elementData</code> and <code>setData</code> are not supplied, the corresponding slots are automatically constructed from unique values found in the <code>"element"</code> and <code>"set"</code>columns.</li>
+<li>All other columns are stored as metadata columns on the resulting <code>Hits</code> object.</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">relations</a></span>(base_sets)</a></code></pre></div>
 <pre><code>## Hits object with 5 hits and 2 metadata columns:
 ##            from        to |      extra1    extra2
-##       &lt;integer&gt; &lt;integer&gt; | &lt;character&gt; &lt;integer&gt;
-##   [1]         1         1 |         DEF         4
-##   [2]         2         1 |         DEF         3
-##   [3]         2         2 |         ABC         1
-##   [4]         3         2 |         ABC         4
-##   [5]         4         2 |         DEF         6
+##       &lt;integer&gt; &lt;integer&gt; | &lt;character&gt; &lt;numeric&gt;
+##   [1]         1         1 |         ABC         0
+##   [2]         2         1 |         ABC      0.25
+##   [3]         2         2 |         ABC       0.5
+##   [4]         3         2 |         DEF      0.75
+##   [5]         4         2 |         DEF         1
 ##   -------
 ##   nLnode: 4 / nRnode: 2</code></pre>
-<p>Conveniently, the <code>relations</code> accessor returns relations and associated metadata as a <code>DataFrame</code> substituting hits for their corresponding element and set identifiers.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">relations</a></span>(base_sets)</a></code></pre></div>
-<pre><code>## DataFrame with 5 rows and 4 columns
-##      element        set      extra1    extra2
-##   &lt;IdVector&gt; &lt;IdVector&gt; &lt;character&gt; &lt;integer&gt;
-## 1          A   geneset1         DEF         4
-## 2          B   geneset1         DEF         3
-## 3          B   geneset2         ABC         1
-## 4          C   geneset2         ABC         4
-## 5          D   geneset2         DEF         6</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw"><a href="../reference/BaseSets-methods.html">relations</a></span>(base_sets))</a></code></pre></div>
+<pre><code>## DataFrame with 5 rows and 2 columns
+##        extra1    extra2
+##   &lt;character&gt; &lt;numeric&gt;
+## 1         ABC         0
+## 2         ABC      0.25
+## 3         ABC       0.5
+## 4         DEF      0.75
+## 5         DEF         1</code></pre>
+<p>Conveniently, the <code>as</code> method can be used to format relations and associated metadata as a <code>DataFrame</code> substituting hits for their corresponding element and set identifiers. Metadata for relations, elements, and sets are returned as <code>DataFrame</code> nested in the <code>"relationData"</code>, <code>"elementData"</code>, and <code>"setData"</code> columns.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">as</span>(base_sets, <span class="st">"DataFrame"</span>)</a></code></pre></div>
+<pre><code>## DataFrame with 5 rows and 5 columns
+##      element        set relationData elementData     setData
+##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
+## 1          A   geneset1        ABC:0         1:a     100:abc
+## 2          B   geneset1     ABC:0.25         2:b     100:abc
+## 3          B   geneset2      ABC:0.5         2:b     200:def
+## 4          C   geneset2     DEF:0.75         3:c     200:def
+## 5          D   geneset2        DEF:1         4:d     200:def</code></pre>
+<p>Similarly, <code>as.data.frame</code> can be used to obtain a flattened <code>data.frame</code>, with columns <code>"element"</code>, <code>"set"</code>, and any column in the relation metadata columns.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">as.data.frame</a></span>(base_sets)</a></code></pre></div>
+<pre><code>##   element      set extra1 extra2
+## 1       A geneset1    ABC   0.00
+## 2       B geneset1    ABC   0.25
+## 3       B geneset2    ABC   0.50
+## 4       C geneset2    DEF   0.75
+## 5       D geneset2    DEF   1.00</code></pre>
 </div>
 <div id="the-fuzzysets-class" class="section level2">
 <h2 class="hasAnchor">
 <a href="#the-fuzzysets-class" class="anchor"></a>The <em>FuzzySets</em> class</h2>
 <p>Classes derived from <code>Hits</code> may add additional constraints on the relations to define special types of relationships between elements and sets.</p>
 <p>For instance, the <code>FuzzyHits</code> class is a direct extension of the <code>Hits</code> class where the metadata accompanying each relation must include at least a column called <code>"membership"</code> that holds the “membership function”, a numeric value in the interval [0,1] that provides a measure of partial membership between elements and sets.</p>
-<p>Simultaneously, the <code>FuzzySets</code> class is a direct extension of the <code>BaseSets</code> class where the <code>relations</code> slot must contain a <code>FuzzyHits</code>. As such, <code>FuzzySets</code> can be constructed exactly like <code>BaseSets</code>, with the only additional constraint that the relations table contains a <code>"membership"</code> column with numeric values in the interval [0,1].</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">relations_table<span class="op">$</span>membership &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(relations_table)), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">fuzzy_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/FuzzySets-class.html">FuzzySets</a></span>(relations_table, gene_data, set_data)</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">fuzzy_sets</a></code></pre></div>
+<p>Simultaneously, the <code>FuzzySets</code> class is a direct extension of the <code>BaseSets</code> class where the <code>relations</code> slot must contain <code>FuzzyHits</code>. As such, <code>FuzzySets</code> can be constructed exactly like <code>BaseSets</code>, with the only additional constraint that the relations table must contains a <code>"membership"</code> column with numeric values in the interval [0,1].</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">relations_table<span class="op">$</span>membership &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Round">round</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(relations_table)), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">fuzzy_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/FuzzySets-class.html">FuzzySets</a></span>(relations_table, gene_data, set_data)</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">fuzzy_sets</a></code></pre></div>
 <pre><code>## FuzzySets with 5 relations between 4 elements and 2 sets
-##      element        set relationData elementData     setData
-##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1          A   geneset1   DEF:4:0.81         1:a     100:abc
-## 2          B   geneset1   DEF:3:0.28         2:b     100:abc
-## 3          B   geneset2   ABC:1:0.11         2:b     200:def
-## 4          C   geneset2   ABC:4:0.27         3:c     200:def
-## 5          D   geneset2   DEF:6:0.49         4:d     200:def</code></pre>
-<p>The <code>membership</code> function associated with each relation can be directly accessed using the getter of the same name.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="../reference/FuzzyHits-methods.html">membership</a></span>(fuzzy_sets)</a></code></pre></div>
-<pre><code>## [1] 0.81 0.28 0.11 0.27 0.49</code></pre>
-<p>Conveniently, the <code>relations</code> accessor returns fuzzy relations as a <code>DataFrame</code> that includes the <code>"membership"</code> column, along with any other optional metadata accompanying the relations between elements and sets.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">relations</a></span>(fuzzy_sets)</a></code></pre></div>
+##      element        set  relationData elementData     setData
+##   &lt;IdVector&gt; &lt;IdVector&gt;   &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
+## 1          A   geneset1    ABC:0:0.38         1:a     100:abc
+## 2          B   geneset1 ABC:0.25:0.63         2:b     100:abc
+## 3          B   geneset2  ABC:0.5:0.12         2:b     200:def
+## 4          C   geneset2  DEF:0.75:0.8         3:c     200:def
+## 5          D   geneset2    DEF:1:0.72         4:d     200:def</code></pre>
+<p>The <code>membership</code> function associated with each relation can be directly obtained and modified using the corresponding accessor.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="../reference/FuzzyHits-methods.html">membership</a></span>(fuzzy_sets)</a></code></pre></div>
+<pre><code>## [1] 0.38 0.63 0.12 0.80 0.72</code></pre>
+<p>Identically to <code>BaseSets</code>, the <code>relations</code> accessor returns fuzzy relations as <code>Hits</code>, while the <code>as</code> method may be used to format the information as a <code>DataFrame</code>, both of which include the <code>"membership"</code> column, as metadata column and nested under <code>"relationData"</code>, respectively.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">relations</a></span>(fuzzy_sets)</a></code></pre></div>
+<pre><code>## FuzzyHits object with 5 hits and 3 metadata columns:
+##            from        to |      extra1    extra2 membership
+##       &lt;integer&gt; &lt;integer&gt; | &lt;character&gt; &lt;numeric&gt;  &lt;numeric&gt;
+##   [1]         1         1 |         ABC         0       0.38
+##   [2]         2         1 |         ABC      0.25       0.63
+##   [3]         2         2 |         ABC       0.5       0.12
+##   [4]         3         2 |         DEF      0.75        0.8
+##   [5]         4         2 |         DEF         1       0.72
+##   -------
+##   nLnode: 4 / nRnode: 2</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">as</span>(fuzzy_sets, <span class="st">"DataFrame"</span>)</a></code></pre></div>
 <pre><code>## DataFrame with 5 rows and 5 columns
-##      element        set      extra1    extra2 membership
-##   &lt;IdVector&gt; &lt;IdVector&gt; &lt;character&gt; &lt;integer&gt;  &lt;numeric&gt;
-## 1          A   geneset1         DEF         4       0.81
-## 2          B   geneset1         DEF         3       0.28
-## 3          B   geneset2         ABC         1       0.11
-## 4          C   geneset2         ABC         4       0.27
-## 5          D   geneset2         DEF         6       0.49</code></pre>
+##      element        set  relationData elementData     setData
+##   &lt;IdVector&gt; &lt;IdVector&gt;   &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
+## 1          A   geneset1    ABC:0:0.38         1:a     100:abc
+## 2          B   geneset1 ABC:0.25:0.63         2:b     100:abc
+## 3          B   geneset2  ABC:0.5:0.12         2:b     200:def
+## 4          C   geneset2  DEF:0.75:0.8         3:c     200:def
+## 5          D   geneset2    DEF:1:0.72         4:d     200:def</code></pre>
 </div>
 </div>
 <div id="subsetting" class="section level1">
 <h1 class="hasAnchor">
 <a href="#subsetting" class="anchor"></a>Subsetting</h1>
 <p>The <code>subset</code> method can be applied to a <code>BaseSets</code> object, using a logical expression that may refer to the <code>"element"</code> and <code>"set"</code> columns as well as any metadata associated with the relations, indicating rows to keep.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/subset">subset</a></span>(base_sets, set <span class="op">==</span><span class="st"> "geneset1"</span> <span class="op">|</span><span class="st"> </span>element <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"C"</span>) <span class="op">|</span><span class="st"> </span>extra1 <span class="op">==</span><span class="st"> "ABC"</span>)</a></code></pre></div>
-<pre><code>## BaseSets with 4 relations between 3 elements and 2 sets
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/subset">subset</a></span>(base_sets, set <span class="op">==</span><span class="st"> "geneset1"</span> <span class="op">&amp;</span><span class="st"> </span>element <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"B"</span>) <span class="op">&amp;</span><span class="st"> </span>extra1 <span class="op">==</span><span class="st"> "ABC"</span>)</a></code></pre></div>
+<pre><code>## BaseSets with 1 relation between 1 element and 1 set
 ##      element        set relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1          A   geneset1        DEF:4         1:a     100:abc
-## 2          B   geneset1        DEF:3         2:b     100:abc
-## 3          B   geneset2        ABC:1         2:b     200:def
-## 4          C   geneset2        ABC:4         3:c     200:def</code></pre>
-<p>Similarly, the <code>subset</code> method can be also applied to a <code>FuzzySets</code> object, where the logical expression may also refer to the additional <code>"membership"</code> metadata that is guaranted by the class validity method.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/subset">subset</a></span>(fuzzy_sets, set <span class="op">==</span><span class="st"> "geneset2"</span> <span class="op">&amp;</span><span class="st"> </span>membership <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.3</span>)</a></code></pre></div>
-<pre><code>## FuzzySets with 1 relation between 1 element and 1 set
+## 1          B   geneset1     ABC:0.25         2:b     100:abc</code></pre>
+<p>Similarly, the <code>subset</code> method can be also applied to objects derived from <code>BaseSets</code>, such as <code>FuzzySets</code>, in which case the logical expression may also refer to the additional <code>"membership"</code> metadata that is guaranted by the class validity method.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/subset">subset</a></span>(fuzzy_sets, set <span class="op">==</span><span class="st"> "geneset2"</span> <span class="op">&amp;</span><span class="st"> </span>membership <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.3</span>)</a></code></pre></div>
+<pre><code>## FuzzySets with 2 relations between 2 elements and 1 set
 ##      element        set relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1          D   geneset2   DEF:6:0.49         4:d     200:def</code></pre>
+## 1          C   geneset2 DEF:0.75:0.8         3:c     200:def
+## 2          D   geneset2   DEF:1:0.72         4:d     200:def</code></pre>
 </div>
-<div id="converting-to-other-formats" class="section level1">
+<div id="convert-to" class="section level1">
 <h1 class="hasAnchor">
-<a href="#converting-to-other-formats" class="anchor"></a>Converting to other formats</h1>
+<a href="#convert-to" class="anchor"></a>Converting to other formats</h1>
+<div id="convert-to-list" class="section level2">
+<h2 class="hasAnchor">
+<a href="#convert-to-list" class="anchor"></a>List</h2>
 <p>It is possible to extract the gene sets as a <code>list</code>, for use with functions such as <code>lapply</code>.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">as</span>(fuzzy_sets, <span class="st">"list"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">as</span>(fuzzy_sets, <span class="st">"list"</span>)</a></code></pre></div>
 <pre><code>## List of length 2
 ## names(2): geneset1 geneset2</code></pre>
+</div>
+<div id="convert-to-matrix" class="section level2">
+<h2 class="hasAnchor">
+<a href="#convert-to-matrix" class="anchor"></a>Matrix</h2>
 <p>It is also possible to visualize membership between gene and gene sets as a matrix.</p>
 <p>Notably, <code>BaseSets</code> objects produce a <code>logical</code> matrix of binary membership that indicates whether each element is associated at least once with each set:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">base_matrix &lt;-<span class="st"> </span><span class="kw">as</span>(base_sets, <span class="st">"matrix"</span>)</a>
-<a class="sourceLine" id="cb25-2" data-line-number="2">base_matrix</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">base_matrix &lt;-<span class="st"> </span><span class="kw">as</span>(base_sets, <span class="st">"matrix"</span>)</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">base_matrix</a></code></pre></div>
 <pre><code>##   geneset1 geneset2
 ## A     TRUE    FALSE
 ## B     TRUE     TRUE
 ## C    FALSE     TRUE
 ## D    FALSE     TRUE</code></pre>
 <p>In contrast, <code>FuzzySets</code> objects produce a <code>double</code> matrix displaying the membership function for each relation. Relations that are not described in the <code>FuzzySets</code> are filled with <code>NA</code>, to contrast with relations explictly associated with a membership function of 0.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw"><a href="../reference/FuzzyHits-methods.html">membership</a></span>(fuzzy_sets)[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">fuzzy_matrix &lt;-<span class="st"> </span><span class="kw">as</span>(fuzzy_sets, <span class="st">"matrix"</span>)</a>
-<a class="sourceLine" id="cb27-3" data-line-number="3">fuzzy_matrix</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw"><a href="../reference/FuzzyHits-methods.html">membership</a></span>(fuzzy_sets)[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb33-2" data-line-number="2">fuzzy_matrix &lt;-<span class="st"> </span><span class="kw">as</span>(fuzzy_sets, <span class="st">"matrix"</span>)</a>
+<a class="sourceLine" id="cb33-3" data-line-number="3">fuzzy_matrix</a></code></pre></div>
 <pre><code>##   geneset1 geneset2
 ## A     0.00       NA
-## B     0.28     0.11
-## C       NA     0.27
-## D       NA     0.49</code></pre>
+## B     0.63     0.12
+## C       NA     0.80
+## D       NA     0.72</code></pre>
 </div>
-<div id="converting-from-other-formats" class="section level1">
+</div>
+<div id="convert-from" class="section level1">
 <h1 class="hasAnchor">
-<a href="#converting-from-other-formats" class="anchor"></a>Converting from other formats</h1>
-<div id="fromMatrix" class="section level2">
+<a href="#convert-from" class="anchor"></a>Converting from other formats</h1>
+<div id="convert-from-matrix" class="section level2">
 <h2 class="hasAnchor">
-<a href="#fromMatrix" class="anchor"></a>Matrix</h2>
+<a href="#convert-from-matrix" class="anchor"></a>Matrix</h2>
 <p>It is possible to convert incidence matrices into objects derived from the <code>BaseSets</code> class.</p>
 <p>Notably, the <code>BaseSets</code> class is suitable for <code>logical</code> matrices indicating binary membership.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">as</span>(base_matrix, <span class="st">"BaseSets"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">as</span>(base_matrix, <span class="st">"BaseSets"</span>)</a></code></pre></div>
 <pre><code>## BaseSets with 5 relations between 4 elements and 2 sets
 ##      element        set relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
@@ -287,51 +326,52 @@
 ## 3          B   geneset2                                     
 ## 4          C   geneset2                                     
 ## 5          D   geneset2</code></pre>
-<p>Similarly, the <code>FuzzySets</code> class is suitable for <code>double</code> matrices indicating the membership function for each relation. Importantly, relations described as <code>NA</code> are not imported into the <code>FuzzySets</code> object. In contrast, relations with a membership function of 0 are imported and described as such.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">fuzzy_matrix[<span class="dv">1</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="kw">as</span>(fuzzy_matrix, <span class="st">"FuzzySets"</span>)</a></code></pre></div>
+<p>Similarly, the <code>FuzzySets</code> class is suitable for <code>double</code> matrices indicating the membership function for each relation. Importantly, relations described as <code>NA</code> are not imported into the <code>FuzzySets</code> object (consistently with the <code>as.matrix</code> method described <a href="#convert-to-matrix">above</a>). In contrast, relations with a membership function of 0 are imported and described as such.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">fuzzy_matrix[<span class="dv">1</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="kw">as</span>(fuzzy_matrix, <span class="st">"FuzzySets"</span>)</a></code></pre></div>
+<pre><code>## Dropping relations with NA membership function</code></pre>
 <pre><code>## FuzzySets with 5 relations between 4 elements and 2 sets
 ##      element        set relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
 ## 1          A   geneset1            0                        
-## 2          B   geneset1         0.28                        
-## 3          B   geneset2         0.11                        
-## 4          C   geneset2         0.27                        
-## 5          D   geneset2         0.49</code></pre>
+## 2          B   geneset1         0.63                        
+## 3          B   geneset2         0.12                        
+## 4          C   geneset2          0.8                        
+## 5          D   geneset2         0.72</code></pre>
 </div>
 </div>
 <div id="additional-information" class="section level1">
 <h1 class="hasAnchor">
 <a href="#additional-information" class="anchor"></a>Additional information</h1>
-<div id="count-of-relations-elements-and-sets" class="section level2">
+<div id="dimensions-count-of-relations-elements-and-sets" class="section level2">
 <h2 class="hasAnchor">
-<a href="#count-of-relations-elements-and-sets" class="anchor"></a>Count of relations, elements, and sets</h2>
+<a href="#dimensions-count-of-relations-elements-and-sets" class="anchor"></a>Dimensions: count of relations, elements, and sets</h2>
 <p>The count of relations between elements and sets can be obtained using the <code>length</code> method.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(base_sets)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(base_sets)</a></code></pre></div>
 <pre><code>## [1] 5</code></pre>
 <p>The count of unique elements and sets can be obtained using the <code>nElements</code> and <code>nSets</code> methods.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">nElements</a></span>(base_sets)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">nElements</a></span>(base_sets)</a></code></pre></div>
 <pre><code>## [1] 4</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">nSets</a></span>(base_sets)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">nSets</a></span>(base_sets)</a></code></pre></div>
 <pre><code>## [1] 2</code></pre>
 <p>The size of each gene set can be obtained using the <code>setLengths</code> method.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">setLengths</a></span>(fuzzy_sets)</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">setLengths</a></span>(fuzzy_sets)</a></code></pre></div>
 <pre><code>## geneset1 geneset2 
 ##        2        3</code></pre>
 <p>Conversely, the number of sets associated with each gene is returned by the <code>elementLengths</code> function.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">elementLengths</a></span>(fuzzy_sets)</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">elementLengths</a></span>(fuzzy_sets)</a></code></pre></div>
 <pre><code>## A B C D 
 ## 1 2 1 1</code></pre>
 </div>
 <div id="names-of-elements-and-sets" class="section level2">
 <h2 class="hasAnchor">
 <a href="#names-of-elements-and-sets" class="anchor"></a>Names of elements and sets</h2>
-<p>The identifiers of elements and sets can be inspected and renamed using <code>elementIds</code> and <code>setIds</code> methods.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">elementIds</a></span>(base_sets) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"Gene"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_len</a></span>(<span class="kw"><a href="../reference/BaseSets-methods.html">nElements</a></span>(base_sets)))</a>
-<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="kw"><a href="../reference/BaseSets-methods.html">elementIds</a></span>(base_sets)</a></code></pre></div>
+<p>The identifiers of elements and sets can be inspected and renamed using <code>ids</code> accessor on the <code>IdVector</code> object returned by each of the <code>elementData</code> or <code>setData</code> accessors.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">ids</span>(<span class="kw"><a href="../reference/BaseSets-methods.html">elementData</a></span>(base_sets)) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"Gene"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_len</a></span>(<span class="kw"><a href="../reference/BaseSets-methods.html">nElements</a></span>(base_sets)))</a>
+<a class="sourceLine" id="cb50-2" data-line-number="2"><span class="kw">ids</span>(<span class="kw"><a href="../reference/BaseSets-methods.html">elementData</a></span>(base_sets))</a></code></pre></div>
 <pre><code>## [1] "Gene1" "Gene2" "Gene3" "Gene4"</code></pre>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">setIds</a></span>(base_sets) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"Geneset"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_len</a></span>(<span class="kw"><a href="../reference/BaseSets-methods.html">nSets</a></span>(base_sets)))</a>
-<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="kw"><a href="../reference/BaseSets-methods.html">setIds</a></span>(base_sets)</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">ids</span>(<span class="kw"><a href="../reference/BaseSets-methods.html">setData</a></span>(base_sets)) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"Geneset"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_len</a></span>(<span class="kw"><a href="../reference/BaseSets-methods.html">nSets</a></span>(base_sets)))</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="kw">ids</span>(<span class="kw"><a href="../reference/BaseSets-methods.html">setData</a></span>(base_sets))</a></code></pre></div>
 <pre><code>## [1] "Geneset1" "Geneset2"</code></pre>
 </div>
 </div>
@@ -344,9 +384,9 @@
 <p>A common representation of gene sets is the GMT format, which is a non-rectangular format where each line is a set. The first column is the name of the set, the second column is a description of the source of the set (such as a URL), and the third column onwards are the elements of the set, such that each set may have a variable number of elements.</p>
 <p>Importing from and exporting to GMT files is performed using the generic <code>import</code> and <code>export</code> methods, which recognize the “.gmt” file extenson as a trigger to import from and export to the GMT file format. Alternatively, the <code>import.gmt</code> and <code>import.gmt</code> functions may be used to explicitly export to the GMT file format.</p>
 <p>Any object that inherits from the <code>BaseSets</code> class may be exported to the GMT file format. However, any information that is not supported by the GMT file format will be lost during the export. Reciprocally, the <code>import</code> function produces a <code>BaseSets</code> object, which adequately represents all the information present in the GMT file format.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">gmt_file &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="dt">package=</span><span class="st">"unisets"</span>, <span class="st">"extdata"</span>, <span class="st">"example.gmt"</span>)</a>
-<a class="sourceLine" id="cb47-2" data-line-number="2">base_sets_from_gmt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/import.html">import</a></span>(gmt_file)</a>
-<a class="sourceLine" id="cb47-3" data-line-number="3">base_sets_from_gmt</a></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">gmt_file &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="dt">package=</span><span class="st">"unisets"</span>, <span class="st">"extdata"</span>, <span class="st">"example.gmt"</span>)</a>
+<a class="sourceLine" id="cb54-2" data-line-number="2">base_sets_from_gmt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/import.html">import</a></span>(gmt_file)</a>
+<a class="sourceLine" id="cb54-3" data-line-number="3">base_sets_from_gmt</a></code></pre></div>
 <pre><code>## BaseSets with 674 relations between 633 elements and 4 sets
 ##      element                              set relationData elementData
 ##   &lt;IdVector&gt;                       &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt;
@@ -375,12 +415,12 @@
 ## 4         http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_MITOTIC_SPINDLE
 ## 5         http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_MITOTIC_SPINDLE</code></pre>
 <p>The additional metadata corresponding to the source (second column of the GMT) per set is also added as metadata corresponding to the sets, accessible via <code>setData</code>, which returns an <code>IdVector</code> class object.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">setData</a></span>(base_sets_from_gmt)</a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">setData</a></span>(base_sets_from_gmt)</a></code></pre></div>
 <pre><code>## IdVector of length 4 with 4 unique identifiers
 ## Ids: HALLMARK_TNFA_SIGNALING_VIA_NFKB, HALLMARK_HYPOXIA, HALLMARK_CHOLESTEROL_HOMEOSTASIS, HALLMARK_MITOTIC_SPINDLE
 ## Metadata: source (1 column)</code></pre>
 <p>To access the internal DataFrame representation, the accessor <code>mcols</code> can additionally be applied.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw"><a href="../reference/BaseSets-methods.html">setData</a></span>(base_sets_from_gmt))</a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw"><a href="../reference/BaseSets-methods.html">setData</a></span>(base_sets_from_gmt))</a></code></pre></div>
 <pre><code>## DataFrame with 4 rows and 1 column
 ##                                                                                                            source
 ##                                                                                                       &lt;character&gt;
@@ -388,10 +428,10 @@
 ## HALLMARK_HYPOXIA                                 http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_HYPOXIA
 ## HALLMARK_CHOLESTEROL_HOMEOSTASIS http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_CHOLESTEROL_HOMEOSTASIS
 ## HALLMARK_MITOTIC_SPINDLE                 http://www.broadinstitute.org/gsea/msigdb/cards/HALLMARK_MITOTIC_SPINDLE</code></pre>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">## elementMetadata(setData(base_sets_from_gmt)) # equivalent to above</a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">## elementMetadata(setData(base_sets_from_gmt)) # equivalent to above</a></code></pre></div>
 <p>To export <code>BaseSets</code> objects in GMT file format, the <code>export</code> generic may be used if the file extension is “.gmt”. Alternatively, data in GMT format may be exported to files with different extensions (e.g., “.txt”) using the <code>export.gmt</code> function. Note that if <code>"source"</code> heading is not found in the set metadata (i.e., <code>mcols(setData(x))</code>), this value will be filled with <code>"unisets"</code> in the exported file.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">tmp_file &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempfile</a></span>(<span class="dt">fileext=</span><span class="st">".gmt"</span>)</a>
-<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="kw"><a href="../reference/import.html">export</a></span>(base_sets_from_gmt, tmp_file)</a></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">tmp_file &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempfile</a></span>(<span class="dt">fileext=</span><span class="st">".gmt"</span>)</a>
+<a class="sourceLine" id="cb61-2" data-line-number="2"><span class="kw"><a href="../reference/import.html">export</a></span>(base_sets_from_gmt, tmp_file)</a></code></pre></div>
 </div>
 </div>
 <div id="additional-information-1" class="section level1">
@@ -399,7 +439,7 @@
 <a href="#additional-information-1" class="anchor"></a>Additional information</h1>
 <p>Bug reports can be posted as issues in the <em><a href="https://github.com/kevinrue/unisets">unisets</a></em> GitHub repository. The GitHub repository is the primary source for development versions of the package, where new functionality is added over time. The authors appreciate well-considered suggestions for improvements or new features, or even better, pull requests.</p>
 <p>If you use <em><a href="https://github.com/kevinrue/unisets">unisets</a></em> for your analysis, please cite it as shown below:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/citation">citation</a></span>(<span class="st">"unisets"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/citation">citation</a></span>(<span class="st">"unisets"</span>)</a></code></pre></div>
 <pre><code>## 
 ## To cite package 'unisets' in publications use:
 ## 
@@ -421,7 +461,7 @@
 <div id="session-info" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<pre><code>## R Under development (unstable) (2019-02-08 r76078)
+<pre><code>## R Under development (unstable) (2019-02-13 r76098)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -452,22 +492,22 @@
 ##  [7] yaml_2.2.0                  blob_1.1.1                 
 ##  [9] XML_3.98-1.17               rlang_0.3.1                
 ## [11] pkgdown_1.3.0               DBI_1.0.0                  
-## [13] BiocParallel_1.17.12        bit64_0.9-7                
+## [13] BiocParallel_1.17.13        bit64_0.9-7                
 ## [15] matrixStats_0.54.0          GenomeInfoDbData_1.2.0     
-## [17] plyr_1.8.4                  stringr_1.3.1              
+## [17] plyr_1.8.4                  stringr_1.4.0              
 ## [19] zlibbioc_1.29.0             Biostrings_2.51.2          
 ## [21] commonmark_1.7              memoise_1.1.0              
-## [23] evaluate_0.12               Biobase_2.43.1             
+## [23] evaluate_0.13               Biobase_2.43.1             
 ## [25] knitr_1.21                  IRanges_2.17.4             
-## [27] GenomeInfoDb_1.19.1         AnnotationDbi_1.45.0       
+## [27] GenomeInfoDb_1.19.2         AnnotationDbi_1.45.0       
 ## [29] GSEABase_1.45.0             Rcpp_1.0.0                 
 ## [31] xtable_1.8-3                backports_1.1.3            
 ## [33] BiocManager_1.30.4          DelayedArray_0.9.8         
 ## [35] desc_1.2.0                  graph_1.61.0               
 ## [37] annotate_1.61.0             XVector_0.23.0             
 ## [39] fs_1.2.6                    bit_1.1-14                 
-## [41] Rsamtools_1.35.2            digest_0.6.18              
-## [43] stringi_1.2.4               bookdown_0.9               
+## [41] Rsamtools_1.99.1            digest_0.6.18              
+## [43] stringi_1.3.1               bookdown_0.9               
 ## [45] GenomicRanges_1.35.1        rprojroot_1.3-2            
 ## [47] grid_3.6.0                  tools_3.6.0                
 ## [49] bitops_1.0-6                magrittr_1.5               
@@ -493,15 +533,20 @@
       </ul>
 </li>
       <li><a href="#subsetting">Subsetting</a></li>
-      <li><a href="#converting-to-other-formats">Converting to other formats</a></li>
       <li>
-<a href="#converting-from-other-formats">Converting from other formats</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#fromMatrix">Matrix</a></li>
+<a href="#convert-to">Converting to other formats</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#convert-to-list">List</a></li>
+      <li><a href="#convert-to-matrix">Matrix</a></li>
+      </ul>
+</li>
+      <li>
+<a href="#convert-from">Converting from other formats</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#convert-from-matrix">Matrix</a></li>
       </ul>
 </li>
       <li>
 <a href="#additional-information">Additional information</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#count-of-relations-elements-and-sets">Count of relations, elements, and sets</a></li>
+<li><a href="#dimensions-count-of-relations-elements-and-sets">Dimensions: count of relations, elements, and sets</a></li>
       <li><a href="#names-of-elements-and-sets">Names of elements and sets</a></li>
       </ul>
 </li>
