@@ -4,7 +4,7 @@
 # Fetch a sample of GO annotations
 
 base_sets <- import(org.Hs.egGO)
-relations <- head(as(base_sets, "DataFrame"))
+relations <- as.data.frame(head(base_sets))
 # Set rownames to check that they are dropped
 rownames(relations) <- paste0("row", seq_len(nrow(relations)))
 
@@ -156,3 +156,4 @@ test_that("show(GOSets) works", {
     expect_identical(nrow(out), length(gs)+1L)
 
 })
+

@@ -209,7 +209,7 @@ In addition, metadata for elements and sets that are not represented in the rema
 \code{as(object, "DataFrame")} and \code{as.DataFrame(object)} return a nested \code{DataFrame} including columns \code{"element"}, \code{"set"}, \code{"relationData"}, \code{"elementData"}, and \code{"setData"}.
 
 
-\code{as(x, "data.frame")} and \code{as.data.frame(x)}  return a flattened \code{data.frame} including \code{"element"}, \code{"set"}, and metadata, if any.
+\code{as(x, "data.frame")} and \code{as.data.frame(x)}  return a flattened \code{data.frame} including \code{"element"}, \code{"set"}, and columns in \code{mcols(relations(x))} if any.
 
 
 \code{as(x, "list")} and \code{as.list(x)} return a named \code{list}.

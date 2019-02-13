@@ -3,8 +3,7 @@
 * Added a `NEWS.md` file to track changes to the package.
 * Added classes `BaseSets`.
 * Added `relations`, `elementData`, and `setData` accessors for class `BaseSets`.
-* Added `elementIds`, `setIds`, `length`, `nElements`, `nSets`, `setLengths`
-    and `elementLengths` methods for class `BaseSets`.
+* Added `length`, `nElements`, `nSets`, `setLengths` and `elementLengths` methods for class `BaseSets`.
 * Added method `subset` for classes `BaseSets`.
 * Added classes `FuzzyHits` and `FuzzySets`.
 * Added `membership` accessors for class `FuzzySets`.

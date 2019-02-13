@@ -243,7 +243,7 @@ setMethod("[", "BaseSets", function(x, i, j, ..., drop = TRUE) {
     keep.element <- unique(ids(elementData(x))[from(relations(x))[i]])
     keep.set <- unique(ids(setData(x))[to(relations(x))[i]])
 
-    relations <- DataFrame(as(x, "data.frame")[i, , drop=FALSE])
+    relations <- DataFrame(as(x, "data.frame")[i, , drop=FALSE], row.names=NULL)
     elementData <- elementData(x)[which(ids(elementData(x)) %in% keep.element)]
     setData <- setData(x)[which(ids(setData(x)) %in% keep.set)]
 
@@ -289,22 +289,7 @@ setMethod("subset", "BaseSets", function(x, ...) {
 
 #' @importFrom S4Vectors mcols
 setMethod("show", "BaseSets", function(object) {
-    # Combine elementData, setData, and relations into a single DataFrame
-    element <- elementData(object)[from(relations(object))]
-    elementData <- mcols(element)
-    mcols(element) <- NULL # avoid metadata columns
-    set <- setData(object)[to(relations(object))]
-    setData <- mcols(set)
-    mcols(set) <- NULL # avoid metadata columns
-    x <- DataFrame(
-        element=element,
-        set=set
-    )
-    x[["relationData"]] <- mcols(relations(object))
-    x[["elementData"]] <- elementData
-    x[["setData"]] <- setData
-
-    .showSetAsTable(class(object), x)
+    .showSetAsTable(class(object), as(object, "DataFrame"))
 })
 
 # duplicated() ----
@@ -367,12 +352,17 @@ setMethod("unique", "BaseSets", function(x, incomparables = FALSE, ...)  {
 #'
 #' DF1 <- as(bs, "DataFrame")
 as.DataFrame.BaseSets <- function(object, ...) {
-    # use the built-in conversion of Hits to DataFrame
-    out <- as(slot(object, "relations"), "DataFrame")
-    colnames(out)[1:2] <- c("element", "set")
-    # Substitute from/to by the corresponding identifiers
-    out$element <- elementData(object)[out$element]
-    out$set <- setData(object)[out$set]
+    # Combine elementData, setData, and relations into a single DataFrame
+    element <- elementData(object)[from(relations(object))]
+    elementData <- mcols(element)
+    mcols(element) <- NULL # avoid metadata columns
+    set <- setData(object)[to(relations(object))]
+    setData <- mcols(set)
+    mcols(set) <- NULL # avoid metadata columns
+    out <- DataFrame(element=element, set=set, row.names=NULL)
+    out[["relationData"]] <- mcols(relations(object))
+    out[["elementData"]] <- elementData
+    out[["setData"]] <- setData
     out
 }
 
@@ -384,7 +374,7 @@ setAs("BaseSets", "DataFrame", function(from) {
 #' @aliases as.data.frame.BaseSets as.data.frame
 #'
 #' @section Coercion from BaseSets:
-#' `as(x, "data.frame")` and `as.data.frame(x)`  return a flattened `data.frame` including `"element"`, `"set"`, and metadata, if any.
+#' `as(x, "data.frame")` and `as.data.frame(x)`  return a flattened `data.frame` including `"element"`, `"set"`, and columns in `mcols(relations(x))` if any.
 #'
 #' @importFrom methods as
 #' @export
@@ -394,6 +384,10 @@ setAs("BaseSets", "DataFrame", function(from) {
 #' df1 <- as(bs, "data.frame")
 as.data.frame.BaseSets <- function(x, ...) {
     out <- as(x, "DataFrame")
+    out <- data.frame(
+        out[, c("element", "set")],
+        as.data.frame(out$relationData)
+    )
     out <- as(out, "data.frame")
     out
 }

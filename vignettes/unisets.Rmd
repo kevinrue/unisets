@@ -35,7 +35,7 @@ The goal of the `r Githubpkg("kevinrue/unisets")` package is to provide a collec
 
 ## The _BaseSets_ class
 
-This is a basic example which shows you how to create a `BaseSets` object, to store simple associations between genes and sets, along with optional metadata associated with each relation:
+This is a basic example which shows you how to create a `BaseSets` object, to store simple associations between elements and sets, along with optional metadata associated with each relation:
 
 ```{r, message=FALSE}
 library(unisets)
@@ -53,15 +53,16 @@ base_sets <- BaseSets(relations_table)
 base_sets
 ```
 
-Metadata for each element and set can be provided as separate `DataFrame` objects:
+Metadata for each element and set can be provided as separate `IdVector` objects.
+The `IdVector` class stores a vector of identifiers as a character vector, and associated metadata as a `DataFrame`.
 
 ```{r, message=FALSE}
-gene_data <- IdVector(c("A", "B", "C", "D"))
+gene_data <- IdVector(ids = c("A", "B", "C", "D"))
 mcols(gene_data) <- DataFrame(
     GeneStat1     = c( 1,   2,   3,   4 ),
     GeneInfo1     = c("a", "b", "c", "d")
 )
-set_data <- IdVector(c("geneset1", "geneset2"))
+set_data <- IdVector(ids = c("geneset1", "geneset2"))
 mcols(set_data) <- DataFrame(
     SetStat1     = c( 100,   200 ),
     SetInfo1     = c("abc", "def")
@@ -70,8 +71,8 @@ base_sets <- BaseSets(relations_table, gene_data, set_data)
 base_sets
 ```
 
-The `elementData` and `setData` slots store metadata for each individual element and set that appears in the `relations` slot.
-Those metadata can be accessed directly using the getter methods of the same name.
+The `elementData` and `setData` slots each store an `IdVector` that describes the identifier and metadata associated with each unique element and set, respectively.
+Those metadata can be directly accessed and updated using the corresponding accessor methods.
 
 ```{r}
 elementData(base_sets)
@@ -79,12 +80,12 @@ setData(base_sets)
 ```
 
 Note that relations between elements and sets are internally stored as an `r Biocpkg("S4Vectors")` `Hits` object.
-This container efficiently represents a set of hits between a set of _left nodes_ and a set of _right nodes_, with optional metadata accompanying each hit.
+This container efficiently represents edges between a set of _left nodes_ and a set of _right nodes_, with optional metadata that describe each edge.
 
 To do so, the `DataFrame` provided as the `relations` argument of the `BaseSets` constructor is divided in two pieces of information:
 
-- The required `"element"` and `"set"`columns are substitued by the index of the corresponding identifier in the `elementData` and `setData` slot, to create the `from` and `to` slots of a `Hits` object, respectively.
-    If not supplied, the `elementData` and `setData` slots are automatically constructed from unique values found in the `"element"` and `"set"`columns.
+- The required `"element"` and `"set"`columns are extracted and substitued by the index of the matching identifier in the `elementData` and `setData` slot, to create the `from` and `to` slots of a `Hits` object, respectively.
+    If the `elementData` and `setData` are not supplied, the corresponding slots are automatically constructed from unique values found in the `"element"` and `"set"`columns.
 - All other columns are stored as metadata columns on the resulting `Hits` object.
 
 ```{r}
@@ -92,10 +93,17 @@ relations(base_sets)
 mcols(relations(base_sets))
 ```
 
-Conveniently, the `as` method can be used to obtain relations and associated metadata as a `DataFrame` substituting hits for their corresponding element and set identifiers.
+Conveniently, the `as` method can be used to format relations and associated metadata as a `DataFrame` substituting hits for their corresponding element and set identifiers.
+Metadata for relations, elements, and sets are returned as `DataFrame` nested in the `"relationData"`, `"elementData"`, and `"setData"` columns.
 
 ```{r}
 as(base_sets, "DataFrame")
+```
+
+Similarly, `as.data.frame` can be used to obtain a flattened `data.frame`, with columns `"element"`, `"set"`, and any column in the relation metadata columns.
+
+```{r}
+as.data.frame(base_sets)
 ```
 
 ## The _FuzzySets_ class
@@ -104,8 +112,8 @@ Classes derived from `Hits` may add additional constraints on the relations to d
 
 For instance, the `FuzzyHits` class is a direct extension of the `Hits` class where the metadata accompanying each relation must include at least a column called `"membership"` that holds the "membership function", a numeric value in the interval [0,1] that provides a measure of partial membership between elements and sets.
 
-Simultaneously, the `FuzzySets` class is a direct extension of the `BaseSets` class where the `relations` slot must contain a `FuzzyHits`.
-As such, `FuzzySets` can be constructed exactly like `BaseSets`, with the only additional constraint that the relations table contains a `"membership"` column with numeric values in the interval [0,1].
+Simultaneously, the `FuzzySets` class is a direct extension of the `BaseSets` class where the `relations` slot must contain `FuzzyHits`.
+As such, `FuzzySets` can be constructed exactly like `BaseSets`, with the only additional constraint that the relations table must contains a `"membership"` column with numeric values in the interval [0,1].
 
 ```{r, message=FALSE}
 relations_table$membership <- round(runif(nrow(relations_table)), 2)
@@ -113,16 +121,17 @@ fuzzy_sets <- FuzzySets(relations_table, gene_data, set_data)
 fuzzy_sets
 ```
 
-The `membership` function associated with each relation can be directly accessed using the getter of the same name.
+The `membership` function associated with each relation can be directly obtained and modified using the corresponding accessor.
 
 ```{r}
 membership(fuzzy_sets)
 ```
 
-Conveniently, the `relations` accessor returns fuzzy relations as a `DataFrame` that includes the `"membership"` column, along with any other optional metadata accompanying the relations between elements and sets.
+Identically to `BaseSets`, the `relations` accessor returns fuzzy relations as `Hits`, while the `as` method may be used to format the information as a `DataFrame`, both of which include the `"membership"` column, as metadata column and nested under `"relationData"`, respectively.
 
 ```{r}
 relations(fuzzy_sets)
+as(fuzzy_sets, "DataFrame")
 ```
 
 # Subsetting
@@ -133,13 +142,13 @@ The `subset` method can be applied to a `BaseSets` object, using a logical expre
 subset(base_sets, set == "geneset1" | element %in% c("C") | extra1 == "ABC")
 ```
 
-Similarly, the `subset` method can be also applied to a `FuzzySets` object, where the logical expression may also refer to the additional `"membership"` metadata that is guaranted by the class validity method.
+Similarly, the `subset` method can be also applied to objects derived from `BaseSets`, such as `FuzzySets`, in which case the logical expression may also refer to the additional `"membership"` metadata that is guaranted by the class validity method.
 
 ```{r}
 subset(fuzzy_sets, set == "geneset2" & membership > 0.3)
 ```
 
-# Converting to other formats
+# Converting to other formats {#convert-to}
 
 It is possible to extract the gene sets as a `list`, for use with functions such as `lapply`.
 
@@ -178,7 +187,7 @@ as(base_matrix, "BaseSets")
 ```
 
 Similarly, the `FuzzySets` class is suitable for `double` matrices indicating the membership function for each relation.
-Importantly, relations described as `NA` are not imported into the `FuzzySets` object.
+Importantly, relations described as `NA` are not imported into the `FuzzySets` object (consistently with the `as.matrix` method described [above](#convert-to)).
 In contrast, relations with a membership function of 0 are imported and described as such.
 
 ```{r}
@@ -188,7 +197,7 @@ as(fuzzy_matrix, "FuzzySets")
 
 # Additional information
 
-## Count of relations, elements, and sets
+## Dimensions: count of relations, elements, and sets
 
 The count of relations between elements and sets can be obtained using the `length` method.
 

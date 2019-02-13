@@ -30,8 +30,7 @@ Refer to \code{\link{GOOntologyCodes}} and \code{\link{GOEvidenceCodes}} for val
 # Fetch a sample of GO annotations
 library(org.Hs.eg.db)
 base_sets <- import(org.Hs.egGO)
-relations <- head(as(base_sets, "DataFrame"))
-colnames(relations)[3:4] <- c("evidence", "ontology")
+relations <- as.data.frame(head(base_sets))
 
 gs <- GOSets(relations)
 

@@ -280,13 +280,13 @@ test_that("as(BaseSets, \"DataFrame\") works", {
 
     out <- as(bs, "DataFrame")
     expect_s4_class(out, "DataFrame")
-    expect_identical(colnames(out), c("element", "set"))
-    expect_identical(dim(out), dim(relations))
+    expect_identical(colnames(out), c("element", "set", "relationData", "elementData", "setData"))
+    expect_identical(nrow(out), nrow(relations))
 
     out <- as.DataFrame.BaseSets(bs)
     expect_s4_class(out, "DataFrame")
-    expect_identical(colnames(out), c("element", "set"))
-    expect_identical(dim(out), dim(relations))
+    expect_identical(colnames(out), c("element", "set", "relationData", "elementData", "setData"))
+    expect_identical(nrow(out), nrow(relations))
 
 })
 

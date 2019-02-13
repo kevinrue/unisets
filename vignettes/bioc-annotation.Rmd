@@ -91,7 +91,7 @@ format(length(base_sets), big.mark=",")
 
 We can also examine the count of relations associated with each evidence code in each Gene Ontology namespace.
 
-```{r, fig.height=7}
+```{r, fig.height=7.5}
 ggplot(as.data.frame(base_sets)) +
     geom_bar(aes(evidence)) + facet_wrap(~ontology, ncol = 1) + coord_flip() +
     # scale_y_continuous(labels = function(x){ format(as.integer(x), big.mark = ",") }) +
