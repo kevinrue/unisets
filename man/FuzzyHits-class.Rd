@@ -25,7 +25,7 @@ All the metadata columns must be vector-like objects of the same length as \code
 A \code{FuzzyHits} object.
 }
 \description{
-The \code{FuzzyHits} class extends the \code{\link[=Hits-class]{Hits}} class to represent hits that are associated with different grades of membership in the interval \code{[0,1]}.
+The \code{FuzzyHits} class extends the \code{\linkS4class{Hits}} class to represent hits that are associated with different grades of membership in the interval \code{[0,1]}.
 }
 \details{
 This class does not define any additional slot to the \code{Hits} class.
@@ -42,7 +42,7 @@ fh <- FuzzyHits(from, to, membership, 7, 15)
 fh
 }
 \seealso{
-\code{\link[=Hits-class]{Hits}}, \code{\link[=FuzzySets-class]{FuzzySets}}
+\code{\linkS4class{Hits}}, \code{\linkS4class{FuzzySets}}.
 }
 \author{
 Kevin Rue-Albrecht

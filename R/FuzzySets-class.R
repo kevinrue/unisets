@@ -4,7 +4,7 @@
 #' @aliases membership,FuzzySets-method
 #'
 #' @section Accessors:
-#' `membership(object)` returns a `numeric` vector of membership function for each relation.
+#' `membership(object)` returns a numeric vector of membership function for each relation.
 #'
 #' @importFrom S4Vectors DataFrame
 #'
@@ -20,9 +20,9 @@
 #' # unlist the set names
 #' unlistSets <- rep(names(sets), lengths(sets))
 #' # unlist the element names
-#' unlistElements <- unlist(sapply(sets, names))
+#' unlistElements <- unlist(sapply(sets, names), use.names = FALSE)
 #' # unlist the membership values
-#' unlistMembership <- unlist(sets)
+#' unlistMembership <- unlist(sets, use.names = FALSE)
 #'
 #' # Reformat as a table
 #' relations <- DataFrame(
@@ -38,7 +38,7 @@
 #'
 #' membership(fs)
 setMethod("membership", "FuzzySets", function(object) {
-    as.numeric(membership(object@relations))
+    as.numeric(membership(relations(object)))
 })
 
 #' @rdname FuzzySets-methods
@@ -52,7 +52,7 @@ setMethod("membership", "FuzzySets", function(object) {
 setReplaceMethod("membership", "FuzzySets",
     function(object, value)
     {
-        membership(object@relations) <- value
+        membership(relations(object)) <- value
         validObject(object)
         object
     }
@@ -67,7 +67,7 @@ setReplaceMethod("membership", "FuzzySets",
 #'
 #' @section Subsetting:
 #' `subset(x, subset, ...)` returns subsets of relations which meet conditions.
-#' For `FuzzySets` objects, the `subset` argument should be a logical expression referring to any of `"element"`, `"set"`, `"membership"`, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
+#' For `FuzzySets` objects, the `subset` argument should be a logical expression referring to any of `"element"`, `"set"`, `"membership"`, and other available relation metadata indicating elements or rows to keep: missing values are taken as false.
 #' In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.
 #'
 #' @importFrom methods as
@@ -85,23 +85,10 @@ setReplaceMethod("membership", "FuzzySets",
 subset.FuzzySets <- function(x, ...) subset(x, ...)
 
 setMethod("subset", "FuzzySets", function(x, ...) {
-    .local <- function (x, subset, select, drop=FALSE, ...) {
-        # Only difference with the BaseSets parent method
-        table <- as(x, "data.frame")
-        i <- eval(substitute(subset), table)
+    out <- callNextMethod()
 
-        keep.element <- unique(ids(elementData(x))[from(x@relations)[i]])
-        keep.set <- unique(ids(setData(x))[to(x@relations)[i]])
-
-        relations <- DataFrame(table[i, , drop=FALSE])
-        elementData <- elementData(x)[which(ids(elementData(x)) %in% keep.element)]
-        setData <- setData(x)[which(ids(setData(x)) %in% keep.set)]
-        membership <- membership(x)[i]
-
-        out <- FuzzySets(relations, elementData, setData)
-        out
-    }
-    .local(x, ...)
+    out <- as(out, "FuzzySets")
+    out
 })
 
 # as.matrix.FuzzySets() ----
@@ -158,6 +145,10 @@ setAs("FuzzySets", "matrix", function(from) {
 as.FuzzySets.matrix <- function(matrix, ...) {
     storage.mode(matrix) <- "double"
     relations <- melt(matrix, varnames=c("element", "set"), value.name="membership", as.is=TRUE)
+    if (any(is.na(relations[["membership"]]))) {
+        message("Dropping relations with NA membership function")
+        relations <- subset(relations, !is.na(membership))
+    }
     relations <- DataFrame(relations)
     FuzzySets(relations)
 }
@@ -175,11 +166,8 @@ setValidity("FuzzySets", function(object) {
 
     errors <- c()
 
-    if (!all(c("membership") %in% colnames(relations(object)))){
-        error <- 'colnames(relations(object)) must include c("membership")'
-        return(error)
-    }
-
+    protectedRelationMetadata <- c("membership")
+    .requireRelationsMetadataColnames(protectedRelationMetadata, colnames(mcols(relations(object))))
 
     if (length(errors > 0)){
         return(errors)

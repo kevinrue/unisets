@@ -23,7 +23,7 @@
 as.FuzzySets.matrix(matrix, ...)
 }
 \arguments{
-\item{object, x}{An object of class inheriting from \code{\link[=FuzzySets-class]{FuzzySets}}.}
+\item{object, x}{An object of class inheriting from \code{\linkS4class{FuzzySets}}.}
 
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
 
@@ -36,20 +36,20 @@ Defaults to \code{NA_real_}, to contrast with relations explictly associated wit
 The matrix will be coerced to \code{double} type and the value will be taken to indicate the membership function.}
 }
 \description{
-This page documents the S4 generics and methods defined for objects inheriting of the \code{\link[=FuzzySets-class]{FuzzySets}} class.
-The \code{FuzzySets} class directly extends \code{\link[=BaseSets-class]{BaseSets}} and thus inherits of all methods defined for the parent class.
-In the usage below, \code{object} and \code{x} represent an object of class inheriting from \code{\link[=FuzzySets-class]{FuzzySets}},
+This page documents the S4 generics and methods defined for objects inheriting of the \code{\linkS4class{FuzzySets}} class.
+The \code{FuzzySets} class directly extends \code{\linkS4class{BaseSets}} and thus inherits of all methods defined for the parent class.
+In the usage below, \code{object} and \code{x} represent an object of class inheriting from \code{\linkS4class{FuzzySets}},
 and \code{value} is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 }
 \section{Accessors}{
 
-\code{membership(object)} returns a \code{numeric} vector of membership function for each relation.
+\code{membership(object)} returns a numeric vector of membership function for each relation.
 }
 
 \section{Subsetting}{
 
 \code{subset(x, subset, ...)} returns subsets of relations which meet conditions.
-For \code{FuzzySets} objects, the \code{subset} argument should be a logical expression referring to any of \code{"element"}, \code{"set"}, \code{"membership"}, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
+For \code{FuzzySets} objects, the \code{subset} argument should be a logical expression referring to any of \code{"element"}, \code{"set"}, \code{"membership"}, and other available relation metadata indicating elements or rows to keep: missing values are taken as false.
 In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.
 }
 
@@ -77,9 +77,9 @@ sets <- list(
 # unlist the set names
 unlistSets <- rep(names(sets), lengths(sets))
 # unlist the element names
-unlistElements <- unlist(sapply(sets, names))
+unlistElements <- unlist(sapply(sets, names), use.names = FALSE)
 # unlist the membership values
-unlistMembership <- unlist(sets)
+unlistMembership <- unlist(sets, use.names = FALSE)
 
 # Reformat as a table
 relations <- DataFrame(

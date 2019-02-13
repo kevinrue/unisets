@@ -19,19 +19,19 @@ membership(object) <- value
 \S4method{membership}{FuzzyHits}(object) <- value
 }
 \arguments{
-\item{object}{An object of class inheriting from \link[=FuzzyHits-class]{FuzzyHits}.}
+\item{object}{An object of class inheriting from \code{\linkS4class{FuzzyHits}}.}
 
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
 }
 \description{
-This page documents the S4 generics and methods defined for objects inheriting of the \code{\link[=FuzzyHits-class]{FuzzyHits}} class.
-The \code{FuzzyHits} class directly extends \code{\link[=Hits-class]{Hits}} and thus inherits of all methods defined for the parent class.
-In the usage below, \code{object} represents an object of class inheriting from \code{\link[=FuzzyHits-class]{FuzzyHits}},
+This page documents the S4 generics and methods defined for objects inheriting of the \code{\linkS4class{FuzzyHits}} class.
+The \code{FuzzyHits} class directly extends \code{\linkS4class{Hits}} and thus inherits of all methods defined for the parent class.
+In the usage below, \code{object} represents an object of class inheriting from \code{\linkS4class{FuzzyHits}},
 and \code{value} is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 }
 \section{Accessors}{
 
-\code{membership(object)} returns a \code{numeric} vector of membership function for each relation.
+\code{membership(object)} returns a numeric vector of membership function for each relation.
 }
 
 \examples{
@@ -51,7 +51,7 @@ fh1 <- fh
 membership(fh1)[1] <- 0
 }
 \seealso{
-\code{\linkS4class{FuzzyHits}}, \linkS4class{FuzzySets}.
+\code{\linkS4class{FuzzyHits}}, \code{\linkS4class{FuzzySets}}.
 }
 \author{
 Kevin Rue-Albrecht

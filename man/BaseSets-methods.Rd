@@ -5,27 +5,25 @@
 \name{BaseSets-methods}
 \alias{BaseSets-methods}
 \alias{relations}
+\alias{relations<-}
 \alias{elements}
-\alias{elementIds}
-\alias{elementIds<-}
 \alias{elementData}
+\alias{elementData<-}
 \alias{sets}
-\alias{setIds}
-\alias{setIds<-}
 \alias{setData}
+\alias{setData<-}
 \alias{nElements}
 \alias{nSets}
 \alias{setLengths}
 \alias{elementLengths}
 \alias{relations,BaseSets-method}
+\alias{relations<-,BaseSets-method}
 \alias{elementData,BaseSets-method}
+\alias{elementData<-,BaseSets-method}
 \alias{setData,BaseSets-method}
+\alias{setData<-,BaseSets-method}
 \alias{elements,BaseSets-method}
 \alias{sets,BaseSets-method}
-\alias{elementIds,BaseSets-method}
-\alias{elementIds<-,BaseSets-method}
-\alias{setIds,BaseSets-method}
-\alias{setIds<-,BaseSets-method}
 \alias{length,BaseSets-method}
 \alias{nElements,BaseSets-method}
 \alias{nSets,BaseSets-method}
@@ -45,28 +43,28 @@
 \alias{as.list}
 \alias{as.matrix.BaseSets}
 \alias{as.matrix}
-\alias{as.BaseSets.matrix}
-\alias{as.BaseSets}
+\alias{as.FuzzySets.BaseSets}
+\alias{as.GOSets.BaseSets}
 \alias{as.BaseSets.list}
+\alias{as.BaseSets}
+\alias{as.BaseSets.matrix}
 \title{Methods for \code{BaseSets} Objects}
 \usage{
 relations(object)
 
+relations(object) <- value
+
 elements(object)
-
-elementIds(object)
-
-elementIds(object) <- value
 
 elementData(object)
 
+elementData(object) <- value
+
 sets(object)
 
-setIds(object)
-
-setIds(object) <- value
-
 setData(object)
+
+setData(object) <- value
 
 nElements(object)
 
@@ -78,21 +76,19 @@ elementLengths(object)
 
 \S4method{relations}{BaseSets}(object)
 
+\S4method{relations}{BaseSets}(object) <- value
+
 \S4method{elementData}{BaseSets}(object)
 
+\S4method{elementData}{BaseSets}(object) <- value
+
 \S4method{setData}{BaseSets}(object)
+
+\S4method{setData}{BaseSets}(object) <- value
 
 \S4method{elements}{BaseSets}(object)
 
 \S4method{sets}{BaseSets}(object)
-
-\S4method{elementIds}{BaseSets}(object)
-
-\S4method{elementIds}{BaseSets}(object) <- value
-
-\S4method{setIds}{BaseSets}(object)
-
-\S4method{setIds}{BaseSets}(object) <- value
 
 \S4method{length}{BaseSets}(x)
 
@@ -125,7 +121,7 @@ as.BaseSets.list(list, ...)
 as.BaseSets.matrix(matrix, ...)
 }
 \arguments{
-\item{object, x}{An object of class inheriting from \code{\link[=BaseSets-class]{BaseSets}}.}
+\item{object, x}{An object of class inheriting from \code{\linkS4class{BaseSets}}.}
 
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
 
@@ -145,31 +141,30 @@ The character vectors are taken as identifiers of elements that are member of ea
 The matrix will be coerced to \code{logical} type and relations indicating \code{TRUE} will be stored in the \code{BaseSets}.}
 }
 \description{
-This page documents the S4 generics and methods defined for objects inheriting of the \code{\link[=BaseSets-class]{BaseSets}} class.
-In the usage below, \code{object} and \code{x} represent an object of class inheriting from \code{\link[=BaseSets-class]{BaseSets}},
+This page documents the S4 generics and methods defined for objects inheriting of the \code{\linkS4class{BaseSets}} class.
+In the usage below, \code{object} and \code{x} represent an object of class inheriting from \code{\linkS4class{BaseSets}},
 and \code{value} is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 }
 \section{Accessors}{
 
-\code{relations(object)} returns a \code{DataFrame} of relations including \code{"element"}, \code{"set"}, and any relation-wise metadata available.
+\code{relations(object)} returns the \code{relations} slot.
+A \code{Hits} objets storing the integer index of elements (\code{from}) and sets (\code{to}) in the \code{elementData} and \code{setData} slots, respectively, and associated relation metadata (\code{mcols}).
 
 
-\code{elementData(object)} returns the metadata associated with each element as an object inheriting from \code{\link[=IdVector-class]{IdVector}}.
+\code{elementData(object)} returns the \code{elementData} slot.
+An \code{\linkS4class{IdVector}} objets storing the unique element identifiers (\code{ids}) and associated element metadata (\code{mcols}).
 
 
-\code{setData(object)} returns the metadata associated with each set as an object inheriting from \code{\link[=IdVector-class]{IdVector}}.
+\code{setData(object)} returns the \code{setData} slot.
+An \code{\linkS4class{IdVector}} objets storing the unique set identifiers (\code{ids}) and associated set metadata (\code{mcols}).
 
 
-\code{elements(object)} returns an \code{IdVector} of sets and associated metadata as ordered in \code{relations(object)$element}.
+\code{elements(object)} returns an \code{\linkS4class{IdVector}} element identifiers and associated metadata as ordered in \code{relations(object)$element}
+(i.e., of length equal to \code{length(object)}).
 
 
-\code{sets(object)} returns an \code{IdVector} of sets and associated metadata as ordered in \code{relations(object)$set}.
-
-
-\code{elementIds(object)} and \code{elementIds(object) <- value} get and set the \code{character} vector of element identifiers.
-
-
-\code{setIds(object)} and \code{setIds(object) <- value} get and set the \code{character} vector of element identifiers.
+\code{sets(object)} returns an \code{\linkS4class{IdVector}} of set identifiers and associated metadata as ordered in \code{relations(object)$set}.
+(i.e., of length equal to \code{length(object)}).
 }
 
 \section{Dimensions}{
@@ -191,37 +186,35 @@ and \code{value} is an object of a class specified in the S4 method signature or
 
 \section{Subsetting}{
 
-\code{x[i]} returns new \code{\linkS4class{BaseSets}} object of the same class as \code{x} made of the elements selected by \code{i}. \code{i} can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or \code{\link{Rle}} object); or an \code{\link[=IntegerRanges-class]{IntegerRanges}} object.
+\code{x[i]} returns new \code{\linkS4class{BaseSets}} object of the same class as \code{x} made of the elements selected by \code{i}. \code{i} can be missing; an \code{NA}-free logical, numeric, or character vector or factor (as ordinary vector or \code{\link{Rle}} object); or an \code{\link[=IntegerRanges-class]{IntegerRanges}} object.
+
 
 
 \code{subset(object, subset, ...)} returns subsets of relations which meet conditions.
-For \code{FuzzySets} objects, the \code{subset} argument should be a logical expression referring to any of \code{"element"}, \code{"set"}, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
+The \code{subset} argument should be a logical expression referring to any of \code{"element"}, \code{"set"}, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
 In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.
 }
 
 \section{Duplication and uniqueness}{
 
-\code{duplicated(x)} determines which relations of a \code{\link{BaseSets}} are duplicates of relations with smaller subscripts, and returns a logical vector indicating which relations are duplicates.
-
-\code{unique(x)} returns a \code{BaseSets} like \code{x} but with duplicate relations removed.
+\code{duplicated(x)} determines which relations of a \code{BaseSets} are duplicates of relations with smaller subscripts, and returns a logical vector indicating which relations are duplicates.
 
 
 
 \code{unique(x)} returns a \code{BaseSets} like \code{x} but with duplicate relations removed.
-}
-
-\section{Coercion}{
-
-\code{as(object, "DataFrame")} and \code{as.DataFrame(object)} return a \code{DataFrame} including \code{"element"}, \code{"set"}, and any relation-wise metadata available.
-
-
-\code{as(x, "data.frame")} and \code{as.data.frame(x)}  return a \code{data.frame} including \code{"element"}, \code{"set"}, and any relation-wise metadata available.
-
-
-\code{as(x, "list")} and \code{as.list(x)} return a \code{data.frame} including \code{"element"}, \code{"set"}, and any relation-wise metadata available.
 }
 
 \section{Coercion from BaseSets}{
+
+\code{as(object, "DataFrame")} and \code{as.DataFrame(object)} return a nested \code{DataFrame} including columns \code{"element"}, \code{"set"}, \code{"relationData"}, \code{"elementData"}, and \code{"setData"}.
+
+
+\code{as(x, "data.frame")} and \code{as.data.frame(x)}  return a flattened \code{data.frame} including \code{"element"}, \code{"set"}, and columns in \code{mcols(relations(x))} if any.
+
+
+\code{as(x, "list")} and \code{as.list(x)} return a named \code{list}.
+Names are set identifiers, and values are character vectors of element identifiers.
+
 
 \code{as(x, "matrix")} and \code{as.matrix(x)} return a \code{matrix} with elements as rows, sets as columns, and a \code{logical} value to indicate membership.
 }
@@ -249,20 +242,27 @@ bs
 # Accessors ----
 
 relations(bs)
+
+bs1 <- bs
+mcols(relations(bs1))[["NEW"]] <- paste0("value", seq_len(length(bs1)))
+
 elementData(bs)
+
+bs1 <- bs
+mcols(elementData(bs1))[["NEW"]] <- paste0("value", seq_len(nElements(bs1)))
+
 setData(bs)
+
+bs1 <- bs
+mcols(setData(bs1))[["NEW"]] <- paste0("value", seq_len(nSets(bs1)))
+
 elements(bs)
+ids(elements(bs))
+mcols(elements(bs))
+
 sets(bs)
-
-# Getter/Setters ----
-
-elementIds(bs)
-bs1 <- bs
-elementIds(bs1) <- paste0("gene", seq_len(nElements(bs)))
-
-setIds(bs1)
-bs1 <- bs
-setIds(bs1) <- paste0("geneset", seq_len(nSets(bs)))
+ids(sets(bs))
+mcols(sets(bs))
 
 # Dimensions ----
 
@@ -282,7 +282,7 @@ bs1
 # Duplication and uniqueness ----
 
 bs1 <- bs
-bs1@relations <- rep(bs1@relations, each=2)
+relations(bs1) <- rep(relations(bs1), each=2)
 table(duplicated(bs1))
 unique(bs1)
 
@@ -296,7 +296,15 @@ l1 <- as(bs, "list")
 
 m1 <- as(bs, "matrix")
 
-fs <- as(bs, "FuzzySets")
+bs1 <- bs
+mcols(relations(bs1))[["membership"]] <- runif(length(bs1))
+fs <- as(bs1, "FuzzySets")
+
+# Fetch a sample of GO annotations
+library(org.Hs.eg.db)
+gs <- import(org.Hs.egGO)
+bs1 <- as(gs, "BaseSets")
+gs1 <- as(bs1, "GOSets")
 
 # Coercion to BaseSets ----
 

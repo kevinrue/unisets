@@ -5,7 +5,7 @@
 #' @aliases membership,FuzzyHits-method
 #'
 #' @section Accessors:
-#' `membership(object)` returns a `numeric` vector of membership function for each relation.
+#' `membership(object)` returns a numeric vector of membership function for each relation.
 #'
 #' @importFrom methods slot
 #'
@@ -46,8 +46,7 @@ setReplaceMethod("membership", "FuzzyHits",
 
 #' @importFrom S4Vectors mcols
 setMethod("show", "FuzzyHits", function(object) {
-    mcols(object) <- mcols(object)[, "membership", drop=FALSE]
-    S4Vectors:::showHits(object, margin="  ", print.classinfo=TRUE, print.nnode=TRUE)
+    callNextMethod()
 })
 
 # as(Hits, "FuzzyHits") ----
@@ -55,10 +54,6 @@ setMethod("show", "FuzzyHits", function(object) {
 #' @importFrom methods new
 #' @importFrom S4Vectors mcols
 setAs("Hits", "FuzzyHits", function(from) {
-    if (! "membership" %in% colnames(mcols(from))) {
-        mcols(from)[["membership"]] <- rep(1, length(from))
-    }
-    from <- subset(from, !is.na(membership))
     to <- new("FuzzyHits", from)
     to
 })
