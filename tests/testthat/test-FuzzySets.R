@@ -31,6 +31,12 @@ test_that("FuzzySets constructor produces valid objects", {
         fixed=TRUE
     )
 
+    expect_error(
+        FuzzySets(relations[, c("element", "set")]),
+        "colnames(relations) must include \"membership\"",
+        fixed=TRUE
+    )
+
     expect_message(
         FuzzySets(relations),
         "Setting rownames(relations) to NULL",
@@ -43,6 +49,15 @@ test_that("FuzzySets constructor produces valid objects", {
 })
 
 test_that("FuzzySets validity method identifies issues", {
+
+    bs <- FuzzySets(relations)
+
+    # Cannot remove "membership" metadata from a FuzzySets
+    expect_error(
+        mcols(relations(bs))[["membership"]] <- NULL,
+        "colnames(mcols(relations)) must include \"membership\"",
+        fixed=TRUE
+    )
 
     # membership function out of range [0,1]
     relations0 <- relations
@@ -186,6 +201,14 @@ test_that("as(matrix, \"FuzzySets\") works", {
     expect_s4_class(out, "FuzzySets")
     expect_identical(length(out), as.integer(nGenes*nSets))
 
+    # NA membership functions are dropped
+    fm[1, 1] <- NA
+    expect_message(
+        as.FuzzySets.matrix(fm, "FuzzySets"),
+        "Dropping relations with NA membership function",
+        fixed=TRUE
+    )
+
 })
 
 # setLengths() ----
@@ -214,16 +237,19 @@ test_that("elementLengths(FuzzySets) works", {
 
 test_that("as(BaseSets, \"FuzzySets\") works", {
 
+    # fails if membership is missing
     bs <- BaseSets(relations[, c("element", "set")])
 
     # Number of relations is preserved
-    out <- as(bs, "FuzzySets")
-    expect_s4_class(out, "FuzzySets")
-    expect_identical(nrow(relations(out)), nrow(relations(bs)))
-    expect_identical(membership(out), rep(1, length(bs)))
+    expect_error(
+        as(bs, "FuzzySets"),
+        "membership column missing in mcols(object)",
+        fixed=TRUE
+    )
 
-    # if membership is present, it is used
-    bs <- BaseSets(relations[, c("element", "set", "membership")])
+
+    # works if membership is present
+    bs <- BaseSets(relations)
 
     # Number of relations is preserved
     out <- as(bs, "FuzzySets")
@@ -233,3 +259,4 @@ test_that("as(BaseSets, \"FuzzySets\") works", {
 
 
 })
+

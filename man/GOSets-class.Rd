@@ -21,7 +21,7 @@ Additional columns are taken as relation metadata.}
 A \code{GOSets} object.
 }
 \description{
-The \code{GOSets} class extends the \code{\link{BaseSets}} class to implement a container that also describes relations between genes and sets using the Gene Ontology controlled vocabulary.
+The \code{GOSets} class extends the \code{\linkS4class{BaseSets}} class to implement a container that also describes relations between genes and sets using the Gene Ontology controlled vocabulary.
 Refer to \code{\link{GOOntologyCodes}} and \code{\link{GOEvidenceCodes}} for valid vocabulary.
 }
 \examples{
@@ -52,7 +52,7 @@ gs1 <- gs
 ontology(gs1)[1] <- "CC"
 }
 \seealso{
-\code{\link[=BaseSets-class]{BaseSets}}, \code{\link[=GOHits-class]{GOHits}}, \code{\link{GOSets-methods}}.
+\code{\linkS4class{BaseSets}}, \code{\linkS4class{GOHits}}, \code{\link{GOSets-methods}}.
 }
 \author{
 Kevin Rue-Albrecht

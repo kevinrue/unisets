@@ -30,14 +30,14 @@ evidence(object) <- value
 \S4method{ontology}{GOHits}(object) <- value
 }
 \arguments{
-\item{object}{An object of class inheriting from \link[=GOHits-class]{GOHits}.}
+\item{object}{An object of class inheriting from \code{\linkS4class{GOHits}}.}
 
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
 }
 \description{
-This page documents the S4 generics and methods defined for objects inheriting of the \code{\link[=GOHits-class]{GOHits}} class.
-The \code{GOHits} class directly extends \code{\link[=Hits-class]{Hits}} and thus inherits of all methods defined for the parent class.
-In the usage below, \code{object} represents an object of class inheriting from \code{\link[=GOHits-class]{GOHits}},
+This page documents the S4 generics and methods defined for objects inheriting of the \code{\linkS4class{GOHits}} class.
+The \code{GOHits} class directly extends \code{\linkS4class{Hits}} and thus inherits of all methods defined for the parent class.
+In the usage below, \code{object} represents an object of class inheriting from \code{\linkS4class{GOHits}},
 and \code{value} is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 }
 \section{Accessors}{
@@ -73,7 +73,7 @@ gh1 <- gh
 ontology(gh1)[1] <- "MF"
 }
 \seealso{
-\code{\linkS4class{GOHits}}, \linkS4class{GOHits}.
+\code{\linkS4class{GOHits}}, \code{\linkS4class{Hits}}.
 }
 \author{
 Kevin Rue-Albrecht

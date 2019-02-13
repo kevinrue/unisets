@@ -36,7 +36,7 @@ All the metadata columns must be vector-like objects of the same length as \code
 A \code{GOHits} object.
 }
 \description{
-The \code{GOHits} class extends the \code{\link[=Hits-class]{Hits}} class to represent hits that also describe relations between genes and sets using the Gene Ontology controlled vocabulary.
+The \code{GOHits} class extends the \code{\linkS4class{Hits}} class to represent hits that also describe relations between genes and sets using the Gene Ontology controlled vocabulary.
 }
 \details{
 This class does not define any additional slot to the \code{Hits} class.
@@ -68,7 +68,7 @@ gh <- GOHits(from, to, ontology, evidence, 7, 15)
 gh
 }
 \seealso{
-\code{\link[=Hits-class]{Hits}}, \code{\link[=FuzzySets-class]{FuzzySets}}
+\linkS4class{Hits}, \linkS4class{FuzzySets}
 }
 \author{
 Kevin Rue-Albrecht

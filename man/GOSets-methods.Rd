@@ -22,16 +22,16 @@
 \method{subset}{GOSets}(x, ...)
 }
 \arguments{
-\item{object, x}{An object of class inheriting from \code{\link[=GOSets-class]{GOSets}}.}
+\item{object, x}{An object of class inheriting from \code{\linkS4class{GOSets}}.}
 
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
 
 \item{...}{Additional arguments passed to and from other methods.}
 }
 \description{
-This page documents the S4 generics and methods defined for objects inheriting of the \code{\link[=GOSets-class]{GOSets}} class.
-The \code{GOSets} class directly extends \code{\link[=BaseSets-class]{BaseSets}} and thus inherits of all methods defined for the parent class.
-In the usage below, \code{object} and \code{x} represent an object of class inheriting from \code{\link[=GOSets-class]{GOSets}},
+This page documents the S4 generics and methods defined for objects inheriting of the \code{\linkS4class{GOSets}} class.
+The \code{GOSets} class directly extends \code{\linkS4class{BaseSets}} and thus inherits of all methods defined for the parent class.
+In the usage below, \code{object} and \code{x} represent an object of class inheriting from \code{\linkS4class{GOSets}},
 and \code{value} is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 }
 \section{Accessors}{
@@ -45,7 +45,7 @@ and \code{value} is an object of a class specified in the S4 method signature or
 \section{Subsetting}{
 
 \code{subset(x, subset, ...)} returns subsets of relations which meet conditions.
-For \code{GOSets} objects, the \code{subset} argument should be a logical expression referring to any of \code{"element"}, \code{"set"}, \code{"membership"}, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
+For \code{GOSets} objects, the \code{subset} argument should be a logical expression referring to any of \code{"element"}, \code{"set"}, \code{"evidence"}, \code{"ontology"} and other available relation metadata indicating elements or rows to keep: missing values are taken as false.
 In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.
 }
 

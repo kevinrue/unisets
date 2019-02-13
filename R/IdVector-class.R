@@ -98,7 +98,7 @@ setMethod("length", "IdVector", function(x) {
 #' @aliases [,IdVector-method
 #'
 #' @section Subsetting:
-#' `x[i]` returns new [`IdVector`][IdVector-class] object of the same class as `x` made of the elements selected by `i`. `i` can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or [`Rle`] object); or an [`IntegerRanges`][IntegerRanges-class] object.
+#' `x[i]` returns new [`IdVector-class`] object of the same class as `x` made of the elements selected by `i`. `i` can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or [`Rle`] object); or an [`IntegerRanges`][IntegerRanges-class] object.
 #'
 #' @param i index specifying elements to extract or replace.
 #' @param j,...,drop Ignored.

@@ -31,7 +31,7 @@ The \code{BaseSets} class implements a container to describe distinct objects th
 \describe{
 \item{\code{relations}}{\code{\linkS4class{Hits}}
 The \emph{left node} and \emph{right node} of each hit stores the index of the \code{element} and \code{set} in \code{elementData} and \code{setData}, respectively.
-Metadata for each relation is stored as \code{mcols(object@relations)}.}
+Metadata for each relation is stored as \code{mcols(relations(object))}.}
 
 \item{\code{elementData}}{\code{\link{IdVector}}.
 Metadata for each unique element in \code{relations$element} is stored as \code{mcols(elementData)}.}
@@ -50,13 +50,16 @@ sets <- list(
   set3=c("E"))
 
 bs <- as(sets, "BaseSets")
+bs
 
 # Coercing ----
 
 # to list (gene sets)
 ls1 <- as(bs, "list")
+ls1
 # to matrix (logical membership)
 m1 <- as(bs, "matrix")
+m1
 
 # Accessors ----
 
@@ -69,21 +72,12 @@ setData(bs)
 length(bs)
 nElements(bs)
 nSets(bs)
-elementIds(bs)
-setIds(bs)
 
 setLengths(bs)
 elementLengths(bs)
-
-# Getters/Setters ----
-
-bs1 <- bs
-elementIds(bs1) <- paste0("gene", seq_len(nElements(bs)))
-setIds(bs1) <- paste0("geneset", seq_len(nSets(bs)))
-bs1
 }
 \seealso{
-BaseSets-methods
+\code{\link{BaseSets-methods}}.
 }
 \author{
 Kevin Rue-Albrecht

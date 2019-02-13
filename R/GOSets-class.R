@@ -23,7 +23,7 @@
 #'
 #' evidence(gs)
 setMethod("evidence", "GOSets", function(object) {
-    evidence(object@relations)
+    evidence(relations(object))
 })
 
 #' @rdname GOSets-methods
@@ -37,7 +37,7 @@ setMethod("evidence", "GOSets", function(object) {
 setReplaceMethod("evidence", "GOSets",
     function(object, value)
     {
-        evidence(object@relations) <- value
+        evidence(relations(object)) <- value
         validObject(object)
         object
     }
@@ -54,7 +54,7 @@ setReplaceMethod("evidence", "GOSets",
 #' @examples
 #' ontology(gs)
 setMethod("ontology", "GOSets", function(object) {
-    ontology(object@relations)
+    ontology(relations(object))
 })
 
 #' @rdname GOSets-methods
@@ -68,7 +68,7 @@ setMethod("ontology", "GOSets", function(object) {
 setReplaceMethod("ontology", "GOSets",
     function(object, value)
     {
-        ontology(object@relations) <- value
+        ontology(relations(object)) <- value
         validObject(object)
         object
     }
@@ -83,7 +83,7 @@ setReplaceMethod("ontology", "GOSets",
 #'
 #' @section Subsetting:
 #' `subset(x, subset, ...)` returns subsets of relations which meet conditions.
-#' For `GOSets` objects, the `subset` argument should be a logical expression referring to any of `"element"`, `"set"`, `"membership"`, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
+#' For `GOSets` objects, the `subset` argument should be a logical expression referring to any of `"element"`, `"set"`, `"evidence"`, `"ontology"` and other available relation metadata indicating elements or rows to keep: missing values are taken as false.
 #' In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.
 #'
 #' @importFrom methods as
@@ -114,14 +114,8 @@ setValidity("GOSets", function(object) {
 
     errors <- c()
 
-    if (!all(c("evidence") %in% colnames(relations(object)))){
-        error <- 'colnames(relations(object)) must include c("evidence")'
-        errors <- c(errors, error)
-    }
-    if (!all(c("ontology") %in% colnames(relations(object)))){
-        error <- 'colnames(relations(object)) must include c("ontology")'
-        errors <- c(errors, error)
-    }
+    protectedRelationMetadata <- c("evidence", "ontology")
+    .requireRelationsMetadataColnames(protectedRelationMetadata, colnames(mcols(relations(object))))
 
     if (length(errors > 0)){
         return(errors)

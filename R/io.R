@@ -160,7 +160,7 @@ setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...)
     }
 
     ## Collapse into tab separated list
-    df <- data.frame(relations(object))
+    df <- as(object, "data.frame")
     df$source <- source[df$set, ]
     df <- df[order(df$set, df$element), ]
     set_list <- lapply(with(df, split(df, set)), function(x) {

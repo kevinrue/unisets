@@ -1,7 +1,9 @@
 
 #' Check Presence of Required Metadata Columns
 #'
-#' This function throws an error if required columns are not present in the metadata columns of the `relations` slot.
+#' These function throws an error if required columns are not present in the metadata columns of the `relations` slot.
+#' `.requireRelationsColnames` returns an error message referring to the `DataFrame` input for constructor functions.
+#' `.requireRelationsMetadataColnames` returns an error message referring to the `Hits` object stored in the `relations` slot.
 #'
 #' @rdname INTERNAL_checkRelationMetadata
 #'
@@ -9,10 +11,20 @@
 #' @param present Character vector of column names present.
 #'
 #' @return This function is called only for its by-product: an error thrown if any of the required column names is not found.
-.checkRelationMetadata <- function(required, present) {
+.requireRelationsColnames <- function(required, present) {
     for (field in required) {
         if (! field %in% present) {
             stop(sprintf('colnames(relations) must include "%s"', field))
+        }
+    }
+}
+
+#' @rdname INTERNAL_checkRelationMetadata
+#' @aliases INTERNAL_requireRelationsMetadataColnames
+.requireRelationsMetadataColnames <- function(required, present) {
+    for (field in required) {
+        if (! field %in% present) {
+            stop(sprintf('colnames(mcols(relations)) must include "%s"', field))
         }
     }
 }
@@ -21,7 +33,7 @@
 
 #' IdVector Class
 #'
-#' The `IdVector` class extends the [`Vector`][Vector-class] class to implement a container that hold a vector of character identifiers.
+#' The `IdVector` class extends the [`Vector-class`] class to implement a container that hold a vector of character identifiers.
 #' Subclasses of `IdVector` may be defined to enable method dispatch according to the nature of the identifiers (e.g., ENTREZ gene, Gene Ontology term).
 #'
 #' @slot ids character. Identifiers.
@@ -30,7 +42,7 @@
 #' @exportClass IdVector
 #' @importClassesFrom S4Vectors Vector
 #'
-#' @seealso [`Vector`][Vector-class]
+#' @seealso [`Vector-class`], [`EntrezIdVector-class`], [`GOIdVector-class`]
 #'
 #' @examples
 #' # Constructor ----
@@ -99,7 +111,7 @@ IdVector <- function(ids=character(0)) {
 #'
 #' @slot relations [`Hits-class`]
 #' The _left node_ and _right node_ of each hit stores the index of the `element` and `set` in `elementData` and `setData`, respectively.
-#' Metadata for each relation is stored as `mcols(object@relations)`.
+#' Metadata for each relation is stored as `mcols(relations(object))`.
 #' @slot elementData [`IdVector`].
 #' Metadata for each unique element in `relations$element` is stored as `mcols(elementData)`.
 #' @slot setData [`IdVector`].
@@ -110,7 +122,7 @@ IdVector <- function(ids=character(0)) {
 #' @importClassesFrom S4Vectors Hits
 #' @importFrom S4Vectors Hits
 #'
-#' @seealso BaseSets-methods
+#' @seealso [`BaseSets-methods`].
 #'
 #' @examples
 #' # Constructor ----
@@ -122,13 +134,16 @@ IdVector <- function(ids=character(0)) {
 #'   set3=c("E"))
 #'
 #' bs <- as(sets, "BaseSets")
+#' bs
 #'
 #' # Coercing ----
 #'
 #' # to list (gene sets)
 #' ls1 <- as(bs, "list")
+#' ls1
 #' # to matrix (logical membership)
 #' m1 <- as(bs, "matrix")
+#' m1
 #'
 #' # Accessors ----
 #'
@@ -141,18 +156,9 @@ IdVector <- function(ids=character(0)) {
 #' length(bs)
 #' nElements(bs)
 #' nSets(bs)
-#' elementIds(bs)
-#' setIds(bs)
 #'
 #' setLengths(bs)
 #' elementLengths(bs)
-#'
-#' # Getters/Setters ----
-#'
-#' bs1 <- bs
-#' elementIds(bs1) <- paste0("gene", seq_len(nElements(bs)))
-#' setIds(bs1) <- paste0("geneset", seq_len(nSets(bs)))
-#' bs1
 setClass("BaseSets",
     slots=c(
         relations="Hits",
@@ -254,7 +260,7 @@ BaseSets <- function(
 
 #' FuzzyHits Class
 #'
-#' The `FuzzyHits` class extends the [`Hits`][Hits-class] class to represent hits that are associated with different grades of membership in the interval `[0,1]`.
+#' The `FuzzyHits` class extends the [`Hits-class`] class to represent hits that are associated with different grades of membership in the interval `[0,1]`.
 #'
 #' This class does not define any additional slot to the `Hits` class.
 #' However, this class defines additional validity checks to ensure that every relation stored in a `FuzzyHits` are associated with a numeric membership funtion in the interval `[0,1]`.
@@ -263,7 +269,7 @@ BaseSets <- function(
 #' @exportClass FuzzyHits
 #' @importClassesFrom S4Vectors Hits
 #'
-#' @seealso [`Hits`][Hits-class], [`FuzzySets`][FuzzySets-class]
+#' @seealso [`Hits-class`], [`FuzzySets-class`].
 #'
 #' @examples
 #' # Constructor ----
@@ -315,7 +321,7 @@ FuzzyHits <- function(
 
 #' FuzzySets Class
 #'
-#' The `FuzzySets` class extends the [`BaseSets`] class to implement a container that also describe different grades of membership in the interval `[0,1]`.
+#' The `FuzzySets` class extends the [`BaseSets-class`] class to implement a container that also describe different grades of membership in the interval `[0,1]`.
 #'
 #' This class does not define any additional slot to the `BaseSets` class.
 #' However, this class defines additional validity checks to ensure that every relation stored in a `FuzzySets` are associated with a numeric membership funtion in the interval `[0,1]`.
@@ -323,7 +329,7 @@ FuzzyHits <- function(
 #' @export
 #' @exportClass FuzzySets
 #'
-#' @seealso [`BaseSets`][BaseSets-class], [`FuzzyHits`][FuzzyHits-class], [`FuzzySets-methods`].
+#' @seealso [BaseSets-class], [FuzzyHits-class], [`FuzzySets-methods`].
 #'
 #' @examples
 #' # Constructor ----
@@ -399,7 +405,7 @@ FuzzySets <- function(
     ...
 ) {
     protectedRelationMetadata <- c("membership")
-    .checkRelationMetadata(protectedRelationMetadata, colnames(relations))
+    .requireRelationsColnames(protectedRelationMetadata, colnames(relations))
 
     # Pass basic arguments to BaseSets constructor
     object <- BaseSets(relations, ...)
@@ -528,7 +534,7 @@ GOOntologyCodes <- c(
 
 #' GOHits Class
 #'
-#' The `GOHits` class extends the [`Hits`][Hits-class] class to represent hits that also describe relations between genes and sets using the Gene Ontology controlled vocabulary.
+#' The `GOHits` class extends the [`Hits-class`] class to represent hits that also describe relations between genes and sets using the Gene Ontology controlled vocabulary.
 #'
 #' This class does not define any additional slot to the `Hits` class.
 #' However, this class defines additional validity checks to ensure that every relation stored in a `GOHits` are respect the Gene Ontology evidence and ontology codes.
@@ -538,7 +544,7 @@ GOOntologyCodes <- c(
 #' @exportClass GOHits
 #' @importClassesFrom S4Vectors Hits
 #'
-#' @seealso [`Hits`][Hits-class], [`FuzzySets`][FuzzySets-class]
+#' @seealso [Hits-class], [FuzzySets-class]
 #'
 #' @examples
 #'
@@ -600,13 +606,13 @@ GOHits <- function(
 
 #' GOSets Class
 #'
-#' The `GOSets` class extends the [`BaseSets`] class to implement a container that also describes relations between genes and sets using the Gene Ontology controlled vocabulary.
+#' The `GOSets` class extends the [`BaseSets-class`] class to implement a container that also describes relations between genes and sets using the Gene Ontology controlled vocabulary.
 #' Refer to [`GOOntologyCodes`] and [`GOEvidenceCodes`] for valid vocabulary.
 #'
 #' @export
 #' @exportClass GOSets
 #'
-#' @seealso [`BaseSets`][BaseSets-class], [`GOHits`][GOHits-class], [`GOSets-methods`].
+#' @seealso [`BaseSets-class`], [`GOHits-class`], [`GOSets-methods`].
 #'
 #' @examples
 #' # Constructor ----
@@ -668,7 +674,7 @@ GOSets <- function(
     ...
 ) {
     protectedRelationMetadata <- c("evidence", "ontology")
-    .checkRelationMetadata(protectedRelationMetadata, colnames(relations))
+    .requireRelationsColnames(protectedRelationMetadata, colnames(relations))
 
     # Pass basic arguments to BaseSets constructor
     object <- BaseSets(relations, ...)

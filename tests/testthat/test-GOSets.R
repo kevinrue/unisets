@@ -5,7 +5,6 @@
 
 base_sets <- import(org.Hs.egGO)
 relations <- head(as(base_sets, "DataFrame"))
-colnames(relations)[3:4] <- c("evidence", "ontology")
 # Set rownames to check that they are dropped
 rownames(relations) <- paste0("row", seq_len(nrow(relations)))
 
@@ -37,6 +36,20 @@ test_that("GOSets constructor produces valid objects", {
 })
 
 test_that("GOSets validity method identifies issues", {
+
+    gs <- GOSets(relations=relations)
+
+    # Cannot remove "evidence" or "ontology" metadata from a FuzzySets
+    expect_error(
+        mcols(relations(gs))[["evidence"]] <- NULL,
+        "colnames(mcols(relations)) must include \"evidence\"",
+        fixed=TRUE
+    )
+    expect_error(
+        mcols(relations(gs))[["ontology"]] <- NULL,
+        "colnames(mcols(relations)) must include \"ontology\"",
+        fixed=TRUE
+    )
 
     # unsupported evidence code (as.character)
     relations0 <- relations

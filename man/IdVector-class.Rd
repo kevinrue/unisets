@@ -23,7 +23,7 @@ GOIdVector(ids)
 An \code{IdVector} object.
 }
 \description{
-The \code{IdVector} class extends the \code{\link[=Vector-class]{Vector}} class to implement a container that hold a vector of character identifiers.
+The \code{IdVector} class extends the \code{\linkS4class{Vector}} class to implement a container that hold a vector of character identifiers.
 Subclasses of \code{IdVector} may be defined to enable method dispatch according to the nature of the identifiers (e.g., ENTREZ gene, Gene Ontology term).
 }
 \section{Slots}{
@@ -65,7 +65,7 @@ giv <- GOIdVector(keys(org.Hs.eg.db, keytype = "GO"))
 giv
 }
 \seealso{
-\code{\link[=Vector-class]{Vector}}
+\code{\linkS4class{Vector}}, \code{\linkS4class{EntrezIdVector}}, \code{\linkS4class{GOIdVector}}
 }
 \author{
 Kevin Rue-Albrecht

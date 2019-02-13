@@ -96,8 +96,7 @@ test_that("relations(BaseSets) works", {
     bs <- BaseSets(relations)
 
     out <- relations(bs)
-    expect_s4_class(out, "DataFrame")
-    expect_identical(colnames(out), c("element", "set"))
+    expect_s4_class(out, "Hits")
 
 })
 
@@ -156,51 +155,55 @@ test_that("nSets(BaseSets) works", {
 
 })
 
-# elementIds() ----
+# elementData() ----
 
-test_that("elementIds(BaseSets) works", {
+test_that("ids(elementData(BaseSets)) works", {
 
     bs <- BaseSets(relations)
 
-    out <- elementIds(bs)
+    out <- elementData(bs)
+    expect_s4_class(out, "IdVector")
 
+    out <- ids(elementData(bs))
     expect_identical(out, c("A", "B", "C", "D", "E"))
 
 })
 
-# elementIds<-() ----
+# elementData<-() ----
 
-test_that("elementIds(BaseSets) <- value works", {
+test_that("elementData(BaseSets) <- value works", {
 
     bs <- BaseSets(relations)
 
-    elementIds(bs) <- tail(LETTERS, nElements(bs))
+    ids(elementData(bs)) <- tail(LETTERS, nElements(bs))
 
-    expect_identical(elementIds(bs), tail(LETTERS, nElements(bs)))
+    expect_identical(ids(elementData(bs)), tail(LETTERS, nElements(bs)))
 
 })
 
-# setIds() ----
+# setData() ----
 
-test_that("setIds(BaseSets) works", {
+test_that("setData(BaseSets) works", {
 
     bs <- BaseSets(relations)
 
-    out <- setIds(bs)
+    out <- setData(bs)
+    expect_s4_class(out, "IdVector")
 
+    out <- ids(setData(bs))
     expect_identical(out, c("set1", "set2", "set3"))
 
 })
 
-# setIds<-() ----
+# setData<-() ----
 
-test_that("setIds(BaseSets) <- value works", {
+test_that("setData(BaseSets) <- value works", {
 
     bs <- BaseSets(relations)
 
-    setIds(bs) <- paste0("geneset", seq_len(nSets(bs)))
+    ids(setData(bs)) <- paste0("geneset", seq_len(nSets(bs)))
 
-    expect_identical(setIds(bs), paste0("geneset", seq_len(nSets(bs))))
+    expect_identical(ids(setData(bs)), paste0("geneset", seq_len(nSets(bs))))
 
 })
 

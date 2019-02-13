@@ -20,7 +20,7 @@ Additional columns are taken as relation metadata.}
 A \code{FuzzySets} object.
 }
 \description{
-The \code{FuzzySets} class extends the \code{\link{BaseSets}} class to implement a container that also describe different grades of membership in the interval \code{[0,1]}.
+The \code{FuzzySets} class extends the \code{\linkS4class{BaseSets}} class to implement a container that also describe different grades of membership in the interval \code{[0,1]}.
 }
 \details{
 This class does not define any additional slot to the \code{BaseSets} class.
@@ -72,7 +72,7 @@ fs1 <- fs
 membership(fs1) <- runif(length(fs1))
 }
 \seealso{
-\code{\link[=BaseSets-class]{BaseSets}}, \code{\link[=FuzzyHits-class]{FuzzyHits}}, \code{\link{FuzzySets-methods}}.
+\linkS4class{BaseSets}, \linkS4class{FuzzyHits}, \code{\link{FuzzySets-methods}}.
 }
 \author{
 Kevin Rue-Albrecht

@@ -42,7 +42,7 @@ ids(object) <- value
 as.IdVector.default(ids, ...)
 }
 \arguments{
-\item{object, x}{An object of class inheriting from \link[=IdVector-class]{IdVector}.}
+\item{object, x}{An object of class inheriting from \code{\linkS4class{IdVector}}.}
 
 \item{value}{An object of a class specified in the S4 method signature.}
 
@@ -56,9 +56,9 @@ character string naming an atomic mode or "list" or "expression" or (except for 
 \item{ids}{An atomic vector of identifiers.}
 }
 \description{
-This page documents the S4 generics and methods defined for objects inheriting of the \code{\link[=IdVector-class]{IdVector}} class.
-The \code{IdVector} class directly extends \code{\link[=Vector-class]{Vector}} and thus inherits of all methods defined for the parent class.
-In the usage below, \code{object} and \code{x} represent an object of class inheriting from \code{\link[=IdVector-class]{IdVector}},
+This page documents the S4 generics and methods defined for objects inheriting of the \code{\linkS4class{IdVector}} class.
+The \code{IdVector} class directly extends \code{\linkS4class{Vector}} and thus inherits of all methods defined for the parent class.
+In the usage below, \code{object} and \code{x} represent an object of class inheriting from \code{\linkS4class{IdVector}},
 and \code{value} is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 }
 \section{Accessors}{
@@ -74,7 +74,7 @@ and \code{value} is an object of a class specified in the S4 method signature or
 
 \section{Subsetting}{
 
-\code{x[i]} returns new \code{\link[=IdVector-class]{IdVector}} object of the same class as \code{x} made of the elements selected by \code{i}. \code{i} can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or \code{\link{Rle}} object); or an \code{\link[=IntegerRanges-class]{IntegerRanges}} object.
+\code{x[i]} returns new \code{\linkS4class{IdVector}} object of the same class as \code{x} made of the elements selected by \code{i}. \code{i} can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or \code{\link{Rle}} object); or an \code{\link[=IntegerRanges-class]{IntegerRanges}} object.
 }
 
 \section{Coercion}{
@@ -120,7 +120,7 @@ v1 <- as(iv, "vector")
 c1 <- as(iv, "character")
 }
 \seealso{
-\code{\linkS4class{IdVector}}, \code{\link[=Vector-class]{Vector}}, \code{\link{Vector-setops}}.
+\code{\linkS4class{IdVector}}, \code{\linkS4class{Vector}}, \code{\link{Vector-setops}}.
 }
 \author{
 Kevin Rue-Albrecht

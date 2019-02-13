@@ -8,21 +8,15 @@ setGeneric("relations", function(object) standardGeneric("relations"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
+#' @aliases relations<-
+#' @exportMethod relations<-
+setGeneric("relations<-", function(object, value) standardGeneric("relations<-"))
+
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases elements
 #' @exportMethod elements
 setGeneric("elements", function(object) standardGeneric("elements"))
-
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
-#' @aliases elementIds
-#' @exportMethod elementIds
-setGeneric("elementIds", function(object) standardGeneric("elementIds"))
-
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
-#' @aliases elementIds<-
-#' @exportMethod elementIds<-
-setGeneric("elementIds<-", function(object, value) standardGeneric("elementIds<-"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
@@ -32,27 +26,15 @@ setGeneric("elementData", function(object) standardGeneric("elementData"))
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
+#' @aliases elementData<-
+#' @exportMethod elementData<-
+setGeneric("elementData<-", function(object, value) standardGeneric("elementData<-"))
+
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
 #' @aliases sets
 #' @exportMethod sets
 setGeneric("sets", function(object) standardGeneric("sets"))
-
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
-#' @aliases setIds
-#' @exportMethod setIds
-setGeneric(
-    "setIds",
-    function(object) standardGeneric("setIds")
-)
-
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
-#' @aliases setIds<-
-#' @exportMethod setIds<-
-setGeneric(
-    "setIds<-",
-    function(object, value) standardGeneric("setIds<-")
-)
 
 #' @name BaseSets-methods
 #' @rdname BaseSets-methods
@@ -62,6 +44,12 @@ setGeneric(
     "setData",
     function(object) standardGeneric("setData")
 )
+
+#' @name BaseSets-methods
+#' @rdname BaseSets-methods
+#' @aliases setData<-
+#' @exportMethod setData<-
+setGeneric("setData<-", function(object, value) standardGeneric("setData<-"))
 
 #' @name FuzzyHits-methods
 #' @rdname FuzzyHits-methods
