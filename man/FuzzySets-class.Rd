@@ -11,7 +11,7 @@ FuzzySets(relations = DataFrame(element = character(0), set =
 }
 \arguments{
 \item{relations}{\code{\linkS4class{DataFrame}}.
-At least 3 columns that provide mapping relationships between \code{"element"} and \code{"set"} identifiers, with \code{"membership"} function in the range \link{0,1}.
+At least 3 columns that provide mapping relationships between \code{"element"} and \code{"set"} identifiers, with \code{"membership"} function in the range \code{[0,1]}.
 Additional columns are taken as relation metadata.}
 
 \item{...}{Arguments passed to the \code{\link[=BaseSets]{BaseSets()}} constructor and other functions.}
@@ -20,11 +20,11 @@ Additional columns are taken as relation metadata.}
 A \code{FuzzySets} object.
 }
 \description{
-The \code{FuzzySets} class extends the \code{\linkS4class{BaseSets}} class to implement a container that also describe different grades of membership in the interval \link{0,1}.
+The \code{FuzzySets} class extends the \code{\linkS4class{BaseSets}} class to implement a container that also describe different grades of membership in the interval \code{[0,1]}.
 }
 \details{
 This class does not define any additional slot to the \code{BaseSets} class.
-However, this class defines additional validity checks to ensure that every relation stored in a \code{FuzzySets} are associated with a numeric membership funtion in the interval \link{0,1}.
+However, this class defines additional validity checks to ensure that every relation stored in a \code{FuzzySets} are associated with a numeric membership funtion in the interval \code{[0,1]}.
 }
 \examples{
 # Constructor ----

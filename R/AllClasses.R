@@ -256,10 +256,10 @@ BaseSets <- function(
 
 #' FuzzyHits Class
 #'
-#' The `FuzzyHits` class extends the [`Hits-class`] class to represent hits that are associated with different grades of membership in the interval [0,1].
+#' The `FuzzyHits` class extends the [`Hits-class`] class to represent hits that are associated with different grades of membership in the interval `[0,1]`.
 #'
 #' This class does not define any additional slot to the `Hits` class.
-#' However, this class defines additional validity checks to ensure that every relation stored in a `FuzzyHits` are associated with a numeric membership funtion in the interval [0,1].
+#' However, this class defines additional validity checks to ensure that every relation stored in a `FuzzyHits` are associated with a numeric membership funtion in the interval `[0,1]`.
 #'
 #' @export
 #' @exportClass FuzzyHits
@@ -287,7 +287,7 @@ setClass("FuzzyHits",
 #' @param from,to Two integer vectors of the same length.
 #' The values in `from` must be >= 1 and <= `nLnode`.
 #' The values in `to` must be >= 1 and <= `nRnode`.
-#' @param membership Numeric. Vector of numeric membership function in the range [0,1]
+#' @param membership Numeric. Vector of numeric membership function in the range `[0,1]`
 #' @param nLnode,nRnode Number of left and right nodes.
 #' @param ... Arguments metadata columns to set on the `FuzzyHits` object.
 #' All the metadata columns must be vector-like objects of the same length as `from`, `to`, and `membership`.
@@ -317,10 +317,10 @@ FuzzyHits <- function(
 
 #' FuzzySets Class
 #'
-#' The `FuzzySets` class extends the [`BaseSets-class`] class to implement a container that also describe different grades of membership in the interval [0,1].
+#' The `FuzzySets` class extends the [`BaseSets-class`] class to implement a container that also describe different grades of membership in the interval `[0,1]`.
 #'
 #' This class does not define any additional slot to the `BaseSets` class.
-#' However, this class defines additional validity checks to ensure that every relation stored in a `FuzzySets` are associated with a numeric membership funtion in the interval [0,1].
+#' However, this class defines additional validity checks to ensure that every relation stored in a `FuzzySets` are associated with a numeric membership funtion in the interval `[0,1]`.
 #'
 #' @export
 #' @exportClass FuzzySets
@@ -386,7 +386,7 @@ setClass("FuzzySets",
 #' @aliases FuzzySets
 #'
 #' @param relations [`DataFrame-class`].
-#' At least 3 columns that provide mapping relationships between `"element"` and `"set"` identifiers, with `"membership"` function in the range [0,1].
+#' At least 3 columns that provide mapping relationships between `"element"` and `"set"` identifiers, with `"membership"` function in the range `[0,1]`.
 #' Additional columns are taken as relation metadata.
 #' @param ... Arguments passed to the [`BaseSets()`] constructor and other functions.
 #'
@@ -668,7 +668,7 @@ setClass("GOSets",
 #' @aliases GOSets
 #'
 #' @param relations [`DataFrame-class`].
-#' At least 3 columns that provide mapping relationships between `"element"` and `"set"`, with `"membership"` function in the range [0,1].
+#' At least 3 columns that provide mapping relationships between `"element"` and `"set"`, with `"membership"` function in the range `[0,1]`.
 #' Additional columns are taken as relation metadata.
 #' @param ... Arguments passed to the [`BaseSets()`] constructor and other functions.
 #'
