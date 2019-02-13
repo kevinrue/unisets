@@ -30,7 +30,7 @@ NULL
 #' @name FuzzyHits-methods
 #' @rdname FuzzyHits-methods
 #'
-#' @param object An object of class inheriting from [FuzzyHits][FuzzyHits-class].
+#' @param object An object of class inheriting from [`FuzzyHits-class`].
 #' @param value An object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 #'
 #' @author Kevin Rue-Albrecht

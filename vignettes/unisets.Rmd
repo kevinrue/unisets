@@ -46,8 +46,8 @@ gene_lists <- list(
 relations_table <- DataFrame(
     element = unlist(gene_lists),
     set     = rep(names(gene_lists), lengths(gene_lists)),
-    extra1  = sample(c("ABC", "DEF"), 5L, replace=TRUE),
-    extra2  = rbinom(5L, 10L, 0.4)
+    extra1  = rep(c("ABC", "DEF"), c(3L, 2L)),
+    extra2  = seq(0, 1, length.out = 5L)
 )
 base_sets <- BaseSets(relations_table)
 base_sets
@@ -139,7 +139,7 @@ as(fuzzy_sets, "DataFrame")
 The `subset` method can be applied to a `BaseSets` object, using a logical expression that may refer to the `"element"` and `"set"` columns as well as any metadata associated with the relations, indicating rows to keep.
 
 ```{r}
-subset(base_sets, set == "geneset1" | element %in% c("C") | extra1 == "ABC")
+subset(base_sets, set == "geneset1" & element %in% c("B") & extra1 == "ABC")
 ```
 
 Similarly, the `subset` method can be also applied to objects derived from `BaseSets`, such as `FuzzySets`, in which case the logical expression may also refer to the additional `"membership"` metadata that is guaranted by the class validity method.
@@ -150,11 +150,15 @@ subset(fuzzy_sets, set == "geneset2" & membership > 0.3)
 
 # Converting to other formats {#convert-to}
 
+## List {#convert-to-list}
+
 It is possible to extract the gene sets as a `list`, for use with functions such as `lapply`.
 
 ```{r}
 as(fuzzy_sets, "list")
 ```
+
+## Matrix {#convert-to-matrix}
 
 It is also possible to visualize membership between gene and gene sets as a matrix.
 
@@ -174,9 +178,9 @@ fuzzy_matrix <- as(fuzzy_sets, "matrix")
 fuzzy_matrix
 ```
 
-# Converting from other formats
+# Converting from other formats {#convert-from}
 
-## Matrix {#fromMatrix}
+## Matrix {#convert-from-matrix}
 
 It is possible to convert incidence matrices into objects derived from the `BaseSets` class.
 
@@ -187,7 +191,7 @@ as(base_matrix, "BaseSets")
 ```
 
 Similarly, the `FuzzySets` class is suitable for `double` matrices indicating the membership function for each relation.
-Importantly, relations described as `NA` are not imported into the `FuzzySets` object (consistently with the `as.matrix` method described [above](#convert-to)).
+Importantly, relations described as `NA` are not imported into the `FuzzySets` object (consistently with the `as.matrix` method described [above](#convert-to-matrix)).
 In contrast, relations with a membership function of 0 are imported and described as such.
 
 ```{r}

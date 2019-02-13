@@ -152,11 +152,11 @@ A \code{Hits} objets storing the integer index of elements (\code{from}) and set
 
 
 \code{elementData(object)} returns the \code{elementData} slot.
-An \linkS4class{IdVector} objets storing the unique element identifiers (\code{ids}) and associated element metadata (\code{mcols}).
+An \code{\linkS4class{IdVector}} objets storing the unique element identifiers (\code{ids}) and associated element metadata (\code{mcols}).
 
 
-\code{setDatav(object)} returns the \code{setData} slot.
-An \linkS4class{IdVector} objets storing the unique set identifiers (\code{ids}) and associated set metadata (\code{mcols}).
+\code{setData(object)} returns the \code{setData} slot.
+An \code{\linkS4class{IdVector}} objets storing the unique set identifiers (\code{ids}) and associated set metadata (\code{mcols}).
 
 
 \code{elements(object)} returns an \code{\linkS4class{IdVector}} element identifiers and associated metadata as ordered in \code{relations(object)$element}
@@ -186,7 +186,7 @@ An \linkS4class{IdVector} objets storing the unique set identifiers (\code{ids})
 
 \section{Subsetting}{
 
-\code{x[i]} returns new \code{\linkS4class{BaseSets}} object of the same class as \code{x} made of the elements selected by \code{i}. \code{i} can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or \code{\link{Rle}} object); or an \code{\link[=IntegerRanges-class]{IntegerRanges}} object.
+\code{x[i]} returns new \code{\linkS4class{BaseSets}} object of the same class as \code{x} made of the elements selected by \code{i}. \code{i} can be missing; an \code{NA}-free logical, numeric, or character vector or factor (as ordinary vector or \code{\link{Rle}} object); or an \code{\link[=IntegerRanges-class]{IntegerRanges}} object.
 
 
 
@@ -304,7 +304,6 @@ fs <- as(bs1, "FuzzySets")
 library(org.Hs.eg.db)
 gs <- import(org.Hs.egGO)
 bs1 <- as(gs, "BaseSets")
-colnames(mcols(relations(bs1))) <- c("evidence", "ontology")
 gs1 <- as(bs1, "GOSets")
 
 # Coercion to BaseSets ----

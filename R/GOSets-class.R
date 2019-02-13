@@ -4,7 +4,7 @@
 #' @aliases evidence,GOSets-method
 #'
 #' @section Accessors:
-#' `evidence(object)` returns a `numeric` vector of evidence function for each relation.
+#' `evidence(object)` returns a factor indicating the evidence code for each relation.
 #'
 #' @importFrom S4Vectors DataFrame
 #'
@@ -46,7 +46,7 @@ setReplaceMethod("evidence", "GOSets",
 #' @aliases ontology,GOSets-method
 #'
 #' @section Accessors:
-#' `ontology(object)` returns a `numeric` vector of ontology function for each relation.
+#' `ontology(object)` returns a factor indicating the ontology code for each relation.
 #'
 #' @importFrom S4Vectors DataFrame
 #'

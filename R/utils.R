@@ -4,6 +4,8 @@
 #' @aliases get_showHeadLines get_showTailLines
 #'
 #' @return An integer scalar indicating the number of top and bottom lines that `show` methods should display.
+#'
+#' @author Kevin Rue-Albrecht, inspired from the `S4Vectors` package.
 get_showHeadLines <- function() { 5L }
 
 #' @rdname INTERNAL_get_showHeadLines

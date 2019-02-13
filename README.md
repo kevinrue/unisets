@@ -32,8 +32,8 @@ gene_lists <- list(
 relations_table <- DataFrame(
     element = unlist(gene_lists),
     set     = rep(names(gene_lists), lengths(gene_lists)),
-    extra1  = sample(c("ABC", "DEF"), 5L, replace=TRUE),
-    extra2  = rbinom(5L, 10L, 0.4)
+    extra1  = rep(c("ABC", "DEF"), c(3L, 2L)),
+    extra2  = seq(0, 1, length.out = 5L)
 )
 gene_data <- IdVector(c("A", "B", "C", "D"))
 elementMetadata(gene_data) <- DataFrame(
@@ -53,9 +53,9 @@ base_set
 BaseSets with 5 relations between 4 elements and 2 sets
      element        set relationData elementData     setData
   <IdVector> <IdVector>  <DataFrame> <DataFrame> <DataFrame>
-1          A   geneset1        DEF:1         1:a     100:abc
-2          B   geneset1        DEF:3         2:b     100:abc
-3          B   geneset2        ABC:4         2:b     200:def
-4          C   geneset2        ABC:3         3:c     200:def
-5          D   geneset2        DEF:3         4:d     200:def
+1          A   geneset1        ABC:0         1:a     100:abc
+2          B   geneset1     ABC:0.25         2:b     100:abc
+3          B   geneset2      ABC:0.5         2:b     200:def
+4          C   geneset2     DEF:0.75         3:c     200:def
+5          D   geneset2        DEF:1         4:d     200:def
 ```

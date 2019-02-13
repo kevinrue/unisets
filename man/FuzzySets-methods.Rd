@@ -43,7 +43,7 @@ and \code{value} is an object of a class specified in the S4 method signature or
 }
 \section{Accessors}{
 
-\code{membership(object)} returns a \code{numeric} vector of membership function for each relation.
+\code{membership(object)} returns a numeric vector of membership function for each relation.
 }
 
 \section{Subsetting}{
@@ -77,9 +77,9 @@ sets <- list(
 # unlist the set names
 unlistSets <- rep(names(sets), lengths(sets))
 # unlist the element names
-unlistElements <- unlist(sapply(sets, names))
+unlistElements <- unlist(sapply(sets, names), use.names = FALSE)
 # unlist the membership values
-unlistMembership <- unlist(sets)
+unlistMembership <- unlist(sets, use.names = FALSE)
 
 # Reformat as a table
 relations <- DataFrame(

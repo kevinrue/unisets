@@ -42,10 +42,10 @@ and \code{value} is an object of a class specified in the S4 method signature or
 }
 \section{Accessors}{
 
-\code{evidence(object)} returns a \code{factor} indiating the evidence code for each relation.
+\code{evidence(object)} returns a factor indicating the evidence code for each relation.
 
 
-\code{ontology(object)} returns a \code{numeric} vector of ontology function for each relation.
+\code{ontology(object)} returns a factor indicating the ontology code for each relation.
 }
 
 \examples{
@@ -60,7 +60,7 @@ to <- c(11, 15, 5, 4, 5, 11)
 ontology <- factor(c("BP", "BP", "BP", "MF", "MF", "CC"))
 evidence <- factor(c("IEA", "IDA", "IEA", "IDA", "IEA", "IDA"))
 
-gh <- GOHits(from, to, ontology, evidence, 7, 15)
+gh <- GOHits(from, to, evidence, ontology, 7, 15)
 gh
 
 # Accessors ----

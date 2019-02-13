@@ -11,14 +11,14 @@ BaseSets(relations = DataFrame(element = character(0), set =
 }
 \arguments{
 \item{relations}{\code{\linkS4class{DataFrame}}.
-At least two columns that provide mapping relationships between \code{"element"} and \code{"set"}.
+At least two columns that provide mapping relationships between \code{"element"} and \code{"set"} identifiers.
 Additional columns are taken as relation metadata.}
 
 \item{elementData}{\code{\link{IdVector}}.
-Metadata for each unique element in \code{relations$element} is provided as \code{mcols(elementData)}.}
+Metadata for each unique identifier in \code{relations$element} is provided as \code{mcols(elementData)}.}
 
 \item{setData}{\code{\link{IdVector}}.
-Metadata for each unique set in \code{relations$set} is provided as \code{mcols(setData)}.}
+Metadata for each unique identifier in \code{relations$set} is provided as \code{mcols(setData)}.}
 }
 \value{
 A \code{BaseSets} object.
@@ -33,10 +33,10 @@ The \code{BaseSets} class implements a container to describe distinct objects th
 The \emph{left node} and \emph{right node} of each hit stores the index of the \code{element} and \code{set} in \code{elementData} and \code{setData}, respectively.
 Metadata for each relation is stored as \code{mcols(relations(object))}.}
 
-\item{\code{elementData}}{\code{\link{IdVector}}.
+\item{\code{elementData}}{\code{\linkS4class{IdVector}}.
 Metadata for each unique element in \code{relations$element} is stored as \code{mcols(elementData)}.}
 
-\item{\code{setData}}{\code{\link{IdVector}}.
+\item{\code{setData}}{\code{\linkS4class{IdVector}}.
 Metadata for each unique set in \code{relations$set} is stored as \code{mcols(setData)}.}
 }}
 

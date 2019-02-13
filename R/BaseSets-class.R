@@ -52,7 +52,7 @@ setReplaceMethod("relations", "BaseSets",
 #'
 #' @section Accessors:
 #' `elementData(object)` returns the `elementData` slot.
-#'  An [IdVector-class] objets storing the unique element identifiers (`ids`) and associated element metadata (`mcols`).
+#'  An [`IdVector-class`] objets storing the unique element identifiers (`ids`) and associated element metadata (`mcols`).
 #'
 #' @examples
 #'
@@ -83,8 +83,8 @@ setReplaceMethod("elementData", "BaseSets",
 #' @aliases setData,BaseSets-method
 #'
 #' @section Accessors:
-#' `setDatav(object)` returns the `setData` slot.
-#'  An [IdVector-class] objets storing the unique set identifiers (`ids`) and associated set metadata (`mcols`).
+#' `setData(object)` returns the `setData` slot.
+#'  An [`IdVector-class`] objets storing the unique set identifiers (`ids`) and associated set metadata (`mcols`).
 #'
 #' @examples
 #'
@@ -226,7 +226,7 @@ setMethod("elementLengths", "BaseSets", function(object) {
 #' @aliases [,BaseSets-method
 #'
 #' @section Subsetting:
-#' `x[i]` returns new [`BaseSets-class`] object of the same class as `x` made of the elements selected by `i`. `i` can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or [`Rle`] object); or an [`IntegerRanges`][IntegerRanges-class] object.
+#' `x[i]` returns new [`BaseSets-class`] object of the same class as `x` made of the elements selected by `i`. `i` can be missing; an `NA`-free logical, numeric, or character vector or factor (as ordinary vector or [`Rle`] object); or an [`IntegerRanges`][IntegerRanges-class] object.
 #'
 #' @param i index specifying elements to extract or replace.
 #' @param j,drop Ignored.
@@ -479,7 +479,6 @@ setAs("BaseSets", "FuzzySets", function(from) {
 #' library(org.Hs.eg.db)
 #' gs <- import(org.Hs.egGO)
 #' bs1 <- as(gs, "BaseSets")
-#' colnames(mcols(relations(bs1))) <- c("evidence", "ontology")
 #' gs1 <- as(bs1, "GOSets")
 setAs("BaseSets", "GOSets", function(from) {
     relations(from) <- as(relations(from), "GOHits")

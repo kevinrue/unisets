@@ -5,7 +5,7 @@
 #' @aliases evidence,GOHits-method
 #'
 #' @section Accessors:
-#' `evidence(object)` returns a `factor` indiating the evidence code for each relation.
+#' `evidence(object)` returns a factor indicating the evidence code for each relation.
 #'
 #' @importFrom methods slot
 #'
@@ -17,7 +17,7 @@
 #' ontology <- factor(c("BP", "BP", "BP", "MF", "MF", "CC"))
 #' evidence <- factor(c("IEA", "IDA", "IEA", "IDA", "IEA", "IDA"))
 #'
-#' gh <- GOHits(from, to, ontology, evidence, 7, 15)
+#' gh <- GOHits(from, to, evidence, ontology, 7, 15)
 #' gh
 #'
 #' # Accessors ----
@@ -49,7 +49,7 @@ setReplaceMethod("evidence", "GOHits",
 #' @aliases ontology,GOHits-method
 #'
 #' @section Accessors:
-#' `ontology(object)` returns a `numeric` vector of ontology function for each relation.
+#' `ontology(object)` returns a factor indicating the ontology code for each relation.
 #'
 #' @importFrom methods slot
 #'

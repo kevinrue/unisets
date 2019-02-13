@@ -4,7 +4,7 @@
 #' @aliases membership,FuzzySets-method
 #'
 #' @section Accessors:
-#' `membership(object)` returns a `numeric` vector of membership function for each relation.
+#' `membership(object)` returns a numeric vector of membership function for each relation.
 #'
 #' @importFrom S4Vectors DataFrame
 #'
@@ -20,9 +20,9 @@
 #' # unlist the set names
 #' unlistSets <- rep(names(sets), lengths(sets))
 #' # unlist the element names
-#' unlistElements <- unlist(sapply(sets, names))
+#' unlistElements <- unlist(sapply(sets, names), use.names = FALSE)
 #' # unlist the membership values
-#' unlistMembership <- unlist(sets)
+#' unlistMembership <- unlist(sets, use.names = FALSE)
 #'
 #' # Reformat as a table
 #' relations <- DataFrame(

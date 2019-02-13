@@ -36,10 +36,10 @@ and \code{value} is an object of a class specified in the S4 method signature or
 }
 \section{Accessors}{
 
-\code{evidence(object)} returns a \code{numeric} vector of evidence function for each relation.
+\code{evidence(object)} returns a factor indicating the evidence code for each relation.
 
 
-\code{ontology(object)} returns a \code{numeric} vector of ontology function for each relation.
+\code{ontology(object)} returns a factor indicating the ontology code for each relation.
 }
 
 \section{Subsetting}{

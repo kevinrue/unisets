@@ -19,7 +19,7 @@ membership(object) <- value
 \S4method{membership}{FuzzyHits}(object) <- value
 }
 \arguments{
-\item{object}{An object of class inheriting from \link[=FuzzyHits-class]{FuzzyHits}.}
+\item{object}{An object of class inheriting from \code{\linkS4class{FuzzyHits}}.}
 
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
 }
@@ -31,7 +31,7 @@ and \code{value} is an object of a class specified in the S4 method signature or
 }
 \section{Accessors}{
 
-\code{membership(object)} returns a \code{numeric} vector of membership function for each relation.
+\code{membership(object)} returns a numeric vector of membership function for each relation.
 }
 
 \examples{

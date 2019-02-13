@@ -5,7 +5,7 @@
 #' @aliases membership,FuzzyHits-method
 #'
 #' @section Accessors:
-#' `membership(object)` returns a `numeric` vector of membership function for each relation.
+#' `membership(object)` returns a numeric vector of membership function for each relation.
 #'
 #' @importFrom methods slot
 #'

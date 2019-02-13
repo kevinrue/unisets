@@ -10,7 +10,9 @@
 #' @param required Character vector of required column names.
 #' @param present Character vector of column names present.
 #'
-#' @return This function is called only for its by-product: an error thrown if any of the required column names is not found.
+#' @return Those functions are called only for their by-product: an error thrown if any of the required column names is not found.
+#'
+#' @author Kevin Rue-Albrecht
 .requireRelationsColnames <- function(required, present) {
     for (field in required) {
         if (! field %in% present) {
@@ -59,12 +61,6 @@
 #'
 #' ids(iv)
 #' names(iv)
-#'
-#' # EntrezIdVector ----
-#'
-#' library(org.Hs.eg.db)
-#' eiv <- EntrezIdVector(keys(org.Hs.eg.db))
-#' eiv
 setClass("IdVector",
     contains="Vector",
     slots=c(
@@ -112,9 +108,9 @@ IdVector <- function(ids=character(0)) {
 #' @slot relations [`Hits-class`]
 #' The _left node_ and _right node_ of each hit stores the index of the `element` and `set` in `elementData` and `setData`, respectively.
 #' Metadata for each relation is stored as `mcols(relations(object))`.
-#' @slot elementData [`IdVector`].
+#' @slot elementData [`IdVector-class`].
 #' Metadata for each unique element in `relations$element` is stored as `mcols(elementData)`.
-#' @slot setData [`IdVector`].
+#' @slot setData [`IdVector-class`].
 #' Metadata for each unique set in `relations$set` is stored as `mcols(setData)`.
 #'
 #' @export
@@ -177,12 +173,12 @@ setClass("BaseSets",
 #' @aliases BaseSets
 #'
 #' @param relations [`DataFrame-class`].
-#' At least two columns that provide mapping relationships between `"element"` and `"set"`.
+#' At least two columns that provide mapping relationships between `"element"` and `"set"` identifiers.
 #' Additional columns are taken as relation metadata.
 #' @param elementData [`IdVector`].
-#' Metadata for each unique element in `relations$element` is provided as `mcols(elementData)`.
+#' Metadata for each unique identifier in `relations$element` is provided as `mcols(elementData)`.
 #' @param setData [`IdVector`].
-#' Metadata for each unique set in `relations$set` is provided as `mcols(setData)`.
+#' Metadata for each unique identifier in `relations$set` is provided as `mcols(setData)`.
 #'
 #' @return A `BaseSets` object.
 #'
@@ -260,10 +256,10 @@ BaseSets <- function(
 
 #' FuzzyHits Class
 #'
-#' The `FuzzyHits` class extends the [`Hits-class`] class to represent hits that are associated with different grades of membership in the interval `[0,1]`.
+#' The `FuzzyHits` class extends the [`Hits-class`] class to represent hits that are associated with different grades of membership in the interval [0,1].
 #'
 #' This class does not define any additional slot to the `Hits` class.
-#' However, this class defines additional validity checks to ensure that every relation stored in a `FuzzyHits` are associated with a numeric membership funtion in the interval `[0,1]`.
+#' However, this class defines additional validity checks to ensure that every relation stored in a `FuzzyHits` are associated with a numeric membership funtion in the interval [0,1].
 #'
 #' @export
 #' @exportClass FuzzyHits
@@ -291,7 +287,7 @@ setClass("FuzzyHits",
 #' @param from,to Two integer vectors of the same length.
 #' The values in `from` must be >= 1 and <= `nLnode`.
 #' The values in `to` must be >= 1 and <= `nRnode`.
-#' @param membership Numeric. Vector of numeric membership function in the range `[0,1]`
+#' @param membership Numeric. Vector of numeric membership function in the range [0,1]
 #' @param nLnode,nRnode Number of left and right nodes.
 #' @param ... Arguments metadata columns to set on the `FuzzyHits` object.
 #' All the metadata columns must be vector-like objects of the same length as `from`, `to`, and `membership`.
@@ -321,15 +317,15 @@ FuzzyHits <- function(
 
 #' FuzzySets Class
 #'
-#' The `FuzzySets` class extends the [`BaseSets-class`] class to implement a container that also describe different grades of membership in the interval `[0,1]`.
+#' The `FuzzySets` class extends the [`BaseSets-class`] class to implement a container that also describe different grades of membership in the interval [0,1].
 #'
 #' This class does not define any additional slot to the `BaseSets` class.
-#' However, this class defines additional validity checks to ensure that every relation stored in a `FuzzySets` are associated with a numeric membership funtion in the interval `[0,1]`.
+#' However, this class defines additional validity checks to ensure that every relation stored in a `FuzzySets` are associated with a numeric membership funtion in the interval [0,1].
 #'
 #' @export
 #' @exportClass FuzzySets
 #'
-#' @seealso [BaseSets-class], [FuzzyHits-class], [`FuzzySets-methods`].
+#' @seealso [`BaseSets-class`], [`FuzzyHits-class`], [`FuzzySets-methods`].
 #'
 #' @examples
 #' # Constructor ----
@@ -390,7 +386,7 @@ setClass("FuzzySets",
 #' @aliases FuzzySets
 #'
 #' @param relations [`DataFrame-class`].
-#' At least 3 columns that provide mapping relationships between `"element"` and `"set"`, with `"membership"` function in the range `[0,1]`.
+#' At least 3 columns that provide mapping relationships between `"element"` and `"set"` identifiers, with `"membership"` function in the range [0,1].
 #' Additional columns are taken as relation metadata.
 #' @param ... Arguments passed to the [`BaseSets()`] constructor and other functions.
 #'
@@ -424,6 +420,7 @@ FuzzySets <- function(
 #' @exportClass EntrezIdVector
 #'
 #' @examples
+#'
 #' # EntrezIdVector ----
 #'
 #' library(org.Hs.eg.db)
@@ -452,6 +449,7 @@ EntrezIdVector <- function(ids) {
 #' @exportClass GOIdVector
 #'
 #' @examples
+#'
 #' # GOIdVector ----
 #'
 #' library(org.Hs.eg.db)
@@ -478,9 +476,17 @@ GOIdVector <- function(ids) {
 #' @aliases GOEvidenceCodes
 #'
 #' @section Controlled vocabulary:
-#' Gene Ontology evidence codes were obtained from http://geneontology.org/docs/guide-go-evidence-codes/
+#' Gene Ontology evidence codes were obtained from <>
 #'
 #' @export
+#'
+#' @format A named vector of length 26.
+#' \describe{
+#'   \item{names}{Code.}
+#'   \item{carat}{Description.}
+#'   ...
+#' }
+#' @source <http://geneontology.org/docs/guide-go-evidence-codes/>
 #'
 #' @examples
 #' # Controlled vocabulary ----
@@ -520,9 +526,17 @@ GOEvidenceCodes <- c(
 #' @aliases GOOntologyCodes
 #'
 #' @section Controlled vocabulary:
-#' Gene Ontology namespaces were obtained from http://geneontology.org/docs/ontology-documentation/
+#' Gene Ontology namespaces were obtained from <http://geneontology.org/docs/ontology-documentation/>
 #'
 #' @export
+#'
+#' @format A named vector of length 3.
+#' \describe{
+#'   \item{names}{Code.}
+#'   \item{carat}{Description.}
+#'   ...
+#' }
+#' @source <http://geneontology.org/docs/guide-go-evidence-codes/>
 #'
 #' @examples
 #' GOOntologyCodes
@@ -544,7 +558,7 @@ GOOntologyCodes <- c(
 #' @exportClass GOHits
 #' @importClassesFrom S4Vectors Hits
 #'
-#' @seealso [Hits-class], [FuzzySets-class]
+#' @seealso [`Hits-class`], [`FuzzySets-class`]
 #'
 #' @examples
 #'
@@ -555,7 +569,7 @@ GOOntologyCodes <- c(
 #' ontology <- factor(c("BP", "BP", "BP", "MF", "MF", "CC"))
 #' evidence <- factor(c("IEA", "IDA", "IEA", "IDA", "IEA", "IDA"))
 #'
-#' gh <- GOHits(from, to, ontology, evidence, 7, 15)
+#' gh <- GOHits(from, to, evidence, ontology, 7, 15)
 #' gh
 setClass("GOHits",
     contains="Hits"
@@ -654,7 +668,7 @@ setClass("GOSets",
 #' @aliases GOSets
 #'
 #' @param relations [`DataFrame-class`].
-#' At least 3 columns that provide mapping relationships between `"element"` and `"set"`, with `"membership"` function in the range `[0,1]`.
+#' At least 3 columns that provide mapping relationships between `"element"` and `"set"`, with `"membership"` function in the range [0,1].
 #' Additional columns are taken as relation metadata.
 #' @param ... Arguments passed to the [`BaseSets()`] constructor and other functions.
 #'

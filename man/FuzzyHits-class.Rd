@@ -14,7 +14,7 @@ FuzzyHits(from = integer(0), to = integer(0),
 The values in \code{from} must be >= 1 and <= \code{nLnode}.
 The values in \code{to} must be >= 1 and <= \code{nRnode}.}
 
-\item{membership}{Numeric. Vector of numeric membership function in the range \code{[0,1]}}
+\item{membership}{Numeric. Vector of numeric membership function in the range \link{0,1}}
 
 \item{nLnode, nRnode}{Number of left and right nodes.}
 
@@ -25,11 +25,11 @@ All the metadata columns must be vector-like objects of the same length as \code
 A \code{FuzzyHits} object.
 }
 \description{
-The \code{FuzzyHits} class extends the \code{\linkS4class{Hits}} class to represent hits that are associated with different grades of membership in the interval \code{[0,1]}.
+The \code{FuzzyHits} class extends the \code{\linkS4class{Hits}} class to represent hits that are associated with different grades of membership in the interval \link{0,1}.
 }
 \details{
 This class does not define any additional slot to the \code{Hits} class.
-However, this class defines additional validity checks to ensure that every relation stored in a \code{FuzzyHits} are associated with a numeric membership funtion in the interval \code{[0,1]}.
+However, this class defines additional validity checks to ensure that every relation stored in a \code{FuzzyHits} are associated with a numeric membership funtion in the interval \link{0,1}.
 }
 \examples{
 # Constructor ----

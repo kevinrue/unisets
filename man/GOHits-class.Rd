@@ -7,7 +7,17 @@
 \alias{GOOntologyCodes}
 \alias{GOHits}
 \title{GOHits Class}
-\format{An object of class \code{character} of length 26.}
+\format{A named vector of length 26.
+\describe{
+\item{names}{Code.}
+\item{carat}{Description.}
+...
+}}
+\source{
+\url{http://geneontology.org/docs/guide-go-evidence-codes/}
+
+\url{http://geneontology.org/docs/guide-go-evidence-codes/}
+}
 \usage{
 GOEvidenceCodes
 
@@ -45,10 +55,10 @@ Refer to \code{\link{GOOntologyCodes}} and \code{\link{GOEvidenceCodes}} for val
 }
 \section{Controlled vocabulary}{
 
-Gene Ontology evidence codes were obtained from http://geneontology.org/docs/guide-go-evidence-codes/
+Gene Ontology evidence codes were obtained from <>
 
 
-Gene Ontology namespaces were obtained from http://geneontology.org/docs/ontology-documentation/
+Gene Ontology namespaces were obtained from \url{http://geneontology.org/docs/ontology-documentation/}
 }
 
 \examples{
@@ -64,11 +74,11 @@ to <- c(11, 15, 5, 4, 5, 11)
 ontology <- factor(c("BP", "BP", "BP", "MF", "MF", "CC"))
 evidence <- factor(c("IEA", "IDA", "IEA", "IDA", "IEA", "IDA"))
 
-gh <- GOHits(from, to, ontology, evidence, 7, 15)
+gh <- GOHits(from, to, evidence, ontology, 7, 15)
 gh
 }
 \seealso{
-\linkS4class{Hits}, \linkS4class{FuzzySets}
+\code{\linkS4class{Hits}}, \code{\linkS4class{FuzzySets}}
 }
 \author{
 Kevin Rue-Albrecht
