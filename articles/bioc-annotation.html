@@ -94,7 +94,7 @@
       Fred Hutchinson Cancer Research Center, Seattle, WA, USA, 98115<br><a class="author_email" href="mailto:#"></a><a href="mailto:robert.amezquita@fredhutch.org">robert.amezquita@fredhutch.org</a>
       </address>
                   
-            <h4 class="date">13 February 2019</h4>
+            <h4 class="date">14 February 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/unisets/blob/master/vignettes/bioc-annotation.Rmd"><code>vignettes/bioc-annotation.Rmd</code></a></small>
       <div class="hidden name"><code>bioc-annotation.Rmd</code></div>
@@ -119,29 +119,30 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(org.Hs.eg.db)</a></code></pre></div>
 </div>
 </div>
-<div id="converting-to-unisets-classes" class="section level1">
+<div id="importing-to-unisets-classes" class="section level1">
 <h1 class="hasAnchor">
-<a href="#converting-to-unisets-classes" class="anchor"></a>Converting to unisets classes</h1>
+<a href="#importing-to-unisets-classes" class="anchor"></a>Importing to unisets classes</h1>
+<div id="import-gene-ontology" class="section level2">
+<h2 class="hasAnchor">
+<a href="#import-gene-ontology" class="anchor"></a>Gene Ontology</h2>
 <p><code>Go3AnnDbBimap</code> objects (from the <em><a href="https://bioconductor.org/packages/3.9/AnnotationDbi">AnnotationDbi</a></em> package) are maps between Entrez gene identifiers and Gene Ontology (GO) identifiers. Those objects may be directly converted to <code>BaseSets</code> objects as demonstrated below.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(unisets)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">base_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/import.html">import</a></span>(org.Hs.egGO)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="../reference/BaseSets-methods.html">relations</a></span>(base_sets)</a></code></pre></div>
-<pre><code>## GOHits object with 313751 hits and 2 metadata columns:
-##                 from        to | evidence ontology
-##            &lt;integer&gt; &lt;integer&gt; | &lt;factor&gt; &lt;factor&gt;
-##        [1]         1         1 |      TAS       BP
-##        [2]         1         2 |       ND       BP
-##        [3]         1         3 |      TAS       BP
-##        [4]      4426         4 |      IDA       BP
-##        [5]      4426         1 |      TAS       BP
-##        ...       ...       ... .      ...      ...
-##   [313747]      1677     13838 |      IEA       MF
-##   [313748]      1731     15982 |      IMP       MF
-##   [313749]      1731     15982 |      TAS       MF
-##   [313750]      1731     13885 |      IEA       MF
-##   [313751]      1859     13807 |      IPI       MF
-##   -------
-##   nLnode: 20408 / nRnode: 17983</code></pre>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">as</span>(base_sets, <span class="st">"DataFrame"</span>)[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"element"</span>, <span class="st">"set"</span>, <span class="st">"relationData"</span>)]</a></code></pre></div>
+<pre><code>## DataFrame with 313751 rows and 3 columns
+##                 element          set relationData
+##        &lt;EntrezIdVector&gt; &lt;GOIdVector&gt;  &lt;DataFrame&gt;
+## 1                     1   GO:0002576       TAS:BP
+## 2                     1   GO:0008150        ND:BP
+## 3                     1   GO:0043312       TAS:BP
+## 4                     2   GO:0001869       IDA:BP
+## 5                     2   GO:0002576       TAS:BP
+## ...                 ...          ...          ...
+## 313747        110599583   GO:0046872       IEA:MF
+## 313748        111089941   GO:0004571       IMP:MF
+## 313749        111089941   GO:0004571       TAS:MF
+## 313750        111089941   GO:0005509       IEA:MF
+## 313751        112441434   GO:0005515       IPI:MF</code></pre>
 <p>Notice how the <code>"element"</code> information is typed as <code>EntrezIdVector</code>, allowing the type of identifier to affect downstream methods (e.g., pathway analyses). The <code>EntrezIdVector</code> class directly inherits from the <code>IdVector</code> class, and benefits of all the methods associated with the parent class.</p>
 <p>It is also useful to note that the conversion of <code>Go3AnnDbBimap</code> Gene Ontology maps to <em><a href="https://github.com/kevinrue/unisets">unisets</a></em> objects automatically fetches metadata for each GO identifier from the <code>GO.db</code> package, if installed. The metadata is stored it in the <code>mcols</code> (metadata-columns) slot of the <code>setData</code> slot of the object returned. This metadata can be accessed using the accessor method of the same name.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw"><a href="../reference/BaseSets-methods.html">setData</a></span>(base_sets))[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"ONTOLOGY"</span>, <span class="st">"TERM"</span>)]</a></code></pre></div>
@@ -196,10 +197,11 @@
 <a class="sourceLine" id="cb14-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">axis.text.y =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(<span class="dt">size=</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">rel</a></span>(<span class="fl">0.7</span>)))</a></code></pre></div>
 <p><img src="bioc-annotation_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
+</div>
 <div id="session-info" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<pre><code>## R Under development (unstable) (2019-02-13 r76098)
+<pre><code>## R Under development (unstable) (2019-02-14 r76102)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -255,7 +257,7 @@
 ## [53] labeling_0.3                bitops_1.0-6               
 ## [55] rmarkdown_1.11              gtable_0.2.0               
 ## [57] DBI_1.0.0                   roxygen2_6.1.1             
-## [59] reshape2_1.4.3              R6_2.3.0                   
+## [59] reshape2_1.4.3              R6_2.4.0                   
 ## [61] GenomicAlignments_1.19.1    knitr_1.21                 
 ## [63] rtracklayer_1.43.1          bit_1.1-14                 
 ## [65] commonmark_1.7              rprojroot_1.3-2            
@@ -274,7 +276,11 @@
 <li><a href="#bioconductor-annotation-packages">Bioconductor annotation packages</a></li>
       </ul>
 </li>
-      <li><a href="#converting-to-unisets-classes">Converting to unisets classes</a></li>
+      <li>
+<a href="#importing-to-unisets-classes">Importing to unisets classes</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#import-gene-ontology">Gene Ontology</a></li>
+      </ul>
+</li>
       <li><a href="#session-info">Session info</a></li>
       </ul>
 </div>
