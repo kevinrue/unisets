@@ -43,7 +43,9 @@ Here, we load the human gene annotations.
 library(org.Hs.eg.db)
 ```
 
-# Converting to unisets classes
+# Importing to unisets classes
+
+## Gene Ontology {#import-gene-ontology}
 
 `Go3AnnDbBimap` objects (from the `r Biocpkg("AnnotationDbi")` package) are maps between Entrez gene identifiers and Gene Ontology (GO) identifiers.
 Those objects may be directly converted to `BaseSets` objects as demonstrated below.
@@ -51,7 +53,7 @@ Those objects may be directly converted to `BaseSets` objects as demonstrated be
 ```{r message=FALSE}
 library(unisets)
 base_sets <- import(org.Hs.egGO)
-relations(base_sets)
+as(base_sets, "DataFrame")[, c("element", "set", "relationData")]
 ```
 
 Notice how the `"element"` information is typed as `EntrezIdVector`, allowing the type of identifier to affect downstream methods (e.g., pathway analyses).

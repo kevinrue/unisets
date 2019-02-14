@@ -33,7 +33,7 @@ The goal of the `r Githubpkg("kevinrue/unisets")` package is to provide a collec
 
 # Getting started
 
-## The _BaseSets_ class
+## The _BaseSets_ class {#basesets-class}
 
 This is a basic example which shows you how to create a `BaseSets` object, to store simple associations between elements and sets, along with optional metadata associated with each relation:
 
@@ -106,7 +106,7 @@ Similarly, `as.data.frame` can be used to obtain a flattened `data.frame`, with 
 as.data.frame(base_sets)
 ```
 
-## The _FuzzySets_ class
+## The _FuzzySets_ class {#fuzzysets-class}
 
 Classes derived from `Hits` may add additional constraints on the relations to define special types of relationships between elements and sets.
 
@@ -133,6 +133,13 @@ Identically to `BaseSets`, the `relations` accessor returns fuzzy relations as `
 relations(fuzzy_sets)
 as(fuzzy_sets, "DataFrame")
 ```
+
+## The _GOSets_ class
+
+The `GOSets` class is another direct extension of the `BaseSets` class where the `relations` slot must contain `GOHits`.
+Similary to [`FuzzyHits`](#fuzzysets-class), the `GOHits` class extends the `Hits` class, but with the distinct contraint that each relation metadata must include at least 2 columns called `"evidence"` and `"ontology"` holding the Gene Ontology evidence code and ontology code, respectively.
+
+Examples of `GOSets` usage are described in a dedicated [vignette](bioc-annotation.html#import-gene-ontology).
 
 # Subsetting
 
