@@ -221,18 +221,6 @@ BaseSets <- function(
         mcols(setData) <- DataFrame(row.names=ids(setData))
     }
 
-    # Drop metadata for elements and sets not represented in relations
-    elementKeep <- (ids(elementData) %in% as.character(relations$element))
-    if (!all(elementKeep)) {
-        message("Dropping elementData missing from relations$element")
-        elementData <- elementData[elementKeep]
-    }
-    setKeep <- (ids(setData) %in% as.character(relations$set))
-    if (!all(setKeep)) {
-        message("Dropping setData missing from relations$set")
-        setData <- setData[setKeep]
-    }
-
     elementIdx <- match(as.character(relations$element), ids(elementData))
     if (any(is.na(elementIdx))) {
         stop("relations$element missing from ids(elementData)")
