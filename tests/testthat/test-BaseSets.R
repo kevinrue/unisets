@@ -1,18 +1,23 @@
 
 # Setup ----
 
-sets <- list(
-    set1=c("A", "B"),
-    set2=c("B", "C", "D"),
-    set3=c("E")
+sets_list <- list(
+    set1 = c("A", "B"),
+    set2 = c("B", "C", "D"),
+    set3 = c("E")
 )
 
 # prepare named vectors to check that names are dropped by the constructor
-elementsUnlist <- unlist(sets)
-setsUnlist <- rep(names(sets), lengths(sets))
-names(setsUnlist) <- paste0("x", seq_along(setsUnlist))
+elements_unlist <- unlist(sets_list)
+sets_unlist <- rep(names(sets_list), lengths(sets_list))
+names(sets_unlist) <- paste0("x", seq_along(sets_unlist))
 
-relations <- DataFrame(element=elementsUnlist, set=setsUnlist)
+relations <- DataFrame(
+    element = elements_unlist,
+    set     = sets_unlist,
+    extra1  = rep(c("ABC", "DEF"), c(3L, 3L)),
+    extra2  = seq(0, 1, length.out = 6L)
+)
 
 # BaseSets() ----
 
@@ -305,11 +310,11 @@ test_that("as(BaseSets, \"data.frame\") works", {
     bs <- BaseSets(relations)
 
     out <- as(bs, "data.frame")
-    expect_identical(colnames(out), c("element", "set"))
+    expect_identical(colnames(out), c("element", "set", "extra1", "extra2"))
     expect_identical(dim(out), dim(relations))
 
     out <- as.data.frame.BaseSets(bs)
-    expect_identical(colnames(out), c("element", "set"))
+    expect_identical(colnames(out), c("element", "set", "extra1", "extra2"))
     expect_identical(dim(out), dim(relations))
 
 })
