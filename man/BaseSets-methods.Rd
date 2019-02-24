@@ -29,6 +29,8 @@
 \alias{nSets,BaseSets-method}
 \alias{setLengths,BaseSets-method}
 \alias{elementLengths,BaseSets-method}
+\alias{c.BaseSets}
+\alias{c,BaseSets-method}
 \alias{[,BaseSets,ANY,ANY,ANY-method}
 \alias{[,BaseSets-method}
 \alias{subset.BaseSets}
@@ -100,6 +102,8 @@ elementLengths(object)
 
 \S4method{elementLengths}{BaseSets}(object)
 
+\method{c}{BaseSets}(x, ...)
+
 \S4method{[}{BaseSets,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
 \method{subset}{BaseSets}(x, ...)
@@ -125,11 +129,13 @@ as.BaseSets.matrix(matrix, ...)
 
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
 
+\item{...}{Additional arguments passed to and from other methods.}
+
 \item{i}{index specifying elements to extract or replace.}
 
-\item{j, drop}{Ignored.}
+\item{j}{Ignored.}
 
-\item{...}{Additional arguments passed to and from other methods.}
+\item{drop}{A logical scalar indicating whether to remove orphan elements and sets from the \code{elementData} and \code{setData} slots, respectively.}
 
 \item{incomparables}{Ignored.}
 
@@ -184,15 +190,21 @@ An \code{\linkS4class{IdVector}} objets storing the unique set identifiers (\cod
 \code{elementLengths(object)} returns the count of relations per element.
 }
 
+\section{Combining}{
+
+\code{c(x, ...)} combines its arguments
+}
+
 \section{Subsetting}{
 
-\code{x[i]} returns new \code{\linkS4class{BaseSets}} object of the same class as \code{x} made of the elements selected by \code{i}. \code{i} can be missing; an \code{NA}-free logical, numeric, or character vector or factor (as ordinary vector or \code{\link{Rle}} object); or an \code{\link[=IntegerRanges-class]{IntegerRanges}} object.
+\code{x[i, drop=TRUE]} returns new \code{\linkS4class{BaseSets}} object of the same class as \code{x} made of the elements selected by \code{i}. \code{i} can be missing; an \code{NA}-free logical, numeric, or character vector or factor (as ordinary vector or \code{\link{Rle}} object); or an \code{\link[=IntegerRanges-class]{IntegerRanges}} object.
+The \code{drop} logical value controls whether the metadata of elements and sets orphaned during the subsetting should be removed from the \code{elementData} and \code{setData} slots, respectively.
 
 
 
-\code{subset(object, subset, ...)} returns subsets of relations which meet conditions.
+\code{subset(object, subset, ..., drop=TRUE)} returns subsets of relations which meet conditions.
 The \code{subset} argument should be a logical expression referring to any of \code{"element"}, \code{"set"}, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
-In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.
+The \code{drop} logical scalar controls whether elements and sets orphaned during the subsetting should be removed from the \code{elementData} and \code{setData} slots, respectively.
 }
 
 \section{Duplication and uniqueness}{
@@ -272,9 +284,14 @@ nSets(bs)
 setLengths(bs)
 elementLengths(bs)
 
+# Combining ----
+
+bs1 <- c(bs, bs)
+
 # Subsetting ----
 
 bs1 <- bs[1:5]
+bs1 <- bs[1:5, , drop=FALSE] # keep metadata of orphan elements and sets
 
 bs1 <- subset(bs, set == "set1" | element == "E")
 bs1
@@ -290,7 +307,7 @@ unique(bs1)
 
 DF1 <- as(bs, "DataFrame")
 
-df1 <- as(bs, "data.frame")
+df1 <- as.data.frame(bs)
 
 l1 <- as(bs, "list")
 

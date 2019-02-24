@@ -160,13 +160,11 @@ setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...)
     }
 
     ## Collapse into tab separated list
-    df <- as(object, "data.frame")
+    df <- as.data.frame(object)
     df$source <- source[df$set, ]
     df <- df[order(df$set, df$element), ]
     set_list <- lapply(with(df, split(df, set)), function(x) {
-        paste(x$set[1], x$source[1],
-              paste(x$element, collapse="\t"),
-              sep="\t")
+        paste(x$set[1], x$source[1], paste(x$element, collapse="\t"), sep="\t")
     })
 
     ## Collapse each set list into a row and write out

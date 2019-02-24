@@ -220,16 +220,59 @@ setMethod("elementLengths", "BaseSets", function(object) {
     lengths(out)
 })
 
+# c() ----
+
+#' @rdname BaseSets-methods
+#' @aliases c,BaseSets-method
+#'
+#' @section Combining:
+#' `c(x, ...)` combines its arguments
+#'
+#' @examples
+#'
+#' # Combining ----
+#'
+#' bs1 <- c(bs, bs)
+c.BaseSets <- function(x, ...) {
+    c(x, ...)
+}
+
+setMethod(
+    "c", "BaseSets",
+    function(x, ...){
+        .local <- function (x, objects=list(), use.names = TRUE,  ignore.mcols = FALSE, check = TRUE)
+        {
+            all_objects <- c(list(x), objects)
+
+            newElementData <- lapply(all_objects, elementData)
+            newSetData <- lapply(all_objects, setData)
+            newRelations <- lapply(all_objects, as.data.frame)
+
+            newElementData <- do.call(c, newElementData)
+            newSetData <- do.call(c, newSetData)
+            newRelations <- do.call(rbind, newRelations)
+
+            newElementData <- unique(newElementData)
+            newSetData <- unique(newSetData)
+
+            BaseSets(newRelations, newElementData, newSetData)
+        }
+        .local(x, list(...))
+    }
+)
+
 # [ ----
 
 #' @rdname BaseSets-methods
 #' @aliases [,BaseSets-method
 #'
 #' @section Subsetting:
-#' `x[i]` returns new [`BaseSets-class`] object of the same class as `x` made of the elements selected by `i`. `i` can be missing; an `NA`-free logical, numeric, or character vector or factor (as ordinary vector or [`Rle`] object); or an [`IntegerRanges`][IntegerRanges-class] object.
+#' `x[i, drop=TRUE]` returns new [`BaseSets-class`] object of the same class as `x` made of the elements selected by `i`. `i` can be missing; an `NA`-free logical, numeric, or character vector or factor (as ordinary vector or [`Rle`] object); or an [`IntegerRanges`][IntegerRanges-class] object.
+#' The `drop` logical value controls whether the metadata of elements and sets orphaned during the subsetting should be removed from the `elementData` and `setData` slots, respectively.
 #'
 #' @param i index specifying elements to extract or replace.
-#' @param j,drop Ignored.
+#' @param j Ignored.
+#' @param drop A logical scalar indicating whether to remove orphan elements and sets from the `elementData` and `setData` slots, respectively.
 #'
 #' @importFrom methods callNextMethod
 #' @importClassesFrom IRanges IntegerRanges
@@ -239,13 +282,18 @@ setMethod("elementLengths", "BaseSets", function(object) {
 #' # Subsetting ----
 #'
 #' bs1 <- bs[1:5]
+#' bs1 <- bs[1:5, , drop=FALSE] # keep metadata of orphan elements and sets
 setMethod("[", "BaseSets", function(x, i, j, ..., drop = TRUE) {
     keep.element <- unique(ids(elementData(x))[from(relations(x))[i]])
     keep.set <- unique(ids(setData(x))[to(relations(x))[i]])
 
-    relations <- DataFrame(as(x, "data.frame")[i, , drop=FALSE], row.names=NULL)
-    elementData <- elementData(x)[which(ids(elementData(x)) %in% keep.element)]
-    setData <- setData(x)[which(ids(setData(x)) %in% keep.set)]
+    relations <- DataFrame(as.data.frame(x)[i, , drop=drop], row.names=NULL)
+    elementData <- elementData(x)
+    setData <- setData(x)
+    if (isTRUE(drop)) {
+        elementData <- elementData[which(ids(elementData) %in% keep.element)]
+        setData <- setData[which(ids(setData) %in% keep.set)]
+    }
 
     BaseSets(relations, elementData, setData)
 })
@@ -259,9 +307,10 @@ setMethod("[", "BaseSets", function(x, i, j, ..., drop = TRUE) {
 #'
 #' @section Subsetting:
 #'
-#' `subset(object, subset, ...)` returns subsets of relations which meet conditions.
+#' `subset(object, subset, ..., drop=TRUE)` returns subsets of relations which meet conditions.
 #' The `subset` argument should be a logical expression referring to any of `"element"`, `"set"`, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
-#' In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.
+#' The `drop` logical scalar controls whether elements and sets orphaned during the subsetting should be removed from the `elementData` and `setData` slots, respectively.
+
 #'
 #' @importFrom methods as
 #' @importFrom BiocGenerics eval unique
@@ -276,11 +325,13 @@ setMethod("[", "BaseSets", function(x, i, j, ..., drop = TRUE) {
 subset.BaseSets <- function(x, ...) subset(x, ...)
 
 setMethod("subset", "BaseSets", function(x, ...) {
-    .local <- function(x, subset, select, drop=FALSE, ...) {
+    .local <- function(x, subset, select, drop=TRUE, ...) {
         # Match code layout of the FuzzySets method
-        table <- as(x, "data.frame")
+        table <- as.data.frame(x)
         i <- eval(substitute(subset), table)
-        x[i]
+        out <- x[i, drop=drop]
+        # For derived subclasses, coerce back to the original
+        as(out, class(x))
     }
     .local(x, ...)
 })
@@ -313,7 +364,7 @@ setMethod("show", "BaseSets", function(object) {
 #' relations(bs1) <- rep(relations(bs1), each=2)
 #' table(duplicated(bs1))
 setMethod("duplicated", "BaseSets", function(x, incomparables = FALSE, ...) {
-    duplicated(relations(x))
+    duplicated(as.data.frame(x))
 })
 
 # unique() ----
@@ -381,14 +432,13 @@ setAs("BaseSets", "DataFrame", function(from) {
 #'
 #' @examples
 #'
-#' df1 <- as(bs, "data.frame")
+#' df1 <- as.data.frame(bs)
 as.data.frame.BaseSets <- function(x, ...) {
     out <- as(x, "DataFrame")
     out <- data.frame(
         out[, c("element", "set")],
         as.data.frame(out$relationData)
     )
-    out <- as(out, "data.frame")
     out
 }
 
@@ -435,7 +485,7 @@ setAs("BaseSets", "list", function(from) {
 #'
 #' m1 <- as(bs, "matrix")
 as.matrix.BaseSets <- function(x, ...) {
-    out <- as(x, "data.frame")
+    out <- as.data.frame(x)
     out[["value"]] <- TRUE
     out <- acast(out, element~set, value.var="value", fun.aggregate=any, fill=FALSE)
     out

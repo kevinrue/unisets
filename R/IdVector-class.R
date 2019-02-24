@@ -1,3 +1,4 @@
+
 # ids() ----
 
 #' @rdname IdVector-methods
@@ -91,6 +92,23 @@ setReplaceMethod("names", "IdVector",
 setMethod("length", "IdVector", function(x) {
     length(slot(x, "ids"))
 })
+
+# duplicated() ----
+
+#' @rdname IdVector-methods
+#' @aliases duplicated,IdVector-method duplicated.IdVector
+#'
+#' @param incomparables Ignored.
+duplicated.IdVector <- function(x, incomparables = FALSE, ...) {
+    duplicated(x)
+}
+
+setMethod(
+    "duplicated", "IdVector",
+    function(x, incomparables = FALSE, ...) {
+        duplicated(ids(x))
+    }
+)
 
 # [ ----
 
@@ -273,7 +291,6 @@ setValidity("IdVector", function(object) {
             uniqueRowsById <- vapply(metadataById, function(x){ nrow(unique(x)) }, integer(1))
             nonUniqueIds <- names(which(uniqueRowsById > 1))
             if (length(nonUniqueIds) > 0) {
-                # print(uniqueRowsById[uniqueRowsById > 1])
                 textIds <- paste(head(nonUniqueIds, 4), collapse = ", ")
                 if (length(nonUniqueIds) > 4) {
                     textIds <- paste0(textIds, ", ...")

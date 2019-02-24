@@ -1,18 +1,23 @@
 
 # Setup ----
 
-sets <- list(
-    set1=c("A", "B"),
-    set2=c("B", "C", "D"),
-    set3=c("E")
+sets_list <- list(
+    set1 = c("A", "B"),
+    set2 = c("B", "C", "D"),
+    set3 = c("E")
 )
 
 # prepare named vectors to check that names are dropped by the constructor
-elementsUnlist <- unlist(sets)
-setsUnlist <- rep(names(sets), lengths(sets))
-names(setsUnlist) <- paste0("x", seq_along(setsUnlist))
+elements_unlist <- unlist(sets_list)
+sets_unlist <- rep(names(sets_list), lengths(sets_list))
+names(sets_unlist) <- paste0("x", seq_along(sets_unlist))
 
-relations <- DataFrame(element=elementsUnlist, set=setsUnlist)
+relations <- DataFrame(
+    element = elements_unlist,
+    set     = sets_unlist,
+    extra1  = rep(c("ABC", "DEF"), c(3L, 3L)),
+    extra2  = seq(0, 1, length.out = 6L)
+)
 
 # BaseSets() ----
 
@@ -45,18 +50,6 @@ test_that("BaseSets validity method identifies issues", {
     expect_error(
         BaseSets(relations, setData=IdVector("set999")),
         "relations$set missing from ids(setData)",
-        fixed=TRUE
-    )
-
-    expect_message(
-        BaseSets(relations, elementData=IdVector(unique(c(relations$element, "Z")))),
-        "Dropping elementData missing from relations$element",
-        fixed=TRUE
-    )
-
-    expect_message(
-        BaseSets(relations, setData=IdVector(unique(c(relations$set, "set999")))),
-        "Dropping setData missing from relations$set",
         fixed=TRUE
     )
 
@@ -209,22 +202,86 @@ test_that("setData(BaseSets) <- value works", {
 
 # subset() ----
 
-test_that("subset(BaseSets) works", {
+test_that("subset(BaseSets) works with default drop=TRUE", {
 
     bs <- BaseSets(relations)
 
-    out <- subset(bs, set == "set1")
+    out <- subset(bs, set == "set1") # default is drop=TRUE
 
     expect_true(all(ids(setData(out)) == "set1"))
     expect_identical(length(setData(out)), 1L)
 
-    out <- subset.BaseSets(bs, set == "set1")
+    out <- subset.BaseSets(bs, set == "set1") # default is drop=TRUE
 
     expect_true(all(ids(setData(out)) == "set1"))
     expect_identical(length(setData(out)), 1L)
 
-    out <- bs[1:3]
+    out <- bs[1:3] # default is drop=TRUE
     expect_identical(length(out), 3L)
+
+})
+
+test_that("subset(BaseSets) works with drop=FALSE", {
+
+    bs <- BaseSets(relations)
+
+    out <- subset(bs, set == "set1", drop=FALSE) # default is drop=TRUE
+
+    expect_true(all(ids(sets(out)) == "set1"))
+    expect_identical(ids(setData(out)), ids(setData(bs)))
+
+    out <- subset.BaseSets(bs, set == "set1", drop=FALSE) # default is drop=TRUE
+
+    expect_true(all(ids(sets(out)) == "set1"))
+    expect_identical(ids(setData(out)), ids(setData(bs)))
+
+    out <- bs[1:3, drop=FALSE] # default is drop=TRUE
+    expect_identical(length(out), 3L)
+    expect_identical(ids(setData(out)), ids(setData(bs)))
+
+})
+
+# c() ----
+
+test_that("c(BaseSets) works", {
+
+    bs1 <- bs2 <- bs3 <- BaseSets(relations)
+
+    out <- c(bs1, bs2, bs3)
+
+    # relations are concatenated
+    expect_length(out, length(bs1) + length(bs2) + length(bs3))
+    expect_identical(
+        as.data.frame(out),
+        rbind(as.data.frame(bs1), as.data.frame(bs2), as.data.frame(bs3))
+    )
+    # elements and sets are combined into their union
+    expect_length(
+        elementData(out),
+        length(unique(c(ids(elementData(bs1)), ids(elementData(bs2)), ids(elementData(bs3)))))
+    )
+    expect_length(
+        setData(out),
+        length(unique(c(ids(setData(bs1)), ids(setData(bs2)), ids(setData(bs3)))))
+    )
+
+    out <- c.BaseSets(bs1, bs2, bs3)
+
+    # relations are concatenated
+    expect_length(out, length(bs1) + length(bs2) + length(bs3))
+    expect_identical(
+        as.data.frame(out),
+        rbind(as.data.frame(bs1), as.data.frame(bs2), as.data.frame(bs3))
+    )
+    # elements and sets are combined into their union
+    expect_length(
+        elementData(out),
+        length(unique(c(ids(elementData(bs1)), ids(elementData(bs2)), ids(elementData(bs3)))))
+    )
+    expect_length(
+        setData(out),
+        length(unique(c(ids(setData(bs1)), ids(setData(bs2)), ids(setData(bs3)))))
+    )
 
 })
 
@@ -232,24 +289,30 @@ test_that("subset(BaseSets) works", {
 
 test_that("duplicated(BaseSets) works", {
 
-    bs <- BaseSets(relations)
-    bs1 <- bs
-    bs1@relations <- rep(bs1@relations, times=2)
+    bs1 <- bs2 <- BaseSets(relations)
 
-    out <- duplicated(bs1)
-    expect_identical(out, rep(c(FALSE, TRUE), each=length(bs)))
+    # bs2 is an exact duplicate of bs1
+    out <- duplicated(c(bs1, bs2))
+    expect_identical(out, rep(c(FALSE, TRUE), c(length(bs1), length(bs2))))
+
+    # change the metadata of the relations in bs2; creating _different_ relations
+    mcols(relations(bs2)) <- mcols(relations(bs2))[rev(seq_along(bs2)), ]
+
+    out <- duplicated(c(bs1, bs2))
+    expect_identical(out, rep(c(FALSE, FALSE), c(length(bs1), length(bs2))))
 })
 
 # unique() ----
 
 test_that("unique(BaseSets) works", {
 
-    bs <- BaseSets(relations)
-    bs1 <- bs
-    bs1@relations <- rep(bs1@relations, times=2)
+    bs1 <- bs2 <- bs3 <- BaseSets(relations)
 
-    out <- unique(bs1)
-    expect_identical(out, bs)
+    bs <- c(bs1, bs2, bs3)
+
+    out <- unique(bs)
+    expect_length(out, length(bs1))
+    expect_identical(out, bs1)
 })
 
 # show() ----
@@ -297,11 +360,11 @@ test_that("as(BaseSets, \"data.frame\") works", {
     bs <- BaseSets(relations)
 
     out <- as(bs, "data.frame")
-    expect_identical(colnames(out), c("element", "set"))
+    expect_identical(colnames(out), c("element", "set", "extra1", "extra2"))
     expect_identical(dim(out), dim(relations))
 
     out <- as.data.frame.BaseSets(bs)
-    expect_identical(colnames(out), c("element", "set"))
+    expect_identical(colnames(out), c("element", "set", "extra1", "extra2"))
     expect_identical(dim(out), dim(relations))
 
 })

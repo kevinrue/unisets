@@ -5,8 +5,6 @@
 \alias{FuzzySets-methods}
 \alias{membership,FuzzySets-method}
 \alias{membership<-,FuzzySets-method}
-\alias{subset.FuzzySets}
-\alias{subset,FuzzySets-method}
 \alias{as.matrix.FuzzySets}
 \alias{as.FuzzySets.matrix}
 \alias{as.FuzzySets}
@@ -15,8 +13,6 @@
 \S4method{membership}{FuzzySets}(object)
 
 \S4method{membership}{FuzzySets}(object) <- value
-
-\method{subset}{FuzzySets}(x, ...)
 
 \method{as.matrix}{FuzzySets}(x, fill = NA_real_, ...)
 
@@ -27,10 +23,10 @@ as.FuzzySets.matrix(matrix, ...)
 
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
 
-\item{...}{Additional arguments passed to and from other methods.}
-
 \item{fill}{Value with which to fill in structural missings, passed to \code{\link[=acast]{acast()}}.
 Defaults to \code{NA_real_}, to contrast with relations explictly associated with a membership function of 0.}
+
+\item{...}{Additional arguments passed to and from other methods.}
 
 \item{matrix}{A \code{matrix}.
 The matrix will be coerced to \code{double} type and the value will be taken to indicate the membership function.}
@@ -44,13 +40,6 @@ and \code{value} is an object of a class specified in the S4 method signature or
 \section{Accessors}{
 
 \code{membership(object)} returns a numeric vector of membership function for each relation.
-}
-
-\section{Subsetting}{
-
-\code{subset(x, subset, ...)} returns subsets of relations which meet conditions.
-For \code{FuzzySets} objects, the \code{subset} argument should be a logical expression referring to any of \code{"element"}, \code{"set"}, \code{"membership"}, and other available relation metadata indicating elements or rows to keep: missing values are taken as false.
-In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.
 }
 
 \section{Coercion}{
@@ -96,11 +85,6 @@ fs
 membership(fs)
 fs1 <- fs
 membership(fs1)[1] <- 0
-
-# Subsetting ----
-
-fs1 <- subset(fs, set == "set1" | membership > 0.5)
-fs1
 
 # Coercion from/to FuzzySets ----
 

@@ -58,39 +58,6 @@ setReplaceMethod("membership", "FuzzySets",
     }
 )
 
-# subset ----
-
-#' @rdname FuzzySets-methods
-#' @aliases subset.FuzzySets subset,FuzzySets-method
-#'
-#' @param ... Additional arguments passed to and from other methods.
-#'
-#' @section Subsetting:
-#' `subset(x, subset, ...)` returns subsets of relations which meet conditions.
-#' For `FuzzySets` objects, the `subset` argument should be a logical expression referring to any of `"element"`, `"set"`, `"membership"`, and other available relation metadata indicating elements or rows to keep: missing values are taken as false.
-#' In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.
-#'
-#' @importFrom methods as
-#' @importFrom BiocGenerics eval unique
-#' @importFrom S4Vectors from to subset
-#' @method subset FuzzySets
-#' @export
-#'
-#' @examples
-#'
-#' # Subsetting ----
-#'
-#' fs1 <- subset(fs, set == "set1" | membership > 0.5)
-#' fs1
-subset.FuzzySets <- function(x, ...) subset(x, ...)
-
-setMethod("subset", "FuzzySets", function(x, ...) {
-    out <- callNextMethod()
-
-    out <- as(out, "FuzzySets")
-    out
-})
-
 # as.matrix.FuzzySets() ----
 
 #' @rdname FuzzySets-methods
@@ -98,6 +65,8 @@ setMethod("subset", "FuzzySets", function(x, ...) {
 #'
 #' @param fill Value with which to fill in structural missings, passed to [`acast()`].
 #' Defaults to `NA_real_`, to contrast with relations explictly associated with a membership function of 0.
+#' @param ... Additional arguments passed to and from other methods.
+#'
 #' @section Coercion:
 #' `as(x, "matrix")` and `as.matrix(x)` return a `matrix` with elements as rows, sets as columns, and a numeric value indicating the membership function.
 #'
@@ -116,7 +85,7 @@ setMethod("subset", "FuzzySets", function(x, ...) {
 #'
 #' matrix1 <- as(fs, "matrix")
 as.matrix.FuzzySets <- function(x, fill=NA_real_, ...) {
-    out <- as(x, "data.frame")
+    out <- as.data.frame(x)
     out[["value"]] <- membership(x)
     out <- acast(out, element~set, value.var="value", fill=fill, ...)
     out

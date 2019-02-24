@@ -136,9 +136,7 @@ test_that("subset(GOSets) works", {
     gs <- GOSets(relations)
 
     out <- subset(gs, ontology == "BP" & evidence == "TAS")
-    expect_true(all(ontology(out) == "BP" & evidence(out) == "TAS"))
-
-    out <- subset.GOSets(gs, ontology == "BP" & evidence == "TAS")
+    expect_s4_class(out, "GOSets")
     expect_true(all(ontology(out) == "BP" & evidence(out) == "TAS"))
 
 })
