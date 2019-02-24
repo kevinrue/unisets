@@ -239,13 +239,18 @@ setMethod("elementLengths", "BaseSets", function(object) {
 #' # Subsetting ----
 #'
 #' bs1 <- bs[1:5]
+#' bs1 <- bs[1:5, , drop=FALSE] # keep metadat of orphan elements and sets
 setMethod("[", "BaseSets", function(x, i, j, ..., drop = TRUE) {
     keep.element <- unique(ids(elementData(x))[from(relations(x))[i]])
     keep.set <- unique(ids(setData(x))[to(relations(x))[i]])
 
-    relations <- DataFrame(as(x, "data.frame")[i, , drop=FALSE], row.names=NULL)
-    elementData <- elementData(x)[which(ids(elementData(x)) %in% keep.element)]
-    setData <- setData(x)[which(ids(setData(x)) %in% keep.set)]
+    relations <- DataFrame(as.data.frame(x)[i, , drop=FALSE], row.names=NULL)
+    elementData <- elementData(x)
+    setData <- setData(x)
+    if (isTRUE(drop)) {
+        elementData <- elementData[which(ids(elementData) %in% keep.element)]
+        setData <- setData[which(ids(setData) %in% keep.set)]
+    }
 
     BaseSets(relations, elementData, setData)
 })
@@ -276,11 +281,14 @@ setMethod("[", "BaseSets", function(x, i, j, ..., drop = TRUE) {
 subset.BaseSets <- function(x, ...) subset(x, ...)
 
 setMethod("subset", "BaseSets", function(x, ...) {
-    .local <- function(x, subset, select, drop=FALSE, ...) {
+    .local <- function(x, subset, select, drop=TRUE, ...) {
         # Match code layout of the FuzzySets method
-        table <- as(x, "data.frame")
+        table <- as.data.frame(x)
         i <- eval(substitute(subset), table)
-        x[i]
+        cat("drop:", drop, "\n")
+        out <- x[i, , drop=drop]
+        # For derived subclasses, coerce back to the original
+        as(out, class(x))
     }
     .local(x, ...)
 })
@@ -381,14 +389,13 @@ setAs("BaseSets", "DataFrame", function(from) {
 #'
 #' @examples
 #'
-#' df1 <- as(bs, "data.frame")
+#' df1 <- as.data.frame(bs)
 as.data.frame.BaseSets <- function(x, ...) {
     out <- as(x, "DataFrame")
     out <- data.frame(
         out[, c("element", "set")],
         as.data.frame(out$relationData)
     )
-    out <- as(out, "data.frame")
     out
 }
 
@@ -435,7 +442,7 @@ setAs("BaseSets", "list", function(from) {
 #'
 #' m1 <- as(bs, "matrix")
 as.matrix.BaseSets <- function(x, ...) {
-    out <- as(x, "data.frame")
+    out <- as.data.frame(x)
     out[["value"]] <- TRUE
     out <- acast(out, element~set, value.var="value", fun.aggregate=any, fill=FALSE)
     out

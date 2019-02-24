@@ -275,6 +275,7 @@ elementLengths(bs)
 # Subsetting ----
 
 bs1 <- bs[1:5]
+bs1 <- bs[1:5, , drop=FALSE] # keep metadat of orphan elements and sets
 
 bs1 <- subset(bs, set == "set1" | element == "E")
 bs1

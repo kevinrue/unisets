@@ -110,13 +110,13 @@ NULL
 #'
 #' This page documents the S4 generics and methods defined for objects inheriting of the [`GOSets-class`] class.
 #' The `GOSets` class directly extends [`BaseSets-class`] and thus inherits of all methods defined for the parent class.
-#' In the usage below, `object` and `x` represent an object of class inheriting from [`GOSets-class`],
+#' In the usage below, `object` represents an object of class inheriting from [`GOSets-class`],
 #' and `value` is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 #'
 #' @name GOSets-methods
 #' @rdname GOSets-methods
 #'
-#' @param object,x An object of class inheriting from [`GOSets-class`].
+#' @param object An object of class inheriting from [`GOSets-class`].
 #' @param value An object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 #'
 #' @author Kevin Rue-Albrecht
