@@ -29,6 +29,8 @@
 \alias{nSets,BaseSets-method}
 \alias{setLengths,BaseSets-method}
 \alias{elementLengths,BaseSets-method}
+\alias{c.BaseSets}
+\alias{c,BaseSets-method}
 \alias{[,BaseSets,ANY,ANY,ANY-method}
 \alias{[,BaseSets-method}
 \alias{subset.BaseSets}
@@ -100,6 +102,8 @@ elementLengths(object)
 
 \S4method{elementLengths}{BaseSets}(object)
 
+\method{c}{BaseSets}(x, ...)
+
 \S4method{[}{BaseSets,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
 \method{subset}{BaseSets}(x, ...)
@@ -125,11 +129,11 @@ as.BaseSets.matrix(matrix, ...)
 
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
 
+\item{...}{Additional arguments passed to and from other methods.}
+
 \item{i}{index specifying elements to extract or replace.}
 
 \item{j}{Ignored.}
-
-\item{...}{Additional arguments passed to and from other methods.}
 
 \item{drop}{A logical scalar indicating whether to remove orphan elements and sets from the \code{elementData} and \code{setData} slots, respectively.}
 
@@ -184,6 +188,11 @@ An \code{\linkS4class{IdVector}} objets storing the unique set identifiers (\cod
 
 
 \code{elementLengths(object)} returns the count of relations per element.
+}
+
+\section{Combining}{
+
+\code{c(x, ...)} combines its arguments
 }
 
 \section{Subsetting}{
@@ -274,6 +283,10 @@ nElements(bs)
 nSets(bs)
 setLengths(bs)
 elementLengths(bs)
+
+# Combining ----
+
+bs1 <- c(bs, bs)
 
 # Subsetting ----
 

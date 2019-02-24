@@ -222,6 +222,17 @@ setMethod("elementLengths", "BaseSets", function(object) {
 
 # c() ----
 
+#' @rdname BaseSets-methods
+#' @aliases c,BaseSets-method
+#'
+#' @section Combining:
+#' `c(x, ...)` combines its arguments
+#'
+#' @examples
+#'
+#' # Combining ----
+#'
+#' bs1 <- c(bs, bs)
 c.BaseSets <- function(x, ...) {
     c(x, ...)
 }
