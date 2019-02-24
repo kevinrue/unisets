@@ -1,3 +1,4 @@
+
 # ids() ----
 
 #' @rdname IdVector-methods
@@ -91,6 +92,23 @@ setReplaceMethod("names", "IdVector",
 setMethod("length", "IdVector", function(x) {
     length(slot(x, "ids"))
 })
+
+# duplicated() ----
+
+#' @rdname IdVector-methods
+#' @aliases duplicated,IdVector-method duplicated.IdVector
+#'
+#' @param incomparables Ignored.
+duplicated.IdVector <- function(x, incomparables = FALSE, ...) {
+    duplicated(x)
+}
+
+setMethod(
+    "duplicated", "IdVector",
+    function(x, incomparables = FALSE, ...) {
+        duplicated(ids(x))
+    }
+)
 
 # [ ----
 

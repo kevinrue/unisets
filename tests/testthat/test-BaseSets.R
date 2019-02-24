@@ -241,28 +241,60 @@ test_that("subset(BaseSets) works with drop=FALSE", {
 
 })
 
+# c() ----
+
+test_that("c(BaseSets) works", {
+
+    bs1 <- bs2 <- bs3 <- BaseSets(relations)
+
+    out <- c(bs1, bs2, bs3)
+
+    # relations are concatenated
+    expect_length(out, length(bs1) + length(bs2) + length(bs3))
+    expect_identical(
+        as.data.frame(out),
+        rbind(as.data.frame(bs1), as.data.frame(bs2), as.data.frame(bs3))
+    )
+    # elements and sets are combined into their union
+    expect_length(
+        elementData(out),
+        length(unique(c(ids(elementData(bs1)), ids(elementData(bs2)), ids(elementData(bs3)))))
+    )
+    expect_length(
+        setData(out),
+        length(unique(c(ids(setData(bs1)), ids(setData(bs2)), ids(setData(bs3)))))
+    )
+
+})
+
 # duplicated() ----
 
 test_that("duplicated(BaseSets) works", {
 
-    bs <- BaseSets(relations)
-    bs1 <- bs
-    bs1@relations <- rep(bs1@relations, times=2)
+    bs1 <- bs2 <- BaseSets(relations)
 
-    out <- duplicated(bs1)
-    expect_identical(out, rep(c(FALSE, TRUE), each=length(bs)))
+    # bs2 is an exact duplicate of bs1
+    out <- duplicated(c(bs1, bs2))
+    expect_identical(out, rep(c(FALSE, TRUE), c(length(bs1), length(bs2))))
+
+    # change the metadata of the relations in bs2; creating _different_ relations
+    mcols(relations(bs2)) <- mcols(relations(bs2))[rev(seq_along(bs2)), ]
+
+    out <- duplicated(c(bs1, bs2))
+    expect_identical(out, rep(c(FALSE, FALSE), c(length(bs1), length(bs2))))
 })
 
 # unique() ----
 
 test_that("unique(BaseSets) works", {
 
-    bs <- BaseSets(relations)
-    bs1 <- bs
-    bs1@relations <- rep(bs1@relations, times=2)
+    bs1 <- bs2 <- bs3 <- BaseSets(relations)
 
-    out <- unique(bs1)
-    expect_identical(out, bs)
+    bs <- c(bs1, bs2, bs3)
+
+    out <- unique(bs)
+    expect_length(out, length(bs1))
+    expect_identical(out, bs1)
 })
 
 # show() ----

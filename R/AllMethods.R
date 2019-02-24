@@ -13,6 +13,10 @@
 #' @param object,x An object of class inheriting from [`BaseSets-class`].
 #' @param value An object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 #'
+#' @importMethodsFrom methods show
+#' @importMethodsFrom S4Vectors union c
+#' @importMethodsFrom BiocGenerics duplicated
+#'
 #' @author Kevin Rue-Albrecht
 #'
 #' @seealso [`BaseSets-class`].

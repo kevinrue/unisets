@@ -220,6 +220,36 @@ setMethod("elementLengths", "BaseSets", function(object) {
     lengths(out)
 })
 
+# c() ----
+
+c.BaseSets <- function(x, ...) {
+    c(x, ...)
+}
+
+setMethod(
+    "c", "BaseSets",
+    function(x, ...){
+        .local <- function (x, objects=list(), use.names = TRUE,  ignore.mcols = FALSE, check = TRUE)
+        {
+            all_objects <- c(list(x), objects)
+
+            newElementData <- lapply(all_objects, elementData)
+            newSetData <- lapply(all_objects, setData)
+            newRelations <- lapply(all_objects, as.data.frame)
+
+            newElementData <- do.call(c, newElementData)
+            newSetData <- do.call(c, newSetData)
+            newRelations <- do.call(rbind, newRelations)
+
+            newElementData <- unique(newElementData)
+            newSetData <- unique(newSetData)
+
+            BaseSets(newRelations, newElementData, newSetData)
+        }
+        .local(x, list(...))
+    }
+)
+
 # [ ----
 
 #' @rdname BaseSets-methods
@@ -323,7 +353,7 @@ setMethod("show", "BaseSets", function(object) {
 #' relations(bs1) <- rep(relations(bs1), each=2)
 #' table(duplicated(bs1))
 setMethod("duplicated", "BaseSets", function(x, incomparables = FALSE, ...) {
-    duplicated(relations(x))
+    duplicated(as.data.frame(x))
 })
 
 # unique() ----
