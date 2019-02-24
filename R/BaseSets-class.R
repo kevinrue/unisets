@@ -226,11 +226,12 @@ setMethod("elementLengths", "BaseSets", function(object) {
 #' @aliases [,BaseSets-method
 #'
 #' @section Subsetting:
-#' `x[i]` returns new [`BaseSets-class`] object of the same class as `x` made of the elements selected by `i`. `i` can be missing; an `NA`-free logical, numeric, or character vector or factor (as ordinary vector or [`Rle`] object); or an [`IntegerRanges`][IntegerRanges-class] object.
+#' `x[i, drop=TRUE]` returns new [`BaseSets-class`] object of the same class as `x` made of the elements selected by `i`. `i` can be missing; an `NA`-free logical, numeric, or character vector or factor (as ordinary vector or [`Rle`] object); or an [`IntegerRanges`][IntegerRanges-class] object.
+#' The `drop` logical value controls whether the metadata of elements and sets orphaned during the subsetting should be removed from the `elementData` and `setData` slots, respectively.
 #'
 #' @param i index specifying elements to extract or replace.
 #' @param j Ignored.
-#' @param drop Whether to remove orphan elements and sets from the `elementData` and `setData` slots, respectively.
+#' @param drop A logical scalar indicating whether to remove orphan elements and sets from the `elementData` and `setData` slots, respectively.
 #'
 #' @importFrom methods callNextMethod
 #' @importClassesFrom IRanges IntegerRanges
@@ -265,9 +266,10 @@ setMethod("[", "BaseSets", function(x, i, j, ..., drop = TRUE) {
 #'
 #' @section Subsetting:
 #'
-#' `subset(object, subset, ...)` returns subsets of relations which meet conditions.
+#' `subset(object, subset, ..., drop=TRUE)` returns subsets of relations which meet conditions.
 #' The `subset` argument should be a logical expression referring to any of `"element"`, `"set"`, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
-#' In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.
+#' The `drop` logical scalar controls whether elements and sets orphaned during the subsetting should be removed from the `elementData` and `setData` slots, respectively.
+
 #'
 #' @importFrom methods as
 #' @importFrom BiocGenerics eval unique
@@ -286,7 +288,7 @@ setMethod("subset", "BaseSets", function(x, ...) {
         # Match code layout of the FuzzySets method
         table <- as.data.frame(x)
         i <- eval(substitute(subset), table)
-        out <- x[i, , drop=drop]
+        out <- x[i, drop=drop]
         # For derived subclasses, coerce back to the original
         as(out, class(x))
     }

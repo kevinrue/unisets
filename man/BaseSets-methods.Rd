@@ -131,7 +131,7 @@ as.BaseSets.matrix(matrix, ...)
 
 \item{...}{Additional arguments passed to and from other methods.}
 
-\item{drop}{Whether to remove orphan elements and sets from the \code{elementData} and \code{setData} slots, respectively.}
+\item{drop}{A logical scalar indicating whether to remove orphan elements and sets from the \code{elementData} and \code{setData} slots, respectively.}
 
 \item{incomparables}{Ignored.}
 
@@ -188,13 +188,14 @@ An \code{\linkS4class{IdVector}} objets storing the unique set identifiers (\cod
 
 \section{Subsetting}{
 
-\code{x[i]} returns new \code{\linkS4class{BaseSets}} object of the same class as \code{x} made of the elements selected by \code{i}. \code{i} can be missing; an \code{NA}-free logical, numeric, or character vector or factor (as ordinary vector or \code{\link{Rle}} object); or an \code{\link[=IntegerRanges-class]{IntegerRanges}} object.
+\code{x[i, drop=TRUE]} returns new \code{\linkS4class{BaseSets}} object of the same class as \code{x} made of the elements selected by \code{i}. \code{i} can be missing; an \code{NA}-free logical, numeric, or character vector or factor (as ordinary vector or \code{\link{Rle}} object); or an \code{\link[=IntegerRanges-class]{IntegerRanges}} object.
+The \code{drop} logical value controls whether the metadata of elements and sets orphaned during the subsetting should be removed from the \code{elementData} and \code{setData} slots, respectively.
 
 
 
-\code{subset(object, subset, ...)} returns subsets of relations which meet conditions.
+\code{subset(object, subset, ..., drop=TRUE)} returns subsets of relations which meet conditions.
 The \code{subset} argument should be a logical expression referring to any of \code{"element"}, \code{"set"}, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
-In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.
+The \code{drop} logical scalar controls whether elements and sets orphaned during the subsetting should be removed from the \code{elementData} and \code{setData} slots, respectively.
 }
 
 \section{Duplication and uniqueness}{

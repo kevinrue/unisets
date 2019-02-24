@@ -143,7 +143,7 @@ Examples of `GOSets` usage are described in a dedicated [vignette](bioc-annotati
 
 # Subsetting
 
-The `subset` method can be applied to a `BaseSets` object, using a logical expression that may refer to the `"element"` and `"set"` columns as well as any metadata associated with the relations, indicating rows to keep.
+The `subset` method can be applied to `BaseSets` objects and derivatives (e.g. `FuzzySets`, `GOSets`), using a logical expression that may refer to the `"element"` and `"set"` columns as well as any metadata associated with the relations, indicating rows to keep.
 
 ```{r}
 subset(base_sets, set == "geneset1" & element %in% c("B") & extra1 == "ABC")
@@ -154,6 +154,17 @@ Similarly, the `subset` method can be also applied to objects derived from `Base
 ```{r}
 subset(fuzzy_sets, set == "geneset2" & membership > 0.3)
 ```
+
+Note that the default behaviour of the `subset` method is to drop elements and sets that are not represented in the relations from the `elementData` and `setData` slots, respectively.
+This behaviour can be controlled using the `drop` argument, which accepts a single logical value.
+
+```{r}
+out1 <- subset(base_sets, set == "geneset1", drop=TRUE)
+ids(setData(out1))
+out2 <- subset(base_sets, set == "geneset1", drop=FALSE)
+ids(setData(out2))
+```
+
 
 # Converting to other formats {#convert-to}
 

@@ -197,22 +197,42 @@ test_that("setData(BaseSets) <- value works", {
 
 # subset() ----
 
-test_that("subset(BaseSets) works", {
+test_that("subset(BaseSets) works with default drop=TRUE", {
 
     bs <- BaseSets(relations)
 
-    out <- subset(bs, set == "set1")
+    out <- subset(bs, set == "set1") # default is drop=TRUE
 
     expect_true(all(ids(setData(out)) == "set1"))
     expect_identical(length(setData(out)), 1L)
 
-    out <- subset.BaseSets(bs, set == "set1")
+    out <- subset.BaseSets(bs, set == "set1") # default is drop=TRUE
 
     expect_true(all(ids(setData(out)) == "set1"))
     expect_identical(length(setData(out)), 1L)
 
-    out <- bs[1:3]
+    out <- bs[1:3] # default is drop=TRUE
     expect_identical(length(out), 3L)
+
+})
+
+test_that("subset(BaseSets) works with drop=FALSE", {
+
+    bs <- BaseSets(relations)
+
+    out <- subset(bs, set == "set1", drop=FALSE) # default is drop=TRUE
+
+    expect_true(all(ids(sets(out)) == "set1"))
+    expect_identical(ids(setData(out)), ids(setData(bs)))
+
+    out <- subset.BaseSets(bs, set == "set1", drop=FALSE) # default is drop=TRUE
+
+    expect_true(all(ids(sets(out)) == "set1"))
+    expect_identical(ids(setData(out)), ids(setData(bs)))
+
+    out <- bs[1:3, drop=FALSE] # default is drop=TRUE
+    expect_identical(length(out), 3L)
+    expect_identical(ids(setData(out)), ids(setData(bs)))
 
 })
 
