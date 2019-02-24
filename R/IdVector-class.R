@@ -273,7 +273,6 @@ setValidity("IdVector", function(object) {
             uniqueRowsById <- vapply(metadataById, function(x){ nrow(unique(x)) }, integer(1))
             nonUniqueIds <- names(which(uniqueRowsById > 1))
             if (length(nonUniqueIds) > 0) {
-                # print(uniqueRowsById[uniqueRowsById > 1])
                 textIds <- paste(head(nonUniqueIds, 4), collapse = ", ")
                 if (length(nonUniqueIds) > 4) {
                     textIds <- paste0(textIds, ", ...")
