@@ -265,6 +265,24 @@ test_that("c(BaseSets) works", {
         length(unique(c(ids(setData(bs1)), ids(setData(bs2)), ids(setData(bs3)))))
     )
 
+    out <- c.BaseSets(bs1, bs2, bs3)
+
+    # relations are concatenated
+    expect_length(out, length(bs1) + length(bs2) + length(bs3))
+    expect_identical(
+        as.data.frame(out),
+        rbind(as.data.frame(bs1), as.data.frame(bs2), as.data.frame(bs3))
+    )
+    # elements and sets are combined into their union
+    expect_length(
+        elementData(out),
+        length(unique(c(ids(elementData(bs1)), ids(elementData(bs2)), ids(elementData(bs3)))))
+    )
+    expect_length(
+        setData(out),
+        length(unique(c(ids(setData(bs1)), ids(setData(bs2)), ids(setData(bs3)))))
+    )
+
 })
 
 # duplicated() ----

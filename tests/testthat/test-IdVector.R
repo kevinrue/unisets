@@ -221,6 +221,9 @@ test_that("duplicated(IdVector) works", {
     out <- duplicated(iv)
     expect_identical(out, c(rep(FALSE, 3), rep(TRUE, 3)))
 
+    out <- duplicated.IdVector(iv)
+    expect_identical(out, c(rep(FALSE, 3), rep(TRUE, 3)))
+
 })
 
 # unique(IdVector) ----
