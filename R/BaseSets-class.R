@@ -286,7 +286,6 @@ setMethod("subset", "BaseSets", function(x, ...) {
         # Match code layout of the FuzzySets method
         table <- as.data.frame(x)
         i <- eval(substitute(subset), table)
-        cat("drop:", drop, "\n")
         out <- x[i, , drop=drop]
         # For derived subclasses, coerce back to the original
         as(out, class(x))
