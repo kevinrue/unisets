@@ -229,7 +229,8 @@ setMethod("elementLengths", "BaseSets", function(object) {
 #' `x[i]` returns new [`BaseSets-class`] object of the same class as `x` made of the elements selected by `i`. `i` can be missing; an `NA`-free logical, numeric, or character vector or factor (as ordinary vector or [`Rle`] object); or an [`IntegerRanges`][IntegerRanges-class] object.
 #'
 #' @param i index specifying elements to extract or replace.
-#' @param j,drop Ignored.
+#' @param j Ignored.
+#' @param drop Whether to remove orphan elements and sets from the `elementData` and `setData` slots, respectively.
 #'
 #' @importFrom methods callNextMethod
 #' @importClassesFrom IRanges IntegerRanges
@@ -239,12 +240,12 @@ setMethod("elementLengths", "BaseSets", function(object) {
 #' # Subsetting ----
 #'
 #' bs1 <- bs[1:5]
-#' bs1 <- bs[1:5, , drop=FALSE] # keep metadat of orphan elements and sets
+#' bs1 <- bs[1:5, , drop=FALSE] # keep metadata of orphan elements and sets
 setMethod("[", "BaseSets", function(x, i, j, ..., drop = TRUE) {
     keep.element <- unique(ids(elementData(x))[from(relations(x))[i]])
     keep.set <- unique(ids(setData(x))[to(relations(x))[i]])
 
-    relations <- DataFrame(as.data.frame(x)[i, , drop=FALSE], row.names=NULL)
+    relations <- DataFrame(as.data.frame(x)[i, , drop=drop], row.names=NULL)
     elementData <- elementData(x)
     setData <- setData(x)
     if (isTRUE(drop)) {

@@ -127,9 +127,11 @@ as.BaseSets.matrix(matrix, ...)
 
 \item{i}{index specifying elements to extract or replace.}
 
-\item{j, drop}{Ignored.}
+\item{j}{Ignored.}
 
 \item{...}{Additional arguments passed to and from other methods.}
+
+\item{drop}{Whether to remove orphan elements and sets from the \code{elementData} and \code{setData} slots, respectively.}
 
 \item{incomparables}{Ignored.}
 
@@ -275,7 +277,7 @@ elementLengths(bs)
 # Subsetting ----
 
 bs1 <- bs[1:5]
-bs1 <- bs[1:5, , drop=FALSE] # keep metadat of orphan elements and sets
+bs1 <- bs[1:5, , drop=FALSE] # keep metadata of orphan elements and sets
 
 bs1 <- subset(bs, set == "set1" | element == "E")
 bs1
@@ -291,7 +293,7 @@ unique(bs1)
 
 DF1 <- as(bs, "DataFrame")
 
-df1 <- as(bs, "data.frame")
+df1 <- as.data.frame(bs)
 
 l1 <- as(bs, "list")
 
