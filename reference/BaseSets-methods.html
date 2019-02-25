@@ -196,6 +196,9 @@ setLengths(object)
 # S4 method for BaseSets
 elementLengths(object)
 
+# S3 method for BaseSets
+c(x, ...)
+
 # S4 method for BaseSets,ANY,ANY,ANY
 [(x, i, j, ..., drop = TRUE)
 
@@ -235,16 +238,20 @@ as.BaseSets.matrix(matrix, ...)</pre>
       <td><p>An object of a class specified in the S4 method signature or as outlined in 'Accessors'.</p></td>
     </tr>
     <tr>
+      <th>...</th>
+      <td><p>Additional arguments passed to and from other methods.</p></td>
+    </tr>
+    <tr>
       <th>i</th>
       <td><p>index specifying elements to extract or replace.</p></td>
     </tr>
     <tr>
-      <th>j, drop</th>
+      <th>j</th>
       <td><p>Ignored.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Additional arguments passed to and from other methods.</p></td>
+      <th>drop</th>
+      <td><p>A logical scalar indicating whether to remove orphan elements and sets from the <code>elementData</code> and <code>setData</code> slots, respectively.</p></td>
     </tr>
     <tr>
       <th>incomparables</th>
@@ -286,13 +293,19 @@ An <code><a href='IdVector-class.html'>IdVector</a></code> objets storing the un
     <p><code>setLengths(object)</code> returns the count of relations per set.</p>
     <p><code>elementLengths(object)</code> returns the count of relations per element.</p>
     
+    <h2 class="hasAnchor" id="combining"><a class="anchor" href="#combining"></a>Combining</h2>
+
+    
+    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(x, ...)</a></code> combines its arguments</p>
+    
     <h2 class="hasAnchor" id="subsetting"><a class="anchor" href="#subsetting"></a>Subsetting</h2>
 
     
-    <p><code>x[i]</code> returns new <code><a href='BaseSets-class.html'>BaseSets</a></code> object of the same class as <code>x</code> made of the elements selected by <code>i</code>. <code>i</code> can be missing; an <code>NA</code>-free logical, numeric, or character vector or factor (as ordinary vector or <code>Rle</code> object); or an <code>IntegerRanges</code> object.</p>
-    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset(object, subset, ...)</a></code> returns subsets of relations which meet conditions.
+    <p><code>x[i, drop=TRUE]</code> returns new <code><a href='BaseSets-class.html'>BaseSets</a></code> object of the same class as <code>x</code> made of the elements selected by <code>i</code>. <code>i</code> can be missing; an <code>NA</code>-free logical, numeric, or character vector or factor (as ordinary vector or <code>Rle</code> object); or an <code>IntegerRanges</code> object.
+The <code>drop</code> logical value controls whether the metadata of elements and sets orphaned during the subsetting should be removed from the <code>elementData</code> and <code>setData</code> slots, respectively.</p>
+    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset(object, subset, ..., drop=TRUE)</a></code> returns subsets of relations which meet conditions.
 The <code>subset</code> argument should be a logical expression referring to any of <code>"element"</code>, <code>"set"</code>, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
-In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.</p>
+The <code>drop</code> logical scalar controls whether elements and sets orphaned during the subsetting should be removed from the <code>elementData</code> and <code>setData</code> slots, respectively.</p>
     
     <h2 class="hasAnchor" id="duplication-and-uniqueness"><a class="anchor" href="#duplication-and-uniqueness"></a>Duplication and uniqueness</h2>
 
@@ -378,9 +391,14 @@ Names are set identifiers, and values are character vectors of element identifie
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='fu'>nElements</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'>nSets</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'><span class='fu'>setLengths</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; set1 set2 set3 
 #&gt;    2    3    1 </div><div class='input'><span class='fu'>elementLengths</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; A B C D E 
 #&gt; 1 2 1 1 1 </div><div class='input'>
+<span class='co'># Combining ----</span>
+
+<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>bs</span>, <span class='no'>bs</span>)
+
 <span class='co'># Subsetting ----</span>
 
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>[<span class='fl'>1</span>:<span class='fl'>5</span>]
+<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>[<span class='fl'>1</span>:<span class='fl'>5</span>, , <span class='kw'>drop</span><span class='kw'>=</span><span class='fl'>FALSE</span>] <span class='co'># keep metadata of orphan elements and sets</span>
 
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>bs</span>, <span class='no'>set</span> <span class='kw'>==</span> <span class='st'>"set1"</span> <span class='kw'>|</span> <span class='no'>element</span> <span class='kw'>==</span> <span class='st'>"E"</span>)
 <span class='no'>bs1</span></div><div class='output co'>#&gt; BaseSets with 3 relations between 3 elements and 2 sets
@@ -408,7 +426,7 @@ Names are set identifiers, and values are character vectors of element identifie
 
 <span class='no'>DF1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>bs</span>, <span class='st'>"DataFrame"</span>)
 
-<span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>bs</span>, <span class='st'>"data.frame"</span>)
+<span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'>as.data.frame</span>(<span class='no'>bs</span>)
 
 <span class='no'>l1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>bs</span>, <span class='st'>"list"</span>)
 
@@ -441,6 +459,8 @@ Names are set identifiers, and values are character vectors of element identifie
       <li><a href="#accessors">Accessors</a></li>
 
       <li><a href="#dimensions">Dimensions</a></li>
+
+      <li><a href="#combining">Combining</a></li>
 
       <li><a href="#subsetting">Subsetting</a></li>
 

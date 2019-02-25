@@ -34,7 +34,7 @@
 
 <meta property="og:description" content="This page documents the S4 generics and methods defined for objects inheriting of the GOSets class.
 The GOSets class directly extends BaseSets and thus inherits of all methods defined for the parent class.
-In the usage below, object and x represent an object of class inheriting from GOSets,
+In the usage below, object represents an object of class inheriting from GOSets,
 and value is an object of a class specified in the S4 method signature or as outlined in 'Accessors'." />
 <meta name="twitter:card" content="summary" />
 
@@ -130,7 +130,7 @@ and value is an object of a class specified in the S4 method signature or as out
     
     <p>This page documents the S4 generics and methods defined for objects inheriting of the <code><a href='GOSets-class.html'>GOSets</a></code> class.
 The <code>GOSets</code> class directly extends <code><a href='BaseSets-class.html'>BaseSets</a></code> and thus inherits of all methods defined for the parent class.
-In the usage below, <code>object</code> and <code>x</code> represent an object of class inheriting from <code><a href='GOSets-class.html'>GOSets</a></code>,
+In the usage below, <code>object</code> represents an object of class inheriting from <code><a href='GOSets-class.html'>GOSets</a></code>,
 and <code>value</code> is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.</p>
     
     </div>
@@ -145,25 +145,18 @@ and <code>value</code> is an object of a class specified in the S4 method signat
 <span class='fu'><a href='GOHits-methods.html'>ontology</a></span>(<span class='no'>object</span>)
 
 <span class='co'># S4 method for GOSets</span>
-<span class='fu'><a href='GOHits-methods.html'>ontology</a></span>(<span class='no'>object</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
-
-<span class='co'># S3 method for GOSets</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='GOHits-methods.html'>ontology</a></span>(<span class='no'>object</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span></pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object, x</th>
+      <th>object</th>
       <td><p>An object of class inheriting from <code><a href='GOSets-class.html'>GOSets</a></code>.</p></td>
     </tr>
     <tr>
       <th>value</th>
       <td><p>An object of a class specified in the S4 method signature or as outlined in 'Accessors'.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments passed to and from other methods.</p></td>
     </tr>
     </table>
     
@@ -172,13 +165,6 @@ and <code>value</code> is an object of a class specified in the S4 method signat
     
     <p><code><a href='GOHits-methods.html'>evidence(object)</a></code> returns a factor indicating the evidence code for each relation.</p>
     <p><code><a href='GOHits-methods.html'>ontology(object)</a></code> returns a factor indicating the ontology code for each relation.</p>
-    
-    <h2 class="hasAnchor" id="subsetting"><a class="anchor" href="#subsetting"></a>Subsetting</h2>
-
-    
-    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset(x, subset, ...)</a></code> returns subsets of relations which meet conditions.
-For <code>GOSets</code> objects, the <code>subset</code> argument should be a logical expression referring to any of <code>"element"</code>, <code>"set"</code>, <code>"evidence"</code>, <code>"ontology"</code> and other available relation metadata indicating elements or rows to keep: missing values are taken as false.
-In addition, metadata for elements and sets that are not represented in the remaining relations are also dropped.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -201,18 +187,7 @@ In addition, metadata for elements and sets that are not represented in the rema
 <span class='fu'><a href='GOHits-methods.html'>evidence</a></span>(<span class='no'>gs1</span>)[<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='st'>"EXP"</span>
 <span class='fu'><a href='GOHits-methods.html'>ontology</a></span>(<span class='no'>gs</span>)</div><div class='output co'>#&gt; [1] BP BP BP BP BP BP
 #&gt; Levels: BP MF CC</div><div class='input'><span class='no'>gs1</span> <span class='kw'>&lt;-</span> <span class='no'>gs</span>
-<span class='fu'><a href='GOHits-methods.html'>ontology</a></span>(<span class='no'>gs1</span>)[<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='st'>"CC"</span>
-
-<span class='co'># Subsetting ----</span>
-
-<span class='no'>gs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>gs</span>, <span class='no'>ontology</span> <span class='kw'>==</span> <span class='st'>"BP"</span> <span class='kw'>&amp;</span> <span class='no'>evidence</span> <span class='kw'>==</span> <span class='st'>"TAS"</span>)
-<span class='no'>gs1</span></div><div class='output co'>#&gt; GOSets with 4 relations between 2 elements and 3 sets
-#&gt;      element        set relationData elementData     setData
-#&gt;   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-#&gt; 1          1 GO:0002576       TAS:BP                        
-#&gt; 2          1 GO:0043312       TAS:BP                        
-#&gt; 3          2 GO:0002576       TAS:BP                        
-#&gt; 4          2 GO:0007597       TAS:BP                        </div></pre>
+<span class='fu'><a href='GOHits-methods.html'>ontology</a></span>(<span class='no'>gs1</span>)[<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='st'>"CC"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -220,8 +195,6 @@ In addition, metadata for elements and sets that are not represented in the rema
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#accessors">Accessors</a></li>
-
-      <li><a href="#subsetting">Subsetting</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

@@ -152,6 +152,8 @@ names(x) <- value
 # S4 method for IdVector
 length(x)
 
+duplicated.IdVector(x, incomparables = FALSE, ...)
+
 # S4 method for IdVector,ANY,ANY,ANY
 [(x, i, j, ..., drop = TRUE)
 
@@ -173,6 +175,10 @@ as.IdVector.default(ids, ...)</pre>
     <tr>
       <th>value</th>
       <td><p>An object of a class specified in the S4 method signature.</p></td>
+    </tr>
+    <tr>
+      <th>incomparables</th>
+      <td><p>Ignored.</p></td>
     </tr>
     <tr>
       <th>i</th>
