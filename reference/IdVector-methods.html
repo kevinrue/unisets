@@ -152,7 +152,8 @@ names(x) <- value
 # S4 method for IdVector
 length(x)
 
-duplicated.IdVector(x, incomparables = FALSE, ...)
+# S4 method for IdVector
+duplicated(x, incomparables = FALSE, ...)
 
 # S4 method for IdVector,ANY,ANY,ANY
 [(x, i, j, ..., drop = TRUE)
@@ -246,6 +247,17 @@ character string naming an atomic mode or "list" or "expression" or (except for 
 <span class='co'># Dimensions ----</span>
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>iv</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'>
+<span class='co'># Duplication ----</span>
+
+<span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>)]
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/duplicated'>duplicated</a></span>(<span class='no'>iv1</span>)</div><div class='output co'>#&gt; [1] FALSE  TRUE FALSE  TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>iv1</span>)</div><div class='output co'>#&gt; IdVector of length 2 with 2 unique identifiers
+#&gt; Ids: A, B
+#&gt; Metadata: field1 (1 column)</div><div class='input'>
+<span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>[<span class='fl'>1</span>:<span class='fl'>3</span>]
+<span class='no'>iv2</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>[<span class='fl'>2</span>:<span class='fl'>4</span>]
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>union</a></span>(<span class='no'>iv1</span>, <span class='no'>iv2</span>)</div><div class='output co'>#&gt; IdVector of length 4 with 4 unique identifiers
+#&gt; Ids: A, B, C, D
+#&gt; Metadata: field1 (1 column)</div><div class='input'>
 <span class='co'># Subsetting ----</span>
 
 <span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>[<span class='fl'>1</span>:<span class='fl'>5</span>]

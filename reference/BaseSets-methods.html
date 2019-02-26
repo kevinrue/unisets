@@ -211,6 +211,8 @@ duplicated(x, incomparables = FALSE, ...)
 # S4 method for BaseSets
 unique(x, incomparables = FALSE, ...)
 
+union.BaseSets(x, y, ...)
+
 as.DataFrame.BaseSets(object, ...)
 
 # S3 method for BaseSets
@@ -256,6 +258,10 @@ as.BaseSets.matrix(matrix, ...)</pre>
     <tr>
       <th>incomparables</th>
       <td><p>Ignored.</p></td>
+    </tr>
+    <tr>
+      <th>y</th>
+      <td><p>An object of class inheriting from <code><a href='BaseSets-class.html'>BaseSets</a></code>.</p></td>
     </tr>
     <tr>
       <th>list</th>
@@ -312,6 +318,7 @@ The <code>drop</code> logical scalar controls whether elements and sets orphaned
     
     <p><code><a href='https://www.rdocumentation.org/packages/base/topics/duplicated'>duplicated(x)</a></code> determines which relations of a <code>BaseSets</code> are duplicates of relations with smaller subscripts, and returns a logical vector indicating which relations are duplicates.</p>
     <p><code><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique(x)</a></code> returns a <code>BaseSets</code> like <code>x</code> but with duplicate relations removed.</p>
+    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/sets'>union(x)</a></code> returns a <code>BaseSets</code> composed of the union of relations in <code>x</code> and <code>y</code>.</p>
     
     <h2 class="hasAnchor" id="coercion-from-basesets"><a class="anchor" href="#coercion-from-basesets"></a>Coercion from BaseSets</h2>
 
@@ -421,7 +428,8 @@ Names are set identifiers, and values are character vectors of element identifie
 #&gt; 3          B       set2                                     
 #&gt; 4          C       set2                                     
 #&gt; 5          D       set2                                     
-#&gt; 6          E       set3                                     </div><div class='input'>
+#&gt; 6          E       set3                                     </div><div class='input'><span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>union</a></span>(<span class='no'>bs</span>, <span class='no'>bs</span>)
+
 <span class='co'># Coercion from BaseSets ----</span>
 
 <span class='no'>DF1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>bs</span>, <span class='st'>"DataFrame"</span>)
