@@ -114,6 +114,16 @@ names(iv1)[1] <- "GENE001"
 
 length(iv)
 
+# Duplication ----
+
+iv1 <- iv[c(1, 1, 2, 2)]
+duplicated(iv1)
+unique(iv1)
+
+iv1 <- iv[1:3]
+iv2 <- iv[2:4]
+union(iv1, iv2)
+
 # Subsetting ----
 
 iv1 <- iv[1:5]

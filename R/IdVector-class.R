@@ -103,6 +103,18 @@ setMethod("length", "IdVector", function(x) {
 #' @param incomparables Ignored.
 #'
 #' @export
+#'
+#' @examples
+#'
+#' # Duplication ----
+#'
+#' iv1 <- iv[c(1, 1, 2, 2)]
+#' duplicated(iv1)
+#' unique(iv1)
+#'
+#' iv1 <- iv[1:3]
+#' iv2 <- iv[2:4]
+#' union(iv1, iv2)
 setMethod(
     "duplicated", "IdVector",
     function(x, incomparables = FALSE, ...) {
