@@ -315,6 +315,45 @@ test_that("unique(BaseSets) works", {
     expect_identical(out, bs1)
 })
 
+# union() ----
+
+test_that("union(BaseSets) works", {
+
+    bs1 <- bs2 <- BaseSets(relations)
+
+    ids(elementData(bs2))[1] <- "new"
+
+    out <- union(bs1, bs2)
+
+    expect_identical(
+        as.data.frame(out),
+        unique(rbind(as.data.frame(bs1), as.data.frame(bs2)))
+    )
+    expect_identical(
+        ids(elementData(out)),
+        unique(c(ids(elementData(bs1)), ids(elementData(bs2))))
+    )
+    expect_identical(
+        ids(setData(out)),
+        unique(c(ids(setData(bs1)), ids(setData(bs2))))
+    )
+
+    out <- union.BaseSets(bs1, bs2)
+
+    expect_identical(
+        as.data.frame(out),
+        unique(rbind(as.data.frame(bs1), as.data.frame(bs2)))
+    )
+    expect_identical(
+        ids(elementData(out)),
+        unique(c(ids(elementData(bs1)), ids(elementData(bs2))))
+    )
+    expect_identical(
+        ids(setData(out)),
+        unique(c(ids(setData(bs1)), ids(setData(bs2))))
+    )
+})
+
 # show() ----
 
 test_that("show(BaseSets) works", {

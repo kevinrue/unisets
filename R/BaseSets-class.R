@@ -382,8 +382,33 @@ setMethod("duplicated", "BaseSets", function(x, incomparables = FALSE, ...) {
 #' @examples
 #' unique(bs1)
 setMethod("unique", "BaseSets", function(x, incomparables = FALSE, ...)  {
-    i <- !duplicated(x, incomparables = incomparables, ...)
-    x[i]
+    i <- !duplicated(x, incomparables, ...)
+    x[i, drop=FALSE] # by definition, unique would never drop elements nor sets
+})
+
+# union() ----
+
+#' @rdname BaseSets-methods
+#' @aliases union,BaseSets-method union.BaseSets
+#' @param y An object of class inheriting from [`BaseSets`].
+#'
+#' @section Duplication and uniqueness:
+#'
+#' `union(x)` returns a `BaseSets` composed of the union of relations in `x` and `y`.
+#'
+#' @export
+#' @importMethodsFrom BiocGenerics union
+#'
+#' @examples
+#' bs1 <- union(bs, bs)
+union.BaseSets <- function(x, y, ...) {
+    union(x, y, ...)
+}
+
+setMethod("union", "BaseSets", function (x, y, ...) {
+    .local <- function (x, y)
+        unique(c(x, y))
+    .local(x, y, ...)
 })
 
 # as.data.frame.BaseSets() ----

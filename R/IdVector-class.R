@@ -96,13 +96,13 @@ setMethod("length", "IdVector", function(x) {
 # duplicated() ----
 
 #' @rdname IdVector-methods
-#' @aliases duplicated,IdVector-method duplicated.IdVector
+#' @aliases duplicated,IdVector-method
+#' @aliases c,IdVector-method
+#' @aliases union,IdVector,IdVector-method
 #'
 #' @param incomparables Ignored.
-duplicated.IdVector <- function(x, incomparables = FALSE, ...) {
-    duplicated(x)
-}
-
+#'
+#' @export
 setMethod(
     "duplicated", "IdVector",
     function(x, incomparables = FALSE, ...) {

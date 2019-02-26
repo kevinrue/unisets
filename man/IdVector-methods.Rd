@@ -11,7 +11,6 @@
 \alias{names<-,IdVector,ANY-method}
 \alias{names<-,IdVector-method}
 \alias{length,IdVector-method}
-\alias{duplicated.IdVector}
 \alias{duplicated,IdVector-method}
 \alias{[,IdVector,ANY,ANY,ANY-method}
 \alias{[,IdVector-method}
@@ -35,7 +34,7 @@ ids(object) <- value
 
 \S4method{length}{IdVector}(x)
 
-duplicated.IdVector(x, incomparables = FALSE, ...)
+\S4method{duplicated}{IdVector}(x, incomparables = FALSE, ...)
 
 \S4method{[}{IdVector,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 

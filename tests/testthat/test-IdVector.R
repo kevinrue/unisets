@@ -221,9 +221,6 @@ test_that("duplicated(IdVector) works", {
     out <- duplicated(iv)
     expect_identical(out, c(rep(FALSE, 3), rep(TRUE, 3)))
 
-    out <- duplicated.IdVector(iv)
-    expect_identical(out, c(rep(FALSE, 3), rep(TRUE, 3)))
-
 })
 
 # unique(IdVector) ----
@@ -266,8 +263,12 @@ test_that("union(IdVector) works", {
 
     # Union of non overlapping IdVector's
     out <- union(iv1, iv2)
-    expect_named(out, c("a", "b", "c", "x", "y", "z"))
+    expect_identical(
+        ids(out),
+        unique(c(ids(iv1), ids(iv2)))
+    )
     expect_identical(mcols(out), rbind(mcols(iv1), mcols(iv2)))
+
 
     # Union of fully overlapping IdVector's
     out <- union(iv1, iv1)
@@ -277,7 +278,11 @@ test_that("union(IdVector) works", {
     iv3 <- iv1
     ids(iv3)[1] <- "new"
     out <- union(iv1, iv3)
-    expect_named(out, c("a", "b", "c", "new"))
+
+    expect_identical(
+        ids(out),
+        unique(c(ids(iv1), ids(iv3)))
+    )
     expect_identical(mcols(out), rbind(mcols(iv1), mcols(iv3)["new", , drop=FALSE]))
 
 })

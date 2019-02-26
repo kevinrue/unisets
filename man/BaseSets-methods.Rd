@@ -37,6 +37,8 @@
 \alias{subset,BaseSets-method}
 \alias{duplicated,BaseSets-method}
 \alias{unique,BaseSets-method}
+\alias{union.BaseSets}
+\alias{union,BaseSets-method}
 \alias{as.DataFrame.BaseSets}
 \alias{as.DataFrame}
 \alias{as.data.frame.BaseSets}
@@ -112,6 +114,8 @@ elementLengths(object)
 
 \S4method{unique}{BaseSets}(x, incomparables = FALSE, ...)
 
+union.BaseSets(x, y, ...)
+
 as.DataFrame.BaseSets(object, ...)
 
 \method{as.data.frame}{BaseSets}(x, ...)
@@ -138,6 +142,8 @@ as.BaseSets.matrix(matrix, ...)
 \item{drop}{A logical scalar indicating whether to remove orphan elements and sets from the \code{elementData} and \code{setData} slots, respectively.}
 
 \item{incomparables}{Ignored.}
+
+\item{y}{An object of class inheriting from \code{\link{BaseSets}}.}
 
 \item{list}{A \code{list} of named character vectors.
 The names are taken as the set identifiers.
@@ -214,6 +220,10 @@ The \code{drop} logical scalar controls whether elements and sets orphaned durin
 
 
 \code{unique(x)} returns a \code{BaseSets} like \code{x} but with duplicate relations removed.
+
+
+
+\code{union(x)} returns a \code{BaseSets} composed of the union of relations in \code{x} and \code{y}.
 }
 
 \section{Coercion from BaseSets}{
@@ -302,6 +312,7 @@ bs1 <- bs
 relations(bs1) <- rep(relations(bs1), each=2)
 table(duplicated(bs1))
 unique(bs1)
+bs1 <- union(bs, bs)
 
 # Coercion from BaseSets ----
 
