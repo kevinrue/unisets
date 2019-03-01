@@ -57,24 +57,8 @@ GMTFile <- function(resource) {
 #' @importMethodsFrom rtracklayer import
 #' @export
 import.gmt <- function(con, ...) {
-    import(GMTFile(con), ...)
-}
-
-#' @name io
-#' @rdname io
-#' @aliases import import,GMTFile,ANY,ANY-method
-#'
-#' @param format,text Arguments defined in the [rtracklayer::import()] generic. Currently ignored.
-#'
-#' @export
-#'
-#' @importFrom rtracklayer resource
-#' @importFrom S4Vectors DataFrame mcols<-
-#' @importFrom utils stack
-setMethod("import", "GMTFile", function(con, format, text, ...) {
     ## Read in GMT into a list format
-    path <- resource(con)
-    sets <- readLines(path)
+    sets <- readLines(con)
     sets <- strsplit(sets, "\t")
     names <- vapply(sets, function(set) set[[1]], character(1))
     genes <- lapply(sets, function(set) set[-(1:2)])
@@ -104,6 +88,21 @@ setMethod("import", "GMTFile", function(con, format, text, ...) {
     ## Construct and return the BaseSet
     bs <- BaseSets(map, setData=set_data)
     return(bs)
+}
+
+#' @name io
+#' @rdname io
+#' @aliases import import,GMTFile,ANY,ANY-method
+#'
+#' @param format,text Arguments defined in the [rtracklayer::import()] generic. Currently ignored.
+#'
+#' @export
+#'
+#' @importFrom rtracklayer resource
+#' @importFrom S4Vectors DataFrame mcols<-
+#' @importFrom utils stack
+setMethod("import", "GMTFile", function(con, format, text, ...) {
+    import.gmt(resource(con), ...)
 })
 
 
