@@ -7,15 +7,18 @@
 #' The `unisets` package aims to implement support for a number of annotation and sequence formats.
 #' The following file formats are currently supported: [GMT](https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29).
 #'
-#' @rdname import
+#' @name io
+#' @rdname io
+#' @aliases GMTFile-class
 #'
 #' @export
 #' @importClassesFrom rtracklayer RTLFile
 setClass("GMTFile", contains="RTLFile")
 
-#' @param resource For `GMTFile()`, the .gmt file that will be imported in.
+#' @name io
+#' @rdname io
 #'
-#' @rdname import
+#' @param resource For `GMTFile()`, the .gmt file that will be imported in.
 #'
 #' @return For `GMTFile()`, an object representing the path to a .gmt file on disk
 #'
@@ -39,18 +42,11 @@ GMTFile <- function(resource) {
     new("GMTFile", resource=resource)
 }
 
-## credit to Michael Lawrence
-## implementation is largely based on:
-## https://github.com/lawremi/rtracklayer/blob/master/R/bed.R
-#' @rdname import
-#' @aliases import.gmt
-#' @export
-setGeneric("import.gmt", function(con, ...){
-    standardGeneric("import.gmt")
-})
+## import.gmt() ----
 
-## import.GMTFile() ----
-
+#' @name io
+#' @rdname io
+#'
 #' @param con The connection from which data is loaded or to which data is saved.
 #' If this is a character vector, it is assumed to be a filename
 #' and a corresponding file connection is created and then closed after exporting the object.
@@ -58,20 +54,17 @@ setGeneric("import.gmt", function(con, ...){
 #' Certain subclasses of [`BiMap`][`AnnDbBimap`] are supported: [`Go3AnnDbBimap`].
 #' @param ... Parameters to pass to the format-specific method.
 #'
-#' @rdname import
-#'
-#' @export
-#' @importClassesFrom AnnotationDbi Bimap
 #' @importMethodsFrom rtracklayer import
-#' @importFrom rtracklayer FileForFormat
-setMethod("import.gmt", "ANY", function(con, ...)
+#' @export
+import.gmt <- function(con, ...) {
     import(GMTFile(con), ...)
-)
+}
 
-#' @param format,text Arguments defined in the [rtracklayer::import()] generic. Currently ignored.
+#' @name io
+#' @rdname io
+#' @aliases import import,GMTFile,ANY,ANY-method
 #'
-#' @rdname import
-#' @aliases import
+#' @param format,text Arguments defined in the [rtracklayer::import()] generic. Currently ignored.
 #'
 #' @export
 #'
@@ -114,34 +107,29 @@ setMethod("import", "GMTFile", function(con, format, text, ...) {
 })
 
 
-## export.GMTFile() ----
+## export.gmt() ----
 
-#' @rdname import
+#' @name io
+#' @rdname io
 #' @aliases export.gmt
-#' @export
-setGeneric("export.gmt", function(object, con, ...){
-    standardGeneric("export.gmt")
-})
-
+#'
 #' @param object An object of class inheriting from [`GMTFile`].
 #'
-#' @rdname import
-#'
-#' @export
 #' @importFrom rtracklayer export
-setMethod("export.gmt", "ANY", function(object, con, ...) {
-    export(object, GMTFile(con), "gmt", ...)
-})
-
-#' @rdname import
-#' @aliases export
-#'
 #' @export
+export.gmt <- function(object, con, ...) {
+    export(object, GMTFile(con), "gmt", ...)
+}
+
+#' @name io
+#' @rdname io
+#' @aliases export export,BaseSets,GMTFile,ANY-method
 #'
 #' @importFrom rtracklayer export
 #' @importFrom utils write.table
 #' @importFrom methods getPackageName
 #' @importFrom S4Vectors mcols DataFrame
+#' @export
 setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...) {
     path <- resource(con)
     if (! "source" %in% colnames(mcols(setData(object)))) {
@@ -174,7 +162,8 @@ setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...)
 
 # import.Go3AnnDbBimap() ----
 
-#' @rdname import
+#' @name io
+#' @rdname io
 #' @aliases import.Go3AnnDbBimap
 #'
 #' @param Go3AnnDbBimap A [`Go3AnnDbBimap`].
@@ -216,10 +205,12 @@ import.Go3AnnDbBimap <- function(con, format, text, ...)  {
     GOSets(relations, elementData, setData)
 }
 
-#' @rdname import
+#' @name io
+#' @rdname io
 #' @aliases import,Go3AnnDbBimap,ANY,ANY-method
-#' @export
+#'
 #' @importFrom methods setMethod
+#' @export
 setMethod("import", "Go3AnnDbBimap", function(con, format, text, ...)  {
     import.Go3AnnDbBimap(con, format, text, ...)
 })
