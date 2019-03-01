@@ -94,7 +94,7 @@
       Fred Hutchinson Cancer Research Center, Seattle, WA, USA, 98115<br><a class="author_email" href="mailto:#"></a><a href="mailto:robert.amezquita@fredhutch.org">robert.amezquita@fredhutch.org</a>
       </address>
                   
-            <h4 class="date">26 February 2019</h4>
+            <h4 class="date">1 March 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/unisets/blob/master/vignettes/bioc-annotation.Rmd"><code>vignettes/bioc-annotation.Rmd</code></a></small>
       <div class="hidden name"><code>bioc-annotation.Rmd</code></div>
@@ -127,7 +127,7 @@
 <a href="#import-gene-ontology" class="anchor"></a>Gene Ontology</h2>
 <p><code>Go3AnnDbBimap</code> objects (from the <em><a href="https://bioconductor.org/packages/3.9/AnnotationDbi">AnnotationDbi</a></em> package) are maps between Entrez gene identifiers and Gene Ontology (GO) identifiers. Those objects may be directly converted to <code>BaseSets</code> objects as demonstrated below.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(unisets)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">base_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/import.html">import</a></span>(org.Hs.egGO)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">base_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/io.html">import</a></span>(org.Hs.egGO)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">as</span>(base_sets, <span class="st">"DataFrame"</span>)[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"element"</span>, <span class="st">"set"</span>, <span class="st">"relationData"</span>)]</a></code></pre></div>
 <pre><code>## DataFrame with 313751 rows and 3 columns
 ##                 element          set relationData
@@ -183,7 +183,7 @@
 <p><code>org.Hs.egGO</code> is an R object that provides mappings between entrez gene identifiers and the GO identifiers that they are directly associated with. This mapping and its reverse mapping do NOT associate the child terms from the GO ontology with the gene. Only the directly evidenced terms are represented here.</p>
 <p>In contrast, <code>org.Hs.egGO2ALLEGS</code> is an R object that provides mappings between a given GO identifier and all of the Entrez Gene identifiers annotated at that GO term OR TO ONE OF IT’S CHILD NODES in the GO ontology. Thus, this mapping is much larger and more inclusive than <code>org.Hs.egGO2EG</code>.</p>
 <p>Below, we use the <code>length</code> method to show the number of relations between genes and GO terms imported from the <code>org.Hs.egGO2ALLEGS</code> map.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">base_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/import.html">import</a></span>(org.Hs.egGO2ALLEGS)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">base_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/io.html">import</a></span>(org.Hs.egGO2ALLEGS)</a></code></pre></div>
 <pre><code>## 'select()' returned 1:1 mapping between keys and columns</code></pre>
 <pre><code>## Coercing evidence to factor</code></pre>
 <pre><code>## Coercing ontology to factor</code></pre>
@@ -201,7 +201,7 @@
 <div id="session-info" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<pre><code>## R Under development (unstable) (2019-02-25 r76160)
+<pre><code>## R Under development (unstable) (2019-03-01 r76187)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -241,12 +241,12 @@
 ## [21] pkgconfig_2.0.2             bookdown_0.9               
 ## [23] zlibbioc_1.29.0             xtable_1.8-3               
 ## [25] GO.db_3.7.0                 scales_1.0.0               
-## [27] BiocParallel_1.17.16        tibble_2.0.1               
+## [27] BiocParallel_1.17.17        tibble_2.0.1               
 ## [29] annotate_1.61.0             withr_2.1.2                
 ## [31] SummarizedExperiment_1.13.0 lazyeval_0.2.1             
 ## [33] magrittr_1.5                crayon_1.3.4               
 ## [35] memoise_1.1.0               evaluate_0.13              
-## [37] fs_1.2.6                    MASS_7.3-51.1              
+## [37] fs_1.2.6                    MASS_7.3-51.2              
 ## [39] xml2_1.2.0                  graph_1.61.0               
 ## [41] tools_3.6.0                 matrixStats_0.54.0         
 ## [43] stringr_1.4.0               munsell_0.5.0              
@@ -259,7 +259,7 @@
 ## [57] DBI_1.0.0                   roxygen2_6.1.1             
 ## [59] reshape2_1.4.3              R6_2.4.0                   
 ## [61] GenomicAlignments_1.19.1    knitr_1.21                 
-## [63] rtracklayer_1.43.1          bit_1.1-14                 
+## [63] rtracklayer_1.43.2          bit_1.1-14                 
 ## [65] commonmark_1.7              rprojroot_1.3-2            
 ## [67] desc_1.2.0                  stringi_1.3.1              
 ## [69] Rcpp_1.0.0                  xfun_0.5</code></pre>
