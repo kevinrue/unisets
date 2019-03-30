@@ -4,6 +4,7 @@
 * Added class `IdVector`.
 * Added accessors `ids` for class `IdVector`.
 * Added methods `duplicated`, `unique`, and `union` for class `IdVector`.
+* Added classes `EntrezIdVector` and `EnsemblIdVector`.
 * Added class `BaseSets`.
 * Added accessors `relations`, `elementData`, and `setData` for class `BaseSets`.
 * Added methods `length`, `nElements`, `nSets`, `setLengths` and `elementLengths` for class `BaseSets`.

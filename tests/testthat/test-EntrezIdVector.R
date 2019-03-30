@@ -1,12 +1,13 @@
 
-# IdVector() ----
+# EntrezIdVector() ----
 
-test_that("IdVector constructor produces valid objects", {
+test_that("EntrezIdVector constructor produces valid objects", {
 
-    out <- EntrezIdVector(keys(org.Hs.eg.db))
+    keys <- keys(org.Hs.eg.db, keytype="ENTREZID") # ENTREZID is default
+    out <- EntrezIdVector(keys)
 
     expect_s4_class(out, "EntrezIdVector")
     expect_identical(slotNames(out), c("ids", "elementMetadata", "metadata"))
 
-    expect_identical(length(out), length(keys(org.Hs.eg.db)))
+    expect_identical(length(out), length(keys))
 })
