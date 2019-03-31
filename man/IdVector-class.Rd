@@ -6,6 +6,8 @@
 \alias{IdVector}
 \alias{EntrezIdVector-class}
 \alias{EntrezIdVector}
+\alias{EnsemblIdVector-class}
+\alias{EnsemblIdVector}
 \alias{GOIdVector-class}
 \alias{GOIdVector}
 \title{IdVector Class}
@@ -13,6 +15,8 @@
 IdVector(ids = character(0))
 
 EntrezIdVector(ids)
+
+EnsemblIdVector(ids)
 
 GOIdVector(ids)
 }
@@ -51,7 +55,13 @@ names(iv)
 # EntrezIdVector ----
 
 library(org.Hs.eg.db)
-eiv <- EntrezIdVector(keys(org.Hs.eg.db))
+eiv <- EntrezIdVector(keys(org.Hs.eg.db, keytype="ENTREZID"))
+eiv
+
+# EnsemblIdVector ----
+
+library(org.Hs.eg.db)
+eiv <- EnsemblIdVector(keys(org.Hs.eg.db, keytype="ENSEMBL"))
 eiv
 
 # GOIdVector ----
@@ -61,7 +71,10 @@ giv <- GOIdVector(keys(org.Hs.eg.db, keytype = "GO"))
 giv
 }
 \seealso{
-\code{\linkS4class{Vector}}, \code{\linkS4class{EntrezIdVector}}, \code{\linkS4class{GOIdVector}}
+\code{\linkS4class{Vector}},
+\code{\linkS4class{EntrezIdVector}},
+\code{\linkS4class{EnsemblIdVector}},
+\code{\linkS4class{GOIdVector}}
 }
 \author{
 Kevin Rue-Albrecht

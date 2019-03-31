@@ -44,7 +44,11 @@
 #' @exportClass IdVector
 #' @importClassesFrom S4Vectors Vector
 #'
-#' @seealso [`Vector-class`], [`EntrezIdVector-class`], [`GOIdVector-class`]
+#' @seealso
+#' [`Vector-class`],
+#' [`EntrezIdVector-class`],
+#' [`EnsemblIdVector-class`],
+#' [`GOIdVector-class`]
 #'
 #' @examples
 #' # Constructor ----
@@ -412,7 +416,7 @@ FuzzySets <- function(
 #' # EntrezIdVector ----
 #'
 #' library(org.Hs.eg.db)
-#' eiv <- EntrezIdVector(keys(org.Hs.eg.db))
+#' eiv <- EntrezIdVector(keys(org.Hs.eg.db, keytype="ENTREZID"))
 #' eiv
 setClass("EntrezIdVector",
     contains="IdVector"
@@ -425,6 +429,35 @@ EntrezIdVector <- function(ids) {
     # Pass basic arguments to IdVector constructor
     iv <- IdVector(ids)
     iv <- new("EntrezIdVector", iv)
+    iv
+}
+
+# EnsemblIdVector ----
+
+#' @rdname IdVector-class
+#' @aliases EnsemblIdVector-class
+#'
+#' @export
+#' @exportClass EnsemblIdVector
+#'
+#' @examples
+#'
+#' # EnsemblIdVector ----
+#'
+#' library(org.Hs.eg.db)
+#' eiv <- EnsemblIdVector(keys(org.Hs.eg.db, keytype="ENSEMBL"))
+#' eiv
+setClass("EnsemblIdVector",
+    contains="IdVector"
+)
+
+#' @rdname IdVector-class
+#' @aliases EnsemblIdVector
+#' @export
+EnsemblIdVector <- function(ids) {
+    # Pass basic arguments to IdVector constructor
+    iv <- IdVector(ids)
+    iv <- new("EnsemblIdVector", iv)
     iv
 }
 
