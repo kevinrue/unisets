@@ -94,7 +94,7 @@
       Fred Hutchinson Cancer Research Center, Seattle, WA, USA, 98115<br><a class="author_email" href="mailto:#"></a><a href="mailto:robert.amezquita@fredhutch.org">robert.amezquita@fredhutch.org</a>
       </address>
                   
-            <h4 class="date">25 March 2019</h4>
+            <h4 class="date">31 March 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/unisets/blob/master/vignettes/unisets.Rmd"><code>vignettes/unisets.Rmd</code></a></small>
       <div class="hidden name"><code>unisets.Rmd</code></div>
@@ -227,35 +227,35 @@
 <pre><code>## FuzzySets with 5 relations between 4 elements and 2 sets
 ##      element        set  relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;   &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1          A   geneset1    ABC:0:0.31         1:a     100:abc
-## 2          B   geneset1 ABC:0.25:0.89         2:b     100:abc
-## 3          B   geneset2  ABC:0.5:0.23         2:b     200:def
-## 4          C   geneset2 DEF:0.75:0.47         3:c     200:def
-## 5          D   geneset2    DEF:1:0.37         4:d     200:def</code></pre>
+## 1          A   geneset1    ABC:0:0.02         1:a     100:abc
+## 2          B   geneset1 ABC:0.25:0.68         2:b     100:abc
+## 3          B   geneset2  ABC:0.5:0.09         2:b     200:def
+## 4          C   geneset2 DEF:0.75:0.26         3:c     200:def
+## 5          D   geneset2    DEF:1:0.28         4:d     200:def</code></pre>
 <p>The <code>membership</code> function associated with each relation can be directly obtained and modified using the corresponding accessor.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="../reference/FuzzyHits-methods.html">membership</a></span>(fuzzy_sets)</a></code></pre></div>
-<pre><code>## [1] 0.31 0.89 0.23 0.47 0.37</code></pre>
+<pre><code>## [1] 0.02 0.68 0.09 0.26 0.28</code></pre>
 <p>Identically to <code>BaseSets</code>, the <code>relations</code> accessor returns fuzzy relations as <code>Hits</code>, while the <code>as</code> method may be used to format the information as a <code>DataFrame</code>, both of which include the <code>"membership"</code> column, as metadata column and nested under <code>"relationData"</code>, respectively.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="../reference/BaseSets-methods.html">relations</a></span>(fuzzy_sets)</a></code></pre></div>
 <pre><code>## FuzzyHits object with 5 hits and 3 metadata columns:
 ##            from        to |      extra1    extra2 membership
 ##       &lt;integer&gt; &lt;integer&gt; | &lt;character&gt; &lt;numeric&gt;  &lt;numeric&gt;
-##   [1]         1         1 |         ABC         0       0.31
-##   [2]         2         1 |         ABC      0.25       0.89
-##   [3]         2         2 |         ABC       0.5       0.23
-##   [4]         3         2 |         DEF      0.75       0.47
-##   [5]         4         2 |         DEF         1       0.37
+##   [1]         1         1 |         ABC         0       0.02
+##   [2]         2         1 |         ABC      0.25       0.68
+##   [3]         2         2 |         ABC       0.5       0.09
+##   [4]         3         2 |         DEF      0.75       0.26
+##   [5]         4         2 |         DEF         1       0.28
 ##   -------
 ##   nLnode: 4 / nRnode: 2</code></pre>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">as</span>(fuzzy_sets, <span class="st">"DataFrame"</span>)</a></code></pre></div>
 <pre><code>## DataFrame with 5 rows and 5 columns
 ##      element        set  relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;   &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1          A   geneset1    ABC:0:0.31         1:a     100:abc
-## 2          B   geneset1 ABC:0.25:0.89         2:b     100:abc
-## 3          B   geneset2  ABC:0.5:0.23         2:b     200:def
-## 4          C   geneset2 DEF:0.75:0.47         3:c     200:def
-## 5          D   geneset2    DEF:1:0.37         4:d     200:def</code></pre>
+## 1          A   geneset1    ABC:0:0.02         1:a     100:abc
+## 2          B   geneset1 ABC:0.25:0.68         2:b     100:abc
+## 3          B   geneset2  ABC:0.5:0.09         2:b     200:def
+## 4          C   geneset2 DEF:0.75:0.26         3:c     200:def
+## 5          D   geneset2    DEF:1:0.28         4:d     200:def</code></pre>
 </div>
 <div id="the-gosets-class" class="section level2">
 <h2 class="hasAnchor">
@@ -275,11 +275,7 @@
 ## 1          B   geneset1     ABC:0.25         2:b     100:abc</code></pre>
 <p>Similarly, the <code>subset</code> method can be also applied to objects derived from <code>BaseSets</code>, such as <code>FuzzySets</code>, in which case the logical expression may also refer to the additional <code>"membership"</code> metadata that is guaranted by the class validity method.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/subset">subset</a></span>(fuzzy_sets, set <span class="op">==</span><span class="st"> "geneset2"</span> <span class="op">&amp;</span><span class="st"> </span>membership <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.3</span>)</a></code></pre></div>
-<pre><code>## FuzzySets with 2 relations between 2 elements and 1 set
-##      element        set  relationData elementData     setData
-##   &lt;IdVector&gt; &lt;IdVector&gt;   &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1          C   geneset2 DEF:0.75:0.47         3:c     200:def
-## 2          D   geneset2    DEF:1:0.37         4:d     200:def</code></pre>
+<pre><code>## FuzzySets with 0 relations between 0 elements and 0 sets</code></pre>
 <p>Note that the default behaviour of the <code>subset</code> method is to drop elements and sets that are not represented in the relations from the <code>elementData</code> and <code>setData</code> slots, respectively. This behaviour can be controlled using the <code>drop</code> argument, which accepts a single logical value.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">out1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/subset">subset</a></span>(base_sets, set <span class="op">==</span><span class="st"> "geneset1"</span>, <span class="dt">drop=</span><span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw">ids</span>(<span class="kw"><a href="../reference/BaseSets-methods.html">setData</a></span>(out1))</a></code></pre></div>
@@ -317,9 +313,9 @@
 <a class="sourceLine" id="cb37-3" data-line-number="3">fuzzy_matrix</a></code></pre></div>
 <pre><code>##   geneset1 geneset2
 ## A     0.00       NA
-## B     0.89     0.23
-## C       NA     0.47
-## D       NA     0.37</code></pre>
+## B     0.68     0.09
+## C       NA     0.26
+## D       NA     0.28</code></pre>
 </div>
 </div>
 <div id="convert-from" class="section level1">
@@ -347,10 +343,10 @@
 ##      element        set relationData elementData     setData
 ##   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
 ## 1          A   geneset1            0                        
-## 2          B   geneset1         0.89                        
-## 3          B   geneset2         0.23                        
-## 4          C   geneset2         0.47                        
-## 5          D   geneset2         0.37</code></pre>
+## 2          B   geneset1         0.68                        
+## 3          B   geneset2         0.09                        
+## 4          C   geneset2         0.26                        
+## 5          D   geneset2         0.28</code></pre>
 </div>
 </div>
 <div id="additional-information" class="section level1">
@@ -474,7 +470,7 @@
 <div id="session-info" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<pre><code>## R Under development (unstable) (2019-03-24 r76263)
+<pre><code>## R Under development (unstable) (2019-03-30 r76304)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
@@ -495,7 +491,7 @@
 ## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] unisets_0.99.0      S4Vectors_0.21.16   BiocGenerics_0.29.2
+## [1] unisets_0.99.0      S4Vectors_0.21.21   BiocGenerics_0.29.2
 ## [4] BiocStyle_2.11.0   
 ## 
 ## loaded via a namespace (and not attached):
@@ -503,9 +499,9 @@
 ##  [3] reshape2_1.4.3              lattice_0.20-38            
 ##  [5] htmltools_0.3.6             rtracklayer_1.43.3         
 ##  [7] yaml_2.2.0                  blob_1.1.1                 
-##  [9] XML_3.98-1.19               rlang_0.3.2                
+##  [9] XML_3.98-1.19               rlang_0.3.3                
 ## [11] pkgdown_1.3.0               DBI_1.0.0                  
-## [13] BiocParallel_1.17.17        bit64_0.9-7                
+## [13] BiocParallel_1.17.18        bit64_0.9-7                
 ## [15] matrixStats_0.54.0          GenomeInfoDbData_1.2.0     
 ## [17] plyr_1.8.4                  stringr_1.4.0              
 ## [19] zlibbioc_1.29.0             Biostrings_2.51.5          
@@ -515,21 +511,21 @@
 ## [27] GenomeInfoDb_1.19.2         AnnotationDbi_1.45.1       
 ## [29] GSEABase_1.45.0             Rcpp_1.0.1                 
 ## [31] xtable_1.8-3                backports_1.1.3            
-## [33] BiocManager_1.30.4          DelayedArray_0.9.8         
+## [33] BiocManager_1.30.4          DelayedArray_0.9.9         
 ## [35] desc_1.2.0                  graph_1.61.0               
 ## [37] annotate_1.61.1             XVector_0.23.2             
 ## [39] fs_1.2.6                    bit_1.1-14                 
-## [41] Rsamtools_1.99.3            digest_0.6.18              
+## [41] Rsamtools_1.99.4            digest_0.6.18              
 ## [43] stringi_1.4.3               bookdown_0.9               
 ## [45] GenomicRanges_1.35.1        rprojroot_1.3-2            
-## [47] grid_3.6.0                  tools_3.6.0                
+## [47] grid_3.7.0                  tools_3.7.0                
 ## [49] bitops_1.0-6                magrittr_1.5               
 ## [51] RCurl_1.95-4.12             RSQLite_2.1.1              
 ## [53] crayon_1.3.4                MASS_7.3-51.2              
-## [55] Matrix_1.2-16               xml2_1.2.0                 
+## [55] Matrix_1.2-17               xml2_1.2.0                 
 ## [57] assertthat_0.2.1            rmarkdown_1.12             
 ## [59] roxygen2_6.1.1              R6_2.4.0                   
-## [61] GenomicAlignments_1.19.1    compiler_3.6.0</code></pre>
+## [61] GenomicAlignments_1.19.1    compiler_3.7.0</code></pre>
 </div>
   </div>
 

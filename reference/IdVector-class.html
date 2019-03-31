@@ -135,6 +135,8 @@ Subclasses of <code>IdVector</code> may be defined to enable method dispatch acc
 
 <span class='fu'>EntrezIdVector</span>(<span class='no'>ids</span>)
 
+<span class='fu'>EnsemblIdVector</span>(<span class='no'>ids</span>)
+
 <span class='fu'>GOIdVector</span>(<span class='no'>ids</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -159,7 +161,10 @@ Subclasses of <code>IdVector</code> may be defined to enable method dispatch acc
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>Vector</code>, <code>EntrezIdVector</code>, <code>GOIdVector</code></p></div>
+    <div class='dont-index'><p><code>Vector</code>,
+<code>EntrezIdVector</code>,
+<code>EnsemblIdVector</code>,
+<code>GOIdVector</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -181,9 +186,15 @@ Subclasses of <code>IdVector</code> may be defined to enable method dispatch acc
 <span class='co'># EntrezIdVector ----</span>
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>org.Hs.eg.db</span>)
-<span class='no'>eiv</span> <span class='kw'>&lt;-</span> <span class='fu'>EntrezIdVector</span>(<span class='fu'>keys</span>(<span class='no'>org.Hs.eg.db</span>))
+<span class='no'>eiv</span> <span class='kw'>&lt;-</span> <span class='fu'>EntrezIdVector</span>(<span class='fu'>keys</span>(<span class='no'>org.Hs.eg.db</span>, <span class='kw'>keytype</span><span class='kw'>=</span><span class='st'>"ENTREZID"</span>))
 <span class='no'>eiv</span></div><div class='output co'>#&gt; EntrezIdVector of length 61119 with 61119 unique identifiers
 #&gt; Ids: 1, 2, 3, 9, ...</div><div class='input'>
+<span class='co'># EnsemblIdVector ----</span>
+
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>org.Hs.eg.db</span>)
+<span class='no'>eiv</span> <span class='kw'>&lt;-</span> <span class='fu'>EnsemblIdVector</span>(<span class='fu'>keys</span>(<span class='no'>org.Hs.eg.db</span>, <span class='kw'>keytype</span><span class='kw'>=</span><span class='st'>"ENSEMBL"</span>))
+<span class='no'>eiv</span></div><div class='output co'>#&gt; EnsemblIdVector of length 30292 with 30292 unique identifiers
+#&gt; Ids: ENSG00000121410, ENSG00000175899, ENSG00000256069, ENSG00000171428, ...</div><div class='input'>
 <span class='co'># GOIdVector ----</span>
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>org.Hs.eg.db</span>)
