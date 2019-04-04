@@ -14,7 +14,7 @@ get_showTailLines <- function() { 5L }
 #' @importFrom utils head tail
 #' @importFrom BiocGenerics nrow ncol
 #' @importFrom S4Vectors showAsCell classNameForDisplay
-.showSetAsTable <- function(class, x) {
+.showRelationsAsDataFrame <- function(x) {
     # Settings
     nhead <- get_showHeadLines()
     ntail <- get_showTailLines()
@@ -24,12 +24,6 @@ get_showTailLines <- function() { 5L }
     ns <- length(unique(as.character(x$set)))
 
     # Display
-    cat(
-        class, " with ",
-        nm, ifelse(nm == 1, " relation", " relations"), " between ",
-        ne, ifelse(ne == 1, " element", " elements"), " and ",
-        ns, ifelse(ns == 1, " set\n", " sets\n"),
-        sep = "")
     if (nm > 0) {
         if (nm <= (nhead + ntail + 1L)) {
             out <- as.matrix(format(as.data.frame(lapply(x,

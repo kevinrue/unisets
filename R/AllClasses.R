@@ -497,7 +497,7 @@ GOIdVector <- function(ids) {
 #' @aliases GOEvidenceCodes
 #'
 #' @section Controlled vocabulary:
-#' Gene Ontology evidence codes were obtained from <>
+#' Gene Ontology evidence codes were obtained from <http://geneontology.org/docs/guide-go-evidence-codes/>
 #'
 #' @export
 #'
@@ -507,7 +507,7 @@ GOIdVector <- function(ids) {
 #'   \item{carat}{Description.}
 #'   ...
 #' }
-#' @source <http://geneontology.org/docs/guide-go-evidence-codes/>
+#' @source Evidence codes: <http://geneontology.org/docs/guide-go-evidence-codes/>
 #'
 #' @examples
 #' # Controlled vocabulary ----
@@ -557,7 +557,7 @@ GOEvidenceCodes <- c(
 #'   \item{carat}{Description.}
 #'   ...
 #' }
-#' @source <http://geneontology.org/docs/guide-go-evidence-codes/>
+#' @source Namespaces: <http://geneontology.org/docs/guide-go-evidence-codes/>
 #'
 #' @examples
 #' GOOntologyCodes
