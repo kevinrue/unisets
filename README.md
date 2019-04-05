@@ -51,11 +51,21 @@ base_set
 
 ```
 BaseSets with 5 relations between 4 elements and 2 sets
-     element        set relationData elementData     setData
-  <IdVector> <IdVector>  <DataFrame> <DataFrame> <DataFrame>
-1          A   geneset1        ABC:0         1:a     100:abc
-2          B   geneset1     ABC:0.25         2:b     100:abc
-3          B   geneset2      ABC:0.5         2:b     200:def
-4          C   geneset2     DEF:0.75         3:c     200:def
-5          D   geneset2        DEF:1         4:d     200:def
+      element         set      extra1    extra2
+  <character> <character> <character> <numeric>
+1           A    geneset1         ABC         0
+2           B    geneset1         ABC      0.25
+3           B    geneset2         ABC       0.5
+4           C    geneset2         DEF      0.75
+5           D    geneset2         DEF         1
+
+@elementData
+IdVector of length 4 with 4 unique identifiers
+Ids: A, B, C, D
+Metadata: stat1, info1 (2 columns)
+
+@setData
+IdVector of length 2 with 2 unique identifiers
+Ids: geneset1, geneset2
+Metadata: stat1, info1 (2 columns)
 ```
