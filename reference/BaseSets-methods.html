@@ -351,14 +351,24 @@ Names are set identifiers, and values are character vectors of element identifie
 
 <span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>sets</span>, <span class='st'>"BaseSets"</span>)
 <span class='no'>bs</span></div><div class='output co'>#&gt; BaseSets with 6 relations between 5 elements and 3 sets
-#&gt;      element        set relationData elementData     setData
-#&gt;   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-#&gt; 1          A       set1                                     
-#&gt; 2          B       set1                                     
-#&gt; 3          B       set2                                     
-#&gt; 4          C       set2                                     
-#&gt; 5          D       set2                                     
-#&gt; 6          E       set3                                     </div><div class='input'>
+#&gt;       element         set
+#&gt;   &lt;character&gt; &lt;character&gt;
+#&gt; 1           A        set1
+#&gt; 2           B        set1
+#&gt; 3           B        set2
+#&gt; 4           C        set2
+#&gt; 5           D        set2
+#&gt; 6           E        set3
+#&gt; 
+#&gt; @elementData
+#&gt; IdVector of length 5 with 5 unique identifiers
+#&gt; Ids: A, B, C, D, ...
+#&gt; Metadata:  (0 columns)
+#&gt; 
+#&gt; @setData
+#&gt; IdVector of length 3 with 3 unique identifiers
+#&gt; Ids: set1, set2, set3
+#&gt; Metadata:  (0 columns)</div><div class='input'>
 <span class='co'># Accessors ----</span>
 
 <span class='fu'>relations</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; Hits object with 6 hits and 0 metadata columns:
@@ -409,11 +419,21 @@ Names are set identifiers, and values are character vectors of element identifie
 
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>bs</span>, <span class='no'>set</span> <span class='kw'>==</span> <span class='st'>"set1"</span> <span class='kw'>|</span> <span class='no'>element</span> <span class='kw'>==</span> <span class='st'>"E"</span>)
 <span class='no'>bs1</span></div><div class='output co'>#&gt; BaseSets with 3 relations between 3 elements and 2 sets
-#&gt;      element        set relationData elementData     setData
-#&gt;   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-#&gt; 1          A       set1                                     
-#&gt; 2          B       set1                                     
-#&gt; 3          E       set3                                     </div><div class='input'>
+#&gt;       element         set
+#&gt;   &lt;character&gt; &lt;character&gt;
+#&gt; 1           A        set1
+#&gt; 2           B        set1
+#&gt; 3           E        set3
+#&gt; 
+#&gt; @elementData
+#&gt; IdVector of length 3 with 3 unique identifiers
+#&gt; Ids: A, B, E
+#&gt; Metadata:  (0 columns)
+#&gt; 
+#&gt; @setData
+#&gt; IdVector of length 2 with 2 unique identifiers
+#&gt; Ids: set1, set3
+#&gt; Metadata:  (0 columns)</div><div class='input'>
 <span class='co'># Duplication and uniqueness ----</span>
 
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
@@ -421,14 +441,24 @@ Names are set identifiers, and values are character vectors of element identifie
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/duplicated'>duplicated</a></span>(<span class='no'>bs1</span>))</div><div class='output co'>#&gt; 
 #&gt; FALSE  TRUE 
 #&gt;     6     6 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>bs1</span>)</div><div class='output co'>#&gt; BaseSets with 6 relations between 5 elements and 3 sets
-#&gt;      element        set relationData elementData     setData
-#&gt;   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-#&gt; 1          A       set1                                     
-#&gt; 2          B       set1                                     
-#&gt; 3          B       set2                                     
-#&gt; 4          C       set2                                     
-#&gt; 5          D       set2                                     
-#&gt; 6          E       set3                                     </div><div class='input'><span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>union</a></span>(<span class='no'>bs</span>, <span class='no'>bs</span>)
+#&gt;       element         set
+#&gt;   &lt;character&gt; &lt;character&gt;
+#&gt; 1           A        set1
+#&gt; 2           B        set1
+#&gt; 3           B        set2
+#&gt; 4           C        set2
+#&gt; 5           D        set2
+#&gt; 6           E        set3
+#&gt; 
+#&gt; @elementData
+#&gt; IdVector of length 5 with 5 unique identifiers
+#&gt; Ids: A, B, C, D, ...
+#&gt; Metadata:  (0 columns)
+#&gt; 
+#&gt; @setData
+#&gt; IdVector of length 3 with 3 unique identifiers
+#&gt; Ids: set1, set2, set3
+#&gt; Metadata:  (0 columns)</div><div class='input'><span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>union</a></span>(<span class='no'>bs</span>, <span class='no'>bs</span>)
 
 <span class='co'># Coercion from BaseSets ----</span>
 

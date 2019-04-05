@@ -186,14 +186,24 @@ Metadata for each unique set in <code>relations$set</code> is stored as <code>mc
 
 <span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>sets</span>, <span class='st'>"BaseSets"</span>)
 <span class='no'>bs</span></div><div class='output co'>#&gt; BaseSets with 6 relations between 5 elements and 3 sets
-#&gt;      element        set relationData elementData     setData
-#&gt;   &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-#&gt; 1          A       set1                                     
-#&gt; 2          B       set1                                     
-#&gt; 3          B       set2                                     
-#&gt; 4          C       set2                                     
-#&gt; 5          D       set2                                     
-#&gt; 6          E       set3                                     </div><div class='input'>
+#&gt;       element         set
+#&gt;   &lt;character&gt; &lt;character&gt;
+#&gt; 1           A        set1
+#&gt; 2           B        set1
+#&gt; 3           B        set2
+#&gt; 4           C        set2
+#&gt; 5           D        set2
+#&gt; 6           E        set3
+#&gt; 
+#&gt; @elementData
+#&gt; IdVector of length 5 with 5 unique identifiers
+#&gt; Ids: A, B, C, D, ...
+#&gt; Metadata:  (0 columns)
+#&gt; 
+#&gt; @setData
+#&gt; IdVector of length 3 with 3 unique identifiers
+#&gt; Ids: set1, set2, set3
+#&gt; Metadata:  (0 columns)</div><div class='input'>
 <span class='co'># Coercing ----</span>
 
 <span class='co'># to list (gene sets)</span>
