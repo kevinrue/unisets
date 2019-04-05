@@ -105,36 +105,36 @@
 <a href="#example" class="anchor"></a>Example</h2>
 <p>This is a basic example which shows you how to create a <code>BaseSets</code> object, to store simple associations between genes and sets:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(unisets)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">gene_lists &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="dt">geneset1 =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"A"</span>, <span class="st">"B"</span>),</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="dt">geneset2 =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">sets_list &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="dt">set1 =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"A"</span>, <span class="st">"B"</span>),</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="dt">set2 =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>)</a>
 <a class="sourceLine" id="cb3-5" data-line-number="5">)</a>
 <a class="sourceLine" id="cb3-6" data-line-number="6">relations_table &lt;-<span class="st"> </span><span class="kw">DataFrame</span>(</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">    <span class="dt">element =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unlist">unlist</a></span>(gene_lists),</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">    <span class="dt">set     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(gene_lists), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lengths">lengths</a></span>(gene_lists)),</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">    <span class="dt">element =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unlist">unlist</a></span>(sets_list),</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">    <span class="dt">set     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(sets_list), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lengths">lengths</a></span>(sets_list)),</a>
 <a class="sourceLine" id="cb3-9" data-line-number="9">    <span class="dt">extra1  =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"ABC"</span>, <span class="st">"DEF"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(3L, 2L)),</a>
 <a class="sourceLine" id="cb3-10" data-line-number="10">    <span class="dt">extra2  =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> 5L)</a>
 <a class="sourceLine" id="cb3-11" data-line-number="11">)</a>
-<a class="sourceLine" id="cb3-12" data-line-number="12">gene_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/IdVector-class.html">IdVector</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>))</a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="kw">elementMetadata</span>(gene_data) &lt;-<span class="st"> </span><span class="kw">DataFrame</span>(</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">element_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/IdVector-class.html">IdVector</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>))</a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="kw">elementMetadata</span>(element_data) &lt;-<span class="st"> </span><span class="kw">DataFrame</span>(</a>
 <a class="sourceLine" id="cb3-14" data-line-number="14">    <span class="dt">stat1     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>( <span class="dv">1</span>,   <span class="dv">2</span>,   <span class="dv">3</span>,   <span class="dv">4</span> ),</a>
 <a class="sourceLine" id="cb3-15" data-line-number="15">    <span class="dt">info1     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>)</a>
 <a class="sourceLine" id="cb3-16" data-line-number="16">)</a>
-<a class="sourceLine" id="cb3-17" data-line-number="17">set_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/IdVector-class.html">IdVector</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"geneset1"</span>, <span class="st">"geneset2"</span>))</a>
+<a class="sourceLine" id="cb3-17" data-line-number="17">set_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/IdVector-class.html">IdVector</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"set1"</span>, <span class="st">"set2"</span>))</a>
 <a class="sourceLine" id="cb3-18" data-line-number="18"><span class="kw">elementMetadata</span>(set_data) &lt;-<span class="st"> </span><span class="kw">DataFrame</span>(</a>
 <a class="sourceLine" id="cb3-19" data-line-number="19">    <span class="dt">stat1     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>( <span class="dv">100</span>,   <span class="dv">200</span> ),</a>
 <a class="sourceLine" id="cb3-20" data-line-number="20">    <span class="dt">info1     =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"abc"</span>, <span class="st">"def"</span>)</a>
 <a class="sourceLine" id="cb3-21" data-line-number="21">)</a>
-<a class="sourceLine" id="cb3-22" data-line-number="22">base_set &lt;-<span class="st"> </span><span class="kw"><a href="reference/BaseSets-class.html">BaseSets</a></span>(relations_table, gene_data, set_data)</a>
+<a class="sourceLine" id="cb3-22" data-line-number="22">base_set &lt;-<span class="st"> </span><span class="kw"><a href="reference/BaseSets-class.html">BaseSets</a></span>(relations_table, element_data, set_data)</a>
 <a class="sourceLine" id="cb3-23" data-line-number="23">base_set</a></code></pre></div>
 <pre><code>BaseSets with 5 relations between 4 elements and 2 sets
       element         set      extra1    extra2
   &lt;character&gt; &lt;character&gt; &lt;character&gt; &lt;numeric&gt;
-1           A    geneset1         ABC         0
-2           B    geneset1         ABC      0.25
-3           B    geneset2         ABC       0.5
-4           C    geneset2         DEF      0.75
-5           D    geneset2         DEF         1
+1           A        set1         ABC         0
+2           B        set1         ABC      0.25
+3           B        set2         ABC       0.5
+4           C        set2         DEF      0.75
+5           D        set2         DEF         1
 
 @elementData
 IdVector of length 4 with 4 unique identifiers
@@ -143,7 +143,7 @@ Metadata: stat1, info1 (2 columns)
 
 @setData
 IdVector of length 2 with 2 unique identifiers
-Ids: geneset1, geneset2
+Ids: set1, set2
 Metadata: stat1, info1 (2 columns)</code></pre>
 </div>
 </div>

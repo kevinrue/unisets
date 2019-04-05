@@ -127,25 +127,35 @@
 <a href="#import-gene-ontology" class="anchor"></a>Gene Ontology</h2>
 <p><code>Go3AnnDbBimap</code> objects (from the <em><a href="https://bioconductor.org/packages/3.9/AnnotationDbi">AnnotationDbi</a></em> package) are maps between Entrez gene identifiers and Gene Ontology (GO) identifiers. Those objects may be directly converted to <code>BaseSets</code> objects as demonstrated below.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(unisets)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">base_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/io.html">import</a></span>(org.Hs.egGO)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">as</span>(base_sets, <span class="st">"DataFrame"</span>)[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"element"</span>, <span class="st">"set"</span>, <span class="st">"relationData"</span>)]</a></code></pre></div>
-<pre><code>## DataFrame with 313751 rows and 3 columns
-##                 element          set relationData
-##        &lt;EntrezIdVector&gt; &lt;GOIdVector&gt;  &lt;DataFrame&gt;
-## 1                     1   GO:0002576       TAS:BP
-## 2                     1   GO:0008150        ND:BP
-## 3                     1   GO:0043312       TAS:BP
-## 4                     2   GO:0001869       IDA:BP
-## 5                     2   GO:0002576       TAS:BP
-## ...                 ...          ...          ...
-## 313747        110599583   GO:0046872       IEA:MF
-## 313748        111089941   GO:0004571       IMP:MF
-## 313749        111089941   GO:0004571       TAS:MF
-## 313750        111089941   GO:0005509       IEA:MF
-## 313751        112441434   GO:0005515       IPI:MF</code></pre>
+<a class="sourceLine" id="cb3-2" data-line-number="2">go_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/io.html">import</a></span>(org.Hs.egGO)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">go_sets</a></code></pre></div>
+<pre><code>## GOSets with 313751 relations between 20408 elements and 17983 sets
+##       element         set evidence ontology
+##   &lt;character&gt; &lt;character&gt; &lt;factor&gt; &lt;factor&gt;
+## 1           1  GO:0002576      TAS       BP
+## 2           1  GO:0008150       ND       BP
+## 3           1  GO:0043312      TAS       BP
+## 4           2  GO:0001869      IDA       BP
+## 5           2  GO:0002576      TAS       BP
+##           ...         ...      ...      ...
+## 1   110599583  GO:0046872      IEA       MF
+## 2   111089941  GO:0004571      IMP       MF
+## 3   111089941  GO:0004571      TAS       MF
+## 4   111089941  GO:0005509      IEA       MF
+## 5   112441434  GO:0005515      IPI       MF
+## 
+## @elementData
+## EntrezIdVector of length 20408 with 20408 unique identifiers
+## Ids: 1, 10, 100, 1000, ...
+## Metadata:  (0 columns)
+## 
+## @setData
+## GOIdVector of length 17983 with 17983 unique identifiers
+## Ids: GO:0002576, GO:0008150, GO:0043312, GO:0001869, ...
+## Metadata: GOID, DEFINITION, ONTOLOGY, TERM (4 columns)</code></pre>
 <p>Notice how the <code>"element"</code> information is typed as <code>EntrezIdVector</code>, allowing the type of identifier to affect downstream methods (e.g., pathway analyses). The <code>EntrezIdVector</code> class directly inherits from the <code>IdVector</code> class, and benefits of all the methods associated with the parent class.</p>
 <p>It is also useful to note that the conversion of <code>Go3AnnDbBimap</code> Gene Ontology maps to <em><a href="https://github.com/kevinrue/unisets">unisets</a></em> objects automatically fetches metadata for each GO identifier from the <code>GO.db</code> package, if installed. The metadata is stored it in the <code>mcols</code> (metadata-columns) slot of the <code>setData</code> slot of the object returned. This metadata can be accessed using the accessor method of the same name.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw"><a href="../reference/BaseSets-methods.html">setData</a></span>(base_sets))[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"ONTOLOGY"</span>, <span class="st">"TERM"</span>)]</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw"><a href="../reference/BaseSets-methods.html">setData</a></span>(go_sets))[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"ONTOLOGY"</span>, <span class="st">"TERM"</span>)]</a></code></pre></div>
 <pre><code>## DataFrame with 17983 rows and 2 columns
 ##               ONTOLOGY
 ##            &lt;character&gt;
@@ -176,21 +186,21 @@
 <p>We may then visualize the distribution of set sizes, on a log<sub>10</sub> scale.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(cowplot)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">setLengths=</span><span class="kw"><a href="../reference/BaseSets-methods.html">setLengths</a></span>(base_sets))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">setLengths=</span><span class="kw"><a href="../reference/BaseSets-methods.html">setLengths</a></span>(go_sets))) <span class="op">+</span></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_histogram">geom_histogram</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(setLengths), <span class="dt">bins=</span><span class="dv">100</span>, <span class="dt">color=</span><span class="st">"black"</span>, <span class="dt">fill=</span><span class="st">"grey"</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/scale_continuous">scale_x_log10</a></span>() <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/labs">labs</a></span>(<span class="dt">y=</span><span class="st">"Sets"</span>, <span class="dt">x=</span><span class="st">"Genes"</span>)</a></code></pre></div>
 <p><img src="bioc-annotation_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p><code>org.Hs.egGO</code> is an R object that provides mappings between entrez gene identifiers and the GO identifiers that they are directly associated with. This mapping and its reverse mapping do NOT associate the child terms from the GO ontology with the gene. Only the directly evidenced terms are represented here.</p>
 <p>In contrast, <code>org.Hs.egGO2ALLEGS</code> is an R object that provides mappings between a given GO identifier and all of the Entrez Gene identifiers annotated at that GO term OR TO ONE OF IT’S CHILD NODES in the GO ontology. Thus, this mapping is much larger and more inclusive than <code>org.Hs.egGO2EG</code>.</p>
 <p>Below, we use the <code>length</code> method to show the number of relations between genes and GO terms imported from the <code>org.Hs.egGO2ALLEGS</code> map.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">base_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/io.html">import</a></span>(org.Hs.egGO2ALLEGS)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">go_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/io.html">import</a></span>(org.Hs.egGO2ALLEGS)</a></code></pre></div>
 <pre><code>## 'select()' returned 1:1 mapping between keys and columns</code></pre>
 <pre><code>## Coercing evidence to factor</code></pre>
 <pre><code>## Coercing ontology to factor</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/format">format</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(base_sets), <span class="dt">big.mark=</span><span class="st">","</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/format">format</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(go_sets), <span class="dt">big.mark=</span><span class="st">","</span>)</a></code></pre></div>
 <pre><code>## [1] "3,430,396"</code></pre>
 <p>We can also examine the count of relations associated with each evidence code in each Gene Ontology namespace.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="../reference/BaseSets-methods.html">as.data.frame</a></span>(base_sets)) <span class="op">+</span></a>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="../reference/BaseSets-methods.html">as.data.frame</a></span>(go_sets)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb14-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/geom_bar">geom_bar</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(evidence)) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(<span class="op">~</span>ontology, <span class="dt">ncol =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/coord_flip">coord_flip</a></span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb14-3" data-line-number="3"><span class="st">    </span><span class="co"># scale_y_continuous(labels = function(x){ format(as.integer(x), big.mark = ",") }) +</span></a>
 <a class="sourceLine" id="cb14-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/scale_continuous">scale_y_continuous</a></span>(<span class="dt">labels =</span> scales<span class="op">::</span>comma) <span class="op">+</span></a>
@@ -201,7 +211,7 @@
 <div id="session-info" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<pre><code>## R Under development (unstable) (2019-04-05 r76324)
+<pre><code>## R Under development (unstable) (2019-04-05 r76325)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 14.04.5 LTS
 ## 
