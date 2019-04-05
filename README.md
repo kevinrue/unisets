@@ -35,8 +35,8 @@ relations_table <- DataFrame(
     extra1  = rep(c("ABC", "DEF"), c(3L, 2L)),
     extra2  = seq(0, 1, length.out = 5L)
 )
-gene_data <- IdVector(c("A", "B", "C", "D"))
-elementMetadata(gene_data) <- DataFrame(
+element_data <- IdVector(c("A", "B", "C", "D"))
+elementMetadata(element_data) <- DataFrame(
     stat1     = c( 1,   2,   3,   4 ),
     info1     = c("a", "b", "c", "d")
 )
@@ -45,7 +45,7 @@ elementMetadata(set_data) <- DataFrame(
     stat1     = c( 100,   200 ),
     info1     = c("abc", "def")
 )
-base_set <- BaseSets(relations_table, gene_data, set_data)
+base_set <- BaseSets(relations_table, element_data, set_data)
 base_set
 ```
 
