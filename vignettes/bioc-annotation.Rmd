@@ -52,8 +52,8 @@ Those objects may be directly converted to `BaseSets` objects as demonstrated be
 
 ```{r message=FALSE}
 library(unisets)
-base_sets <- import(org.Hs.egGO)
-as(base_sets, "DataFrame")[, c("element", "set", "relationData")]
+go_sets <- import(org.Hs.egGO)
+go_sets
 ```
 
 Notice how the `"element"` information is typed as `EntrezIdVector`, allowing the type of identifier to affect downstream methods (e.g., pathway analyses).
@@ -64,7 +64,7 @@ The metadata is stored it in the `mcols` (metadata-columns) slot of the `setData
 This metadata can be accessed using the accessor method of the same name.
 
 ```{r}
-mcols(setData(base_sets))[, c("ONTOLOGY", "TERM")]
+mcols(setData(go_sets))[, c("ONTOLOGY", "TERM")]
 ```
 
 We may then visualize the distribution of set sizes, on a log~10~ scale.
@@ -72,7 +72,7 @@ We may then visualize the distribution of set sizes, on a log~10~ scale.
 ```{r message=FALSE}
 library(ggplot2)
 library(cowplot)
-ggplot(data.frame(setLengths=setLengths(base_sets))) +
+ggplot(data.frame(setLengths=setLengths(go_sets))) +
     geom_histogram(aes(setLengths), bins=100, color="black", fill="grey") +
     scale_x_log10() + labs(y="Sets", x="Genes")
 ```
@@ -87,14 +87,14 @@ Thus, this mapping is much larger and more inclusive than `org.Hs.egGO2EG`.
 Below, we use the `length` method to show the number of relations between genes and GO terms imported from the `org.Hs.egGO2ALLEGS` map.
 
 ```{r}
-base_sets <- import(org.Hs.egGO2ALLEGS)
-format(length(base_sets), big.mark=",")
+go_sets <- import(org.Hs.egGO2ALLEGS)
+format(length(go_sets), big.mark=",")
 ```
 
 We can also examine the count of relations associated with each evidence code in each Gene Ontology namespace.
 
 ```{r, fig.height=7.5}
-ggplot(as.data.frame(base_sets)) +
+ggplot(as.data.frame(go_sets)) +
     geom_bar(aes(evidence)) + facet_wrap(~ontology, ncol = 1) + coord_flip() +
     # scale_y_continuous(labels = function(x){ format(as.integer(x), big.mark = ",") }) +
     scale_y_continuous(labels = scales::comma) +
