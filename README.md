@@ -25,27 +25,27 @@ This is a basic example which shows you how to create a `BaseSets` object, to st
 
 ``` r
 library(unisets)
-gene_lists <- list(
-    geneset1 = c("A", "B"),
-    geneset2 = c("B", "C", "D")
+sets_list <- list(
+    set1 = c("A", "B"),
+    set2 = c("B", "C", "D")
 )
 relations_table <- DataFrame(
-    element = unlist(gene_lists),
-    set     = rep(names(gene_lists), lengths(gene_lists)),
+    element = unlist(sets_list),
+    set     = rep(names(sets_list), lengths(sets_list)),
     extra1  = rep(c("ABC", "DEF"), c(3L, 2L)),
     extra2  = seq(0, 1, length.out = 5L)
 )
-gene_data <- IdVector(c("A", "B", "C", "D"))
-elementMetadata(gene_data) <- DataFrame(
+element_data <- IdVector(c("A", "B", "C", "D"))
+elementMetadata(element_data) <- DataFrame(
     stat1     = c( 1,   2,   3,   4 ),
     info1     = c("a", "b", "c", "d")
 )
-set_data <- IdVector(c("geneset1", "geneset2"))
+set_data <- IdVector(c("set1", "set2"))
 elementMetadata(set_data) <- DataFrame(
     stat1     = c( 100,   200 ),
     info1     = c("abc", "def")
 )
-base_set <- BaseSets(relations_table, gene_data, set_data)
+base_set <- BaseSets(relations_table, element_data, set_data)
 base_set
 ```
 
@@ -53,11 +53,11 @@ base_set
 BaseSets with 5 relations between 4 elements and 2 sets
       element         set      extra1    extra2
   <character> <character> <character> <numeric>
-1           A    geneset1         ABC         0
-2           B    geneset1         ABC      0.25
-3           B    geneset2         ABC       0.5
-4           C    geneset2         DEF      0.75
-5           D    geneset2         DEF         1
+1           A        set1         ABC         0
+2           B        set1         ABC      0.25
+3           B        set2         ABC       0.5
+4           C        set2         DEF      0.75
+5           D        set2         DEF         1
 
 @elementData
 IdVector of length 4 with 4 unique identifiers
@@ -66,6 +66,6 @@ Metadata: stat1, info1 (2 columns)
 
 @setData
 IdVector of length 2 with 2 unique identifiers
-Ids: geneset1, geneset2
+Ids: set1, set2
 Metadata: stat1, info1 (2 columns)
 ```
