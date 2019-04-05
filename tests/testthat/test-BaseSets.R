@@ -364,6 +364,12 @@ test_that("show(BaseSets) works", {
     out <- show(bs)
     expect_identical(out, bs)
 
+    # Large objects partially displayed
+    bs <- BaseSets(relations=DataFrame(element=letters, set=LETTERS))
+
+    out <- show(bs)
+    expect_identical(out, bs)
+
 })
 
 # as.DataFrame() ----
