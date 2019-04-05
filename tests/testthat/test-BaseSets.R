@@ -362,15 +362,13 @@ test_that("show(BaseSets) works", {
     bs <- BaseSets(relations)
 
     out <- show(bs)
-    expect_identical(colnames(out), c("element", "set", "relationData", "elementData", "setData"))
-    expect_identical(nrow(out), length(bs)+1L)
+    expect_identical(out, bs)
 
     # Large objects partially displayed
     bs <- BaseSets(relations=DataFrame(element=letters, set=LETTERS))
 
     out <- show(bs)
-    expect_identical(colnames(out), c("element", "set", "relationData", "elementData", "setData"))
-    expect_identical(nrow(out), unisets:::get_showHeadLines() + unisets:::get_showTailLines() + 2L)
+    expect_identical(out, bs)
 
 })
 

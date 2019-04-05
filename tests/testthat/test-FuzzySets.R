@@ -109,10 +109,7 @@ test_that("show(FuzzySets) works", {
     fs <- FuzzySets(relations)
 
     out <- show(fs)
-    expect_identical(
-        colnames(out),
-        c("element", "set", "relationData", "elementData", "setData"))
-    expect_identical(nrow(out), length(fs)+1L)
+    expect_identical(out, fs)
 
 })
 

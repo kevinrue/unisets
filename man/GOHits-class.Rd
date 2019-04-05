@@ -14,9 +14,9 @@
 ...
 }}
 \source{
-\url{http://geneontology.org/docs/guide-go-evidence-codes/}
+Evidence codes: \url{http://geneontology.org/docs/guide-go-evidence-codes/}
 
-\url{http://geneontology.org/docs/guide-go-evidence-codes/}
+Namespaces: \url{http://geneontology.org/docs/guide-go-evidence-codes/}
 }
 \usage{
 GOEvidenceCodes
@@ -55,7 +55,7 @@ Refer to \code{\link{GOOntologyCodes}} and \code{\link{GOEvidenceCodes}} for val
 }
 \section{Controlled vocabulary}{
 
-Gene Ontology evidence codes were obtained from <>
+Gene Ontology evidence codes were obtained from \url{http://geneontology.org/docs/guide-go-evidence-codes/}
 
 
 Gene Ontology namespaces were obtained from \url{http://geneontology.org/docs/ontology-documentation/}

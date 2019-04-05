@@ -181,13 +181,6 @@ setMethod("show", "IdVector", function(object) {
     invisible(ids(object))
 })
 
-# showAsCell() ----
-
-#' @importFrom methods slot
-setMethod("showAsCell", "IdVector", function(object) {
-    slot(object, "ids")
-})
-
 # NSBS ----
 
 setMethod("NSBS", "IdVector", function(i, x, exact=TRUE, strict.upper.bound=TRUE, allow.NAs=FALSE)

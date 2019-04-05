@@ -148,10 +148,7 @@ test_that("show(GOSets) works", {
     gs <- GOSets(relations)
 
     out <- show(gs)
-    expect_identical(
-        colnames(out),
-        c("element", "set", "relationData", "elementData", "setData"))
-    expect_identical(nrow(out), length(gs)+1L)
+    expect_identical(out, gs)
 
 })
 

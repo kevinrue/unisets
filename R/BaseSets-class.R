@@ -338,9 +338,26 @@ setMethod("subset", "BaseSets", function(x, ...) {
 
 # show() ----
 
-#' @importFrom S4Vectors mcols
+#' @importFrom S4Vectors mcols nLnode nRnode
 setMethod("show", "BaseSets", function(object) {
-    .showSetAsTable(class(object), as(object, "DataFrame"))
+    nm <- length(slot(object, "relations"))
+    # nc <- ncol(slot(object, "relations"))
+    ne <- nLnode(slot(object, "relations"))
+    ns <- nRnode(slot(object, "relations"))
+    cat(
+        class(object), " with ",
+        nm, ifelse(nm == 1, " relation", " relations"), " between ",
+        ne, ifelse(ne == 1, " element", " elements"), " and ",
+        ns, ifelse(ns == 1, " set\n", " sets\n"),
+        sep = "")
+    relationTable <- as(as.data.frame(object), "DataFrame")
+    .showRelationsAsDataFrame(relationTable)
+    cat("\n@elementData\n")
+    print(slot(object, "elementData"))
+    cat("\n@setData\n")
+    print(slot(object, "setData"))
+    # .showSets(class(object), as(object, "DataFrame"))
+    invisible(object)
 })
 
 # duplicated() ----
