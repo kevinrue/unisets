@@ -128,13 +128,23 @@
 <a class="sourceLine" id="cb3-22" data-line-number="22">base_set &lt;-<span class="st"> </span><span class="kw"><a href="reference/BaseSets-class.html">BaseSets</a></span>(relations_table, gene_data, set_data)</a>
 <a class="sourceLine" id="cb3-23" data-line-number="23">base_set</a></code></pre></div>
 <pre><code>BaseSets with 5 relations between 4 elements and 2 sets
-     element        set relationData elementData     setData
-  &lt;IdVector&gt; &lt;IdVector&gt;  &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-1          A   geneset1        ABC:0         1:a     100:abc
-2          B   geneset1     ABC:0.25         2:b     100:abc
-3          B   geneset2      ABC:0.5         2:b     200:def
-4          C   geneset2     DEF:0.75         3:c     200:def
-5          D   geneset2        DEF:1         4:d     200:def</code></pre>
+      element         set      extra1    extra2
+  &lt;character&gt; &lt;character&gt; &lt;character&gt; &lt;numeric&gt;
+1           A    geneset1         ABC         0
+2           B    geneset1         ABC      0.25
+3           B    geneset2         ABC       0.5
+4           C    geneset2         DEF      0.75
+5           D    geneset2         DEF         1
+
+@elementData
+IdVector of length 4 with 4 unique identifiers
+Ids: A, B, C, D
+Metadata: stat1, info1 (2 columns)
+
+@setData
+IdVector of length 2 with 2 unique identifiers
+Ids: geneset1, geneset2
+Metadata: stat1, info1 (2 columns)</code></pre>
 </div>
 </div>
 
