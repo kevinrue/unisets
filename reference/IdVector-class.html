@@ -187,19 +187,19 @@ Subclasses of <code>IdVector</code> may be defined to enable method dispatch acc
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>org.Hs.eg.db</span>)
 <span class='no'>eiv</span> <span class='kw'>&lt;-</span> <span class='fu'>EntrezIdVector</span>(<span class='fu'>keys</span>(<span class='no'>org.Hs.eg.db</span>, <span class='kw'>keytype</span><span class='kw'>=</span><span class='st'>"ENTREZID"</span>))
-<span class='no'>eiv</span></div><div class='output co'>#&gt; EntrezIdVector of length 61119 with 61119 unique identifiers
+<span class='no'>eiv</span></div><div class='output co'>#&gt; EntrezIdVector of length 61526 with 61526 unique identifiers
 #&gt; Ids: 1, 2, 3, 9, ...</div><div class='input'>
 <span class='co'># EnsemblIdVector ----</span>
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>org.Hs.eg.db</span>)
 <span class='no'>eiv</span> <span class='kw'>&lt;-</span> <span class='fu'>EnsemblIdVector</span>(<span class='fu'>keys</span>(<span class='no'>org.Hs.eg.db</span>, <span class='kw'>keytype</span><span class='kw'>=</span><span class='st'>"ENSEMBL"</span>))
-<span class='no'>eiv</span></div><div class='output co'>#&gt; EnsemblIdVector of length 30292 with 30292 unique identifiers
-#&gt; Ids: ENSG00000121410, ENSG00000175899, ENSG00000256069, ENSG00000171428, ...</div><div class='input'>
+<span class='no'>eiv</span></div><div class='output co'>#&gt; EnsemblIdVector of length 49589 with 49589 unique identifiers
+#&gt; Ids: ENSG00000121410, ENSPTRG00000009663, ENSG00000175899, ENSG00000256069, ...</div><div class='input'>
 <span class='co'># GOIdVector ----</span>
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>org.Hs.eg.db</span>)
 <span class='no'>giv</span> <span class='kw'>&lt;-</span> <span class='fu'>GOIdVector</span>(<span class='fu'>keys</span>(<span class='no'>org.Hs.eg.db</span>, <span class='kw'>keytype</span> <span class='kw'>=</span> <span class='st'>"GO"</span>))
-<span class='no'>giv</span></div><div class='output co'>#&gt; GOIdVector of length 17983 with 17983 unique identifiers
+<span class='no'>giv</span></div><div class='output co'>#&gt; GOIdVector of length 18096 with 18096 unique identifiers
 #&gt; Ids: GO:0002576, GO:0003674, GO:0005576, GO:0005615, ...</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
