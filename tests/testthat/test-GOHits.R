@@ -44,14 +44,6 @@ test_that("GOHits constructor produces valid objects", {
 
 test_that("GOHits validity method identifies issues", {
 
-    # Invalid evidence and ontology length
-    # Note that Hits does not fail either if multiple fields are given with adequate recycling length
-    expect_error(
-        GOHits(from=c(1, 2), to=c(1, 2), evidence=c("EXP"), ontology=c("BP"), 7, 15),
-        "mcols(x)' is not parallel to 'x'",
-        fixed=TRUE
-    )
-
     # Invalid evidence and ontology codes
     expect_warning(
         GOHits(from=c(1, 2), to=c(1, 2), evidence=c("NEW", "NEW"), ontology=c("BP", "BP"), 7, 15),

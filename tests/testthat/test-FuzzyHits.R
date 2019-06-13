@@ -26,13 +26,6 @@ test_that("FuzzyHits constructor produces valid objects", {
 
 test_that("FuzzyHits validity method identifies issues", {
 
-    # Invalid membership length
-    expect_error(
-        FuzzyHits(from=c(1, 2), to=c(1, 2), membership=c(0.4), 7, 15),
-        "mcols(x)' is not parallel to 'x'",
-        fixed=TRUE
-    )
-
     # membership function out of range [0,1]
     expect_error(
         FuzzyHits(from=c(1), to=c(1), membership=c(-1), 7, 15),
