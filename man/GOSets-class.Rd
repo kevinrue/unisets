@@ -29,8 +29,8 @@ Refer to \code{\link{GOOntologyCodes}} and \code{\link{GOEvidenceCodes}} for val
 
 # Fetch a sample of GO annotations
 library(org.Hs.eg.db)
-base_sets <- import(org.Hs.egGO)
-relations <- as.data.frame(head(base_sets))
+go_sets <- import(org.Hs.egGO)
+relations <- as.data.frame(head(go_sets))
 
 gs <- GOSets(relations)
 
