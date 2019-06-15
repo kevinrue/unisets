@@ -8,6 +8,7 @@
 * Added class `BaseSets`.
 * Added accessors `relations`, `elementData`, and `setData` for class `BaseSets`.
 * Added methods `length`, `nElements`, `nSets`, `setLengths` and `elementLengths` for class `BaseSets`.
+* Added `show` method for class `BaseSets` matching the `Hits` class
 * Added method `subset` for class `BaseSets`.
 * Added method `c` for class `BaseSets`.
 * Added classes `FuzzyHits` and `FuzzySets`.

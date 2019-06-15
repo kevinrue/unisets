@@ -51,13 +51,13 @@ base_set
 
 ```
 BaseSets with 5 relations between 4 elements and 2 sets
-      element         set      extra1    extra2
-  <character> <character> <character> <numeric>
-1           A        set1         ABC         0
-2           B        set1         ABC      0.25
-3           B        set2         ABC       0.5
-4           C        set2         DEF      0.75
-5           D        set2         DEF         1
+       element        set |      extra1    extra2
+    <IdVector> <IdVector> | <character> <numeric>
+[1]          A       set1 |         ABC         0
+[2]          B       set1 |         ABC      0.25
+[3]          B       set2 |         ABC       0.5
+[4]          C       set2 |         DEF      0.75
+[5]          D       set2 |         DEF         1
 
 @elementData
 IdVector of length 4 with 4 unique identifiers

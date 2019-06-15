@@ -53,7 +53,7 @@ test_that("GOSets validity method identifies issues", {
 
     # unsupported evidence code (as.character)
     relations0 <- relations
-    relations0$evidence[1] <- "NEW"
+    suppressWarnings(relations0$evidence[1] <- "NEW")
     expect_warning(
         GOSets(relations0),
         "invalid evidence code, NA generated (See ?GOEvidenceCodes)",
@@ -61,7 +61,7 @@ test_that("GOSets validity method identifies issues", {
     )
     # unsupported ontology code (as.character)
     relations0 <- relations
-    relations0$ontology[1] <- "NEW"
+    suppressWarnings(relations0$ontology[1] <- "NEW")
     expect_warning(
         GOSets(relations0),
         "invalid ontology code, NA generated (See ?GOOntologyCodes)",
@@ -70,7 +70,7 @@ test_that("GOSets validity method identifies issues", {
 
     # unsupported evidence code (as.factor)
     relations0 <- relations
-    relations0$evidence[1] <- "NEW"
+    suppressWarnings(relations0$evidence[1] <- "NEW")
     relations0$evidence <- as.factor(relations0$evidence)
     expect_warning(
         GOSets(relations0),
@@ -79,7 +79,7 @@ test_that("GOSets validity method identifies issues", {
     )
     # unsupported ontology code (as.factor)
     relations0 <- relations
-    relations0$ontology[1] <- "NEW"
+    suppressWarnings(relations0$ontology[1] <- "NEW")
     relations0$ontology <- as.factor(relations0$ontology)
     expect_warning(
         GOSets(relations0),
