@@ -142,7 +142,7 @@ The following file formats are currently supported: <a href='https://software.br
 
 <span class='fu'>export.gmt</span>(<span class='no'>object</span>, <span class='no'>con</span>, <span class='no'>...</span>)
 
-<span class='co'># S4 method for BaseSets,GMTFile,ANY</span>
+<span class='co'># S4 method for Sets,GMTFile,ANY</span>
 <span class='fu'>export</span>(<span class='no'>object</span>, <span class='no'>con</span>, <span class='no'>format</span>, <span class='no'>...</span>)
 
 <span class='fu'>import.Go3AnnDbBimap</span>(<span class='no'>con</span>, <span class='no'>format</span>, <span class='no'>text</span>, <span class='no'>...</span>)
@@ -187,10 +187,10 @@ Certain subclasses of <code>BiMap</code> are supported: <code>Go3AnnDbBimap</cod
 
     <p>For <code>GMTFile()</code>, an object representing the path to a .gmt file on disk</p>
     
-    <h2 class="hasAnchor" id="coercion-to-basesets"><a class="anchor" href="#coercion-to-basesets"></a>Coercion to BaseSets</h2>
+    <h2 class="hasAnchor" id="coercion-to-sets"><a class="anchor" href="#coercion-to-sets"></a>Coercion to Sets</h2>
 
     
-    <p><code>as(Go3AnnDbBimap, "BaseSets")</code> and <code><a href='BaseSets-methods.html'>as.BaseSets(Go3AnnDbBimap)</a></code> return a <code>BaseSets</code> from a Gene Ontology <code>Bimap</code> stored distributed in a Bioconductor annotation package.</p>
+    <p><code>as(Go3AnnDbBimap, "Sets")</code> and <code><a href='Sets-methods.html'>as.Sets(Go3AnnDbBimap)</a></code> return a <code>Sets</code> from a Gene Ontology <code>Bimap</code> stored distributed in a Bioconductor annotation package.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -201,7 +201,7 @@ Certain subclasses of <code>BiMap</code> are supported: <code>Go3AnnDbBimap</cod
 <span class='co'># Import ----</span>
 
 <span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>import</span>(<span class='no'>gmt</span>)
-<span class='no'>bs</span></div><div class='output co'>#&gt; BaseSets with 674 relations between 633 elements and 4 sets
+<span class='no'>bs</span></div><div class='output co'>#&gt; Sets with 674 relations between 633 elements and 4 sets
 #&gt;          element                              set
 #&gt;       &lt;IdVector&gt;                       &lt;IdVector&gt;
 #&gt;   [1]       JUNB HALLMARK_TNFA_SIGNALING_VIA_NFKB
@@ -265,7 +265,7 @@ Certain subclasses of <code>BiMap</code> are supported: <code>Go3AnnDbBimap</cod
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#coercion-to-basesets">Coercion to BaseSets</a></li>
+      <li><a href="#coercion-to-sets">Coercion to Sets</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

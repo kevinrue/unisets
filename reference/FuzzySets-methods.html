@@ -33,7 +33,7 @@
 <meta property="og:title" content="Methods for <code>FuzzySets</code> Objects — FuzzySets-methods" />
 
 <meta property="og:description" content="This page documents the S4 generics and methods defined for objects inheriting of the FuzzySets class.
-The FuzzySets class directly extends BaseSets and thus inherits of all methods defined for the parent class.
+The FuzzySets class directly extends Sets and thus inherits of all methods defined for the parent class.
 In the usage below, object and x represent an object of class inheriting from FuzzySets,
 and value is an object of a class specified in the S4 method signature or as outlined in 'Accessors'." />
 <meta name="twitter:card" content="summary" />
@@ -129,7 +129,7 @@ and value is an object of a class specified in the S4 method signature or as out
     <div class="ref-description">
     
     <p>This page documents the S4 generics and methods defined for objects inheriting of the <code><a href='FuzzySets-class.html'>FuzzySets</a></code> class.
-The <code>FuzzySets</code> class directly extends <code><a href='BaseSets-class.html'>BaseSets</a></code> and thus inherits of all methods defined for the parent class.
+The <code>FuzzySets</code> class directly extends <code><a href='Sets-class.html'>Sets</a></code> and thus inherits of all methods defined for the parent class.
 In the usage below, <code>object</code> and <code>x</code> represent an object of class inheriting from <code><a href='FuzzySets-class.html'>FuzzySets</a></code>,
 and <code>value</code> is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.</p>
     
@@ -142,7 +142,7 @@ and <code>value</code> is an object of a class specified in the S4 method signat
 <span class='fu'><a href='FuzzyHits-methods.html'>membership</a></span>(<span class='no'>object</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
 
 <span class='co'># S3 method for FuzzySets</span>
-<span class='fu'><a href='BaseSets-methods.html'>as.matrix</a></span>(<span class='no'>x</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fl'>NA_real_</span>, <span class='no'>...</span>)
+<span class='fu'><a href='Sets-methods.html'>as.matrix</a></span>(<span class='no'>x</span>, <span class='kw'>fill</span> <span class='kw'>=</span> <span class='fl'>NA_real_</span>, <span class='no'>...</span>)
 
 <span class='fu'>as.FuzzySets.matrix</span>(<span class='no'>matrix</span>, <span class='no'>...</span>)</pre>
     
@@ -181,18 +181,18 @@ The matrix will be coerced to <code>double</code> type and the value will be tak
     <h2 class="hasAnchor" id="coercion"><a class="anchor" href="#coercion"></a>Coercion</h2>
 
     
-    <p><code>as(x, "matrix")</code> and <code><a href='BaseSets-methods.html'>as.matrix(x)</a></code> return a <code>matrix</code> with elements as rows, sets as columns, and a numeric value indicating the membership function.</p>
+    <p><code>as(x, "matrix")</code> and <code><a href='Sets-methods.html'>as.matrix(x)</a></code> return a <code>matrix</code> with elements as rows, sets as columns, and a numeric value indicating the membership function.</p>
     
     <h2 class="hasAnchor" id="coercion-to-matrix"><a class="anchor" href="#coercion-to-matrix"></a>Coercion to matrix</h2>
 
     
     <p>As it is possible to store multiple relations between the same gene and gene set, it may be necessary to collapse multiple observations of the membership function into a single value.
-To this end, the form <code><a href='BaseSets-methods.html'>as.matrix(x, fun.aggregate)</a></code> can be used to provide an aggregation function.
+To this end, the form <code><a href='Sets-methods.html'>as.matrix(x, fun.aggregate)</a></code> can be used to provide an aggregation function.
 See examples.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='FuzzySets-class.html'>FuzzySets</a></code>, <code><a href='BaseSets-methods.html'>BaseSets-methods</a></code>.</p></div>
+    <div class='dont-index'><p><code><a href='FuzzySets-class.html'>FuzzySets</a></code>, <code><a href='Sets-methods.html'>Sets-methods</a></code>.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
