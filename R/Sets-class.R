@@ -1,8 +1,8 @@
 
 # Accessors ----
 
-#' @rdname BaseSets-methods
-#' @aliases relations,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases relations,Sets-method
 #'
 #' @section Accessors:
 #' `relations(object)` returns the `relations` slot.
@@ -19,18 +19,18 @@
 #'   set2=c("B", "C", "D"),
 #'   set3=c("E"))
 #'
-#' bs <- as(sets, "BaseSets")
+#' bs <- as(sets, "Sets")
 #' bs
 #'
 #' # Accessors ----
 #'
 #' relations(bs)
-setMethod("relations", "BaseSets", function(object) {
+setMethod("relations", "Sets", function(object) {
     slot(object, "relations")
 })
 
-#' @rdname BaseSets-methods
-#' @aliases relations<-,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases relations<-,Sets-method
 #'
 #' @importFrom methods validObject slot<-
 #'
@@ -38,7 +38,7 @@ setMethod("relations", "BaseSets", function(object) {
 #'
 #' bs1 <- bs
 #' mcols(relations(bs1))[["NEW"]] <- paste0("value", seq_len(length(bs1)))
-setReplaceMethod("relations", "BaseSets",
+setReplaceMethod("relations", "Sets",
     function(object, value)
     {
         slot(object, "relations") <- value
@@ -47,8 +47,8 @@ setReplaceMethod("relations", "BaseSets",
     }
 )
 
-#' @rdname BaseSets-methods
-#' @aliases elementData,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases elementData,Sets-method
 #'
 #' @section Accessors:
 #' `elementData(object)` returns the `elementData` slot.
@@ -57,12 +57,12 @@ setReplaceMethod("relations", "BaseSets",
 #' @examples
 #'
 #' elementData(bs)
-setMethod("elementData", "BaseSets", function(object) {
+setMethod("elementData", "Sets", function(object) {
     slot(object, "elementData")
 })
 
-#' @rdname BaseSets-methods
-#' @aliases elementData<-,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases elementData<-,Sets-method
 #'
 #' @importFrom methods validObject
 #'
@@ -70,7 +70,7 @@ setMethod("elementData", "BaseSets", function(object) {
 #'
 #' bs1 <- bs
 #' mcols(elementData(bs1))[["NEW"]] <- paste0("value", seq_len(nElements(bs1)))
-setReplaceMethod("elementData", "BaseSets",
+setReplaceMethod("elementData", "Sets",
     function(object, value)
     {
         slot(object, "elementData") <- value
@@ -79,8 +79,8 @@ setReplaceMethod("elementData", "BaseSets",
     }
 )
 
-#' @rdname BaseSets-methods
-#' @aliases setData,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases setData,Sets-method
 #'
 #' @section Accessors:
 #' `setData(object)` returns the `setData` slot.
@@ -89,12 +89,12 @@ setReplaceMethod("elementData", "BaseSets",
 #' @examples
 #'
 #' setData(bs)
-setMethod("setData", "BaseSets", function(object) {
+setMethod("setData", "Sets", function(object) {
     slot(object, "setData")
 })
 
-#' @rdname BaseSets-methods
-#' @aliases setData<-,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases setData<-,Sets-method
 #'
 #' @importFrom methods validObject
 #'
@@ -102,7 +102,7 @@ setMethod("setData", "BaseSets", function(object) {
 #'
 #' bs1 <- bs
 #' mcols(setData(bs1))[["NEW"]] <- paste0("value", seq_len(nSets(bs1)))
-setReplaceMethod("setData", "BaseSets",
+setReplaceMethod("setData", "Sets",
     function(object, value)
     {
         slot(object, "setData") <- value
@@ -111,8 +111,8 @@ setReplaceMethod("setData", "BaseSets",
     }
 )
 
-#' @rdname BaseSets-methods
-#' @aliases elements,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases elements,Sets-method
 #'
 #' @section Accessors:
 #' `elements(object)` returns an [`IdVector-class`] element identifiers and associated metadata as ordered in `relations(object)$element`
@@ -125,12 +125,12 @@ setReplaceMethod("setData", "BaseSets",
 #' elements(bs)
 #' ids(elements(bs))
 #' mcols(elements(bs))
-setMethod("elements", "BaseSets", function(object) {
+setMethod("elements", "Sets", function(object) {
     elementData(object)[from(relations(object))]
 })
 
-#' @rdname BaseSets-methods
-#' @aliases sets,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases sets,Sets-method
 #'
 #' @section Accessors:
 #' `sets(object)` returns an [`IdVector-class`] of set identifiers and associated metadata as ordered in `relations(object)$set`.
@@ -143,14 +143,14 @@ setMethod("elements", "BaseSets", function(object) {
 #' sets(bs)
 #' ids(sets(bs))
 #' mcols(sets(bs))
-setMethod("sets", "BaseSets", function(object) {
+setMethod("sets", "Sets", function(object) {
     setData(object)[to(relations(object))]
 })
 
 # Dimensions ----
 
-#' @rdname BaseSets-methods
-#' @aliases length,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases length,Sets-method
 #'
 #' @section Dimensions:
 #' `length(x)` returns the total count of relations.
@@ -160,36 +160,36 @@ setMethod("sets", "BaseSets", function(object) {
 #' # Dimensions ----
 #'
 #' length(bs)
-setMethod("length", "BaseSets", function(x) {
+setMethod("length", "Sets", function(x) {
     length(relations(x))
 })
 
-#' @rdname BaseSets-methods
-#' @aliases nElements,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases nElements,Sets-method
 #'
 #' @section Dimensions:
 #' `nElements(object)` returns the count of unique elements.
 #'
 #' @examples
 #' nElements(bs)
-setMethod("nElements", "BaseSets", function(object) {
+setMethod("nElements", "Sets", function(object) {
     length(elementData(object))
 })
 
-#' @rdname BaseSets-methods
-#' @aliases nSets,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases nSets,Sets-method
 #'
 #' @section Dimensions:
 #' `nSets(object)` returns the count of unique sets.
 #'
 #' @examples
 #' nSets(bs)
-setMethod("nSets", "BaseSets", function(object) {
+setMethod("nSets", "Sets", function(object) {
     length(setData(object))
 })
 
-#' @rdname BaseSets-methods
-#' @aliases setLengths,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases setLengths,Sets-method
 #'
 #' @section Dimensions:
 #' `setLengths(object)` returns the count of relations per set.
@@ -198,13 +198,13 @@ setMethod("nSets", "BaseSets", function(object) {
 #'
 #' @examples
 #' setLengths(bs)
-setMethod("setLengths", "BaseSets", function(object) {
+setMethod("setLengths", "Sets", function(object) {
     out <- as(object, "list")
     lengths(out)
 })
 
-#' @rdname BaseSets-methods
-#' @aliases elementLengths,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases elementLengths,Sets-method
 #'
 #' @section Dimensions:
 #' `elementLengths(object)` returns the count of relations per element.
@@ -213,7 +213,7 @@ setMethod("setLengths", "BaseSets", function(object) {
 #'
 #' @examples
 #' elementLengths(bs)
-setMethod("elementLengths", "BaseSets", function(object) {
+setMethod("elementLengths", "Sets", function(object) {
     # Note the difference between the argument and the method 'from'
     out <- as(object, "DataFrame")
     out <- split(out$set, out$element)
@@ -222,8 +222,8 @@ setMethod("elementLengths", "BaseSets", function(object) {
 
 # c() ----
 
-#' @rdname BaseSets-methods
-#' @aliases c,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases c,Sets-method
 #'
 #' @section Combining:
 #' `c(x, ...)` combines its arguments
@@ -233,12 +233,12 @@ setMethod("elementLengths", "BaseSets", function(object) {
 #' # Combining ----
 #'
 #' bs1 <- c(bs, bs)
-c.BaseSets <- function(x, ...) {
+c.Sets <- function(x, ...) {
     c(x, ...)
 }
 
 setMethod(
-    "c", "BaseSets",
+    "c", "Sets",
     function(x, ...){
         .local <- function (x, objects=list(), use.names = TRUE,  ignore.mcols = FALSE, check = TRUE)
         {
@@ -255,7 +255,7 @@ setMethod(
             newElementData <- unique(newElementData)
             newSetData <- unique(newSetData)
 
-            BaseSets(newRelations, newElementData, newSetData)
+            Sets(newRelations, newElementData, newSetData)
         }
         .local(x, list(...))
     }
@@ -263,11 +263,11 @@ setMethod(
 
 # [ ----
 
-#' @rdname BaseSets-methods
-#' @aliases [,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases [,Sets-method
 #'
 #' @section Subsetting:
-#' `x[i, drop=TRUE]` returns new [`BaseSets-class`] object of the same class as `x` made of the elements selected by `i`. `i` can be missing; an `NA`-free logical, numeric, or character vector or factor (as ordinary vector or [`Rle`] object); or an [`IntegerRanges`][IntegerRanges-class] object.
+#' `x[i, drop=TRUE]` returns new [`Sets-class`] object of the same class as `x` made of the elements selected by `i`. `i` can be missing; an `NA`-free logical, numeric, or character vector or factor (as ordinary vector or [`Rle`] object); or an [`IntegerRanges`][IntegerRanges-class] object.
 #' The `drop` logical value controls whether the metadata of elements and sets orphaned during the subsetting should be removed from the `elementData` and `setData` slots, respectively.
 #'
 #' @param i index specifying elements to extract or replace.
@@ -283,7 +283,7 @@ setMethod(
 #'
 #' bs1 <- bs[1:5]
 #' bs1 <- bs[1:5, , drop=FALSE] # keep metadata of orphan elements and sets
-setMethod("[", "BaseSets", function(x, i, j, ..., drop = TRUE) {
+setMethod("[", "Sets", function(x, i, j, ..., drop = TRUE) {
     keep.element <- unique(ids(elementData(x))[from(relations(x))[i]])
     keep.set <- unique(ids(setData(x))[to(relations(x))[i]])
 
@@ -295,13 +295,13 @@ setMethod("[", "BaseSets", function(x, i, j, ..., drop = TRUE) {
         setData <- setData[which(ids(setData) %in% keep.set)]
     }
 
-    BaseSets(relations, elementData, setData)
+    Sets(relations, elementData, setData)
 })
 
 # subset() ----
 
-#' @rdname BaseSets-methods
-#' @aliases subset.BaseSets subset,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases subset.Sets subset,Sets-method
 #'
 #' @param ... Additional arguments passed to and from other methods.
 #'
@@ -315,16 +315,16 @@ setMethod("[", "BaseSets", function(x, i, j, ..., drop = TRUE) {
 #' @importFrom methods as
 #' @importFrom BiocGenerics eval unique
 #' @importFrom S4Vectors from to subset
-#' @method subset BaseSets
+#' @method subset Sets
 #' @export
 #'
 #' @examples
 #'
 #' bs1 <- subset(bs, set == "set1" | element == "E")
 #' bs1
-subset.BaseSets <- function(x, ...) subset(x, ...)
+subset.Sets <- function(x, ...) subset(x, ...)
 
-setMethod("subset", "BaseSets", function(x, ...) {
+setMethod("subset", "Sets", function(x, ...) {
     .local <- function(x, subset, select, drop=TRUE, ...) {
         # Match code layout of the FuzzySets method
         table <- as.data.frame(x)
@@ -338,12 +338,12 @@ setMethod("subset", "BaseSets", function(x, ...) {
 
 # show() ----
 
-setMethod("show", "BaseSets", function(object) {
-    showBaseSets(object, margin="  ", print.classinfo=TRUE, print.nnode=TRUE)
+setMethod("show", "Sets", function(object) {
+    showSets(object, margin="  ", print.classinfo=TRUE, print.nnode=TRUE)
 })
 
 #' @importFrom S4Vectors mcols nLnode nRnode
-showBaseSets <- function(
+showSets <- function(
     x, margin="", print.classinfo=FALSE, print.nnode=FALSE
 ) {
     nm <- length(slot(x, "relations")) # number of mappings
@@ -359,7 +359,7 @@ showBaseSets <- function(
     # Display compact view of the relations and metadata
     # TODO: ask S4Vectors to export makePrettyMatrixForCompactPrinting
     out <- S4Vectors:::makePrettyMatrixForCompactPrinting(
-        x, .make_naked_matrix_from_BaseSets)
+        x, .make_naked_matrix_from_Sets)
     # Prepare class information for each column
     if (print.classinfo) {
         .COL2CLASS <- c(
@@ -384,13 +384,13 @@ showBaseSets <- function(
 
 # duplicated() ----
 
-#' @rdname BaseSets-methods
-#' @aliases duplicated,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases duplicated,Sets-method
 #'
 #' @param incomparables Ignored.
 #'
 #' @section Duplication and uniqueness:
-#' `duplicated(x)` determines which relations of a `BaseSets` are duplicates of relations with smaller subscripts, and returns a logical vector indicating which relations are duplicates.
+#' `duplicated(x)` determines which relations of a `Sets` are duplicates of relations with smaller subscripts, and returns a logical vector indicating which relations are duplicates.
 #'
 #' @export
 #' @importMethodsFrom BiocGenerics duplicated
@@ -402,60 +402,60 @@ showBaseSets <- function(
 #' bs1 <- bs
 #' relations(bs1) <- rep(relations(bs1), each=2)
 #' table(duplicated(bs1))
-setMethod("duplicated", "BaseSets", function(x, incomparables = FALSE, ...) {
+setMethod("duplicated", "Sets", function(x, incomparables = FALSE, ...) {
     duplicated(as.data.frame(x))
 })
 
 # unique() ----
 
-#' @rdname BaseSets-methods
-#' @aliases unique,BaseSets-method
+#' @rdname Sets-methods
+#' @aliases unique,Sets-method
 #'
 #' @section Duplication and uniqueness:
 #'
-#' `unique(x)` returns a `BaseSets` like `x` but with duplicate relations removed.
+#' `unique(x)` returns a `Sets` like `x` but with duplicate relations removed.
 #'
 #' @export
 #' @importMethodsFrom BiocGenerics unique
 #'
 #' @examples
 #' unique(bs1)
-setMethod("unique", "BaseSets", function(x, incomparables = FALSE, ...)  {
+setMethod("unique", "Sets", function(x, incomparables = FALSE, ...)  {
     i <- !duplicated(x, incomparables, ...)
     x[i, drop=FALSE] # by definition, unique would never drop elements nor sets
 })
 
 # union() ----
 
-#' @rdname BaseSets-methods
-#' @aliases union,BaseSets-method union.BaseSets
-#' @param y An object of class inheriting from [`BaseSets`].
+#' @rdname Sets-methods
+#' @aliases union,Sets-method union.Sets
+#' @param y An object of class inheriting from [`Sets`].
 #'
 #' @section Duplication and uniqueness:
 #'
-#' `union(x)` returns a `BaseSets` composed of the union of relations in `x` and `y`.
+#' `union(x)` returns a `Sets` composed of the union of relations in `x` and `y`.
 #'
 #' @export
 #' @importMethodsFrom BiocGenerics union
 #'
 #' @examples
 #' bs1 <- union(bs, bs)
-union.BaseSets <- function(x, y, ...) {
+union.Sets <- function(x, y, ...) {
     union(x, y, ...)
 }
 
-setMethod("union", "BaseSets", function (x, y, ...) {
+setMethod("union", "Sets", function (x, y, ...) {
     .local <- function (x, y)
         unique(c(x, y))
     .local(x, y, ...)
 })
 
-# as.data.frame.BaseSets() ----
+# as.data.frame.Sets() ----
 
-#' @rdname BaseSets-methods
-#' @aliases as.DataFrame.BaseSets as.DataFrame
+#' @rdname Sets-methods
+#' @aliases as.DataFrame.Sets as.DataFrame
 #'
-#' @section Coercion from BaseSets:
+#' @section Coercion from Sets:
 #' `as(object, "DataFrame")` and `as.DataFrame(object)` return a nested `DataFrame` including columns `"element"`, `"set"`, `"relationData"`, `"elementData"`, and `"setData"`.
 #'
 #' @importFrom methods as
@@ -463,10 +463,10 @@ setMethod("union", "BaseSets", function (x, y, ...) {
 #'
 #' @examples
 #'
-#' # Coercion from BaseSets ----
+#' # Coercion from Sets ----
 #'
 #' DF1 <- as(bs, "DataFrame")
-as.DataFrame.BaseSets <- function(object, ...) {
+as.DataFrame.Sets <- function(object, ...) {
     # Combine elementData, setData, and relations into a single DataFrame
     element <- elementData(object)[from(relations(object))]
     elementData <- mcols(element)
@@ -481,14 +481,14 @@ as.DataFrame.BaseSets <- function(object, ...) {
     out
 }
 
-setAs("BaseSets", "DataFrame", function(from) {
-    as.DataFrame.BaseSets(from)
+setAs("Sets", "DataFrame", function(from) {
+    as.DataFrame.Sets(from)
 })
 
-#' @rdname BaseSets-methods
-#' @aliases as.data.frame.BaseSets as.data.frame
+#' @rdname Sets-methods
+#' @aliases as.data.frame.Sets as.data.frame
 #'
-#' @section Coercion from BaseSets:
+#' @section Coercion from Sets:
 #' `as(x, "data.frame")` and `as.data.frame(x)`  return a flattened `data.frame` including `"element"`, `"set"`, and columns in `mcols(relations(x))` if any.
 #'
 #' @importFrom methods as
@@ -497,7 +497,7 @@ setAs("BaseSets", "DataFrame", function(from) {
 #' @examples
 #'
 #' df1 <- as.data.frame(bs)
-as.data.frame.BaseSets <- function(x, ...) {
+as.data.frame.Sets <- function(x, ...) {
     out <- as(x, "DataFrame")
     out <- data.frame(
         out[, c("element", "set")],
@@ -506,16 +506,16 @@ as.data.frame.BaseSets <- function(x, ...) {
     out
 }
 
-setAs("BaseSets", "data.frame", function(from) {
-    as.data.frame.BaseSets(from)
+setAs("Sets", "data.frame", function(from) {
+    as.data.frame.Sets(from)
 })
 
 # as.list() ----
 
-#' @rdname BaseSets-methods
-#' @aliases as.list.BaseSets as.list
+#' @rdname Sets-methods
+#' @aliases as.list.Sets as.list
 #'
-#' @section Coercion from BaseSets:
+#' @section Coercion from Sets:
 #' `as(x, "list")` and `as.list(x)` return a named `list`.
 #' Names are set identifiers, and values are character vectors of element identifiers.
 #'
@@ -525,21 +525,21 @@ setAs("BaseSets", "data.frame", function(from) {
 #' @examples
 #'
 #' l1 <- as(bs, "list")
-as.list.BaseSets <- function(x, ...) {
+as.list.Sets <- function(x, ...) {
     out <- as(x, "DataFrame")
     split(out$element, out$set)
 }
 
-setAs("BaseSets", "list", function(from) {
-    as.list.BaseSets(from)
+setAs("Sets", "list", function(from) {
+    as.list.Sets(from)
 })
 
 # as.matrix() ----
 
-#' @rdname BaseSets-methods
-#' @aliases as.matrix.BaseSets as.matrix
+#' @rdname Sets-methods
+#' @aliases as.matrix.Sets as.matrix
 #'
-#' @section Coercion from BaseSets:
+#' @section Coercion from Sets:
 #' `as(x, "matrix")` and `as.matrix(x)` return a `matrix` with elements as rows, sets as columns, and a `logical` value to indicate membership.
 #'
 #' @importFrom methods as
@@ -548,7 +548,7 @@ setAs("BaseSets", "list", function(from) {
 #' @examples
 #'
 #' m1 <- as(bs, "matrix")
-as.matrix.BaseSets <- function(x, ...) {
+as.matrix.Sets <- function(x, ...) {
     out <- as.data.frame(x)
     out[["value"]] <- TRUE
     out <- acast(out, element~set, value.var="value", fun.aggregate=any, fill=FALSE)
@@ -556,15 +556,15 @@ as.matrix.BaseSets <- function(x, ...) {
 }
 
 #' @importFrom reshape2 acast
-setAs("BaseSets", "matrix", function(from) {
-    as.matrix.BaseSets(from)
+setAs("Sets", "matrix", function(from) {
+    as.matrix.Sets(from)
 })
 
-# as.FuzzySets.BaseSets() ----
+# as.FuzzySets.Sets() ----
 
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
-#' @aliases as.FuzzySets.BaseSets
+#' @name Sets-methods
+#' @rdname Sets-methods
+#' @aliases as.FuzzySets.Sets
 #'
 #' @importFrom methods new
 #'
@@ -573,17 +573,17 @@ setAs("BaseSets", "matrix", function(from) {
 #' bs1 <- bs
 #' mcols(relations(bs1))[["membership"]] <- runif(length(bs1))
 #' fs <- as(bs1, "FuzzySets")
-setAs("BaseSets", "FuzzySets", function(from) {
+setAs("Sets", "FuzzySets", function(from) {
     relations(from) <- as(relations(from), "FuzzyHits")
     to <- new("FuzzySets", from)
     to
 })
 
-# as.GOSets.BaseSets() ----
+# as.GOSets.Sets() ----
 
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
-#' @aliases as.GOSets.BaseSets
+#' @name Sets-methods
+#' @rdname Sets-methods
+#' @aliases as.GOSets.Sets
 #'
 #' @importFrom methods new
 #'
@@ -592,25 +592,25 @@ setAs("BaseSets", "FuzzySets", function(from) {
 #' # Fetch a sample of GO annotations
 #' library(org.Hs.eg.db)
 #' gs <- import(org.Hs.egGO)
-#' bs1 <- as(gs, "BaseSets")
+#' bs1 <- as(gs, "Sets")
 #' gs1 <- as(bs1, "GOSets")
-setAs("BaseSets", "GOSets", function(from) {
+setAs("Sets", "GOSets", function(from) {
     relations(from) <- as(relations(from), "GOHits")
     to <- new("GOSets", from)
     to
 })
 
-# as.BaseSets.list() ----
+# as.Sets.list() ----
 
-#' @rdname BaseSets-methods
-#' @aliases as.BaseSets.list as.BaseSets
+#' @rdname Sets-methods
+#' @aliases as.Sets.list as.Sets
 #'
 #' @param list A `list` of named character vectors.
 #' The names are taken as the set identifiers.
 #' The character vectors are taken as identifiers of elements that are member of each set.
 #'
-#' @section Coercion to BaseSets:
-#' `as(list, "BaseSets")` and `as.BaseSets(object)` return a `BaseSets` from a list of character vectors.
+#' @section Coercion to Sets:
+#' `as(list, "Sets")` and `as.Sets(object)` return a `Sets` from a list of character vectors.
 #'
 #' @importFrom methods as
 #' @importFrom S4Vectors DataFrame
@@ -618,58 +618,58 @@ setAs("BaseSets", "GOSets", function(from) {
 #'
 #' @examples
 #'
-#' # Coercion to BaseSets ----
+#' # Coercion to Sets ----
 #'
 #' # list
-#' bs1 <- as(list(set1=c("A", "B"), set2=c("B", "C")), "BaseSets")
-as.BaseSets.list <- function(list, ...) {
+#' bs1 <- as(list(set1=c("A", "B"), set2=c("B", "C")), "Sets")
+as.Sets.list <- function(list, ...) {
     stopifnot(!is.null(names(list)))
     relations <- DataFrame(
         element=unlist(list, use.names=FALSE),
         set=rep(names(list), lengths(list))
     )
-    BaseSets(relations)
+    Sets(relations)
 }
 
-setAs("list", "BaseSets", function(from) {
-    as.BaseSets.list(from)
+setAs("list", "Sets", function(from) {
+    as.Sets.list(from)
 })
 
-# as.BaseSets.matrix() ----
+# as.Sets.matrix() ----
 
-#' @rdname BaseSets-methods
-#' @aliases as.BaseSets.matrix as.BaseSets
+#' @rdname Sets-methods
+#' @aliases as.Sets.matrix as.Sets
 #'
 #' @param matrix A `matrix`.
-#' The matrix will be coerced to `logical` type and relations indicating `TRUE` will be stored in the `BaseSets`.
+#' The matrix will be coerced to `logical` type and relations indicating `TRUE` will be stored in the `Sets`.
 #'
-#' @section Coercion to BaseSets:
-#' `as(matrix, "BaseSets")` and `as.BaseSets(object)` return a `BaseSets` from an incidence matrix.
+#' @section Coercion to Sets:
+#' `as(matrix, "Sets")` and `as.Sets(object)` return a `Sets` from an incidence matrix.
 #'
 #' @importFrom methods as
 #' @export
 #'
 #' @examples
 #' # matrix
-#' bs1 <- as(m1, "BaseSets")
-as.BaseSets.matrix <- function(matrix, ...) {
+#' bs1 <- as(m1, "Sets")
+as.Sets.matrix <- function(matrix, ...) {
     storage.mode(matrix) <- "logical"
     out <- melt(matrix, varnames=c("element", "set"), as.is=TRUE)
     out <- out[which(out$value), c("element", "set"), drop=FALSE]
     out <- DataFrame(out)
-    BaseSets(out)
+    Sets(out)
 }
 
 #' @importFrom reshape2 melt
 #' @importFrom S4Vectors DataFrame
-setAs("matrix", "BaseSets", function(from) {
-    as.BaseSets.matrix(from)
+setAs("matrix", "Sets", function(from) {
+    as.Sets.matrix(from)
 })
 
 # setValidity ----
 
 #' @importFrom methods slot
-setValidity("BaseSets", function(object) {
+setValidity("Sets", function(object) {
 
     errors <- c()
 

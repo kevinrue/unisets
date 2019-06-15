@@ -228,12 +228,12 @@ test_that("elementLengths(FuzzySets) works", {
 
 })
 
-# as(BaseSets, "FuzzySets") ----
+# as(Sets, "FuzzySets") ----
 
-test_that("as(BaseSets, \"FuzzySets\") works", {
+test_that("as(Sets, \"FuzzySets\") works", {
 
     # fails if membership is missing
-    bs <- BaseSets(relations[, c("element", "set")])
+    bs <- Sets(relations[, c("element", "set")])
 
     # Number of relations is preserved
     expect_error(
@@ -244,7 +244,7 @@ test_that("as(BaseSets, \"FuzzySets\") works", {
 
 
     # works if membership is present
-    bs <- BaseSets(relations)
+    bs <- Sets(relations)
 
     # Number of relations is preserved
     out <- as(bs, "FuzzySets")

@@ -11,16 +11,16 @@ get_showHeadLines <- function() { 5L }
 #' @rdname INTERNAL_get_showHeadLines
 get_showTailLines <- function() { 5L }
 
-#' Compact view of `BaseSets` objects as a character matrix.
+#' Compact view of `Sets` objects as a character matrix.
 #'
-#' @rdname INTERNAL_make_naked_matrix_from_BaseSets
+#' @rdname INTERNAL_make_naked_matrix_from_Sets
 #'
-#' @param x An object of class inheriting from [`BaseSets-class`].
+#' @param x An object of class inheriting from [`Sets-class`].
 #'
 #' @importFrom S4Vectors showAsCell classNameForDisplay
 #'
 #' @note Adapted from `S4Vectors:::.make_naked_matrix_from_Hits`.
-.make_naked_matrix_from_BaseSets <- function(x) {
+.make_naked_matrix_from_Sets <- function(x) {
     nhead <- get_showHeadLines()
     ntail <- get_showTailLines()
     x_len <- length(x)

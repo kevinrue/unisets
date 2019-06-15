@@ -2,8 +2,8 @@
 % Please edit documentation in R/AllGenerics.R, R/AllMethods.R,
 %   R/BaseSets-class.R
 \docType{methods}
-\name{BaseSets-methods}
-\alias{BaseSets-methods}
+\name{Sets-methods}
+\alias{Sets-methods}
 \alias{relations}
 \alias{relations<-}
 \alias{elements}
@@ -16,43 +16,43 @@
 \alias{nSets}
 \alias{setLengths}
 \alias{elementLengths}
-\alias{relations,BaseSets-method}
-\alias{relations<-,BaseSets-method}
-\alias{elementData,BaseSets-method}
-\alias{elementData<-,BaseSets-method}
-\alias{setData,BaseSets-method}
-\alias{setData<-,BaseSets-method}
-\alias{elements,BaseSets-method}
-\alias{sets,BaseSets-method}
-\alias{length,BaseSets-method}
-\alias{nElements,BaseSets-method}
-\alias{nSets,BaseSets-method}
-\alias{setLengths,BaseSets-method}
-\alias{elementLengths,BaseSets-method}
-\alias{c.BaseSets}
-\alias{c,BaseSets-method}
-\alias{[,BaseSets,ANY,ANY,ANY-method}
-\alias{[,BaseSets-method}
-\alias{subset.BaseSets}
-\alias{subset,BaseSets-method}
-\alias{duplicated,BaseSets-method}
-\alias{unique,BaseSets-method}
-\alias{union.BaseSets}
-\alias{union,BaseSets-method}
-\alias{as.DataFrame.BaseSets}
+\alias{relations,Sets-method}
+\alias{relations<-,Sets-method}
+\alias{elementData,Sets-method}
+\alias{elementData<-,Sets-method}
+\alias{setData,Sets-method}
+\alias{setData<-,Sets-method}
+\alias{elements,Sets-method}
+\alias{sets,Sets-method}
+\alias{length,Sets-method}
+\alias{nElements,Sets-method}
+\alias{nSets,Sets-method}
+\alias{setLengths,Sets-method}
+\alias{elementLengths,Sets-method}
+\alias{c.Sets}
+\alias{c,Sets-method}
+\alias{[,Sets,ANY,ANY,ANY-method}
+\alias{[,Sets-method}
+\alias{subset.Sets}
+\alias{subset,Sets-method}
+\alias{duplicated,Sets-method}
+\alias{unique,Sets-method}
+\alias{union.Sets}
+\alias{union,Sets-method}
+\alias{as.DataFrame.Sets}
 \alias{as.DataFrame}
-\alias{as.data.frame.BaseSets}
+\alias{as.data.frame.Sets}
 \alias{as.data.frame}
-\alias{as.list.BaseSets}
+\alias{as.list.Sets}
 \alias{as.list}
-\alias{as.matrix.BaseSets}
+\alias{as.matrix.Sets}
 \alias{as.matrix}
-\alias{as.FuzzySets.BaseSets}
-\alias{as.GOSets.BaseSets}
-\alias{as.BaseSets.list}
-\alias{as.BaseSets}
-\alias{as.BaseSets.matrix}
-\title{Methods for \code{BaseSets} Objects}
+\alias{as.FuzzySets.Sets}
+\alias{as.GOSets.Sets}
+\alias{as.Sets.list}
+\alias{as.Sets}
+\alias{as.Sets.matrix}
+\title{Methods for \code{Sets} Objects}
 \usage{
 relations(object)
 
@@ -78,58 +78,58 @@ setLengths(object)
 
 elementLengths(object)
 
-\S4method{relations}{BaseSets}(object)
+\S4method{relations}{Sets}(object)
 
-\S4method{relations}{BaseSets}(object) <- value
+\S4method{relations}{Sets}(object) <- value
 
-\S4method{elementData}{BaseSets}(object)
+\S4method{elementData}{Sets}(object)
 
-\S4method{elementData}{BaseSets}(object) <- value
+\S4method{elementData}{Sets}(object) <- value
 
-\S4method{setData}{BaseSets}(object)
+\S4method{setData}{Sets}(object)
 
-\S4method{setData}{BaseSets}(object) <- value
+\S4method{setData}{Sets}(object) <- value
 
-\S4method{elements}{BaseSets}(object)
+\S4method{elements}{Sets}(object)
 
-\S4method{sets}{BaseSets}(object)
+\S4method{sets}{Sets}(object)
 
-\S4method{length}{BaseSets}(x)
+\S4method{length}{Sets}(x)
 
-\S4method{nElements}{BaseSets}(object)
+\S4method{nElements}{Sets}(object)
 
-\S4method{nSets}{BaseSets}(object)
+\S4method{nSets}{Sets}(object)
 
-\S4method{setLengths}{BaseSets}(object)
+\S4method{setLengths}{Sets}(object)
 
-\S4method{elementLengths}{BaseSets}(object)
+\S4method{elementLengths}{Sets}(object)
 
-\method{c}{BaseSets}(x, ...)
+\method{c}{Sets}(x, ...)
 
-\S4method{[}{BaseSets,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
+\S4method{[}{Sets,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
-\method{subset}{BaseSets}(x, ...)
+\method{subset}{Sets}(x, ...)
 
-\S4method{duplicated}{BaseSets}(x, incomparables = FALSE, ...)
+\S4method{duplicated}{Sets}(x, incomparables = FALSE, ...)
 
-\S4method{unique}{BaseSets}(x, incomparables = FALSE, ...)
+\S4method{unique}{Sets}(x, incomparables = FALSE, ...)
 
-union.BaseSets(x, y, ...)
+union.Sets(x, y, ...)
 
-as.DataFrame.BaseSets(object, ...)
+as.DataFrame.Sets(object, ...)
 
-\method{as.data.frame}{BaseSets}(x, ...)
+\method{as.data.frame}{Sets}(x, ...)
 
-\method{as.list}{BaseSets}(x, ...)
+\method{as.list}{Sets}(x, ...)
 
-\method{as.matrix}{BaseSets}(x, ...)
+\method{as.matrix}{Sets}(x, ...)
 
-as.BaseSets.list(list, ...)
+as.Sets.list(list, ...)
 
-as.BaseSets.matrix(matrix, ...)
+as.Sets.matrix(matrix, ...)
 }
 \arguments{
-\item{object, x}{An object of class inheriting from \code{\linkS4class{BaseSets}}.}
+\item{object, x}{An object of class inheriting from \code{\linkS4class{Sets}}.}
 
 \item{value}{An object of a class specified in the S4 method signature or as outlined in 'Accessors'.}
 
@@ -143,18 +143,18 @@ as.BaseSets.matrix(matrix, ...)
 
 \item{incomparables}{Ignored.}
 
-\item{y}{An object of class inheriting from \code{\link{BaseSets}}.}
+\item{y}{An object of class inheriting from \code{\link{Sets}}.}
 
 \item{list}{A \code{list} of named character vectors.
 The names are taken as the set identifiers.
 The character vectors are taken as identifiers of elements that are member of each set.}
 
 \item{matrix}{A \code{matrix}.
-The matrix will be coerced to \code{logical} type and relations indicating \code{TRUE} will be stored in the \code{BaseSets}.}
+The matrix will be coerced to \code{logical} type and relations indicating \code{TRUE} will be stored in the \code{Sets}.}
 }
 \description{
-This page documents the S4 generics and methods defined for objects inheriting of the \code{\linkS4class{BaseSets}} class.
-In the usage below, \code{object} and \code{x} represent an object of class inheriting from \code{\linkS4class{BaseSets}},
+This page documents the S4 generics and methods defined for objects inheriting of the \code{\linkS4class{Sets}} class.
+In the usage below, \code{object} and \code{x} represent an object of class inheriting from \code{\linkS4class{Sets}},
 and \code{value} is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 }
 \section{Accessors}{
@@ -203,7 +203,7 @@ An \code{\linkS4class{IdVector}} objets storing the unique set identifiers (\cod
 
 \section{Subsetting}{
 
-\code{x[i, drop=TRUE]} returns new \code{\linkS4class{BaseSets}} object of the same class as \code{x} made of the elements selected by \code{i}. \code{i} can be missing; an \code{NA}-free logical, numeric, or character vector or factor (as ordinary vector or \code{\link{Rle}} object); or an \code{\link[=IntegerRanges-class]{IntegerRanges}} object.
+\code{x[i, drop=TRUE]} returns new \code{\linkS4class{Sets}} object of the same class as \code{x} made of the elements selected by \code{i}. \code{i} can be missing; an \code{NA}-free logical, numeric, or character vector or factor (as ordinary vector or \code{\link{Rle}} object); or an \code{\link[=IntegerRanges-class]{IntegerRanges}} object.
 The \code{drop} logical value controls whether the metadata of elements and sets orphaned during the subsetting should be removed from the \code{elementData} and \code{setData} slots, respectively.
 
 
@@ -215,18 +215,18 @@ The \code{drop} logical scalar controls whether elements and sets orphaned durin
 
 \section{Duplication and uniqueness}{
 
-\code{duplicated(x)} determines which relations of a \code{BaseSets} are duplicates of relations with smaller subscripts, and returns a logical vector indicating which relations are duplicates.
+\code{duplicated(x)} determines which relations of a \code{Sets} are duplicates of relations with smaller subscripts, and returns a logical vector indicating which relations are duplicates.
 
 
 
-\code{unique(x)} returns a \code{BaseSets} like \code{x} but with duplicate relations removed.
+\code{unique(x)} returns a \code{Sets} like \code{x} but with duplicate relations removed.
 
 
 
-\code{union(x)} returns a \code{BaseSets} composed of the union of relations in \code{x} and \code{y}.
+\code{union(x)} returns a \code{Sets} composed of the union of relations in \code{x} and \code{y}.
 }
 
-\section{Coercion from BaseSets}{
+\section{Coercion from Sets}{
 
 \code{as(object, "DataFrame")} and \code{as.DataFrame(object)} return a nested \code{DataFrame} including columns \code{"element"}, \code{"set"}, \code{"relationData"}, \code{"elementData"}, and \code{"setData"}.
 
@@ -241,12 +241,12 @@ Names are set identifiers, and values are character vectors of element identifie
 \code{as(x, "matrix")} and \code{as.matrix(x)} return a \code{matrix} with elements as rows, sets as columns, and a \code{logical} value to indicate membership.
 }
 
-\section{Coercion to BaseSets}{
+\section{Coercion to Sets}{
 
-\code{as(list, "BaseSets")} and \code{as.BaseSets(object)} return a \code{BaseSets} from a list of character vectors.
+\code{as(list, "Sets")} and \code{as.Sets(object)} return a \code{Sets} from a list of character vectors.
 
 
-\code{as(matrix, "BaseSets")} and \code{as.BaseSets(object)} return a \code{BaseSets} from an incidence matrix.
+\code{as(matrix, "Sets")} and \code{as.Sets(object)} return a \code{Sets} from an incidence matrix.
 }
 
 \examples{
@@ -258,7 +258,7 @@ sets <- list(
   set2=c("B", "C", "D"),
   set3=c("E"))
 
-bs <- as(sets, "BaseSets")
+bs <- as(sets, "Sets")
 bs
 
 # Accessors ----
@@ -314,7 +314,7 @@ table(duplicated(bs1))
 unique(bs1)
 bs1 <- union(bs, bs)
 
-# Coercion from BaseSets ----
+# Coercion from Sets ----
 
 DF1 <- as(bs, "DataFrame")
 
@@ -331,18 +331,18 @@ fs <- as(bs1, "FuzzySets")
 # Fetch a sample of GO annotations
 library(org.Hs.eg.db)
 gs <- import(org.Hs.egGO)
-bs1 <- as(gs, "BaseSets")
+bs1 <- as(gs, "Sets")
 gs1 <- as(bs1, "GOSets")
 
-# Coercion to BaseSets ----
+# Coercion to Sets ----
 
 # list
-bs1 <- as(list(set1=c("A", "B"), set2=c("B", "C")), "BaseSets")
+bs1 <- as(list(set1=c("A", "B"), set2=c("B", "C")), "Sets")
 # matrix
-bs1 <- as(m1, "BaseSets")
+bs1 <- as(m1, "Sets")
 }
 \seealso{
-\code{\linkS4class{BaseSets}}.
+\code{\linkS4class{Sets}}.
 }
 \author{
 Kevin Rue-Albrecht

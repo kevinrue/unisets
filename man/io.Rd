@@ -10,7 +10,7 @@
 \alias{import,GMTFile,ANY,ANY-method}
 \alias{export.gmt}
 \alias{export}
-\alias{export,BaseSets,GMTFile,ANY-method}
+\alias{export,Sets,GMTFile,ANY-method}
 \alias{import.Go3AnnDbBimap}
 \alias{import,Go3AnnDbBimap,ANY,ANY-method}
 \title{Import and export}
@@ -23,7 +23,7 @@ import.gmt(con, ...)
 
 export.gmt(object, con, ...)
 
-\S4method{export}{BaseSets,GMTFile,ANY}(object, con, format, ...)
+\S4method{export}{Sets,GMTFile,ANY}(object, con, format, ...)
 
 import.Go3AnnDbBimap(con, format, text, ...)
 
@@ -54,9 +54,9 @@ The functions \code{import} and \code{export} load and save objects from and to 
 The \code{unisets} package aims to implement support for a number of annotation and sequence formats.
 The following file formats are currently supported: \href{https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats#GMT:_Gene_Matrix_Transposed_file_format_.28.2A.gmt.29}{GMT}.
 }
-\section{Coercion to BaseSets}{
+\section{Coercion to Sets}{
 
-\code{as(Go3AnnDbBimap, "BaseSets")} and \code{as.BaseSets(Go3AnnDbBimap)} return a \code{BaseSets} from a Gene Ontology \code{Bimap} stored distributed in a Bioconductor annotation package.
+\code{as(Go3AnnDbBimap, "Sets")} and \code{as.Sets(Go3AnnDbBimap)} return a \code{Sets} from a Gene Ontology \code{Bimap} stored distributed in a Bioconductor annotation package.
 }
 
 \examples{
