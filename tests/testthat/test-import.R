@@ -23,7 +23,7 @@ elementsUnlist <- unlist(sets)
 setsUnlist <- rep(names(sets), lengths(sets))
 names(setsUnlist) <- paste0("x", seq_along(setsUnlist))
 relations <- DataFrame(element=elementsUnlist, set=setsUnlist)
-basic_baseset <- BaseSets(relations)
+basic_baseset <- Sets(relations)
 
 # GMTFile ----
 
@@ -38,7 +38,7 @@ test_that("GMTFile constructor works as expected.", {
 
 # import ----
 
-test_that("GMT importing produces valid BaseSets with proper source", {
+test_that("GMT importing produces valid Sets with proper source", {
 
     out <- import(good_gmt)
 
@@ -73,7 +73,7 @@ test_that("GMT importing passes with duplicated elements within set.", {
 
 })
 
-test_that("GMT exporting produces a valid file from BaseSets.", {
+test_that("GMT exporting produces a valid file from Sets.", {
 
     x <- import(good_gmt)
 
@@ -143,14 +143,14 @@ test_that("GMT errors expected upon trying to import with bad extensions", {
 test_that("import(Go3AnnDbBimap) works", {
 
     out <- import(org.Hs.egGO)
-    expect_s4_class(out, "BaseSets")
+    expect_s4_class(out, "Sets")
     expect_gt(length(out), 0)
     expect_gt(length(elementData(out)), 0)
     expect_gt(length(setData(out)), 0)
     expect_gt(ncol(mcols(setData(out))), 0)
 
     out <- import.Go3AnnDbBimap(org.Hs.egGO)
-    expect_s4_class(out, "BaseSets")
+    expect_s4_class(out, "Sets")
     expect_gt(length(out), 0)
     expect_gt(length(elementData(out)), 0)
     expect_gt(length(setData(out)), 0)

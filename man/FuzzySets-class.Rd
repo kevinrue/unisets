@@ -14,16 +14,16 @@ FuzzySets(relations = DataFrame(element = character(0), set =
 At least 3 columns that provide mapping relationships between \code{"element"} and \code{"set"} identifiers, with \code{"membership"} function in the range \code{[0,1]}.
 Additional columns are taken as relation metadata.}
 
-\item{...}{Arguments passed to the \code{\link[=BaseSets]{BaseSets()}} constructor and other functions.}
+\item{...}{Arguments passed to the \code{\link[=Sets]{Sets()}} constructor and other functions.}
 }
 \value{
 A \code{FuzzySets} object.
 }
 \description{
-The \code{FuzzySets} class extends the \code{\linkS4class{BaseSets}} class to implement a container that also describe different grades of membership in the interval \code{[0,1]}.
+The \code{FuzzySets} class extends the \code{\linkS4class{Sets}} class to implement a container that also describe different grades of membership in the interval \code{[0,1]}.
 }
 \details{
-This class does not define any additional slot to the \code{BaseSets} class.
+This class does not define any additional slot to the \code{Sets} class.
 However, this class defines additional validity checks to ensure that every relation stored in a \code{FuzzySets} are associated with a numeric membership funtion in the interval \code{[0,1]}.
 }
 \examples{
@@ -72,7 +72,7 @@ fs1 <- fs
 membership(fs1) <- runif(length(fs1))
 }
 \seealso{
-\code{\linkS4class{BaseSets}}, \code{\linkS4class{FuzzyHits}}, \code{\link{FuzzySets-methods}}.
+\code{\linkS4class{Sets}}, \code{\linkS4class{FuzzyHits}}, \code{\link{FuzzySets-methods}}.
 }
 \author{
 Kevin Rue-Albrecht

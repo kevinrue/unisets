@@ -24,7 +24,7 @@
 }
 \description{
 This page documents the S4 generics and methods defined for objects inheriting of the \code{\linkS4class{GOSets}} class.
-The \code{GOSets} class directly extends \code{\linkS4class{BaseSets}} and thus inherits of all methods defined for the parent class.
+The \code{GOSets} class directly extends \code{\linkS4class{Sets}} and thus inherits of all methods defined for the parent class.
 In the usage below, \code{object} represents an object of class inheriting from \code{\linkS4class{GOSets}},
 and \code{value} is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.
 }
@@ -56,7 +56,7 @@ gs1 <- gs
 ontology(gs1)[1] <- "CC"
 }
 \seealso{
-\code{\linkS4class{GOSets}}, \code{\link{BaseSets-methods}}.
+\code{\linkS4class{GOSets}}, \code{\link{Sets-methods}}.
 }
 \author{
 Kevin Rue-Albrecht

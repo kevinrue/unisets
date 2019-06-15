@@ -9,7 +9,6 @@
 Classes to describe relationships between elements and sets,
     with an emphasis on gene sets.
     Slots are available to store element and set metadata.
-    Fuzzy sets (including membership functions) are supported.
 }
 \seealso{
 Useful links:

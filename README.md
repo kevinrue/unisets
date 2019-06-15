@@ -21,7 +21,7 @@ devtools::install_github("kevinrue/unisets", build_opts = c("--no-resave-data", 
 
 ## Example
 
-This is a basic example which shows you how to create a `BaseSets` object, to store simple associations between genes and sets:
+This is a basic example which shows you how to create a `Sets` object, to store simple associations between genes and sets:
 
 ``` r
 library(unisets)
@@ -45,12 +45,12 @@ elementMetadata(set_data) <- DataFrame(
     stat1     = c( 100,   200 ),
     info1     = c("abc", "def")
 )
-base_set <- BaseSets(relations_table, element_data, set_data)
+base_set <- Sets(relations_table, element_data, set_data)
 base_set
 ```
 
 ```
-BaseSets with 5 relations between 4 elements and 2 sets
+Sets with 5 relations between 4 elements and 2 sets
        element        set |      extra1    extra2
     <IdVector> <IdVector> | <character> <numeric>
 [1]          A       set1 |         ABC         0

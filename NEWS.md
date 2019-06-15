@@ -5,12 +5,12 @@
 * Added accessors `ids` for class `IdVector`.
 * Added methods `duplicated`, `unique`, and `union` for class `IdVector`.
 * Added classes `EntrezIdVector` and `EnsemblIdVector`.
-* Added class `BaseSets`.
-* Added accessors `relations`, `elementData`, and `setData` for class `BaseSets`.
-* Added methods `length`, `nElements`, `nSets`, `setLengths` and `elementLengths` for class `BaseSets`.
-* Added `show` method for class `BaseSets` matching the `Hits` class
-* Added method `subset` for class `BaseSets`.
-* Added method `c` for class `BaseSets`.
+* Added class `Sets`.
+* Added accessors `relations`, `elementData`, and `setData` for class `Sets`.
+* Added methods `length`, `nElements`, `nSets`, `setLengths` and `elementLengths` for class `Sets`.
+* Added `show` method for class `Sets` matching the `Hits` class
+* Added method `subset` for class `Sets`.
+* Added method `c` for class `Sets`.
 * Added classes `FuzzyHits` and `FuzzySets`.
 * Added accessor `membership` for class `FuzzySets`.
 * Added classes `GOHits` and `GOSets`.
@@ -19,6 +19,6 @@
 * Added method `import` for `Go3AnnDbBimap` objects.
 * Added method `as` to `matrix` and `list`.
 * Added method `as` from `matrix` and `list`.
-* Added method `as` from `BaseSets` to `FuzzySets`.
+* Added method `as` from `Sets` to `FuzzySets`.
 * Added introduction vignette.
 * Added vignette describing integration with Bioconductor `org.*.db` packages.

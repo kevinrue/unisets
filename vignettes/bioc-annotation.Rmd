@@ -48,7 +48,7 @@ library(org.Hs.eg.db)
 ## Gene Ontology {#import-gene-ontology}
 
 `Go3AnnDbBimap` objects (from the `r Biocpkg("AnnotationDbi")` package) are maps between Entrez gene identifiers and Gene Ontology (GO) identifiers.
-Those objects may be directly converted to `BaseSets` objects as demonstrated below.
+Those objects may be directly converted to `Sets` objects as demonstrated below.
 
 ```{r message=FALSE}
 library(unisets)

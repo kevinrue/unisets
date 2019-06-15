@@ -86,7 +86,7 @@ import.gmt <- function(con, ...) {
     mcols(set_data) <- DataFrame(source=source)
 
     ## Construct and return the BaseSet
-    bs <- BaseSets(map, setData=set_data)
+    bs <- Sets(map, setData=set_data)
     return(bs)
 }
 
@@ -122,14 +122,14 @@ export.gmt <- function(object, con, ...) {
 
 #' @name io
 #' @rdname io
-#' @aliases export export,BaseSets,GMTFile,ANY-method
+#' @aliases export export,Sets,GMTFile,ANY-method
 #'
 #' @importFrom rtracklayer export
 #' @importFrom utils write.table
 #' @importFrom methods getPackageName
 #' @importFrom S4Vectors mcols DataFrame
 #' @export
-setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...) {
+setMethod("export", c("Sets", "GMTFile"), function(object, con, format, ...) {
     path <- resource(con)
     if (! "source" %in% colnames(mcols(setData(object)))) {
         message(
@@ -167,8 +167,8 @@ setMethod("export", c("BaseSets", "GMTFile"), function(object, con, format, ...)
 #'
 #' @param Go3AnnDbBimap A [`Go3AnnDbBimap`].
 #'
-#' @section Coercion to BaseSets:
-#' `as(Go3AnnDbBimap, "BaseSets")` and `as.BaseSets(Go3AnnDbBimap)` return a `BaseSets` from a Gene Ontology `Bimap` stored distributed in a Bioconductor annotation package.
+#' @section Coercion to Sets:
+#' `as(Go3AnnDbBimap, "Sets")` and `as.Sets(Go3AnnDbBimap)` return a `Sets` from a Gene Ontology `Bimap` stored distributed in a Bioconductor annotation package.
 #'
 #' @author Robert A. Amezquita
 #'

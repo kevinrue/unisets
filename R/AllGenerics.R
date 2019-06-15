@@ -1,43 +1,43 @@
 # Direct pointers ----
 
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
+#' @name Sets-methods
+#' @rdname Sets-methods
 #' @aliases relations
 #' @exportMethod relations
 setGeneric("relations", function(object) standardGeneric("relations"))
 
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
+#' @name Sets-methods
+#' @rdname Sets-methods
 #' @aliases relations<-
 #' @exportMethod relations<-
 setGeneric("relations<-", function(object, value) standardGeneric("relations<-"))
 
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
+#' @name Sets-methods
+#' @rdname Sets-methods
 #' @aliases elements
 #' @exportMethod elements
 setGeneric("elements", function(object) standardGeneric("elements"))
 
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
+#' @name Sets-methods
+#' @rdname Sets-methods
 #' @aliases elementData
 #' @exportMethod elementData
 setGeneric("elementData", function(object) standardGeneric("elementData"))
 
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
+#' @name Sets-methods
+#' @rdname Sets-methods
 #' @aliases elementData<-
 #' @exportMethod elementData<-
 setGeneric("elementData<-", function(object, value) standardGeneric("elementData<-"))
 
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
+#' @name Sets-methods
+#' @rdname Sets-methods
 #' @aliases sets
 #' @exportMethod sets
 setGeneric("sets", function(object) standardGeneric("sets"))
 
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
+#' @name Sets-methods
+#' @rdname Sets-methods
 #' @aliases setData
 #' @exportMethod setData
 setGeneric(
@@ -45,8 +45,8 @@ setGeneric(
     function(object) standardGeneric("setData")
 )
 
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
+#' @name Sets-methods
+#' @rdname Sets-methods
 #' @aliases setData<-
 #' @exportMethod setData<-
 setGeneric("setData<-", function(object, value) standardGeneric("setData<-"))
@@ -113,26 +113,26 @@ setGeneric("ids<-", function(object, value) standardGeneric("ids<-"))
 
 # Dimensions ----
 
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
+#' @name Sets-methods
+#' @rdname Sets-methods
 #' @aliases nElements
 #' @exportMethod nElements
 setGeneric("nElements", function(object) standardGeneric("nElements"))
 
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
+#' @name Sets-methods
+#' @rdname Sets-methods
 #' @aliases nSets
 #' @exportMethod nSets
 setGeneric("nSets", function(object) standardGeneric("nSets"))
 
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
+#' @name Sets-methods
+#' @rdname Sets-methods
 #' @aliases setLengths
 #' @exportMethod setLengths
 setGeneric("setLengths", function(object) standardGeneric("setLengths"))
 
-#' @name BaseSets-methods
-#' @rdname BaseSets-methods
+#' @name Sets-methods
+#' @rdname Sets-methods
 #' @aliases elementLengths
 #' @exportMethod elementLengths
 setGeneric("elementLengths", function(object) standardGeneric("elementLengths"))
