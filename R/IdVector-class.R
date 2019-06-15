@@ -148,6 +148,7 @@ setMethod("[", "IdVector", function(x, i, j, ..., drop = TRUE) {
 
 # show() ----
 
+#' @importFrom utils head
 #' @importFrom S4Vectors mcols
 setMethod("show", "IdVector", function(object) {
     ne <- length(object)

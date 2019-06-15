@@ -338,27 +338,49 @@ setMethod("subset", "BaseSets", function(x, ...) {
 
 # show() ----
 
-#' @importFrom S4Vectors mcols nLnode nRnode
 setMethod("show", "BaseSets", function(object) {
-    nm <- length(slot(object, "relations"))
-    # nc <- ncol(slot(object, "relations"))
-    ne <- nLnode(slot(object, "relations"))
-    ns <- nRnode(slot(object, "relations"))
+    showBaseSets(object, margin="  ", print.classinfo=TRUE, print.nnode=TRUE)
+})
+
+#' @importFrom S4Vectors mcols nLnode nRnode
+showBaseSets <- function(
+    x, margin="", print.classinfo=FALSE, print.nnode=FALSE
+) {
+    nm <- length(slot(x, "relations")) # number of mappings
+    ne <- nLnode(slot(x, "relations")) # number of unique elements
+    ns <- nRnode(slot(x, "relations")) # number of unique sets
+    # Display class name and basic summary
     cat(
-        class(object), " with ",
+        class(x), " with ",
         nm, ifelse(nm == 1, " relation", " relations"), " between ",
         ne, ifelse(ne == 1, " element", " elements"), " and ",
         ns, ifelse(ns == 1, " set\n", " sets\n"),
         sep = "")
-    relationTable <- as(as.data.frame(object), "DataFrame")
-    .showRelationsAsDataFrame(relationTable)
+    # Display compact view of the relations and metadata
+    # TODO: ask S4Vectors to export makePrettyMatrixForCompactPrinting
+    out <- S4Vectors:::makePrettyMatrixForCompactPrinting(
+        x, .make_naked_matrix_from_BaseSets)
+    # Prepare class information for each column
+    if (print.classinfo) {
+        .COL2CLASS <- c(
+            element = class(elementData(x)),
+            set = class(setData(x))
+        )
+        # TODO: ask S4Vectors to export makeClassinfoRowForCompactPrinting
+        classinfo <- S4Vectors:::makeClassinfoRowForCompactPrinting(relations(x), .COL2CLASS)
+        ## A sanity check, but this should never happen!
+        stopifnot(identical(colnames(classinfo), colnames(out)))
+        out <- rbind(classinfo, out)
+    }
+    print(out, quote=FALSE, right=TRUE, max=length(out))
+    # Display compact view of element metadata
     cat("\n@elementData\n")
-    print(slot(object, "elementData"))
+    print(slot(x, "elementData"))
+    # Display compact view of set metadata
     cat("\n@setData\n")
-    print(slot(object, "setData"))
-    # .showSets(class(object), as(object, "DataFrame"))
-    invisible(object)
-})
+    print(slot(x, "setData"))
+    invisible(x)
+}
 
 # duplicated() ----
 
