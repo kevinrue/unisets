@@ -364,10 +364,7 @@ showSets <- function(
         x, .make_naked_matrix_from_Sets)
     # Prepare class information for each column
     if (print.classinfo) {
-        .COL2CLASS <- c(
-            element = class(elementData(x)),
-            set = class(setData(x))
-        )
+        .COL2CLASS <- c(element = "character", set = "character")
         # TODO: ask S4Vectors to export makeClassinfoRowForCompactPrinting
         classinfo <- S4Vectors:::makeClassinfoRowForCompactPrinting(relations(x), .COL2CLASS)
         ## A sanity check, but this should never happen!
