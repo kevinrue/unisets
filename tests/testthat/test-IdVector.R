@@ -120,14 +120,14 @@ test_that("show(IdVector) works", {
 
     out <- show(iv)
     # The show method invisibly returns the character vector of identifiers
-    expect_identical(out, head(as.character(idValues), 3))
+    expect_identical(out, NULL)
 
     # Large objects partially displayed
     iv <- IdVector(idValues)
 
     out <- show(iv)
     # The show method invisibly returns the character vector of identifiers
-    expect_identical(out, as.character(idValues))
+    expect_identical(out, NULL)
 
     # Large elementMetadata
     mcols(iv) <- DataFrame(a=1, b=2, c=3, d=4, e=5, f=6)

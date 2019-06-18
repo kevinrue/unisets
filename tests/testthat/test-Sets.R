@@ -362,13 +362,13 @@ test_that("show(Sets) works", {
     bs <- Sets(relations)
 
     out <- show(bs)
-    expect_identical(out, bs)
+    expect_identical(out, NULL)
 
     # Large objects partially displayed
     bs <- Sets(relations=DataFrame(element=letters, set=LETTERS))
 
     out <- show(bs)
-    expect_identical(out, bs)
+    expect_identical(out, NULL)
 
 })
 

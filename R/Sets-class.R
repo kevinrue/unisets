@@ -399,6 +399,7 @@ showSets <- function(
             ""),
         "\n",
         sep = "")
+    invisible(NULL)
 }
 
 # duplicated() ----

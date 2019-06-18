@@ -148,7 +148,7 @@ test_that("show(GOSets) works", {
     gs <- GOSets(relations)
 
     out <- show(gs)
-    expect_identical(out, gs)
+    expect_identical(out, NULL)
 
 })
 

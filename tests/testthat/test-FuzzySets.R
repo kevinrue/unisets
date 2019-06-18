@@ -109,7 +109,7 @@ test_that("show(FuzzySets) works", {
     fs <- FuzzySets(relations)
 
     out <- show(fs)
-    expect_identical(out, fs)
+    expect_identical(out, NULL)
 
 })
 
