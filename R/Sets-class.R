@@ -349,6 +349,8 @@ showSets <- function(
     nm <- length(slot(x, "relations")) # number of mappings
     ne <- nLnode(slot(x, "relations")) # number of unique elements
     ns <- nRnode(slot(x, "relations")) # number of unique sets
+    ned <- ncol(mcols(slot(x, "elementData"))) # number of element metadata
+    nsd <- ncol(mcols(slot(x, "setData"))) # number of set metadata
     # Display class name and basic summary
     cat(
         class(x), " with ",
@@ -374,12 +376,32 @@ showSets <- function(
     }
     print(out, quote=FALSE, right=TRUE, max=length(out))
     # Display compact view of element metadata
-    cat("\n@elementData\n")
-    print(slot(x, "elementData"))
-    # Display compact view of set metadata
-    cat("\n@setData\n")
-    print(slot(x, "setData"))
-    invisible(x)
+    cat("-----------")
+    cat(
+        "\nelementData: ", class(slot(x, "elementData")), " with ",
+        ned, " metadata",
+        ifelse(
+            ned > 0,
+            sprintf(
+                " (%s%s)",
+                paste(head(colnames(mcols(slot(x, "elementData"))), 2), collapse = ", "),
+                ifelse(ned > 2, ", ...", "")
+                ),
+            ""),
+        sep = "")
+    cat(
+        "\n    setData: ", class(slot(x, "setData")), " with ",
+        nsd, " metadata",
+        ifelse(
+            nsd > 0,
+            sprintf(
+                " (%s%s)",
+                paste(head(colnames(mcols(slot(x, "setData"))), 2), collapse = ", "),
+                ifelse(nsd > 2, ", ...", "")
+                ),
+            ""),
+        "\n",
+        sep = "")
 }
 
 # duplicated() ----
