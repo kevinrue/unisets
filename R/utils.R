@@ -27,8 +27,8 @@ get_showTailLines <- function() { 5L }
     x_mcols <- mcols(relations(x))
     x_nmc <- if (is.null(x_mcols)) 0L else ncol(x_mcols)
     ans <- cbind(
-        from = ids(elementData(x))[from(relations(x))],
-        to = ids(setData(x))[to(relations(x))]
+        from = ids(elementInfo(x))[from(relations(x))],
+        to = ids(setInfo(x))[to(relations(x))]
     )
     colnames(ans) <- c("element", "set")
 

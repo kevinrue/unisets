@@ -71,12 +71,12 @@ base_sets <- Sets(relations_table, element_data, set_data)
 base_sets
 ```
 
-The `elementData` and `setData` slots each store an `IdVector` that describes the identifier and metadata associated with each unique element and set, respectively.
+The `elementInfo` and `setInfo` slots each store an `IdVector` that describes the identifier and metadata associated with each unique element and set, respectively.
 Those metadata can be directly accessed and updated using the corresponding accessor methods.
 
 ```{r}
-elementData(base_sets)
-setData(base_sets)
+elementInfo(base_sets)
+setInfo(base_sets)
 ```
 
 Note that relations between elements and sets are internally stored as an `r Biocpkg("S4Vectors")` `Hits` object.
@@ -84,8 +84,8 @@ This container efficiently represents edges between a set of _left nodes_ and a 
 
 To do so, the `DataFrame` provided as the `relations` argument of the `Sets` constructor is divided in two pieces of information:
 
-- The required `"element"` and `"set"`columns are extracted and substitued by the index of the matching identifier in the `elementData` and `setData` slot, to create the `from` and `to` slots of a `Hits` object, respectively.
-    If the `elementData` and `setData` are not supplied, the corresponding slots are automatically constructed from unique values found in the `"element"` and `"set"`columns.
+- The required `"element"` and `"set"`columns are extracted and substitued by the index of the matching identifier in the `elementInfo` and `setInfo` slot, to create the `from` and `to` slots of a `Hits` object, respectively.
+    If the `elementInfo` and `setInfo` are not supplied, the corresponding slots are automatically constructed from unique values found in the `"element"` and `"set"`columns.
 - All other columns are stored as metadata columns on the resulting `Hits` object.
 
 ```{r}
@@ -94,7 +94,7 @@ mcols(relations(base_sets))
 ```
 
 Conveniently, the `as` method can be used to format relations and associated metadata as a `DataFrame` substituting hits for their corresponding element and set identifiers.
-Metadata for relations, elements, and sets are returned as `DataFrame` nested in the `"relationData"`, `"elementData"`, and `"setData"` columns.
+Metadata for relations, elements, and sets are returned as `DataFrame` nested in the `"relationData"`, `"elementInfo"`, and `"setInfo"` columns.
 
 ```{r}
 as(base_sets, "DataFrame")
@@ -155,14 +155,14 @@ Similarly, the `subset` method can be also applied to objects derived from `Sets
 subset(fuzzy_sets, set == "geneset2" & membership > 0.3)
 ```
 
-Note that the default behaviour of the `subset` method is to drop elements and sets that are not represented in the relations from the `elementData` and `setData` slots, respectively.
+Note that the default behaviour of the `subset` method is to drop elements and sets that are not represented in the relations from the `elementInfo` and `setInfo` slots, respectively.
 This behaviour can be controlled using the `drop` argument, which accepts a single logical value.
 
 ```{r}
 out1 <- subset(base_sets, set == "geneset1", drop=TRUE)
-ids(setData(out1))
+ids(setInfo(out1))
 out2 <- subset(base_sets, set == "geneset1", drop=FALSE)
-ids(setData(out2))
+ids(setInfo(out2))
 ```
 
 
@@ -248,13 +248,13 @@ elementLengths(fuzzy_sets)
 
 ## Names of elements and sets
 
-The identifiers of elements and sets can be inspected and renamed using `ids` accessor on the `IdVector` object returned by each of the `elementData` or `setData` accessors.
+The identifiers of elements and sets can be inspected and renamed using `ids` accessor on the `IdVector` object returned by each of the `elementInfo` or `setInfo` accessors.
 
 ```{r}
-ids(elementData(base_sets)) <- paste0("Gene", seq_len(nElements(base_sets)))
-ids(elementData(base_sets))
-ids(setData(base_sets)) <- paste0("Geneset", seq_len(nSets(base_sets)))
-ids(setData(base_sets))
+ids(elementInfo(base_sets)) <- paste0("Gene", seq_len(nElements(base_sets)))
+ids(elementInfo(base_sets))
+ids(setInfo(base_sets)) <- paste0("Geneset", seq_len(nSets(base_sets)))
+ids(setInfo(base_sets))
 ```
 
 # Importing and exporting sets
@@ -277,22 +277,22 @@ base_sets_from_gmt <- import(gmt_file)
 base_sets_from_gmt
 ```
 
-The additional metadata corresponding to the source (second column of the GMT) per set is also added as metadata corresponding to the sets, accessible via `setData`, which returns an `IdVector` class object.
+The additional metadata corresponding to the source (second column of the GMT) per set is also added as metadata corresponding to the sets, accessible via `setInfo`, which returns an `IdVector` class object.
 
 ```{r}
-setData(base_sets_from_gmt)
+setInfo(base_sets_from_gmt)
 ```
 
 To access the internal DataFrame representation, the accessor `mcols` can additionally be applied.
 
 ```{r}
-mcols(setData(base_sets_from_gmt))
-## elementMetadata(setData(base_sets_from_gmt)) # equivalent to above
+mcols(setInfo(base_sets_from_gmt))
+## elementMetadata(setInfo(base_sets_from_gmt)) # equivalent to above
 ```
 
 To export `Sets` objects in GMT file format, the `export` generic may be used if the file extension is ".gmt".
 Alternatively, data in GMT format may be exported to files with different extensions (e.g., ".txt") using the `export.gmt` function.
-Note that if `"source"` heading is not found in the set metadata (i.e., `mcols(setData(x))`), this value will be filled with `"unisets"` in the exported file.
+Note that if `"source"` heading is not found in the set metadata (i.e., `mcols(setInfo(x))`), this value will be filled with `"unisets"` in the exported file.
 
 ```{r}
 tmp_file <- tempfile(fileext=".gmt")

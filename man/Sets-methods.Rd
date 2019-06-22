@@ -6,21 +6,21 @@
 \alias{relations}
 \alias{relations<-}
 \alias{elements}
-\alias{elementData}
-\alias{elementData<-}
+\alias{elementInfo}
+\alias{elementInfo<-}
 \alias{sets}
-\alias{setData}
-\alias{setData<-}
+\alias{setInfo}
+\alias{setInfo<-}
 \alias{nElements}
 \alias{nSets}
 \alias{setLengths}
 \alias{elementLengths}
 \alias{relations,Sets-method}
 \alias{relations<-,Sets-method}
-\alias{elementData,Sets-method}
-\alias{elementData<-,Sets-method}
-\alias{setData,Sets-method}
-\alias{setData<-,Sets-method}
+\alias{elementInfo,Sets-method}
+\alias{elementInfo<-,Sets-method}
+\alias{setInfo,Sets-method}
+\alias{setInfo<-,Sets-method}
 \alias{elements,Sets-method}
 \alias{sets,Sets-method}
 \alias{length,Sets-method}
@@ -59,15 +59,15 @@ relations(object) <- value
 
 elements(object)
 
-elementData(object)
+elementInfo(object)
 
-elementData(object) <- value
+elementInfo(object) <- value
 
 sets(object)
 
-setData(object)
+setInfo(object)
 
-setData(object) <- value
+setInfo(object) <- value
 
 nElements(object)
 
@@ -81,13 +81,13 @@ elementLengths(object)
 
 \S4method{relations}{Sets}(object) <- value
 
-\S4method{elementData}{Sets}(object)
+\S4method{elementInfo}{Sets}(object)
 
-\S4method{elementData}{Sets}(object) <- value
+\S4method{elementInfo}{Sets}(object) <- value
 
-\S4method{setData}{Sets}(object)
+\S4method{setInfo}{Sets}(object)
 
-\S4method{setData}{Sets}(object) <- value
+\S4method{setInfo}{Sets}(object) <- value
 
 \S4method{elements}{Sets}(object)
 
@@ -138,7 +138,7 @@ as.Sets.matrix(matrix, ...)
 
 \item{j}{Ignored.}
 
-\item{drop}{A logical scalar indicating whether to remove orphan elements and sets from the \code{elementData} and \code{setData} slots, respectively.}
+\item{drop}{A logical scalar indicating whether to remove orphan elements and sets from the \code{elementInfo} and \code{setInfo} slots, respectively.}
 
 \item{incomparables}{Ignored.}
 
@@ -159,14 +159,14 @@ and \code{value} is an object of a class specified in the S4 method signature or
 \section{Accessors}{
 
 \code{relations(object)} returns the \code{relations} slot.
-A \code{Hits} objets storing the integer index of elements (\code{from}) and sets (\code{to}) in the \code{elementData} and \code{setData} slots, respectively, and associated relation metadata (\code{mcols}).
+A \code{Hits} objets storing the integer index of elements (\code{from}) and sets (\code{to}) in the \code{elementInfo} and \code{setInfo} slots, respectively, and associated relation metadata (\code{mcols}).
 
 
-\code{elementData(object)} returns the \code{elementData} slot.
+\code{elementInfo(object)} returns the \code{elementInfo} slot.
 An \code{\linkS4class{IdVector}} objets storing the unique element identifiers (\code{ids}) and associated element metadata (\code{mcols}).
 
 
-\code{setData(object)} returns the \code{setData} slot.
+\code{setInfo(object)} returns the \code{setInfo} slot.
 An \code{\linkS4class{IdVector}} objets storing the unique set identifiers (\code{ids}) and associated set metadata (\code{mcols}).
 
 
@@ -203,13 +203,13 @@ An \code{\linkS4class{IdVector}} objets storing the unique set identifiers (\cod
 \section{Subsetting}{
 
 \code{x[i, drop=TRUE]} returns new \code{\linkS4class{Sets}} object of the same class as \code{x} made of the elements selected by \code{i}. \code{i} can be missing; an \code{NA}-free logical, numeric, or character vector or factor (as ordinary vector or \code{\link{Rle}} object); or an \code{\link[=IntegerRanges-class]{IntegerRanges}} object.
-The \code{drop} logical value controls whether the metadata of elements and sets orphaned during the subsetting should be removed from the \code{elementData} and \code{setData} slots, respectively.
+The \code{drop} logical value controls whether the metadata of elements and sets orphaned during the subsetting should be removed from the \code{elementInfo} and \code{setInfo} slots, respectively.
 
 
 
 \code{subset(object, subset, ..., drop=TRUE)} returns subsets of relations which meet conditions.
 The \code{subset} argument should be a logical expression referring to any of \code{"element"}, \code{"set"}, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
-The \code{drop} logical scalar controls whether elements and sets orphaned during the subsetting should be removed from the \code{elementData} and \code{setData} slots, respectively.
+The \code{drop} logical scalar controls whether elements and sets orphaned during the subsetting should be removed from the \code{elementInfo} and \code{setInfo} slots, respectively.
 }
 
 \section{Duplication and uniqueness}{
@@ -227,7 +227,7 @@ The \code{drop} logical scalar controls whether elements and sets orphaned durin
 
 \section{Coercion from Sets}{
 
-\code{as(object, "DataFrame")} and \code{as.DataFrame(object)} return a nested \code{DataFrame} including columns \code{"element"}, \code{"set"}, \code{"relationData"}, \code{"elementData"}, and \code{"setData"}.
+\code{as(object, "DataFrame")} and \code{as.DataFrame(object)} return a nested \code{DataFrame} including columns \code{"element"}, \code{"set"}, \code{"relationData"}, \code{"elementInfo"}, and \code{"setInfo"}.
 
 
 \code{as(x, "data.frame")} and \code{as.data.frame(x)}  return a flattened \code{data.frame} including \code{"element"}, \code{"set"}, and columns in \code{mcols(relations(x))} if any.
@@ -267,15 +267,15 @@ relations(bs)
 bs1 <- bs
 mcols(relations(bs1))[["NEW"]] <- paste0("value", seq_len(length(bs1)))
 
-elementData(bs)
+elementInfo(bs)
 
 bs1 <- bs
-mcols(elementData(bs1))[["NEW"]] <- paste0("value", seq_len(nElements(bs1)))
+mcols(elementInfo(bs1))[["NEW"]] <- paste0("value", seq_len(nElements(bs1)))
 
-setData(bs)
+setInfo(bs)
 
 bs1 <- bs
-mcols(setData(bs1))[["NEW"]] <- paste0("value", seq_len(nSets(bs1)))
+mcols(setInfo(bs1))[["NEW"]] <- paste0("value", seq_len(nSets(bs1)))
 
 elements(bs)
 ids(elements(bs))
