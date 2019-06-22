@@ -40,45 +40,45 @@ test_that("Sets validity method identifies issues", {
         fixed=TRUE
     )
 
-    # Mismatch between elements and elementData
+    # Mismatch between elements and elementInfo
     expect_error(
-        Sets(relations, elementData=IdVector("Z")),
-        "relations$element missing from ids(elementData)",
+        Sets(relations, elementInfo=IdVector("Z")),
+        "relations$element missing from ids(elementInfo)",
         fixed=TRUE
     )
 
     expect_error(
-        Sets(relations, setData=IdVector("set999")),
-        "relations$set missing from ids(setData)",
+        Sets(relations, setInfo=IdVector("set999")),
+        "relations$set missing from ids(setInfo)",
         fixed=TRUE
     )
 
     expect_error(
-        Sets(relations, elementData=IdVector(relations$element)),
-        "duplicated values in ids(elementData(object))",
+        Sets(relations, elementInfo=IdVector(relations$element)),
+        "duplicated values in ids(elementInfo(object))",
         fixed=TRUE
     )
 
     expect_error(
-        Sets(relations, setData=IdVector(relations$set)),
-        "duplicated values in ids(setData(object))",
+        Sets(relations, setInfo=IdVector(relations$set)),
+        "duplicated values in ids(setInfo(object))",
         fixed=TRUE
     )
 
     # Provide metadata columns without rownames set
     relations0 <- DataFrame(element="element1", set="set1")
-    elementData=IdVector("element1")
-    mcols(elementData) <- DataFrame(field="elementValue")
-    setData=IdVector("set1")
-    mcols(setData) <- DataFrame(field="setValue")
+    elementInfo=IdVector("element1")
+    mcols(elementInfo) <- DataFrame(field="elementValue")
+    setInfo=IdVector("set1")
+    mcols(setInfo) <- DataFrame(field="setValue")
 
     # Check that rownames(mcols(x)) is not NULL (using the default use.names=TRUE)
     # while the actual DataFrame does not store rownames
-    out <- Sets(relations0, elementData, setData)
-    expect_true(!is.null(rownames(mcols(elementData(out)))))
-    expect_null(rownames(out@elementData@elementMetadata))
-    expect_true(!is.null(rownames(mcols(setData(out)))))
-    expect_null(rownames(out@setData@elementMetadata))
+    out <- Sets(relations0, elementInfo, setInfo)
+    expect_true(!is.null(rownames(mcols(elementInfo(out)))))
+    expect_null(rownames(out@elementInfo@elementMetadata))
+    expect_true(!is.null(rownames(mcols(setInfo(out)))))
+    expect_null(rownames(out@setInfo@elementMetadata))
 
 })
 
@@ -111,7 +111,7 @@ test_that("elements(Sets) works", {
     bs <- Sets(relations)
 
     out <- elements(bs)
-    expect_identical(out, bs@elementData[bs@relations@from])
+    expect_identical(out, bs@elementInfo[bs@relations@from])
 
 })
 
@@ -133,7 +133,7 @@ test_that("elements(Sets) works", {
     bs <- Sets(relations)
 
     out <- sets(bs)
-    expect_identical(out, bs@setData[bs@relations@to])
+    expect_identical(out, bs@setInfo[bs@relations@to])
 
 })
 
@@ -148,55 +148,55 @@ test_that("nSets(Sets) works", {
 
 })
 
-# elementData() ----
+# elementInfo() ----
 
-test_that("ids(elementData(Sets)) works", {
+test_that("ids(elementInfo(Sets)) works", {
 
     bs <- Sets(relations)
 
-    out <- elementData(bs)
+    out <- elementInfo(bs)
     expect_s4_class(out, "IdVector")
 
-    out <- ids(elementData(bs))
+    out <- ids(elementInfo(bs))
     expect_identical(out, c("A", "B", "C", "D", "E"))
 
 })
 
-# elementData<-() ----
+# elementInfo<-() ----
 
-test_that("elementData(Sets) <- value works", {
+test_that("elementInfo(Sets) <- value works", {
 
     bs <- Sets(relations)
 
-    ids(elementData(bs)) <- tail(LETTERS, nElements(bs))
+    ids(elementInfo(bs)) <- tail(LETTERS, nElements(bs))
 
-    expect_identical(ids(elementData(bs)), tail(LETTERS, nElements(bs)))
+    expect_identical(ids(elementInfo(bs)), tail(LETTERS, nElements(bs)))
 
 })
 
-# setData() ----
+# setInfo() ----
 
-test_that("setData(Sets) works", {
+test_that("setInfo(Sets) works", {
 
     bs <- Sets(relations)
 
-    out <- setData(bs)
+    out <- setInfo(bs)
     expect_s4_class(out, "IdVector")
 
-    out <- ids(setData(bs))
+    out <- ids(setInfo(bs))
     expect_identical(out, c("set1", "set2", "set3"))
 
 })
 
-# setData<-() ----
+# setInfo<-() ----
 
-test_that("setData(Sets) <- value works", {
+test_that("setInfo(Sets) <- value works", {
 
     bs <- Sets(relations)
 
-    ids(setData(bs)) <- paste0("geneset", seq_len(nSets(bs)))
+    ids(setInfo(bs)) <- paste0("geneset", seq_len(nSets(bs)))
 
-    expect_identical(ids(setData(bs)), paste0("geneset", seq_len(nSets(bs))))
+    expect_identical(ids(setInfo(bs)), paste0("geneset", seq_len(nSets(bs))))
 
 })
 
@@ -208,13 +208,13 @@ test_that("subset(Sets) works with default drop=TRUE", {
 
     out <- subset(bs, set == "set1") # default is drop=TRUE
 
-    expect_true(all(ids(setData(out)) == "set1"))
-    expect_identical(length(setData(out)), 1L)
+    expect_true(all(ids(setInfo(out)) == "set1"))
+    expect_identical(length(setInfo(out)), 1L)
 
     out <- subset.Sets(bs, set == "set1") # default is drop=TRUE
 
-    expect_true(all(ids(setData(out)) == "set1"))
-    expect_identical(length(setData(out)), 1L)
+    expect_true(all(ids(setInfo(out)) == "set1"))
+    expect_identical(length(setInfo(out)), 1L)
 
     out <- bs[1:3] # default is drop=TRUE
     expect_identical(length(out), 3L)
@@ -228,16 +228,16 @@ test_that("subset(Sets) works with drop=FALSE", {
     out <- subset(bs, set == "set1", drop=FALSE) # default is drop=TRUE
 
     expect_true(all(ids(sets(out)) == "set1"))
-    expect_identical(ids(setData(out)), ids(setData(bs)))
+    expect_identical(ids(setInfo(out)), ids(setInfo(bs)))
 
     out <- subset.Sets(bs, set == "set1", drop=FALSE) # default is drop=TRUE
 
     expect_true(all(ids(sets(out)) == "set1"))
-    expect_identical(ids(setData(out)), ids(setData(bs)))
+    expect_identical(ids(setInfo(out)), ids(setInfo(bs)))
 
     out <- bs[1:3, drop=FALSE] # default is drop=TRUE
     expect_identical(length(out), 3L)
-    expect_identical(ids(setData(out)), ids(setData(bs)))
+    expect_identical(ids(setInfo(out)), ids(setInfo(bs)))
 
 })
 
@@ -257,12 +257,12 @@ test_that("c(Sets) works", {
     )
     # elements and sets are combined into their union
     expect_length(
-        elementData(out),
-        length(unique(c(ids(elementData(bs1)), ids(elementData(bs2)), ids(elementData(bs3)))))
+        elementInfo(out),
+        length(unique(c(ids(elementInfo(bs1)), ids(elementInfo(bs2)), ids(elementInfo(bs3)))))
     )
     expect_length(
-        setData(out),
-        length(unique(c(ids(setData(bs1)), ids(setData(bs2)), ids(setData(bs3)))))
+        setInfo(out),
+        length(unique(c(ids(setInfo(bs1)), ids(setInfo(bs2)), ids(setInfo(bs3)))))
     )
 
     out <- c.Sets(bs1, bs2, bs3)
@@ -275,12 +275,12 @@ test_that("c(Sets) works", {
     )
     # elements and sets are combined into their union
     expect_length(
-        elementData(out),
-        length(unique(c(ids(elementData(bs1)), ids(elementData(bs2)), ids(elementData(bs3)))))
+        elementInfo(out),
+        length(unique(c(ids(elementInfo(bs1)), ids(elementInfo(bs2)), ids(elementInfo(bs3)))))
     )
     expect_length(
-        setData(out),
-        length(unique(c(ids(setData(bs1)), ids(setData(bs2)), ids(setData(bs3)))))
+        setInfo(out),
+        length(unique(c(ids(setInfo(bs1)), ids(setInfo(bs2)), ids(setInfo(bs3)))))
     )
 
 })
@@ -321,7 +321,7 @@ test_that("union(Sets) works", {
 
     bs1 <- bs2 <- Sets(relations)
 
-    ids(elementData(bs2))[1] <- "new"
+    ids(elementInfo(bs2))[1] <- "new"
 
     out <- union(bs1, bs2)
 
@@ -330,12 +330,12 @@ test_that("union(Sets) works", {
         unique(rbind(as.data.frame(bs1), as.data.frame(bs2)))
     )
     expect_identical(
-        ids(elementData(out)),
-        unique(c(ids(elementData(bs1)), ids(elementData(bs2))))
+        ids(elementInfo(out)),
+        unique(c(ids(elementInfo(bs1)), ids(elementInfo(bs2))))
     )
     expect_identical(
-        ids(setData(out)),
-        unique(c(ids(setData(bs1)), ids(setData(bs2))))
+        ids(setInfo(out)),
+        unique(c(ids(setInfo(bs1)), ids(setInfo(bs2))))
     )
 
     out <- union.Sets(bs1, bs2)
@@ -345,12 +345,12 @@ test_that("union(Sets) works", {
         unique(rbind(as.data.frame(bs1), as.data.frame(bs2)))
     )
     expect_identical(
-        ids(elementData(out)),
-        unique(c(ids(elementData(bs1)), ids(elementData(bs2))))
+        ids(elementInfo(out)),
+        unique(c(ids(elementInfo(bs1)), ids(elementInfo(bs2))))
     )
     expect_identical(
-        ids(setData(out)),
-        unique(c(ids(setData(bs1)), ids(setData(bs2))))
+        ids(setInfo(out)),
+        unique(c(ids(setInfo(bs1)), ids(setInfo(bs2))))
     )
 })
 
@@ -362,13 +362,13 @@ test_that("show(Sets) works", {
     bs <- Sets(relations)
 
     out <- show(bs)
-    expect_identical(out, bs)
+    expect_identical(out, NULL)
 
     # Large objects partially displayed
     bs <- Sets(relations=DataFrame(element=letters, set=LETTERS))
 
     out <- show(bs)
-    expect_identical(out, bs)
+    expect_identical(out, NULL)
 
 })
 
@@ -380,12 +380,12 @@ test_that("as(Sets, \"DataFrame\") works", {
 
     out <- as(bs, "DataFrame")
     expect_s4_class(out, "DataFrame")
-    expect_identical(colnames(out), c("element", "set", "relationData", "elementData", "setData"))
+    expect_identical(colnames(out), c("element", "set", "relationData", "elementInfo", "setInfo"))
     expect_identical(nrow(out), nrow(relations))
 
     out <- as.DataFrame.Sets(bs)
     expect_s4_class(out, "DataFrame")
-    expect_identical(colnames(out), c("element", "set", "relationData", "elementData", "setData"))
+    expect_identical(colnames(out), c("element", "set", "relationData", "elementInfo", "setInfo"))
     expect_identical(nrow(out), nrow(relations))
 
 })

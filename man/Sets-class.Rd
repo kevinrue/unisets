@@ -7,18 +7,18 @@
 \title{Sets Class}
 \usage{
 Sets(relations = DataFrame(element = character(0), set = character(0)),
-  elementData, setData)
+  elementInfo, setInfo)
 }
 \arguments{
 \item{relations}{\code{\linkS4class{DataFrame}}.
 At least two columns that provide mapping relationships between \code{"element"} and \code{"set"} identifiers.
 Additional columns are taken as relation metadata.}
 
-\item{elementData}{\code{\link{IdVector}}.
-Metadata for each unique identifier in \code{relations$element} is provided as \code{mcols(elementData)}.}
+\item{elementInfo}{\code{\link{IdVector}}.
+Metadata for each unique identifier in \code{relations$element} is provided as \code{mcols(elementInfo)}.}
 
-\item{setData}{\code{\link{IdVector}}.
-Metadata for each unique identifier in \code{relations$set} is provided as \code{mcols(setData)}.}
+\item{setInfo}{\code{\link{IdVector}}.
+Metadata for each unique identifier in \code{relations$set} is provided as \code{mcols(setInfo)}.}
 }
 \value{
 A \code{Sets} object.
@@ -30,14 +30,14 @@ The \code{Sets} class implements a container to describe distinct objects that m
 
 \describe{
 \item{\code{relations}}{\code{\linkS4class{Hits}}
-The \emph{left node} and \emph{right node} of each hit stores the index of the \code{element} and \code{set} in \code{elementData} and \code{setData}, respectively.
+The \emph{left node} and \emph{right node} of each hit stores the index of the \code{element} and \code{set} in \code{elementInfo} and \code{setInfo}, respectively.
 Metadata for each relation is stored as \code{mcols(relations(object))}.}
 
-\item{\code{elementData}}{\code{\linkS4class{IdVector}}.
-Metadata for each unique element in \code{relations$element} is stored as \code{mcols(elementData)}.}
+\item{\code{elementInfo}}{\code{\linkS4class{IdVector}}.
+Metadata for each unique element in \code{relations$element} is stored as \code{mcols(elementInfo)}.}
 
-\item{\code{setData}}{\code{\linkS4class{IdVector}}.
-Metadata for each unique set in \code{relations$set} is stored as \code{mcols(setData)}.}
+\item{\code{setInfo}}{\code{\linkS4class{IdVector}}.
+Metadata for each unique set in \code{relations$set} is stored as \code{mcols(setInfo)}.}
 }}
 
 \examples{
@@ -64,8 +64,8 @@ m1
 # Accessors ----
 
 relations(bs)
-elementData(bs)
-setData(bs)
+elementInfo(bs)
+setInfo(bs)
 
 # Dimensions ----
 

@@ -79,14 +79,14 @@ import.gmt <- function(con, ...) {
     colnames(map) <- c("element", "set")
     map$set <- as.character(map$set)
 
-    ## Extract GMT source (url) to create setData slot
+    ## Extract GMT source (url) to create setInfo slot
     source <- vapply(sets, function(set) set[[2]], character(1))
     source[source == "NA" | !nzchar(source)] <- NA
     set_data <- IdVector(names)
     mcols(set_data) <- DataFrame(source=source)
 
     ## Construct and return the BaseSet
-    bs <- Sets(map, setData=set_data)
+    bs <- Sets(map, setInfo=set_data)
     return(bs)
 }
 
@@ -131,18 +131,18 @@ export.gmt <- function(object, con, ...) {
 #' @export
 setMethod("export", c("Sets", "GMTFile"), function(object, con, format, ...) {
     path <- resource(con)
-    if (! "source" %in% colnames(mcols(setData(object)))) {
+    if (! "source" %in% colnames(mcols(setInfo(object)))) {
         message(
-            "'source' column not found in mcols(setData(object)), ",
+            "'source' column not found in mcols(setInfo(object)), ",
             sprintf("setting to \"%s\"", getPackageName()))
         source <- DataFrame(
             source=rep(getPackageName(), nSets(object)),
-            row.names=ids(setData(object))
+            row.names=ids(setInfo(object))
         )
     } else {
         source <- DataFrame(
-            source=mcols(setData(object))[["source"]],
-            row.names=ids(setData(object))
+            source=mcols(setInfo(object))[["source"]],
+            row.names=ids(setInfo(object))
         )
     }
 
@@ -192,16 +192,16 @@ import.Go3AnnDbBimap <- function(con, format, text, ...)  {
     colnames(relations)[colIdx] <- c("element", "set", "evidence", "ontology")
 
     # Prepare a default empty DataFrame if GO.db is not installed
-    setData <- GOIdVector(unique(as.character(relations$set)))
+    setInfo <- GOIdVector(unique(as.character(relations$set)))
     if ( requireNamespace("GO.db") ) {
         # Fetch GO metadata from GO.db if installed
         db <- GO.db::GO.db
-        mcols(setData) <- DataFrame(select(db, ids(setData), columns(db)))
+        mcols(setInfo) <- DataFrame(select(db, ids(setInfo), columns(db)))
     }
 
-    elementData <- EntrezIdVector(sort(unique(as.character(relations$element))))
+    elementInfo <- EntrezIdVector(sort(unique(as.character(relations$element))))
 
-    GOSets(relations, elementData, setData)
+    GOSets(relations, elementInfo, setInfo)
 }
 
 #' @name io

@@ -6,7 +6,7 @@
 #'
 #' @section Accessors:
 #' `relations(object)` returns the `relations` slot.
-#'  A `Hits` objets storing the integer index of elements (`from`) and sets (`to`) in the `elementData` and `setData` slots, respectively, and associated relation metadata (`mcols`).
+#'  A `Hits` objets storing the integer index of elements (`from`) and sets (`to`) in the `elementInfo` and `setInfo` slots, respectively, and associated relation metadata (`mcols`).
 #'
 #' @importFrom S4Vectors DataFrame
 #'
@@ -48,64 +48,64 @@ setReplaceMethod("relations", "Sets",
 )
 
 #' @rdname Sets-methods
-#' @aliases elementData,Sets-method
+#' @aliases elementInfo,Sets-method
 #'
 #' @section Accessors:
-#' `elementData(object)` returns the `elementData` slot.
+#' `elementInfo(object)` returns the `elementInfo` slot.
 #'  An [`IdVector-class`] objets storing the unique element identifiers (`ids`) and associated element metadata (`mcols`).
 #'
 #' @examples
 #'
-#' elementData(bs)
-setMethod("elementData", "Sets", function(object) {
-    slot(object, "elementData")
+#' elementInfo(bs)
+setMethod("elementInfo", "Sets", function(object) {
+    slot(object, "elementInfo")
 })
 
 #' @rdname Sets-methods
-#' @aliases elementData<-,Sets-method
+#' @aliases elementInfo<-,Sets-method
 #'
 #' @importFrom methods validObject
 #'
 #' @examples
 #'
 #' bs1 <- bs
-#' mcols(elementData(bs1))[["NEW"]] <- paste0("value", seq_len(nElements(bs1)))
-setReplaceMethod("elementData", "Sets",
+#' mcols(elementInfo(bs1))[["NEW"]] <- paste0("value", seq_len(nElements(bs1)))
+setReplaceMethod("elementInfo", "Sets",
     function(object, value)
     {
-        slot(object, "elementData") <- value
+        slot(object, "elementInfo") <- value
         validObject(object)
         object
     }
 )
 
 #' @rdname Sets-methods
-#' @aliases setData,Sets-method
+#' @aliases setInfo,Sets-method
 #'
 #' @section Accessors:
-#' `setData(object)` returns the `setData` slot.
+#' `setInfo(object)` returns the `setInfo` slot.
 #'  An [`IdVector-class`] objets storing the unique set identifiers (`ids`) and associated set metadata (`mcols`).
 #'
 #' @examples
 #'
-#' setData(bs)
-setMethod("setData", "Sets", function(object) {
-    slot(object, "setData")
+#' setInfo(bs)
+setMethod("setInfo", "Sets", function(object) {
+    slot(object, "setInfo")
 })
 
 #' @rdname Sets-methods
-#' @aliases setData<-,Sets-method
+#' @aliases setInfo<-,Sets-method
 #'
 #' @importFrom methods validObject
 #'
 #' @examples
 #'
 #' bs1 <- bs
-#' mcols(setData(bs1))[["NEW"]] <- paste0("value", seq_len(nSets(bs1)))
-setReplaceMethod("setData", "Sets",
+#' mcols(setInfo(bs1))[["NEW"]] <- paste0("value", seq_len(nSets(bs1)))
+setReplaceMethod("setInfo", "Sets",
     function(object, value)
     {
-        slot(object, "setData") <- value
+        slot(object, "setInfo") <- value
         validObject(object)
         object
     }
@@ -126,7 +126,7 @@ setReplaceMethod("setData", "Sets",
 #' ids(elements(bs))
 #' mcols(elements(bs))
 setMethod("elements", "Sets", function(object) {
-    elementData(object)[from(relations(object))]
+    elementInfo(object)[from(relations(object))]
 })
 
 #' @rdname Sets-methods
@@ -144,7 +144,7 @@ setMethod("elements", "Sets", function(object) {
 #' ids(sets(bs))
 #' mcols(sets(bs))
 setMethod("sets", "Sets", function(object) {
-    setData(object)[to(relations(object))]
+    setInfo(object)[to(relations(object))]
 })
 
 # Dimensions ----
@@ -173,7 +173,7 @@ setMethod("length", "Sets", function(x) {
 #' @examples
 #' nElements(bs)
 setMethod("nElements", "Sets", function(object) {
-    length(elementData(object))
+    length(elementInfo(object))
 })
 
 #' @rdname Sets-methods
@@ -185,7 +185,7 @@ setMethod("nElements", "Sets", function(object) {
 #' @examples
 #' nSets(bs)
 setMethod("nSets", "Sets", function(object) {
-    length(setData(object))
+    length(setInfo(object))
 })
 
 #' @rdname Sets-methods
@@ -244,8 +244,8 @@ setMethod(
         {
             all_objects <- c(list(x), objects)
 
-            newElementData <- lapply(all_objects, elementData)
-            newSetData <- lapply(all_objects, setData)
+            newElementData <- lapply(all_objects, elementInfo)
+            newSetData <- lapply(all_objects, setInfo)
             newRelations <- lapply(all_objects, as.data.frame)
 
             newElementData <- do.call(c, newElementData)
@@ -268,11 +268,11 @@ setMethod(
 #'
 #' @section Subsetting:
 #' `x[i, drop=TRUE]` returns new [`Sets-class`] object of the same class as `x` made of the elements selected by `i`. `i` can be missing; an `NA`-free logical, numeric, or character vector or factor (as ordinary vector or [`Rle`] object); or an [`IntegerRanges`][IntegerRanges-class] object.
-#' The `drop` logical value controls whether the metadata of elements and sets orphaned during the subsetting should be removed from the `elementData` and `setData` slots, respectively.
+#' The `drop` logical value controls whether the metadata of elements and sets orphaned during the subsetting should be removed from the `elementInfo` and `setInfo` slots, respectively.
 #'
 #' @param i index specifying elements to extract or replace.
 #' @param j Ignored.
-#' @param drop A logical scalar indicating whether to remove orphan elements and sets from the `elementData` and `setData` slots, respectively.
+#' @param drop A logical scalar indicating whether to remove orphan elements and sets from the `elementInfo` and `setInfo` slots, respectively.
 #'
 #' @importFrom methods callNextMethod
 #' @importClassesFrom IRanges IntegerRanges
@@ -284,18 +284,18 @@ setMethod(
 #' bs1 <- bs[1:5]
 #' bs1 <- bs[1:5, , drop=FALSE] # keep metadata of orphan elements and sets
 setMethod("[", "Sets", function(x, i, j, ..., drop = TRUE) {
-    keep.element <- unique(ids(elementData(x))[from(relations(x))[i]])
-    keep.set <- unique(ids(setData(x))[to(relations(x))[i]])
+    keep.element <- unique(ids(elementInfo(x))[from(relations(x))[i]])
+    keep.set <- unique(ids(setInfo(x))[to(relations(x))[i]])
 
     relations <- DataFrame(as.data.frame(x)[i, , drop=drop], row.names=NULL)
-    elementData <- elementData(x)
-    setData <- setData(x)
+    elementInfo <- elementInfo(x)
+    setInfo <- setInfo(x)
     if (isTRUE(drop)) {
-        elementData <- elementData[which(ids(elementData) %in% keep.element)]
-        setData <- setData[which(ids(setData) %in% keep.set)]
+        elementInfo <- elementInfo[which(ids(elementInfo) %in% keep.element)]
+        setInfo <- setInfo[which(ids(setInfo) %in% keep.set)]
     }
 
-    Sets(relations, elementData, setData)
+    Sets(relations, elementInfo, setInfo)
 })
 
 # subset() ----
@@ -309,7 +309,7 @@ setMethod("[", "Sets", function(x, i, j, ..., drop = TRUE) {
 #'
 #' `subset(object, subset, ..., drop=TRUE)` returns subsets of relations which meet conditions.
 #' The `subset` argument should be a logical expression referring to any of `"element"`, `"set"`, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
-#' The `drop` logical scalar controls whether elements and sets orphaned during the subsetting should be removed from the `elementData` and `setData` slots, respectively.
+#' The `drop` logical scalar controls whether elements and sets orphaned during the subsetting should be removed from the `elementInfo` and `setInfo` slots, respectively.
 
 #'
 #' @importFrom methods as
@@ -349,6 +349,8 @@ showSets <- function(
     nm <- length(slot(x, "relations")) # number of mappings
     ne <- nLnode(slot(x, "relations")) # number of unique elements
     ns <- nRnode(slot(x, "relations")) # number of unique sets
+    ned <- ncol(mcols(slot(x, "elementInfo"))) # number of element metadata
+    nsd <- ncol(mcols(slot(x, "setInfo"))) # number of set metadata
     # Display class name and basic summary
     cat(
         class(x), " with ",
@@ -362,10 +364,7 @@ showSets <- function(
         x, .make_naked_matrix_from_Sets)
     # Prepare class information for each column
     if (print.classinfo) {
-        .COL2CLASS <- c(
-            element = class(elementData(x)),
-            set = class(setData(x))
-        )
+        .COL2CLASS <- c(element = "character", set = "character")
         # TODO: ask S4Vectors to export makeClassinfoRowForCompactPrinting
         classinfo <- S4Vectors:::makeClassinfoRowForCompactPrinting(relations(x), .COL2CLASS)
         ## A sanity check, but this should never happen!
@@ -374,12 +373,33 @@ showSets <- function(
     }
     print(out, quote=FALSE, right=TRUE, max=length(out))
     # Display compact view of element metadata
-    cat("\n@elementData\n")
-    print(slot(x, "elementData"))
-    # Display compact view of set metadata
-    cat("\n@setData\n")
-    print(slot(x, "setData"))
-    invisible(x)
+    cat("-----------")
+    cat(
+        "\nelementInfo: ", class(slot(x, "elementInfo")), " with ",
+        ned, " metadata",
+        ifelse(
+            ned > 0,
+            sprintf(
+                " (%s%s)",
+                paste(head(colnames(mcols(slot(x, "elementInfo"))), 2), collapse = ", "),
+                ifelse(ned > 2, ", ...", "")
+                ),
+            ""),
+        sep = "")
+    cat(
+        "\n    setInfo: ", class(slot(x, "setInfo")), " with ",
+        nsd, " metadata",
+        ifelse(
+            nsd > 0,
+            sprintf(
+                " (%s%s)",
+                paste(head(colnames(mcols(slot(x, "setInfo"))), 2), collapse = ", "),
+                ifelse(nsd > 2, ", ...", "")
+                ),
+            ""),
+        "\n",
+        sep = "")
+    invisible(NULL)
 }
 
 # duplicated() ----
@@ -456,7 +476,7 @@ setMethod("union", "Sets", function (x, y, ...) {
 #' @aliases as.DataFrame.Sets as.DataFrame
 #'
 #' @section Coercion from Sets:
-#' `as(object, "DataFrame")` and `as.DataFrame(object)` return a nested `DataFrame` including columns `"element"`, `"set"`, `"relationData"`, `"elementData"`, and `"setData"`.
+#' `as(object, "DataFrame")` and `as.DataFrame(object)` return a nested `DataFrame` including columns `"element"`, `"set"`, `"relationData"`, `"elementInfo"`, and `"setInfo"`.
 #'
 #' @importFrom methods as
 #' @export
@@ -467,17 +487,17 @@ setMethod("union", "Sets", function (x, y, ...) {
 #'
 #' DF1 <- as(bs, "DataFrame")
 as.DataFrame.Sets <- function(object, ...) {
-    # Combine elementData, setData, and relations into a single DataFrame
-    element <- elementData(object)[from(relations(object))]
-    elementData <- mcols(element)
+    # Combine elementInfo, setInfo, and relations into a single DataFrame
+    element <- elementInfo(object)[from(relations(object))]
+    elementInfo <- mcols(element)
     mcols(element) <- NULL # avoid metadata columns
-    set <- setData(object)[to(relations(object))]
-    setData <- mcols(set)
+    set <- setInfo(object)[to(relations(object))]
+    setInfo <- mcols(set)
     mcols(set) <- NULL # avoid metadata columns
     out <- DataFrame(element=element, set=set, row.names=NULL)
     out[["relationData"]] <- mcols(relations(object))
-    out[["elementData"]] <- elementData
-    out[["setData"]] <- setData
+    out[["elementInfo"]] <- elementInfo
+    out[["setInfo"]] <- setInfo
     out
 }
 
@@ -673,16 +693,16 @@ setValidity("Sets", function(object) {
 
     errors <- c()
 
-    elementData <- elementData(object)
-    setData <- setData(object)
+    elementInfo <- elementInfo(object)
+    setInfo <- setInfo(object)
 
-    if (any(duplicated(ids(elementData)))) {
-        error <- 'duplicated values in ids(elementData(object))'
+    if (any(duplicated(ids(elementInfo)))) {
+        error <- 'duplicated values in ids(elementInfo(object))'
         errors <- c(errors, error)
     }
 
-    if (any(duplicated(ids(setData)))) {
-        error <- 'duplicated values in ids(setData(object))'
+    if (any(duplicated(ids(setInfo)))) {
+        error <- 'duplicated values in ids(setInfo(object))'
         errors <- c(errors, error)
     }
 

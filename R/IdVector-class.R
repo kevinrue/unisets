@@ -179,7 +179,7 @@ setMethod("show", "IdVector", function(object) {
             ifelse(nem == 1, " column", " columns"), ")")
         cat(metadata, "\n", sep = "")
     }
-    invisible(ids(object))
+    invisible(NULL)
 })
 
 # NSBS ----

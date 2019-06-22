@@ -110,12 +110,12 @@ IdVector <- function(ids=character(0)) {
 #' The `Sets` class implements a container to describe distinct objects that make up sets, along with element metadata and set metadata.
 #'
 #' @slot relations [`Hits-class`]
-#' The _left node_ and _right node_ of each hit stores the index of the `element` and `set` in `elementData` and `setData`, respectively.
+#' The _left node_ and _right node_ of each hit stores the index of the `element` and `set` in `elementInfo` and `setInfo`, respectively.
 #' Metadata for each relation is stored as `mcols(relations(object))`.
-#' @slot elementData [`IdVector-class`].
-#' Metadata for each unique element in `relations$element` is stored as `mcols(elementData)`.
-#' @slot setData [`IdVector-class`].
-#' Metadata for each unique set in `relations$set` is stored as `mcols(setData)`.
+#' @slot elementInfo [`IdVector-class`].
+#' Metadata for each unique element in `relations$element` is stored as `mcols(elementInfo)`.
+#' @slot setInfo [`IdVector-class`].
+#' Metadata for each unique set in `relations$set` is stored as `mcols(setInfo)`.
 #'
 #' @export
 #' @exportClass Sets
@@ -148,8 +148,8 @@ IdVector <- function(ids=character(0)) {
 #' # Accessors ----
 #'
 #' relations(bs)
-#' elementData(bs)
-#' setData(bs)
+#' elementInfo(bs)
+#' setInfo(bs)
 #'
 #' # Dimensions ----
 #'
@@ -162,13 +162,13 @@ IdVector <- function(ids=character(0)) {
 setClass("Sets",
     slots=c(
         relations="Hits",
-        elementData="IdVector",
-        setData="IdVector"
+        elementInfo="IdVector",
+        setInfo="IdVector"
     ),
     prototype=list(
         relations=Hits(),
-        elementData=IdVector(),
-        setData=IdVector()
+        elementInfo=IdVector(),
+        setInfo=IdVector()
     )
 )
 
@@ -179,10 +179,10 @@ setClass("Sets",
 #' @param relations [`DataFrame-class`].
 #' At least two columns that provide mapping relationships between `"element"` and `"set"` identifiers.
 #' Additional columns are taken as relation metadata.
-#' @param elementData [`IdVector`].
-#' Metadata for each unique identifier in `relations$element` is provided as `mcols(elementData)`.
-#' @param setData [`IdVector`].
-#' Metadata for each unique identifier in `relations$set` is provided as `mcols(setData)`.
+#' @param elementInfo [`IdVector`].
+#' Metadata for each unique identifier in `relations$element` is provided as `mcols(elementInfo)`.
+#' @param setInfo [`IdVector`].
+#' Metadata for each unique identifier in `relations$set` is provided as `mcols(setInfo)`.
 #'
 #' @return A `Sets` object.
 #'
@@ -193,7 +193,7 @@ setClass("Sets",
 #' @importFrom methods new
 Sets <- function(
     relations=DataFrame(element=character(0), set=character(0)),
-    elementData, setData
+    elementInfo, setInfo
 ) {
     relations <- as(relations, "DataFrame")
 
@@ -211,37 +211,37 @@ Sets <- function(
     extraFields <- setdiff(colnames(relations), protectedFields)
 
     # Add missing metadata
-    if (missing(elementData)) {
-        elementData <- IdVector(unique(as.character(relations$element)))
+    if (missing(elementInfo)) {
+        elementInfo <- IdVector(unique(as.character(relations$element)))
     }
-    if (missing(setData)) {
-        setData <- IdVector(unique(as.character(relations$set)))
+    if (missing(setInfo)) {
+        setInfo <- IdVector(unique(as.character(relations$set)))
     }
     # Add missing mcols
-    if (is.null(mcols(elementData))) {
-        mcols(elementData) <- DataFrame(row.names=ids(elementData))
+    if (is.null(mcols(elementInfo))) {
+        mcols(elementInfo) <- DataFrame(row.names=ids(elementInfo))
     }
-    if (is.null(mcols(setData))) {
-        mcols(setData) <- DataFrame(row.names=ids(setData))
+    if (is.null(mcols(setInfo))) {
+        mcols(setInfo) <- DataFrame(row.names=ids(setInfo))
     }
 
-    elementIdx <- match(as.character(relations$element), ids(elementData))
+    elementIdx <- match(as.character(relations$element), ids(elementInfo))
     if (any(is.na(elementIdx))) {
-        stop("relations$element missing from ids(elementData)")
+        stop("relations$element missing from ids(elementInfo)")
     }
-    setIdx <- match(as.character(relations$set), ids(setData))
+    setIdx <- match(as.character(relations$set), ids(setInfo))
     if (any(is.na(setIdx))) {
-        stop("relations$set missing from ids(setData)")
+        stop("relations$set missing from ids(setInfo)")
     }
 
     h <- Hits(
         from=elementIdx,
         to=setIdx,
-        nLnode=length(elementData),
-        nRnode=length(setData))
+        nLnode=length(elementInfo),
+        nRnode=length(setInfo))
     mcols(h) <- relations[, extraFields, drop=FALSE]
 
-    new("Sets", relations=h, elementData=elementData, setData=setData)
+    new("Sets", relations=h, elementInfo=elementInfo, setInfo=setInfo)
 }
 
 # FuzzyHits ----

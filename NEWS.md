@@ -6,7 +6,7 @@
 * Added methods `duplicated`, `unique`, and `union` for class `IdVector`.
 * Added classes `EntrezIdVector` and `EnsemblIdVector`.
 * Added class `Sets`.
-* Added accessors `relations`, `elementData`, and `setData` for class `Sets`.
+* Added accessors `relations`, `elementInfo`, and `setInfo` for class `Sets`.
 * Added methods `length`, `nElements`, `nSets`, `setLengths` and `elementLengths` for class `Sets`.
 * Added `show` method for class `Sets` matching the `Hits` class
 * Added method `subset` for class `Sets`.

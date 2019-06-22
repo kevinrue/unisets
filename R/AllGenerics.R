@@ -20,15 +20,15 @@ setGeneric("elements", function(object) standardGeneric("elements"))
 
 #' @name Sets-methods
 #' @rdname Sets-methods
-#' @aliases elementData
-#' @exportMethod elementData
-setGeneric("elementData", function(object) standardGeneric("elementData"))
+#' @aliases elementInfo
+#' @exportMethod elementInfo
+setGeneric("elementInfo", function(object) standardGeneric("elementInfo"))
 
 #' @name Sets-methods
 #' @rdname Sets-methods
-#' @aliases elementData<-
-#' @exportMethod elementData<-
-setGeneric("elementData<-", function(object, value) standardGeneric("elementData<-"))
+#' @aliases elementInfo<-
+#' @exportMethod elementInfo<-
+setGeneric("elementInfo<-", function(object, value) standardGeneric("elementInfo<-"))
 
 #' @name Sets-methods
 #' @rdname Sets-methods
@@ -38,18 +38,18 @@ setGeneric("sets", function(object) standardGeneric("sets"))
 
 #' @name Sets-methods
 #' @rdname Sets-methods
-#' @aliases setData
-#' @exportMethod setData
+#' @aliases setInfo
+#' @exportMethod setInfo
 setGeneric(
-    "setData",
-    function(object) standardGeneric("setData")
+    "setInfo",
+    function(object) standardGeneric("setInfo")
 )
 
 #' @name Sets-methods
 #' @rdname Sets-methods
-#' @aliases setData<-
-#' @exportMethod setData<-
-setGeneric("setData<-", function(object, value) standardGeneric("setData<-"))
+#' @aliases setInfo<-
+#' @exportMethod setInfo<-
+setGeneric("setInfo<-", function(object, value) standardGeneric("setInfo<-"))
 
 #' @name FuzzyHits-methods
 #' @rdname FuzzyHits-methods
