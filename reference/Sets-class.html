@@ -130,7 +130,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>Sets</span>(<span class='kw'>relations</span> <span class='kw'>=</span> <span class='fu'>DataFrame</span>(<span class='kw'>element</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(<span class='fl'>0</span>), <span class='kw'>set</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(<span class='fl'>0</span>)),
-  <span class='no'>elementData</span>, <span class='no'>setData</span>)</pre>
+  <span class='no'>elementInfo</span>, <span class='no'>setInfo</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,14 +142,14 @@ At least two columns that provide mapping relationships between <code>"element"<
 Additional columns are taken as relation metadata.</p></td>
     </tr>
     <tr>
-      <th>elementData</th>
+      <th>elementInfo</th>
       <td><p><code><a href='IdVector-class.html'>IdVector</a></code>.
-Metadata for each unique identifier in <code>relations$element</code> is provided as <code>mcols(elementData)</code>.</p></td>
+Metadata for each unique identifier in <code>relations$element</code> is provided as <code>mcols(elementInfo)</code>.</p></td>
     </tr>
     <tr>
-      <th>setData</th>
+      <th>setInfo</th>
       <td><p><code><a href='IdVector-class.html'>IdVector</a></code>.
-Metadata for each unique identifier in <code>relations$set</code> is provided as <code>mcols(setData)</code>.</p></td>
+Metadata for each unique identifier in <code>relations$set</code> is provided as <code>mcols(setInfo)</code>.</p></td>
     </tr>
     </table>
     
@@ -162,12 +162,12 @@ Metadata for each unique identifier in <code>relations$set</code> is provided as
     
     <dl class='dl-horizontal'>
 <dt><code>relations</code></dt><dd><p><code>Hits</code>
-The <em>left node</em> and <em>right node</em> of each hit stores the index of the <code>element</code> and <code>set</code> in <code>elementData</code> and <code>setData</code>, respectively.
+The <em>left node</em> and <em>right node</em> of each hit stores the index of the <code>element</code> and <code>set</code> in <code>elementInfo</code> and <code>setInfo</code>, respectively.
 Metadata for each relation is stored as <code>mcols(relations(object))</code>.</p></dd>
-    <dt><code>elementData</code></dt><dd><p><code><a href='IdVector-class.html'>IdVector</a></code>.
-Metadata for each unique element in <code>relations$element</code> is stored as <code>mcols(elementData)</code>.</p></dd>
-    <dt><code>setData</code></dt><dd><p><code><a href='IdVector-class.html'>IdVector</a></code>.
-Metadata for each unique set in <code>relations$set</code> is stored as <code>mcols(setData)</code>.</p></dd>
+    <dt><code>elementInfo</code></dt><dd><p><code><a href='IdVector-class.html'>IdVector</a></code>.
+Metadata for each unique element in <code>relations$element</code> is stored as <code>mcols(elementInfo)</code>.</p></dd>
+    <dt><code>setInfo</code></dt><dd><p><code><a href='IdVector-class.html'>IdVector</a></code>.
+Metadata for each unique set in <code>relations$set</code> is stored as <code>mcols(setInfo)</code>.</p></dd>
 </dl>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -186,24 +186,17 @@ Metadata for each unique set in <code>relations$set</code> is stored as <code>mc
 
 <span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>sets</span>, <span class='st'>"Sets"</span>)
 <span class='no'>bs</span></div><div class='output co'>#&gt; Sets with 6 relations between 5 elements and 3 sets
-#&gt;        element        set
-#&gt;     &lt;IdVector&gt; &lt;IdVector&gt;
-#&gt; [1]          A       set1
-#&gt; [2]          B       set1
-#&gt; [3]          B       set2
-#&gt; [4]          C       set2
-#&gt; [5]          D       set2
-#&gt; [6]          E       set3
-#&gt; 
-#&gt; @elementData
-#&gt; IdVector of length 5 with 5 unique identifiers
-#&gt; Ids: A, B, C, D, ...
-#&gt; Metadata:  (0 columns)
-#&gt; 
-#&gt; @setData
-#&gt; IdVector of length 3 with 3 unique identifiers
-#&gt; Ids: set1, set2, set3
-#&gt; Metadata:  (0 columns)</div><div class='input'>
+#&gt;         element         set
+#&gt;     &lt;character&gt; &lt;character&gt;
+#&gt; [1]           A        set1
+#&gt; [2]           B        set1
+#&gt; [3]           B        set2
+#&gt; [4]           C        set2
+#&gt; [5]           D        set2
+#&gt; [6]           E        set3
+#&gt; -----------
+#&gt; elementInfo: IdVector with 0 metadata
+#&gt;     setInfo: IdVector with 0 metadata</div><div class='input'>
 <span class='co'># Coercing ----</span>
 
 <span class='co'># to list (gene sets)</span>
@@ -229,9 +222,9 @@ Metadata for each unique set in <code>relations$set</code> is stored as <code>mc
 #&gt;   [5]         4         2
 #&gt;   [6]         5         3
 #&gt;   -------
-#&gt;   nLnode: 5 / nRnode: 3</div><div class='input'><span class='fu'><a href='Sets-methods.html'>elementData</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 5 with 5 unique identifiers
+#&gt;   nLnode: 5 / nRnode: 3</div><div class='input'><span class='fu'><a href='Sets-methods.html'>elementInfo</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 5 with 5 unique identifiers
 #&gt; Ids: A, B, C, D, ...
-#&gt; Metadata:  (0 columns)</div><div class='input'><span class='fu'><a href='Sets-methods.html'>setData</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 3 with 3 unique identifiers
+#&gt; Metadata:  (0 columns)</div><div class='input'><span class='fu'><a href='Sets-methods.html'>setInfo</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 3 with 3 unique identifiers
 #&gt; Ids: set1, set2, set3
 #&gt; Metadata:  (0 columns)</div><div class='input'>
 <span class='co'># Dimensions ----</span>

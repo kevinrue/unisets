@@ -139,15 +139,15 @@ relations(object) <- value
 
 elements(object)
 
-elementData(object)
+elementInfo(object)
 
-elementData(object) <- value
+elementInfo(object) <- value
 
 sets(object)
 
-setData(object)
+setInfo(object)
 
-setData(object) <- value
+setInfo(object) <- value
 
 nElements(object)
 
@@ -164,16 +164,16 @@ relations(object)
 relations(object) <- value
 
 # S4 method for Sets
-elementData(object)
+elementInfo(object)
 
 # S4 method for Sets
-elementData(object) <- value
+elementInfo(object) <- value
 
 # S4 method for Sets
-setData(object)
+setInfo(object)
 
 # S4 method for Sets
-setData(object) <- value
+setInfo(object) <- value
 
 # S4 method for Sets
 elements(object)
@@ -253,7 +253,7 @@ as.Sets.matrix(matrix, ...)</pre>
     </tr>
     <tr>
       <th>drop</th>
-      <td><p>A logical scalar indicating whether to remove orphan elements and sets from the <code>elementData</code> and <code>setData</code> slots, respectively.</p></td>
+      <td><p>A logical scalar indicating whether to remove orphan elements and sets from the <code>elementInfo</code> and <code>setInfo</code> slots, respectively.</p></td>
     </tr>
     <tr>
       <th>incomparables</th>
@@ -280,10 +280,10 @@ The matrix will be coerced to <code>logical</code> type and relations indicating
 
     
     <p><code>relations(object)</code> returns the <code>relations</code> slot.
-A <code>Hits</code> objets storing the integer index of elements (<code>from</code>) and sets (<code>to</code>) in the <code>elementData</code> and <code>setData</code> slots, respectively, and associated relation metadata (<code>mcols</code>).</p>
-    <p><code>elementData(object)</code> returns the <code>elementData</code> slot.
+A <code>Hits</code> objets storing the integer index of elements (<code>from</code>) and sets (<code>to</code>) in the <code>elementInfo</code> and <code>setInfo</code> slots, respectively, and associated relation metadata (<code>mcols</code>).</p>
+    <p><code>elementInfo(object)</code> returns the <code>elementInfo</code> slot.
 An <code><a href='IdVector-class.html'>IdVector</a></code> objets storing the unique element identifiers (<code>ids</code>) and associated element metadata (<code>mcols</code>).</p>
-    <p><code>setData(object)</code> returns the <code>setData</code> slot.
+    <p><code>setInfo(object)</code> returns the <code>setInfo</code> slot.
 An <code><a href='IdVector-class.html'>IdVector</a></code> objets storing the unique set identifiers (<code>ids</code>) and associated set metadata (<code>mcols</code>).</p>
     <p><code>elements(object)</code> returns an <code><a href='IdVector-class.html'>IdVector</a></code> element identifiers and associated metadata as ordered in <code>relations(object)$element</code>
 (i.e., of length equal to <code><a href='https://www.rdocumentation.org/packages/base/topics/length'>length(object)</a></code>).</p>
@@ -308,10 +308,10 @@ An <code><a href='IdVector-class.html'>IdVector</a></code> objets storing the un
 
     
     <p><code>x[i, drop=TRUE]</code> returns new <code><a href='Sets-class.html'>Sets</a></code> object of the same class as <code>x</code> made of the elements selected by <code>i</code>. <code>i</code> can be missing; an <code>NA</code>-free logical, numeric, or character vector or factor (as ordinary vector or <code>Rle</code> object); or an <code>IntegerRanges</code> object.
-The <code>drop</code> logical value controls whether the metadata of elements and sets orphaned during the subsetting should be removed from the <code>elementData</code> and <code>setData</code> slots, respectively.</p>
+The <code>drop</code> logical value controls whether the metadata of elements and sets orphaned during the subsetting should be removed from the <code>elementInfo</code> and <code>setInfo</code> slots, respectively.</p>
     <p><code><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset(object, subset, ..., drop=TRUE)</a></code> returns subsets of relations which meet conditions.
 The <code>subset</code> argument should be a logical expression referring to any of <code>"element"</code>, <code>"set"</code>, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
-The <code>drop</code> logical scalar controls whether elements and sets orphaned during the subsetting should be removed from the <code>elementData</code> and <code>setData</code> slots, respectively.</p>
+The <code>drop</code> logical scalar controls whether elements and sets orphaned during the subsetting should be removed from the <code>elementInfo</code> and <code>setInfo</code> slots, respectively.</p>
     
     <h2 class="hasAnchor" id="duplication-and-uniqueness"><a class="anchor" href="#duplication-and-uniqueness"></a>Duplication and uniqueness</h2>
 
@@ -323,7 +323,7 @@ The <code>drop</code> logical scalar controls whether elements and sets orphaned
     <h2 class="hasAnchor" id="coercion-from-sets"><a class="anchor" href="#coercion-from-sets"></a>Coercion from Sets</h2>
 
     
-    <p><code>as(object, "DataFrame")</code> and <code>as.DataFrame(object)</code> return a nested <code>DataFrame</code> including columns <code>"element"</code>, <code>"set"</code>, <code>"relationData"</code>, <code>"elementData"</code>, and <code>"setData"</code>.</p>
+    <p><code>as(object, "DataFrame")</code> and <code>as.DataFrame(object)</code> return a nested <code>DataFrame</code> including columns <code>"element"</code>, <code>"set"</code>, <code>"relationData"</code>, <code>"elementInfo"</code>, and <code>"setInfo"</code>.</p>
     <p><code>as(x, "data.frame")</code> and <code>as.data.frame(x)</code>  return a flattened <code>data.frame</code> including <code>"element"</code>, <code>"set"</code>, and columns in <code>mcols(relations(x))</code> if any.</p>
     <p><code>as(x, "list")</code> and <code>as.list(x)</code> return a named <code>list</code>.
 Names are set identifiers, and values are character vectors of element identifiers.</p>
@@ -351,24 +351,17 @@ Names are set identifiers, and values are character vectors of element identifie
 
 <span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>sets</span>, <span class='st'>"Sets"</span>)
 <span class='no'>bs</span></div><div class='output co'>#&gt; Sets with 6 relations between 5 elements and 3 sets
-#&gt;        element        set
-#&gt;     &lt;IdVector&gt; &lt;IdVector&gt;
-#&gt; [1]          A       set1
-#&gt; [2]          B       set1
-#&gt; [3]          B       set2
-#&gt; [4]          C       set2
-#&gt; [5]          D       set2
-#&gt; [6]          E       set3
-#&gt; 
-#&gt; @elementData
-#&gt; IdVector of length 5 with 5 unique identifiers
-#&gt; Ids: A, B, C, D, ...
-#&gt; Metadata:  (0 columns)
-#&gt; 
-#&gt; @setData
-#&gt; IdVector of length 3 with 3 unique identifiers
-#&gt; Ids: set1, set2, set3
-#&gt; Metadata:  (0 columns)</div><div class='input'>
+#&gt;         element         set
+#&gt;     &lt;character&gt; &lt;character&gt;
+#&gt; [1]           A        set1
+#&gt; [2]           B        set1
+#&gt; [3]           B        set2
+#&gt; [4]           C        set2
+#&gt; [5]           D        set2
+#&gt; [6]           E        set3
+#&gt; -----------
+#&gt; elementInfo: IdVector with 0 metadata
+#&gt;     setInfo: IdVector with 0 metadata</div><div class='input'>
 <span class='co'># Accessors ----</span>
 
 <span class='fu'>relations</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; Hits object with 6 hits and 0 metadata columns:
@@ -385,17 +378,17 @@ Names are set identifiers, and values are character vectors of element identifie
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
 <span class='fu'>mcols</span>(<span class='fu'>relations</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"NEW"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"value"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>bs1</span>)))
 
-<span class='fu'>elementData</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 5 with 5 unique identifiers
+<span class='fu'>elementInfo</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 5 with 5 unique identifiers
 #&gt; Ids: A, B, C, D, ...
 #&gt; Metadata:  (0 columns)</div><div class='input'>
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
-<span class='fu'>mcols</span>(<span class='fu'>elementData</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"NEW"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"value"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'>nElements</span>(<span class='no'>bs1</span>)))
+<span class='fu'>mcols</span>(<span class='fu'>elementInfo</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"NEW"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"value"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'>nElements</span>(<span class='no'>bs1</span>)))
 
-<span class='fu'>setData</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 3 with 3 unique identifiers
+<span class='fu'>setInfo</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 3 with 3 unique identifiers
 #&gt; Ids: set1, set2, set3
 #&gt; Metadata:  (0 columns)</div><div class='input'>
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
-<span class='fu'>mcols</span>(<span class='fu'>setData</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"NEW"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"value"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'>nSets</span>(<span class='no'>bs1</span>)))
+<span class='fu'>mcols</span>(<span class='fu'>setInfo</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"NEW"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"value"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'>nSets</span>(<span class='no'>bs1</span>)))
 
 <span class='fu'>elements</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 6 with 5 unique identifiers
 #&gt; Ids: A, B, B, C, ...
@@ -419,21 +412,14 @@ Names are set identifiers, and values are character vectors of element identifie
 
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>bs</span>, <span class='no'>set</span> <span class='kw'>==</span> <span class='st'>"set1"</span> <span class='kw'>|</span> <span class='no'>element</span> <span class='kw'>==</span> <span class='st'>"E"</span>)
 <span class='no'>bs1</span></div><div class='output co'>#&gt; Sets with 3 relations between 3 elements and 2 sets
-#&gt;        element        set
-#&gt;     &lt;IdVector&gt; &lt;IdVector&gt;
-#&gt; [1]          A       set1
-#&gt; [2]          B       set1
-#&gt; [3]          E       set3
-#&gt; 
-#&gt; @elementData
-#&gt; IdVector of length 3 with 3 unique identifiers
-#&gt; Ids: A, B, E
-#&gt; Metadata:  (0 columns)
-#&gt; 
-#&gt; @setData
-#&gt; IdVector of length 2 with 2 unique identifiers
-#&gt; Ids: set1, set3
-#&gt; Metadata:  (0 columns)</div><div class='input'>
+#&gt;         element         set
+#&gt;     &lt;character&gt; &lt;character&gt;
+#&gt; [1]           A        set1
+#&gt; [2]           B        set1
+#&gt; [3]           E        set3
+#&gt; -----------
+#&gt; elementInfo: IdVector with 0 metadata
+#&gt;     setInfo: IdVector with 0 metadata</div><div class='input'>
 <span class='co'># Duplication and uniqueness ----</span>
 
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
@@ -441,24 +427,17 @@ Names are set identifiers, and values are character vectors of element identifie
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/duplicated'>duplicated</a></span>(<span class='no'>bs1</span>))</div><div class='output co'>#&gt; 
 #&gt; FALSE  TRUE 
 #&gt;     6     6 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>bs1</span>)</div><div class='output co'>#&gt; Sets with 6 relations between 5 elements and 3 sets
-#&gt;        element        set
-#&gt;     &lt;IdVector&gt; &lt;IdVector&gt;
-#&gt; [1]          A       set1
-#&gt; [2]          B       set1
-#&gt; [3]          B       set2
-#&gt; [4]          C       set2
-#&gt; [5]          D       set2
-#&gt; [6]          E       set3
-#&gt; 
-#&gt; @elementData
-#&gt; IdVector of length 5 with 5 unique identifiers
-#&gt; Ids: A, B, C, D, ...
-#&gt; Metadata:  (0 columns)
-#&gt; 
-#&gt; @setData
-#&gt; IdVector of length 3 with 3 unique identifiers
-#&gt; Ids: set1, set2, set3
-#&gt; Metadata:  (0 columns)</div><div class='input'><span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>union</a></span>(<span class='no'>bs</span>, <span class='no'>bs</span>)
+#&gt;         element         set
+#&gt;     &lt;character&gt; &lt;character&gt;
+#&gt; [1]           A        set1
+#&gt; [2]           B        set1
+#&gt; [3]           B        set2
+#&gt; [4]           C        set2
+#&gt; [5]           D        set2
+#&gt; [6]           E        set3
+#&gt; -----------
+#&gt; elementInfo: IdVector with 0 metadata
+#&gt;     setInfo: IdVector with 0 metadata</div><div class='input'><span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>union</a></span>(<span class='no'>bs</span>, <span class='no'>bs</span>)
 
 <span class='co'># Coercion from Sets ----</span>
 

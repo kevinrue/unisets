@@ -202,29 +202,22 @@ Certain subclasses of <code>BiMap</code> are supported: <code>Go3AnnDbBimap</cod
 
 <span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>import</span>(<span class='no'>gmt</span>)
 <span class='no'>bs</span></div><div class='output co'>#&gt; Sets with 674 relations between 633 elements and 4 sets
-#&gt;          element                              set
-#&gt;       &lt;IdVector&gt;                       &lt;IdVector&gt;
-#&gt;   [1]       JUNB HALLMARK_TNFA_SIGNALING_VIA_NFKB
-#&gt;   [2]      CXCL2 HALLMARK_TNFA_SIGNALING_VIA_NFKB
-#&gt;   [3]       ATF3 HALLMARK_TNFA_SIGNALING_VIA_NFKB
-#&gt;   [4]     NFKBIA HALLMARK_TNFA_SIGNALING_VIA_NFKB
-#&gt;   [5]    TNFAIP3 HALLMARK_TNFA_SIGNALING_VIA_NFKB
-#&gt;   ...        ...                              ...
-#&gt; [670]     STK38L         HALLMARK_MITOTIC_SPINDLE
-#&gt; [671]      YWHAE         HALLMARK_MITOTIC_SPINDLE
-#&gt; [672]    RAPGEF5         HALLMARK_MITOTIC_SPINDLE
-#&gt; [673]      CEP72         HALLMARK_MITOTIC_SPINDLE
-#&gt; [674]     CSNK1D         HALLMARK_MITOTIC_SPINDLE
-#&gt; 
-#&gt; @elementData
-#&gt; IdVector of length 633 with 633 unique identifiers
-#&gt; Ids: JUNB, CXCL2, ATF3, NFKBIA, ...
-#&gt; Metadata:  (0 columns)
-#&gt; 
-#&gt; @setData
-#&gt; IdVector of length 4 with 4 unique identifiers
-#&gt; Ids: HALLMARK_TNFA_SIGNALING_VIA_NFKB, HALLMARK_HYPOXIA, HALLMARK_CHOLESTEROL_HOMEOSTASIS, HALLMARK_MITOTIC_SPINDLE
-#&gt; Metadata: source (1 column)</div><div class='input'>
+#&gt;           element                              set
+#&gt;       &lt;character&gt;                      &lt;character&gt;
+#&gt;   [1]        JUNB HALLMARK_TNFA_SIGNALING_VIA_NFKB
+#&gt;   [2]       CXCL2 HALLMARK_TNFA_SIGNALING_VIA_NFKB
+#&gt;   [3]        ATF3 HALLMARK_TNFA_SIGNALING_VIA_NFKB
+#&gt;   [4]      NFKBIA HALLMARK_TNFA_SIGNALING_VIA_NFKB
+#&gt;   [5]     TNFAIP3 HALLMARK_TNFA_SIGNALING_VIA_NFKB
+#&gt;   ...         ...                              ...
+#&gt; [670]      STK38L         HALLMARK_MITOTIC_SPINDLE
+#&gt; [671]       YWHAE         HALLMARK_MITOTIC_SPINDLE
+#&gt; [672]     RAPGEF5         HALLMARK_MITOTIC_SPINDLE
+#&gt; [673]       CEP72         HALLMARK_MITOTIC_SPINDLE
+#&gt; [674]      CSNK1D         HALLMARK_MITOTIC_SPINDLE
+#&gt; -----------
+#&gt; elementInfo: IdVector with 0 metadata
+#&gt;     setInfo: IdVector with 1 metadata (source)</div><div class='input'>
 <span class='co'># Export ----</span>
 
 <span class='no'>tf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>(<span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".gmt"</span>)
@@ -234,29 +227,22 @@ Certain subclasses of <code>BiMap</code> are supported: <code>Go3AnnDbBimap</cod
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>org.Hs.eg.db</span>)
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'>import</span>(<span class='no'>org.Hs.egGO</span>)</div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='output co'>#&gt; <span class='message'>Coercing evidence to factor</span></div><div class='output co'>#&gt; <span class='message'>Coercing ontology to factor</span></div><div class='input'><span class='no'>bs1</span></div><div class='output co'>#&gt; GOSets with 267783 relations between 20207 elements and 17496 sets
-#&gt;                   element          set | evidence ontology
-#&gt;          &lt;EntrezIdVector&gt; &lt;GOIdVector&gt; | &lt;factor&gt; &lt;factor&gt;
-#&gt;      [1]                1   GO:0002576 |      TAS       BP
-#&gt;      [2]                1   GO:0008150 |       ND       BP
-#&gt;      [3]                1   GO:0043312 |      TAS       BP
-#&gt;      [4]                2   GO:0001869 |      IDA       BP
-#&gt;      [5]                2   GO:0002576 |      TAS       BP
-#&gt;      ...              ...          ... .      ...      ...
-#&gt; [267779]        110599583   GO:0046872 |      IEA       MF
-#&gt; [267780]        111089941   GO:0004571 |      IMP       MF
-#&gt; [267781]        111089941   GO:0005509 |      IEA       MF
-#&gt; [267782]        111240474   GO:0005515 |      IPI       MF
-#&gt; [267783]        112441434   GO:0005515 |      IPI       MF
-#&gt; 
-#&gt; @elementData
-#&gt; EntrezIdVector of length 20207 with 20207 unique identifiers
-#&gt; Ids: 1, 10, 100, 1000, ...
-#&gt; Metadata:  (0 columns)
-#&gt; 
-#&gt; @setData
-#&gt; GOIdVector of length 17496 with 17496 unique identifiers
-#&gt; Ids: GO:0002576, GO:0008150, GO:0043312, GO:0001869, ...
-#&gt; Metadata: GOID, DEFINITION, ONTOLOGY, TERM (4 columns)</div></pre>
+#&gt;              element         set | evidence ontology
+#&gt;          &lt;character&gt; &lt;character&gt; | &lt;factor&gt; &lt;factor&gt;
+#&gt;      [1]           1  GO:0002576 |      TAS       BP
+#&gt;      [2]           1  GO:0008150 |       ND       BP
+#&gt;      [3]           1  GO:0043312 |      TAS       BP
+#&gt;      [4]           2  GO:0001869 |      IDA       BP
+#&gt;      [5]           2  GO:0002576 |      TAS       BP
+#&gt;      ...         ...         ... .      ...      ...
+#&gt; [267779]   110599583  GO:0046872 |      IEA       MF
+#&gt; [267780]   111089941  GO:0004571 |      IMP       MF
+#&gt; [267781]   111089941  GO:0005509 |      IEA       MF
+#&gt; [267782]   111240474  GO:0005515 |      IPI       MF
+#&gt; [267783]   112441434  GO:0005515 |      IPI       MF
+#&gt; -----------
+#&gt; elementInfo: EntrezIdVector with 0 metadata
+#&gt;     setInfo: GOIdVector with 4 metadata (GOID, DEFINITION, ...)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

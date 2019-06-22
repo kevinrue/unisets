@@ -127,23 +127,16 @@
 <a class="sourceLine" id="cb3-22" data-line-number="22">base_set &lt;-<span class="st"> </span><span class="kw"><a href="reference/Sets-class.html">Sets</a></span>(relations_table, element_data, set_data)</a>
 <a class="sourceLine" id="cb3-23" data-line-number="23">base_set</a></code></pre></div>
 <pre><code>Sets with 5 relations between 4 elements and 2 sets
-       element        set |      extra1    extra2
-    &lt;IdVector&gt; &lt;IdVector&gt; | &lt;character&gt; &lt;numeric&gt;
-[1]          A       set1 |         ABC         0
-[2]          B       set1 |         ABC      0.25
-[3]          B       set2 |         ABC       0.5
-[4]          C       set2 |         DEF      0.75
-[5]          D       set2 |         DEF         1
-
-@elementData
-IdVector of length 4 with 4 unique identifiers
-Ids: A, B, C, D
-Metadata: stat1, info1 (2 columns)
-
-@setData
-IdVector of length 2 with 2 unique identifiers
-Ids: set1, set2
-Metadata: stat1, info1 (2 columns)</code></pre>
+        element         set |      extra1    extra2
+    &lt;character&gt; &lt;character&gt; | &lt;character&gt; &lt;numeric&gt;
+[1]           A        set1 |         ABC         0
+[2]           B        set1 |         ABC      0.25
+[3]           B        set2 |         ABC       0.5
+[4]           C        set2 |         DEF      0.75
+[5]           D        set2 |         DEF         1
+-----------
+elementInfo: IdVector with 2 metadata (stat1, info1)
+    setInfo: IdVector with 2 metadata (stat1, info1)</code></pre>
 </div>
 </div>
 
