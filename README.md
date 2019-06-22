@@ -59,6 +59,6 @@ Sets with 5 relations between 4 elements and 2 sets
 [4]           C        set2 |         DEF      0.75
 [5]           D        set2 |         DEF         1
 -----------
-elementData: IdVector with 2 metadata (stat1, info1)
-    setData: IdVector with 2 metadata (stat1, info1)
+elementInfo: IdVector with 2 metadata (stat1, info1)
+    setInfo: IdVector with 2 metadata (stat1, info1)
 ```
