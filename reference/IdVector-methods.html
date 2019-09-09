@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -50,6 +52,7 @@ and value is an object of a class specified in the S4 method signature or as out
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -74,7 +77,7 @@ and value is an object of a class specified in the S4 method signature or as out
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -105,7 +108,7 @@ and value is an object of a class specified in the S4 method signature or as out
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/kevinrue/unisets">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -116,6 +119,7 @@ and value is an object of a class specified in the S4 method signature or as out
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -191,7 +195,7 @@ as.IdVector.default(ids, ...)</pre>
     </tr>
     <tr>
       <th>mode</th>
-      <td><p>Atomic type of the <code><a href='https://www.rdocumentation.org/packages/base/topics/vector'>vector()</a></code> returned.
+      <td><p>Atomic type of the <code><a href='https://rdrr.io/r/base/vector.html'>vector()</a></code> returned.
 character string naming an atomic mode or "list" or "expression" or (except for vector) "any".</p></td>
     </tr>
     <tr>
@@ -203,25 +207,31 @@ character string naming an atomic mode or "list" or "expression" or (except for 
     <h2 class="hasAnchor" id="accessors"><a class="anchor" href="#accessors"></a>Accessors</h2>
 
     
-    <p><code>ids(object)</code> returns a <code>character</code> vector of element identifiers.
-<code><a href='https://www.rdocumentation.org/packages/base/topics/names'>names(object)</a></code> is a synonym for compatibility with S4 methods such as <code>mcols(object, use.names = TRUE, ...) </code>.</p>
+
+<p><code>ids(object)</code> returns a <code>character</code> vector of element identifiers.
+<code><a href='https://rdrr.io/r/base/names.html'>names(object)</a></code> is a synonym for compatibility with S4 methods such as <code>mcols(object, use.names = TRUE, ...) </code>.</p>
     
     <h2 class="hasAnchor" id="dimensions"><a class="anchor" href="#dimensions"></a>Dimensions</h2>
 
     
-    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/length'>length(x)</a></code> returns the number of elements in <code>x</code>.</p>
+
+<p><code><a href='https://rdrr.io/r/base/length.html'>length(x)</a></code> returns the number of elements in <code>x</code>.</p>
     
     <h2 class="hasAnchor" id="subsetting"><a class="anchor" href="#subsetting"></a>Subsetting</h2>
 
     
-    <p><code>x[i]</code> returns new <code><a href='IdVector-class.html'>IdVector</a></code> object of the same class as <code>x</code> made of the elements selected by <code>i</code>. <code>i</code> can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or <code>Rle</code> object); or an <code>IntegerRanges</code> object.</p>
+
+<p><code>x[i]</code> returns new <code><a href='IdVector-class.html'>IdVector</a></code> object of the same class as <code>x</code> made of the elements selected by <code>i</code>. <code>i</code> can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or <code>Rle</code> object); or an <code>IntegerRanges</code> object.</p>
     
     <h2 class="hasAnchor" id="coercion"><a class="anchor" href="#coercion"></a>Coercion</h2>
 
     
-    <p><code>as(x, "vector")</code> and <code>as.vector(x)</code> return an atomic vector of identifiers contained in <code>x</code>.</p>
-    <p><code>as(x, "vector")</code> and <code>as.vector(x)</code> return a <code>character</code> vector of identifiers contained in <code>x</code>.</p>
-    <p><code>as(object, "IdVector")</code> and <code>as.IdVector(object)</code> return an <code>IdVector</code> from the given atomic vector of identifiers.</p>
+
+<p><code>as(x, "vector")</code> and <code>as.vector(x)</code> return an atomic vector of identifiers contained in <code>x</code>.</p>
+
+<p><code>as(x, "vector")</code> and <code>as.vector(x)</code> return a <code>character</code> vector of identifiers contained in <code>x</code>.</p>
+
+<p><code>as(object, "IdVector")</code> and <code>as.IdVector(object)</code> return an <code>IdVector</code> from the given atomic vector of identifiers.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -231,8 +241,8 @@ character string naming an atomic mode or "list" or "expression" or (except for 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Constructor ----</span>
 
-<span class='no'>iv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='IdVector-class.html'>IdVector</a></span>(<span class='kw'>ids</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>LETTERS</span>, <span class='fl'>6</span>))
-<span class='fu'>mcols</span>(<span class='no'>iv</span>) <span class='kw'>&lt;-</span> <span class='fu'>DataFrame</span>(<span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fu'>ids</span>(<span class='no'>iv</span>), <span class='kw'>field1</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Uniform'>runif</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>iv</span>)))
+<span class='no'>iv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='IdVector-class.html'>IdVector</a></span>(<span class='kw'>ids</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>LETTERS</span>, <span class='fl'>6</span>))
+<span class='fu'>mcols</span>(<span class='no'>iv</span>) <span class='kw'>&lt;-</span> <span class='fu'>DataFrame</span>(<span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fu'>ids</span>(<span class='no'>iv</span>), <span class='kw'>field1</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>iv</span>)))
 <span class='no'>iv</span></div><div class='output co'>#&gt; IdVector of length 6 with 6 unique identifiers
 #&gt; Ids: A, B, C, D, ...
 #&gt; Metadata: field1 (1 column)</div><div class='input'>
@@ -241,21 +251,21 @@ character string naming an atomic mode or "list" or "expression" or (except for 
 <span class='fu'>ids</span>(<span class='no'>iv</span>)</div><div class='output co'>#&gt; [1] "A" "B" "C" "D" "E" "F"</div><div class='input'><span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>
 <span class='fu'>ids</span>(<span class='no'>iv1</span>)[<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='st'>"gene1"</span>
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>iv</span>)</div><div class='output co'>#&gt; [1] "A" "B" "C" "D" "E" "F"</div><div class='input'><span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>iv1</span>)[<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='st'>"GENE001"</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>iv</span>)</div><div class='output co'>#&gt; [1] "A" "B" "C" "D" "E" "F"</div><div class='input'><span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>iv1</span>)[<span class='fl'>1</span>] <span class='kw'>&lt;-</span> <span class='st'>"GENE001"</span>
 
 <span class='co'># Dimensions ----</span>
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>iv</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>iv</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'>
 <span class='co'># Duplication ----</span>
 
-<span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>)]
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/duplicated'>duplicated</a></span>(<span class='no'>iv1</span>)</div><div class='output co'>#&gt; [1] FALSE  TRUE FALSE  TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>iv1</span>)</div><div class='output co'>#&gt; IdVector of length 2 with 2 unique identifiers
+<span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>)]
+<span class='fu'><a href='https://rdrr.io/r/base/duplicated.html'>duplicated</a></span>(<span class='no'>iv1</span>)</div><div class='output co'>#&gt; [1] FALSE  TRUE FALSE  TRUE</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>iv1</span>)</div><div class='output co'>#&gt; IdVector of length 2 with 2 unique identifiers
 #&gt; Ids: A, B
 #&gt; Metadata: field1 (1 column)</div><div class='input'>
 <span class='no'>iv1</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>[<span class='fl'>1</span>:<span class='fl'>3</span>]
 <span class='no'>iv2</span> <span class='kw'>&lt;-</span> <span class='no'>iv</span>[<span class='fl'>2</span>:<span class='fl'>4</span>]
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>union</a></span>(<span class='no'>iv1</span>, <span class='no'>iv2</span>)</div><div class='output co'>#&gt; IdVector of length 4 with 4 unique identifiers
+<span class='fu'><a href='https://rdrr.io/r/base/sets.html'>union</a></span>(<span class='no'>iv1</span>, <span class='no'>iv2</span>)</div><div class='output co'>#&gt; IdVector of length 4 with 4 unique identifiers
 #&gt; Ids: A, B, C, D
 #&gt; Metadata: field1 (1 column)</div><div class='input'>
 <span class='co'># Subsetting ----</span>
@@ -292,19 +302,23 @@ character string naming an atomic mode or "list" or "expression" or (except for 
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Kevin Rue-Albrecht, Robert Amezquita.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

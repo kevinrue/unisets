@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -49,6 +51,7 @@ and value is an object of a class specified in the S4 method signature or as out
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -73,7 +76,7 @@ and value is an object of a class specified in the S4 method signature or as out
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -104,7 +107,7 @@ and value is an object of a class specified in the S4 method signature or as out
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/kevinrue/unisets">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,6 +118,7 @@ and value is an object of a class specified in the S4 method signature or as out
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -279,61 +283,86 @@ The matrix will be coerced to <code>logical</code> type and relations indicating
     <h2 class="hasAnchor" id="accessors"><a class="anchor" href="#accessors"></a>Accessors</h2>
 
     
-    <p><code>relations(object)</code> returns the <code>relations</code> slot.
+
+<p><code>relations(object)</code> returns the <code>relations</code> slot.
 A <code>Hits</code> objets storing the integer index of elements (<code>from</code>) and sets (<code>to</code>) in the <code>elementInfo</code> and <code>setInfo</code> slots, respectively, and associated relation metadata (<code>mcols</code>).</p>
-    <p><code>elementInfo(object)</code> returns the <code>elementInfo</code> slot.
+
+<p><code>elementInfo(object)</code> returns the <code>elementInfo</code> slot.
 An <code><a href='IdVector-class.html'>IdVector</a></code> objets storing the unique element identifiers (<code>ids</code>) and associated element metadata (<code>mcols</code>).</p>
-    <p><code>setInfo(object)</code> returns the <code>setInfo</code> slot.
+
+<p><code>setInfo(object)</code> returns the <code>setInfo</code> slot.
 An <code><a href='IdVector-class.html'>IdVector</a></code> objets storing the unique set identifiers (<code>ids</code>) and associated set metadata (<code>mcols</code>).</p>
-    <p><code>elements(object)</code> returns an <code><a href='IdVector-class.html'>IdVector</a></code> element identifiers and associated metadata as ordered in <code>relations(object)$element</code>
-(i.e., of length equal to <code><a href='https://www.rdocumentation.org/packages/base/topics/length'>length(object)</a></code>).</p>
-    <p><code>sets(object)</code> returns an <code><a href='IdVector-class.html'>IdVector</a></code> of set identifiers and associated metadata as ordered in <code>relations(object)$set</code>.
-(i.e., of length equal to <code><a href='https://www.rdocumentation.org/packages/base/topics/length'>length(object)</a></code>).</p>
+
+<p><code>elements(object)</code> returns an <code><a href='IdVector-class.html'>IdVector</a></code> element identifiers and associated metadata as ordered in <code>relations(object)$element</code>
+(i.e., of length equal to <code><a href='https://rdrr.io/r/base/length.html'>length(object)</a></code>).</p>
+
+<p><code>sets(object)</code> returns an <code><a href='IdVector-class.html'>IdVector</a></code> of set identifiers and associated metadata as ordered in <code>relations(object)$set</code>.
+(i.e., of length equal to <code><a href='https://rdrr.io/r/base/length.html'>length(object)</a></code>).</p>
     
     <h2 class="hasAnchor" id="dimensions"><a class="anchor" href="#dimensions"></a>Dimensions</h2>
 
     
-    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/length'>length(x)</a></code> returns the total count of relations.</p>
-    <p><code>nElements(object)</code> returns the count of unique elements.</p>
-    <p><code>nSets(object)</code> returns the count of unique sets.</p>
-    <p><code>setLengths(object)</code> returns the count of relations per set.</p>
-    <p><code>elementLengths(object)</code> returns the count of relations per element.</p>
+
+<p><code><a href='https://rdrr.io/r/base/length.html'>length(x)</a></code> returns the total count of relations.</p>
+
+<p><code>nElements(object)</code> returns the count of unique elements.</p>
+
+<p><code>nSets(object)</code> returns the count of unique sets.</p>
+
+<p><code>setLengths(object)</code> returns the count of relations per set.</p>
+
+<p><code>elementLengths(object)</code> returns the count of relations per element.</p>
     
     <h2 class="hasAnchor" id="combining"><a class="anchor" href="#combining"></a>Combining</h2>
 
     
-    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(x, ...)</a></code> combines its arguments</p>
+
+<p><code><a href='https://rdrr.io/r/base/c.html'>c(x, ...)</a></code> combines its arguments</p>
     
     <h2 class="hasAnchor" id="subsetting"><a class="anchor" href="#subsetting"></a>Subsetting</h2>
 
     
-    <p><code>x[i, drop=TRUE]</code> returns new <code><a href='Sets-class.html'>Sets</a></code> object of the same class as <code>x</code> made of the elements selected by <code>i</code>. <code>i</code> can be missing; an <code>NA</code>-free logical, numeric, or character vector or factor (as ordinary vector or <code>Rle</code> object); or an <code>IntegerRanges</code> object.
+
+<p><code>x[i, drop=TRUE]</code> returns new <code><a href='Sets-class.html'>Sets</a></code> object of the same class as <code>x</code> made of the elements selected by <code>i</code>. <code>i</code> can be missing; an <code>NA</code>-free logical, numeric, or character vector or factor (as ordinary vector or <code>Rle</code> object); or an <code>IntegerRanges</code> object.
 The <code>drop</code> logical value controls whether the metadata of elements and sets orphaned during the subsetting should be removed from the <code>elementInfo</code> and <code>setInfo</code> slots, respectively.</p>
-    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset(object, subset, ..., drop=TRUE)</a></code> returns subsets of relations which meet conditions.
+
+
+<p><code><a href='https://rdrr.io/r/base/subset.html'>subset(object, subset, ..., drop=TRUE)</a></code> returns subsets of relations which meet conditions.
 The <code>subset</code> argument should be a logical expression referring to any of <code>"element"</code>, <code>"set"</code>, and any available relation metadata indicating elements or rows to keep: missing values are taken as false.
 The <code>drop</code> logical scalar controls whether elements and sets orphaned during the subsetting should be removed from the <code>elementInfo</code> and <code>setInfo</code> slots, respectively.</p>
     
     <h2 class="hasAnchor" id="duplication-and-uniqueness"><a class="anchor" href="#duplication-and-uniqueness"></a>Duplication and uniqueness</h2>
 
     
-    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/duplicated'>duplicated(x)</a></code> determines which relations of a <code>Sets</code> are duplicates of relations with smaller subscripts, and returns a logical vector indicating which relations are duplicates.</p>
-    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique(x)</a></code> returns a <code>Sets</code> like <code>x</code> but with duplicate relations removed.</p>
-    <p><code><a href='https://www.rdocumentation.org/packages/base/topics/sets'>union(x)</a></code> returns a <code>Sets</code> composed of the union of relations in <code>x</code> and <code>y</code>.</p>
+
+<p><code><a href='https://rdrr.io/r/base/duplicated.html'>duplicated(x)</a></code> determines which relations of a <code>Sets</code> are duplicates of relations with smaller subscripts, and returns a logical vector indicating which relations are duplicates.</p>
+
+
+<p><code><a href='https://rdrr.io/r/base/unique.html'>unique(x)</a></code> returns a <code>Sets</code> like <code>x</code> but with duplicate relations removed.</p>
+
+
+<p><code><a href='https://rdrr.io/r/base/sets.html'>union(x)</a></code> returns a <code>Sets</code> composed of the union of relations in <code>x</code> and <code>y</code>.</p>
     
     <h2 class="hasAnchor" id="coercion-from-sets"><a class="anchor" href="#coercion-from-sets"></a>Coercion from Sets</h2>
 
     
-    <p><code>as(object, "DataFrame")</code> and <code>as.DataFrame(object)</code> return a nested <code>DataFrame</code> including columns <code>"element"</code>, <code>"set"</code>, <code>"relationData"</code>, <code>"elementInfo"</code>, and <code>"setInfo"</code>.</p>
-    <p><code>as(x, "data.frame")</code> and <code>as.data.frame(x)</code>  return a flattened <code>data.frame</code> including <code>"element"</code>, <code>"set"</code>, and columns in <code>mcols(relations(x))</code> if any.</p>
-    <p><code>as(x, "list")</code> and <code>as.list(x)</code> return a named <code>list</code>.
+
+<p><code>as(object, "DataFrame")</code> and <code>as.DataFrame(object)</code> return a nested <code>DataFrame</code> including columns <code>"element"</code>, <code>"set"</code>, <code>"relationData"</code>, <code>"elementInfo"</code>, and <code>"setInfo"</code>.</p>
+
+<p><code>as(x, "data.frame")</code> and <code>as.data.frame(x)</code>  return a flattened <code>data.frame</code> including <code>"element"</code>, <code>"set"</code>, and columns in <code>mcols(relations(x))</code> if any.</p>
+
+<p><code>as(x, "list")</code> and <code>as.list(x)</code> return a named <code>list</code>.
 Names are set identifiers, and values are character vectors of element identifiers.</p>
-    <p><code>as(x, "matrix")</code> and <code>as.matrix(x)</code> return a <code>matrix</code> with elements as rows, sets as columns, and a <code>logical</code> value to indicate membership.</p>
+
+<p><code>as(x, "matrix")</code> and <code>as.matrix(x)</code> return a <code>matrix</code> with elements as rows, sets as columns, and a <code>logical</code> value to indicate membership.</p>
     
     <h2 class="hasAnchor" id="coercion-to-sets"><a class="anchor" href="#coercion-to-sets"></a>Coercion to Sets</h2>
 
     
-    <p><code>as(list, "Sets")</code> and <code>as.Sets(object)</code> return a <code>Sets</code> from a list of character vectors.</p>
-    <p><code>as(matrix, "Sets")</code> and <code>as.Sets(object)</code> return a <code>Sets</code> from an incidence matrix.</p>
+
+<p><code>as(list, "Sets")</code> and <code>as.Sets(object)</code> return a <code>Sets</code> from a list of character vectors.</p>
+
+<p><code>as(matrix, "Sets")</code> and <code>as.Sets(object)</code> return a <code>Sets</code> from an incidence matrix.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -344,10 +373,10 @@ Names are set identifiers, and values are character vectors of element identifie
     <pre class="examples"><div class='input'><span class='co'># Constructor ----</span>
 
 <span class='co'># Visually intuitive definition of sets</span>
-<span class='no'>sets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
-  <span class='kw'>set1</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>),
-  <span class='kw'>set2</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"B"</span>, <span class='st'>"C"</span>, <span class='st'>"D"</span>),
-  <span class='kw'>set3</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"E"</span>))
+<span class='no'>sets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+  <span class='kw'>set1</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>),
+  <span class='kw'>set2</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"B"</span>, <span class='st'>"C"</span>, <span class='st'>"D"</span>),
+  <span class='kw'>set3</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"E"</span>))
 
 <span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>sets</span>, <span class='st'>"Sets"</span>)
 <span class='no'>bs</span></div><div class='output co'>#&gt; Sets with 6 relations between 5 elements and 3 sets
@@ -376,19 +405,19 @@ Names are set identifiers, and values are character vectors of element identifie
 #&gt;   -------
 #&gt;   nLnode: 5 / nRnode: 3</div><div class='input'>
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
-<span class='fu'>mcols</span>(<span class='fu'>relations</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"NEW"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"value"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>bs1</span>)))
+<span class='fu'>mcols</span>(<span class='fu'>relations</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"NEW"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"value"</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>bs1</span>)))
 
 <span class='fu'>elementInfo</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 5 with 5 unique identifiers
 #&gt; Ids: A, B, C, D, ...
 #&gt; Metadata:  (0 columns)</div><div class='input'>
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
-<span class='fu'>mcols</span>(<span class='fu'>elementInfo</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"NEW"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"value"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'>nElements</span>(<span class='no'>bs1</span>)))
+<span class='fu'>mcols</span>(<span class='fu'>elementInfo</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"NEW"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"value"</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fu'>nElements</span>(<span class='no'>bs1</span>)))
 
 <span class='fu'>setInfo</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 3 with 3 unique identifiers
 #&gt; Ids: set1, set2, set3
 #&gt; Metadata:  (0 columns)</div><div class='input'>
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
-<span class='fu'>mcols</span>(<span class='fu'>setInfo</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"NEW"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"value"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'>nSets</span>(<span class='no'>bs1</span>)))
+<span class='fu'>mcols</span>(<span class='fu'>setInfo</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"NEW"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"value"</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fu'>nSets</span>(<span class='no'>bs1</span>)))
 
 <span class='fu'>elements</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; IdVector of length 6 with 5 unique identifiers
 #&gt; Ids: A, B, B, C, ...
@@ -398,19 +427,19 @@ Names are set identifiers, and values are character vectors of element identifie
 #&gt; Metadata:  (0 columns)</div><div class='input'><span class='fu'>ids</span>(<span class='fu'>sets</span>(<span class='no'>bs</span>))</div><div class='output co'>#&gt; [1] "set1" "set1" "set2" "set2" "set2" "set3"</div><div class='input'><span class='fu'>mcols</span>(<span class='fu'>sets</span>(<span class='no'>bs</span>))</div><div class='output co'>#&gt; DataFrame with 6 rows and 0 columns</div><div class='input'>
 <span class='co'># Dimensions ----</span>
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='fu'>nElements</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'>nSets</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'><span class='fu'>setLengths</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; set1 set2 set3 
+<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='fu'>nElements</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'>nSets</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'><span class='fu'>setLengths</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; set1 set2 set3 
 #&gt;    2    3    1 </div><div class='input'><span class='fu'>elementLengths</span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; A B C D E 
 #&gt; 1 2 1 1 1 </div><div class='input'>
 <span class='co'># Combining ----</span>
 
-<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>bs</span>, <span class='no'>bs</span>)
+<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>bs</span>, <span class='no'>bs</span>)
 
 <span class='co'># Subsetting ----</span>
 
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>[<span class='fl'>1</span>:<span class='fl'>5</span>]
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>[<span class='fl'>1</span>:<span class='fl'>5</span>, , <span class='kw'>drop</span><span class='kw'>=</span><span class='fl'>FALSE</span>] <span class='co'># keep metadata of orphan elements and sets</span>
 
-<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>bs</span>, <span class='no'>set</span> <span class='kw'>==</span> <span class='st'>"set1"</span> <span class='kw'>|</span> <span class='no'>element</span> <span class='kw'>==</span> <span class='st'>"E"</span>)
+<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span>(<span class='no'>bs</span>, <span class='no'>set</span> <span class='kw'>==</span> <span class='st'>"set1"</span> <span class='kw'>|</span> <span class='no'>element</span> <span class='kw'>==</span> <span class='st'>"E"</span>)
 <span class='no'>bs1</span></div><div class='output co'>#&gt; Sets with 3 relations between 3 elements and 2 sets
 #&gt;         element         set
 #&gt;     &lt;character&gt; &lt;character&gt;
@@ -423,10 +452,10 @@ Names are set identifiers, and values are character vectors of element identifie
 <span class='co'># Duplication and uniqueness ----</span>
 
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
-<span class='fu'>relations</span>(<span class='no'>bs1</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'>relations</span>(<span class='no'>bs1</span>), <span class='kw'>each</span><span class='kw'>=</span><span class='fl'>2</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/duplicated'>duplicated</a></span>(<span class='no'>bs1</span>))</div><div class='output co'>#&gt; 
+<span class='fu'>relations</span>(<span class='no'>bs1</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'>relations</span>(<span class='no'>bs1</span>), <span class='kw'>each</span><span class='kw'>=</span><span class='fl'>2</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/duplicated.html'>duplicated</a></span>(<span class='no'>bs1</span>))</div><div class='output co'>#&gt; 
 #&gt; FALSE  TRUE 
-#&gt;     6     6 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>bs1</span>)</div><div class='output co'>#&gt; Sets with 6 relations between 5 elements and 3 sets
+#&gt;     6     6 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>bs1</span>)</div><div class='output co'>#&gt; Sets with 6 relations between 5 elements and 3 sets
 #&gt;         element         set
 #&gt;     &lt;character&gt; &lt;character&gt;
 #&gt; [1]           A        set1
@@ -437,7 +466,7 @@ Names are set identifiers, and values are character vectors of element identifie
 #&gt; [6]           E        set3
 #&gt; -----------
 #&gt; elementInfo: IdVector with 0 metadata
-#&gt;     setInfo: IdVector with 0 metadata</div><div class='input'><span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sets'>union</a></span>(<span class='no'>bs</span>, <span class='no'>bs</span>)
+#&gt;     setInfo: IdVector with 0 metadata</div><div class='input'><span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sets.html'>union</a></span>(<span class='no'>bs</span>, <span class='no'>bs</span>)
 
 <span class='co'># Coercion from Sets ----</span>
 
@@ -450,18 +479,18 @@ Names are set identifiers, and values are character vectors of element identifie
 <span class='no'>m1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>bs</span>, <span class='st'>"matrix"</span>)
 
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='no'>bs</span>
-<span class='fu'>mcols</span>(<span class='fu'>relations</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"membership"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Uniform'>runif</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>bs1</span>))
+<span class='fu'>mcols</span>(<span class='fu'>relations</span>(<span class='no'>bs1</span>))<span class='kw'>[[</span><span class='st'>"membership"</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>bs1</span>))
 <span class='no'>fs</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>bs1</span>, <span class='st'>"FuzzySets"</span>)
 
 <span class='co'># Fetch a sample of GO annotations</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>org.Hs.eg.db</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>org.Hs.eg.db</span>)
 <span class='no'>gs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='io.html'>import</a></span>(<span class='no'>org.Hs.egGO</span>)</div><div class='output co'>#&gt; <span class='message'>'select()' returned 1:1 mapping between keys and columns</span></div><div class='output co'>#&gt; <span class='message'>Coercing evidence to factor</span></div><div class='output co'>#&gt; <span class='message'>Coercing ontology to factor</span></div><div class='input'><span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>gs</span>, <span class='st'>"Sets"</span>)
 <span class='no'>gs1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>bs1</span>, <span class='st'>"GOSets"</span>)
 
 <span class='co'># Coercion to Sets ----</span>
 
 <span class='co'># list</span>
-<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>set1</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>), <span class='kw'>set2</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"B"</span>, <span class='st'>"C"</span>)), <span class='st'>"Sets"</span>)
+<span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>set1</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>), <span class='kw'>set2</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"B"</span>, <span class='st'>"C"</span>)), <span class='st'>"Sets"</span>)
 <span class='co'># matrix</span>
 <span class='no'>bs1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>m1</span>, <span class='st'>"Sets"</span>)</div></pre>
   </div>
@@ -494,19 +523,23 @@ Names are set identifiers, and values are character vectors of element identifie
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Kevin Rue-Albrecht, Robert Amezquita.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

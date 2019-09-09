@@ -5,11 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Using unisets with Bioconductor annotation packages • unisets</title>
+<title>Using unisets with Bioconductor annotation packages
+ • unisets</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Using unisets with Bioconductor annotation packages">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Using unisets with Bioconductor annotation packages
+">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -38,7 +41,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -68,7 +71,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/kevinrue/unisets">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -81,6 +84,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -94,7 +98,7 @@
       Fred Hutchinson Cancer Research Center, Seattle, WA, USA, 98115<br><a class="author_email" href="mailto:#"></a><a href="mailto:robert.amezquita@fredhutch.org">robert.amezquita@fredhutch.org</a>
       </address>
                   
-            <h4 class="date">2 September 2019</h4>
+            <h4 class="date">9 September 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/unisets/blob/master/vignettes/bioc-annotation.Rmd"><code>vignettes/bioc-annotation.Rmd</code></a></small>
       <div class="hidden name"><code>bioc-annotation.Rmd</code></div>
@@ -114,9 +118,9 @@
 <h2 class="hasAnchor">
 <a href="#bioconductor-annotation-packages" class="anchor"></a>Bioconductor annotation packages</h2>
 <p>Annotation packages are available from Bioconductor for a range of model species. Users may browse <a href="https://bioconductor.org/packages/release/BiocViews.html#___AnnotationData">BiocViews “AnnotationData”</a> on the Bioconductor website or search packages programmatically using the command below.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">BiocManager<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/BiocManager/topics/available">available</a></span>(<span class="st">"^org</span><span class="ch">\\</span><span class="st">."</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">BiocManager<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/BiocManager/man/available.html">available</a></span>(<span class="st">"^org</span><span class="ch">\\</span><span class="st">."</span>)</a></code></pre></div>
 <p>Here, we load the human gene annotations.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(org.Hs.eg.db)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(org.Hs.eg.db)</a></code></pre></div>
 </div>
 </div>
 <div id="importing-to-unisets-classes" class="section level1">
@@ -126,7 +130,7 @@
 <h2 class="hasAnchor">
 <a href="#import-gene-ontology" class="anchor"></a>Gene Ontology</h2>
 <p><code>Go3AnnDbBimap</code> objects (from the <em><a href="https://bioconductor.org/packages/3.10/AnnotationDbi">AnnotationDbi</a></em> package) are maps between Entrez gene identifiers and Gene Ontology (GO) identifiers. Those objects may be directly converted to <code>Sets</code> objects as demonstrated below.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(unisets)</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(unisets)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">go_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/io.html">import</a></span>(org.Hs.egGO)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">go_sets</a></code></pre></div>
 <pre><code>## GOSets with 267783 relations between 20207 elements and 17496 sets
@@ -148,7 +152,7 @@
 ##     setInfo: GOIdVector with 4 metadata (GOID, DEFINITION, ...)</code></pre>
 <p>Notice how the <code>"element"</code> information is typed as <code>EntrezIdVector</code>, allowing the type of identifier to affect downstream methods (e.g., pathway analyses). The <code>EntrezIdVector</code> class directly inherits from the <code>IdVector</code> class, and benefits of all the methods associated with the parent class.</p>
 <p>It is also useful to note that the conversion of <code>Go3AnnDbBimap</code> Gene Ontology maps to <em><a href="https://github.com/kevinrue/unisets">unisets</a></em> objects automatically fetches metadata for each GO identifier from the <code>GO.db</code> package, if installed. The metadata is stored it in the <code>mcols</code> (metadata-columns) slot of the <code>setInfo</code> slot of the object returned. This metadata can be accessed using the accessor method of the same name.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw"><a href="../reference/Sets-methods.html">setInfo</a></span>(go_sets))[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"ONTOLOGY"</span>, <span class="st">"TERM"</span>)]</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw"><a href="../reference/Sets-methods.html">setInfo</a></span>(go_sets))[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"ONTOLOGY"</span>, <span class="st">"TERM"</span>)]</a></code></pre></div>
 <pre><code>## DataFrame with 17496 rows and 2 columns
 ##               ONTOLOGY
 ##            &lt;character&gt;
@@ -224,9 +228,9 @@
 
 ## thiosulfate-thiol sulfurtransferase activity</code></pre>
 <p>We may then visualize the distribution of set sizes, on a log<sub>10</sub> scale.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(cowplot)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">setLengths=</span><span class="kw"><a href="../reference/Sets-methods.html">setLengths</a></span>(go_sets))) <span class="op">+</span></a>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(cowplot)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">setLengths=</span><span class="kw"><a href="../reference/Sets-methods.html">setLengths</a></span>(go_sets))) <span class="op">+</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(setLengths), <span class="dt">bins=</span><span class="dv">100</span>, <span class="dt">color=</span><span class="st">"black"</span>, <span class="dt">fill=</span><span class="st">"grey"</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span>() <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">y=</span><span class="st">"Sets"</span>, <span class="dt">x=</span><span class="st">"Genes"</span>)</a></code></pre></div>
 <p><img src="bioc-annotation_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
@@ -237,7 +241,7 @@
 <pre><code>## 'select()' returned 1:1 mapping between keys and columns</code></pre>
 <pre><code>## Coercing evidence to factor</code></pre>
 <pre><code>## Coercing ontology to factor</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/format">format</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(go_sets), <span class="dt">big.mark=</span><span class="st">","</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(go_sets), <span class="dt">big.mark=</span><span class="st">","</span>)</a></code></pre></div>
 <pre><code>## [1] "2,946,160"</code></pre>
 <p>We can also examine the count of relations associated with each evidence code in each Gene Ontology namespace.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="../reference/Sets-methods.html">as.data.frame</a></span>(go_sets)) <span class="op">+</span></a>
@@ -274,7 +278,7 @@
 ## other attached packages:
 ##  [1] cowplot_1.0.0        ggplot2_3.2.1        unisets_0.99.0      
 ##  [4] org.Hs.eg.db_3.8.2   AnnotationDbi_1.47.1 IRanges_2.19.14     
-##  [7] S4Vectors_0.23.20    Biobase_2.45.0       BiocGenerics_0.31.5 
+##  [7] S4Vectors_0.23.21    Biobase_2.45.1       BiocGenerics_0.31.5 
 ## [10] BiocStyle_2.13.2    
 ## 
 ## loaded via a namespace (and not attached):
@@ -284,7 +288,7 @@
 ##  [7] yaml_2.2.0                  pillar_1.4.2               
 ##  [9] RSQLite_2.1.2               backports_1.1.4            
 ## [11] lattice_0.20-38             digest_0.6.20              
-## [13] GenomicRanges_1.37.14       XVector_0.25.0             
+## [13] GenomicRanges_1.37.15       XVector_0.25.0             
 ## [15] colorspace_1.4-1            htmltools_0.3.6            
 ## [17] Matrix_1.2-17               plyr_1.8.4                 
 ## [19] GSEABase_1.47.0             XML_3.98-1.20              
@@ -297,23 +301,22 @@
 ## [33] magrittr_1.5                crayon_1.3.4               
 ## [35] memoise_1.1.0               evaluate_0.14              
 ## [37] fs_1.3.1                    MASS_7.3-51.4              
-## [39] xml2_1.2.1                  graph_1.63.0               
-## [41] tools_3.6.1                 matrixStats_0.54.0         
-## [43] stringr_1.4.0               munsell_0.5.0              
-## [45] DelayedArray_0.11.4         Biostrings_2.53.2          
-## [47] compiler_3.6.1              pkgdown_1.3.0              
-## [49] GenomeInfoDb_1.21.1         rlang_0.4.0                
-## [51] grid_3.6.1                  RCurl_1.95-4.12            
-## [53] labeling_0.3                bitops_1.0-6               
-## [55] rmarkdown_1.15              gtable_0.3.0               
-## [57] DBI_1.0.0                   roxygen2_6.1.1             
-## [59] reshape2_1.4.3              R6_2.4.0                   
-## [61] GenomicAlignments_1.21.5    knitr_1.24                 
-## [63] rtracklayer_1.45.4          bit_1.1-14                 
-## [65] zeallot_0.1.0               commonmark_1.7             
-## [67] rprojroot_1.3-2             desc_1.2.0                 
-## [69] stringi_1.4.3               Rcpp_1.0.2                 
-## [71] vctrs_0.2.0                 xfun_0.9</code></pre>
+## [39] graph_1.63.0                tools_3.6.1                
+## [41] matrixStats_0.55.0          stringr_1.4.0              
+## [43] munsell_0.5.0               DelayedArray_0.11.4        
+## [45] Biostrings_2.53.2           compiler_3.6.1             
+## [47] pkgdown_1.4.0               GenomeInfoDb_1.21.1        
+## [49] rlang_0.4.0                 grid_3.6.1                 
+## [51] RCurl_1.95-4.12             labeling_0.3               
+## [53] bitops_1.0-6                rmarkdown_1.15             
+## [55] gtable_0.3.0                DBI_1.0.0                  
+## [57] reshape2_1.4.3              R6_2.4.0                   
+## [59] GenomicAlignments_1.21.6    knitr_1.24                 
+## [61] rtracklayer_1.45.5          bit_1.1-14                 
+## [63] zeallot_0.1.0               rprojroot_1.3-2            
+## [65] desc_1.2.0                  stringi_1.4.3              
+## [67] Rcpp_1.0.2                  vctrs_0.2.0                
+## [69] xfun_0.9</code></pre>
 </div>
   </div>
 
@@ -340,17 +343,20 @@
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by Kevin Rue-Albrecht, Robert Amezquita.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

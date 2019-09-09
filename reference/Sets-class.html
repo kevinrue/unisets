@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -45,6 +47,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -71,7 +74,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -102,7 +105,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/kevinrue/unisets">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -113,6 +116,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -129,7 +133,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>Sets</span>(<span class='kw'>relations</span> <span class='kw'>=</span> <span class='fu'>DataFrame</span>(<span class='kw'>element</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(<span class='fl'>0</span>), <span class='kw'>set</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(<span class='fl'>0</span>)),
+    <pre class="usage"><span class='fu'>Sets</span>(<span class='kw'>relations</span> <span class='kw'>=</span> <span class='fu'>DataFrame</span>(<span class='kw'>element</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(<span class='fl'>0</span>), <span class='kw'>set</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(<span class='fl'>0</span>)),
   <span class='no'>elementInfo</span>, <span class='no'>setInfo</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -160,14 +164,18 @@ Metadata for each unique identifier in <code>relations$set</code> is provided as
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
     
-    <dl class='dl-horizontal'>
+
+<dl class='dl-horizontal'>
 <dt><code>relations</code></dt><dd><p><code>Hits</code>
 The <em>left node</em> and <em>right node</em> of each hit stores the index of the <code>element</code> and <code>set</code> in <code>elementInfo</code> and <code>setInfo</code>, respectively.
 Metadata for each relation is stored as <code>mcols(relations(object))</code>.</p></dd>
-    <dt><code>elementInfo</code></dt><dd><p><code><a href='IdVector-class.html'>IdVector</a></code>.
+
+<dt><code>elementInfo</code></dt><dd><p><code><a href='IdVector-class.html'>IdVector</a></code>.
 Metadata for each unique element in <code>relations$element</code> is stored as <code>mcols(elementInfo)</code>.</p></dd>
-    <dt><code>setInfo</code></dt><dd><p><code><a href='IdVector-class.html'>IdVector</a></code>.
+
+<dt><code>setInfo</code></dt><dd><p><code><a href='IdVector-class.html'>IdVector</a></code>.
 Metadata for each unique set in <code>relations$set</code> is stored as <code>mcols(setInfo)</code>.</p></dd>
+
 </dl>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -179,10 +187,10 @@ Metadata for each unique set in <code>relations$set</code> is stored as <code>mc
     <pre class="examples"><div class='input'><span class='co'># Constructor ----</span>
 
 <span class='co'># Visually intuitive definition of sets</span>
-<span class='no'>sets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
-  <span class='kw'>set1</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>),
-  <span class='kw'>set2</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"B"</span>, <span class='st'>"C"</span>, <span class='st'>"D"</span>),
-  <span class='kw'>set3</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"E"</span>))
+<span class='no'>sets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+  <span class='kw'>set1</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>),
+  <span class='kw'>set2</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"B"</span>, <span class='st'>"C"</span>, <span class='st'>"D"</span>),
+  <span class='kw'>set3</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"E"</span>))
 
 <span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>sets</span>, <span class='st'>"Sets"</span>)
 <span class='no'>bs</span></div><div class='output co'>#&gt; Sets with 6 relations between 5 elements and 3 sets
@@ -229,7 +237,7 @@ Metadata for each unique set in <code>relations$set</code> is stored as <code>mc
 #&gt; Metadata:  (0 columns)</div><div class='input'>
 <span class='co'># Dimensions ----</span>
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='fu'><a href='Sets-methods.html'>nElements</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'><a href='Sets-methods.html'>nSets</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 6</div><div class='input'><span class='fu'><a href='Sets-methods.html'>nElements</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'><a href='Sets-methods.html'>nSets</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; [1] 3</div><div class='input'>
 <span class='fu'><a href='Sets-methods.html'>setLengths</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; set1 set2 set3 
 #&gt;    2    3    1 </div><div class='input'><span class='fu'><a href='Sets-methods.html'>elementLengths</a></span>(<span class='no'>bs</span>)</div><div class='output co'>#&gt; A B C D E 
 #&gt; 1 2 1 1 1 </div></pre>
@@ -253,19 +261,23 @@ Metadata for each unique set in <code>relations$set</code> is stored as <code>mc
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Kevin Rue-Albrecht, Robert Amezquita.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
