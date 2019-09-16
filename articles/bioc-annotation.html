@@ -98,7 +98,7 @@
       Fred Hutchinson Cancer Research Center, Seattle, WA, USA, 98115<br><a class="author_email" href="mailto:#"></a><a href="mailto:robert.amezquita@fredhutch.org">robert.amezquita@fredhutch.org</a>
       </address>
                   
-            <h4 class="date">9 September 2019</h4>
+            <h4 class="date">16 September 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/unisets/blob/master/vignettes/bioc-annotation.Rmd"><code>vignettes/bioc-annotation.Rmd</code></a></small>
       <div class="hidden name"><code>bioc-annotation.Rmd</code></div>
@@ -180,75 +180,28 @@
 ## GO:0070567                                cytidylyltransferase activity
 ## GO:0047613                             aconitate decarboxylase activity
 ## GO:0050337                 thiosulfate-thiol sulfurtransferase activity</code></pre>
-<pre><code>## &lt;character&gt;
-
-## BP
-
-## BP
-
-## BP
-
-## BP
-
-## BP
-
-## ...
-
-## MF
-
-## MF
-
-## MF
-
-## MF
-
-## MF
-
-## &lt;character&gt;
-
-## platelet degranulation
-
-## biological_process
-
-## neutrophil degranulation
-
-## negative regulation of complement activation, lectin pathway
-
-## blood coagulation, intrinsic pathway
-
-## ...
-
-## chemokine (C-C motif) ligand 12 binding
-
-## D-ribitol-5-phosphate cytidylyltransferase activity
-
-## cytidylyltransferase activity
-
-## aconitate decarboxylase activity
-
-## thiosulfate-thiol sulfurtransferase activity</code></pre>
 <p>We may then visualize the distribution of set sizes, on a log<sub>10</sub> scale.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(cowplot)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">setLengths=</span><span class="kw"><a href="../reference/Sets-methods.html">setLengths</a></span>(go_sets))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(setLengths), <span class="dt">bins=</span><span class="dv">100</span>, <span class="dt">color=</span><span class="st">"black"</span>, <span class="dt">fill=</span><span class="st">"grey"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span>() <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">y=</span><span class="st">"Sets"</span>, <span class="dt">x=</span><span class="st">"Genes"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(cowplot)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">setLengths=</span><span class="kw"><a href="../reference/Sets-methods.html">setLengths</a></span>(go_sets))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(setLengths), <span class="dt">bins=</span><span class="dv">100</span>, <span class="dt">color=</span><span class="st">"black"</span>, <span class="dt">fill=</span><span class="st">"grey"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span>() <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">y=</span><span class="st">"Sets"</span>, <span class="dt">x=</span><span class="st">"Genes"</span>)</a></code></pre></div>
 <p><img src="bioc-annotation_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p><code>org.Hs.egGO</code> is an R object that provides mappings between entrez gene identifiers and the GO identifiers that they are directly associated with. This mapping and its reverse mapping do NOT associate the child terms from the GO ontology with the gene. Only the directly evidenced terms are represented here.</p>
 <p>In contrast, <code>org.Hs.egGO2ALLEGS</code> is an R object that provides mappings between a given GO identifier and all of the Entrez Gene identifiers annotated at that GO term OR TO ONE OF IT’S CHILD NODES in the GO ontology. Thus, this mapping is much larger and more inclusive than <code>org.Hs.egGO2EG</code>.</p>
 <p>Below, we use the <code>length</code> method to show the number of relations between genes and GO terms imported from the <code>org.Hs.egGO2ALLEGS</code> map.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">go_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/io.html">import</a></span>(org.Hs.egGO2ALLEGS)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">go_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/io.html">import</a></span>(org.Hs.egGO2ALLEGS)</a></code></pre></div>
 <pre><code>## 'select()' returned 1:1 mapping between keys and columns</code></pre>
 <pre><code>## Coercing evidence to factor</code></pre>
 <pre><code>## Coercing ontology to factor</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(go_sets), <span class="dt">big.mark=</span><span class="st">","</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(go_sets), <span class="dt">big.mark=</span><span class="st">","</span>)</a></code></pre></div>
 <pre><code>## [1] "2,946,160"</code></pre>
 <p>We can also examine the count of relations associated with each evidence code in each Gene Ontology namespace.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="../reference/Sets-methods.html">as.data.frame</a></span>(go_sets)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(evidence)) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="op">~</span>ontology, <span class="dt">ncol =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="st">    </span><span class="co"># scale_y_continuous(labels = function(x){ format(as.integer(x), big.mark = ",") }) +</span></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span>(<span class="dt">labels =</span> scales<span class="op">::</span>comma) <span class="op">+</span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">axis.text.y =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(<span class="dt">size=</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">rel</a></span>(<span class="fl">0.7</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="../reference/Sets-methods.html">as.data.frame</a></span>(go_sets)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(evidence)) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="op">~</span>ontology, <span class="dt">ncol =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="st">    </span><span class="co"># scale_y_continuous(labels = function(x){ format(as.integer(x), big.mark = ",") }) +</span></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span>(<span class="dt">labels =</span> scales<span class="op">::</span>comma) <span class="op">+</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">axis.text.y =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(<span class="dt">size=</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">rel</a></span>(<span class="fl">0.7</span>)))</a></code></pre></div>
 <p><img src="bioc-annotation_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
 </div>
@@ -277,8 +230,8 @@
 ## 
 ## other attached packages:
 ##  [1] cowplot_1.0.0        ggplot2_3.2.1        unisets_0.99.0      
-##  [4] org.Hs.eg.db_3.8.2   AnnotationDbi_1.47.1 IRanges_2.19.14     
-##  [7] S4Vectors_0.23.21    Biobase_2.45.1       BiocGenerics_0.31.5 
+##  [4] org.Hs.eg.db_3.8.2   AnnotationDbi_1.47.1 IRanges_2.19.16     
+##  [7] S4Vectors_0.23.23    Biobase_2.45.1       BiocGenerics_0.31.5 
 ## [10] BiocStyle_2.13.2    
 ## 
 ## loaded via a namespace (and not attached):
@@ -288,7 +241,7 @@
 ##  [7] yaml_2.2.0                  pillar_1.4.2               
 ##  [9] RSQLite_2.1.2               backports_1.1.4            
 ## [11] lattice_0.20-38             digest_0.6.20              
-## [13] GenomicRanges_1.37.15       XVector_0.25.0             
+## [13] GenomicRanges_1.37.16       XVector_0.25.0             
 ## [15] colorspace_1.4-1            htmltools_0.3.6            
 ## [17] Matrix_1.2-17               plyr_1.8.4                 
 ## [19] GSEABase_1.47.0             XML_3.98-1.20              
@@ -297,7 +250,7 @@
 ## [25] GO.db_3.8.2                 scales_1.0.0               
 ## [27] BiocParallel_1.19.2         tibble_2.1.3               
 ## [29] annotate_1.63.0             withr_2.1.2                
-## [31] SummarizedExperiment_1.15.8 lazyeval_0.2.2             
+## [31] SummarizedExperiment_1.15.9 lazyeval_0.2.2             
 ## [33] magrittr_1.5                crayon_1.3.4               
 ## [35] memoise_1.1.0               evaluate_0.14              
 ## [37] fs_1.3.1                    MASS_7.3-51.4              
@@ -305,13 +258,13 @@
 ## [41] matrixStats_0.55.0          stringr_1.4.0              
 ## [43] munsell_0.5.0               DelayedArray_0.11.4        
 ## [45] Biostrings_2.53.2           compiler_3.6.1             
-## [47] pkgdown_1.4.0               GenomeInfoDb_1.21.1        
+## [47] pkgdown_1.4.1               GenomeInfoDb_1.21.1        
 ## [49] rlang_0.4.0                 grid_3.6.1                 
 ## [51] RCurl_1.95-4.12             labeling_0.3               
 ## [53] bitops_1.0-6                rmarkdown_1.15             
 ## [55] gtable_0.3.0                DBI_1.0.0                  
 ## [57] reshape2_1.4.3              R6_2.4.0                   
-## [59] GenomicAlignments_1.21.6    knitr_1.24                 
+## [59] GenomicAlignments_1.21.7    knitr_1.24                 
 ## [61] rtracklayer_1.45.5          bit_1.1-14                 
 ## [63] zeallot_0.1.0               rprojroot_1.3-2            
 ## [65] desc_1.2.0                  stringi_1.4.3              
@@ -349,7 +302,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
