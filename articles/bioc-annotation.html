@@ -98,7 +98,7 @@
       Fred Hutchinson Cancer Research Center, Seattle, WA, USA, 98115<br><a class="author_email" href="mailto:#"></a><a href="mailto:robert.amezquita@fredhutch.org">robert.amezquita@fredhutch.org</a>
       </address>
                   
-            <h4 class="date">21 October 2019</h4>
+            <h4 class="date">28 October 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/unisets/blob/master/vignettes/bioc-annotation.Rmd"><code>vignettes/bioc-annotation.Rmd</code></a></small>
       <div class="hidden name"><code>bioc-annotation.Rmd</code></div>
@@ -133,7 +133,7 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(unisets)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">go_sets &lt;-<span class="st"> </span><span class="kw"><a href="../reference/io.html">import</a></span>(org.Hs.egGO)</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">go_sets</a></code></pre></div>
-<pre><code>## GOSets with 267783 relations between 20207 elements and 17496 sets
+<pre><code>## GOSets with 322301 relations between 20488 elements and 18177 sets
 ##              element         set | evidence ontology
 ##          &lt;character&gt; &lt;character&gt; | &lt;factor&gt; &lt;factor&gt;
 ##      [1]           1  GO:0002576 |      TAS       BP
@@ -142,18 +142,18 @@
 ##      [4]           2  GO:0001869 |      IDA       BP
 ##      [5]           2  GO:0002576 |      TAS       BP
 ##      ...         ...         ... .      ...      ...
-## [267779]   110599583  GO:0046872 |      IEA       MF
-## [267780]   111089941  GO:0004571 |      IMP       MF
-## [267781]   111089941  GO:0005509 |      IEA       MF
-## [267782]   111240474  GO:0005515 |      IPI       MF
-## [267783]   112441434  GO:0005515 |      IPI       MF
+## [322297]   111089941  GO:0004571 |      IMP       MF
+## [322298]   111089941  GO:0005509 |      IEA       MF
+## [322299]   111240474  GO:0005515 |      IPI       MF
+## [322300]   112441434  GO:0005515 |      IPI       MF
+## [322301]   113219467  GO:0030533 |      IEA       MF
 ## -----------
 ## elementInfo: EntrezIdVector with 0 metadata
 ##     setInfo: GOIdVector with 4 metadata (GOID, DEFINITION, ...)</code></pre>
 <p>Notice how the <code>"element"</code> information is typed as <code>EntrezIdVector</code>, allowing the type of identifier to affect downstream methods (e.g., pathway analyses). The <code>EntrezIdVector</code> class directly inherits from the <code>IdVector</code> class, and benefits of all the methods associated with the parent class.</p>
 <p>It is also useful to note that the conversion of <code>Go3AnnDbBimap</code> Gene Ontology maps to <em><a href="https://github.com/kevinrue/unisets">unisets</a></em> objects automatically fetches metadata for each GO identifier from the <code>GO.db</code> package, if installed. The metadata is stored it in the <code>mcols</code> (metadata-columns) slot of the <code>setInfo</code> slot of the object returned. This metadata can be accessed using the accessor method of the same name.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw"><a href="../reference/Sets-methods.html">setInfo</a></span>(go_sets))[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"ONTOLOGY"</span>, <span class="st">"TERM"</span>)]</a></code></pre></div>
-<pre><code>## DataFrame with 17496 rows and 2 columns
+<pre><code>## DataFrame with 18177 rows and 2 columns
 ##               ONTOLOGY
 ##            &lt;character&gt;
 ## GO:0002576          BP
@@ -162,9 +162,9 @@
 ## GO:0001869          BP
 ## GO:0007597          BP
 ## ...                ...
-## GO:0035716          MF
 ## GO:0047349          MF
 ## GO:0070567          MF
+## GO:0047547          MF
 ## GO:0047613          MF
 ## GO:0050337          MF
 ##                                                                    TERM
@@ -175,9 +175,9 @@
 ## GO:0001869 negative regulation of complement activation, lectin pathway
 ## GO:0007597                         blood coagulation, intrinsic pathway
 ## ...                                                                 ...
-## GO:0035716                      chemokine (C-C motif) ligand 12 binding
 ## GO:0047349          D-ribitol-5-phosphate cytidylyltransferase activity
 ## GO:0070567                                cytidylyltransferase activity
+## GO:0047547                         2-methylcitrate dehydratase activity
 ## GO:0047613                             aconitate decarboxylase activity
 ## GO:0050337                 thiosulfate-thiol sulfurtransferase activity</code></pre>
 <p>We may then visualize the distribution of set sizes, on a log<sub>10</sub> scale.</p>
@@ -195,7 +195,7 @@
 <pre><code>## Coercing evidence to factor</code></pre>
 <pre><code>## Coercing ontology to factor</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(go_sets), <span class="dt">big.mark=</span><span class="st">","</span>)</a></code></pre></div>
-<pre><code>## [1] "2,946,160"</code></pre>
+<pre><code>## [1] "3,558,563"</code></pre>
 <p>We can also examine the count of relations associated with each evidence code in each Gene Ontology namespace.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="../reference/Sets-methods.html">as.data.frame</a></span>(go_sets)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb14-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(evidence)) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="op">~</span>ontology, <span class="dt">ncol =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span>() <span class="op">+</span></a>
@@ -230,45 +230,45 @@
 ## 
 ## other attached packages:
 ##  [1] cowplot_1.0.0        ggplot2_3.2.1        unisets_0.99.0      
-##  [4] org.Hs.eg.db_3.8.2   AnnotationDbi_1.47.1 IRanges_2.19.17     
+##  [4] org.Hs.eg.db_3.10.0  AnnotationDbi_1.47.1 IRanges_2.19.18     
 ##  [7] S4Vectors_0.23.25    Biobase_2.45.1       BiocGenerics_0.31.6 
 ## [10] BiocStyle_2.13.2    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] bit64_0.9-7                 assertthat_0.2.1           
-##  [3] BiocManager_1.30.8          blob_1.2.0                 
-##  [5] GenomeInfoDbData_1.2.1      Rsamtools_2.1.7            
-##  [7] yaml_2.2.0                  pillar_1.4.2               
-##  [9] RSQLite_2.1.2               backports_1.1.5            
-## [11] lattice_0.20-38             digest_0.6.21              
-## [13] GenomicRanges_1.37.17       XVector_0.25.0             
-## [15] colorspace_1.4-1            htmltools_0.4.0            
-## [17] Matrix_1.2-17               plyr_1.8.4                 
-## [19] GSEABase_1.47.0             XML_3.98-1.20              
-## [21] pkgconfig_2.0.3             bookdown_0.14              
-## [23] zlibbioc_1.31.0             xtable_1.8-4               
-## [25] GO.db_3.8.2                 scales_1.0.0               
-## [27] BiocParallel_1.19.4         tibble_2.1.3               
-## [29] annotate_1.63.0             withr_2.1.2                
-## [31] SummarizedExperiment_1.15.9 lazyeval_0.2.2             
-## [33] magrittr_1.5                crayon_1.3.4               
-## [35] memoise_1.1.0               evaluate_0.14              
-## [37] fs_1.3.1                    MASS_7.3-51.4              
-## [39] graph_1.63.0                tools_3.6.1                
-## [41] matrixStats_0.55.0          stringr_1.4.0              
-## [43] munsell_0.5.0               DelayedArray_0.11.8        
-## [45] Biostrings_2.53.2           compiler_3.6.1             
-## [47] pkgdown_1.4.1               GenomeInfoDb_1.21.2        
-## [49] rlang_0.4.0                 grid_3.6.1                 
-## [51] RCurl_1.95-4.12             labeling_0.3               
-## [53] bitops_1.0-6                rmarkdown_1.16             
-## [55] gtable_0.3.0                DBI_1.0.0                  
-## [57] reshape2_1.4.3              R6_2.4.0                   
-## [59] GenomicAlignments_1.21.7    knitr_1.25                 
-## [61] rtracklayer_1.45.6          bit_1.1-14                 
-## [63] zeallot_0.1.0               rprojroot_1.3-2            
-## [65] desc_1.2.0                  stringi_1.4.3              
-## [67] Rcpp_1.0.2                  vctrs_0.2.0                
+##  [1] bit64_0.9-7                  assertthat_0.2.1            
+##  [3] BiocManager_1.30.9           blob_1.2.0                  
+##  [5] GenomeInfoDbData_1.2.2       Rsamtools_2.1.7             
+##  [7] yaml_2.2.0                   pillar_1.4.2                
+##  [9] RSQLite_2.1.2                backports_1.1.5             
+## [11] lattice_0.20-38              digest_0.6.22               
+## [13] GenomicRanges_1.37.17        XVector_0.25.0              
+## [15] colorspace_1.4-1             htmltools_0.4.0             
+## [17] Matrix_1.2-17                plyr_1.8.4                  
+## [19] GSEABase_1.47.1              XML_3.98-1.20               
+## [21] pkgconfig_2.0.3              bookdown_0.14               
+## [23] zlibbioc_1.31.0              xtable_1.8-4                
+## [25] GO.db_3.10.0                 scales_1.0.0                
+## [27] BiocParallel_1.19.5          tibble_2.1.3                
+## [29] annotate_1.63.0              withr_2.1.2                 
+## [31] SummarizedExperiment_1.15.10 lazyeval_0.2.2              
+## [33] magrittr_1.5                 crayon_1.3.4                
+## [35] memoise_1.1.0                evaluate_0.14               
+## [37] fs_1.3.1                     MASS_7.3-51.4               
+## [39] graph_1.63.0                 tools_3.6.1                 
+## [41] matrixStats_0.55.0           stringr_1.4.0               
+## [43] munsell_0.5.0                DelayedArray_0.11.8         
+## [45] Biostrings_2.53.2            compiler_3.6.1              
+## [47] pkgdown_1.4.1                GenomeInfoDb_1.21.2         
+## [49] rlang_0.4.1                  grid_3.6.1                  
+## [51] RCurl_1.95-4.12              labeling_0.3                
+## [53] bitops_1.0-6                 rmarkdown_1.16              
+## [55] gtable_0.3.0                 DBI_1.0.0                   
+## [57] reshape2_1.4.3               R6_2.4.0                    
+## [59] GenomicAlignments_1.21.8     knitr_1.25                  
+## [61] rtracklayer_1.45.6           bit_1.1-14                  
+## [63] zeallot_0.1.0                rprojroot_1.3-2             
+## [65] desc_1.2.0                   stringi_1.4.3               
+## [67] Rcpp_1.0.2                   vctrs_0.2.0                 
 ## [69] xfun_0.10</code></pre>
 </div>
   </div>
