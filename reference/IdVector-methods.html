@@ -8,11 +8,13 @@
 
 <title>Methods for <code>IdVector</code> objects — IdVector-methods • unisets</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -32,13 +34,14 @@
 
 
 
-<meta property="og:title" content="Methods for <code>IdVector</code> objects — IdVector-methods" />
 
+<meta property="og:title" content="Methods for <code>IdVector</code> objects — IdVector-methods" />
 <meta property="og:description" content="This page documents the S4 generics and methods defined for objects inheriting of the IdVector class.
 The IdVector class directly extends Vector and thus inherits of all methods defined for the parent class.
 In the usage below, object and x represent an object of class inheriting from IdVector,
 and value is an object of a class specified in the S4 method signature or as outlined in 'Accessors'." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -104,7 +107,6 @@ and value is an object of a class specified in the S4 method signature or as out
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/kevinrue/unisets">
@@ -131,12 +133,10 @@ and value is an object of a class specified in the S4 method signature or as out
     </div>
 
     <div class="ref-description">
-    
     <p>This page documents the S4 generics and methods defined for objects inheriting of the <code><a href='IdVector-class.html'>IdVector</a></code> class.
 The <code>IdVector</code> class directly extends <code>Vector</code> and thus inherits of all methods defined for the parent class.
 In the usage below, <code>object</code> and <code>x</code> represent an object of class inheriting from <code><a href='IdVector-class.html'>IdVector</a></code>,
 and <code>value</code> is an object of a class specified in the S4 method signature or as outlined in 'Accessors'.</p>
-    
     </div>
 
     <pre class="usage">ids(object) <- value
@@ -169,7 +169,7 @@ as.vector(x, mode = "character")
 as.character(x, ...)
 
 as.IdVector.default(ids, ...)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -203,26 +203,23 @@ character string naming an atomic mode or "list" or "expression" or (except for 
       <td><p>An atomic vector of identifiers.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="accessors"><a class="anchor" href="#accessors"></a>Accessors</h2>
 
     
 
 <p><code>ids(object)</code> returns a <code>character</code> vector of element identifiers.
 <code><a href='https://rdrr.io/r/base/names.html'>names(object)</a></code> is a synonym for compatibility with S4 methods such as <code>mcols(object, use.names = TRUE, ...) </code>.</p>
-    
     <h2 class="hasAnchor" id="dimensions"><a class="anchor" href="#dimensions"></a>Dimensions</h2>
 
     
 
 <p><code><a href='https://rdrr.io/r/base/length.html'>length(x)</a></code> returns the number of elements in <code>x</code>.</p>
-    
     <h2 class="hasAnchor" id="subsetting"><a class="anchor" href="#subsetting"></a>Subsetting</h2>
 
     
 
 <p><code>x[i]</code> returns new <code><a href='IdVector-class.html'>IdVector</a></code> object of the same class as <code>x</code> made of the elements selected by <code>i</code>. <code>i</code> can be missing; an NA-free logical, numeric, or character vector or factor (as ordinary vector or <code>Rle</code> object); or an <code>IntegerRanges</code> object.</p>
-    
     <h2 class="hasAnchor" id="coercion"><a class="anchor" href="#coercion"></a>Coercion</h2>
 
     
@@ -232,11 +229,9 @@ character string naming an atomic mode or "list" or "expression" or (except for 
 <p><code>as(x, "vector")</code> and <code>as.vector(x)</code> return a <code>character</code> vector of identifiers contained in <code>x</code>.</p>
 
 <p><code>as(object, "IdVector")</code> and <code>as.IdVector(object)</code> return an <code>IdVector</code> from the given atomic vector of identifiers.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='IdVector-class.html'>IdVector</a></code>, <code>Vector</code>, <code>Vector-setops</code>.</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Constructor ----</span>
@@ -283,17 +278,11 @@ character string naming an atomic mode or "list" or "expression" or (except for 
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#accessors">Accessors</a></li>
-
       <li><a href="#dimensions">Dimensions</a></li>
-
       <li><a href="#subsetting">Subsetting</a></li>
-
       <li><a href="#coercion">Coercion</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
