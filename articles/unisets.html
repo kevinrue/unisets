@@ -98,7 +98,7 @@
       Fred Hutchinson Cancer Research Center, Seattle, WA, USA, 98115<br><a class="author_email" href="mailto:#"></a><a href="mailto:robert.amezquita@fredhutch.org">robert.amezquita@fredhutch.org</a>
       </address>
                   
-            <h4 class="date">23 December 2019</h4>
+            <h4 class="date">30 December 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/unisets/blob/master/vignettes/unisets.Rmd"><code>vignettes/unisets.Rmd</code></a></small>
       <div class="hidden name"><code>unisets.Rmd</code></div>
@@ -237,38 +237,38 @@
 <pre><code>## FuzzySets with 5 relations between 4 elements and 2 sets
 ##         element         set |      extra1    extra2 membership
 ##     &lt;character&gt; &lt;character&gt; | &lt;character&gt; &lt;numeric&gt;  &lt;numeric&gt;
-## [1]           A    geneset1 |         ABC      0.00       0.14
-## [2]           B    geneset1 |         ABC      0.25       0.71
-## [3]           B    geneset2 |         ABC      0.50       0.83
-## [4]           C    geneset2 |         DEF      0.75       0.82
-## [5]           D    geneset2 |         DEF      1.00       0.84
+## [1]           A    geneset1 |         ABC      0.00       0.11
+## [2]           B    geneset1 |         ABC      0.25       0.46
+## [3]           B    geneset2 |         ABC      0.50       0.78
+## [4]           C    geneset2 |         DEF      0.75       0.90
+## [5]           D    geneset2 |         DEF      1.00       0.60
 ## -----------
 ## elementInfo: IdVector with 2 metadata (GeneStat1, GeneInfo1)
 ##     setInfo: IdVector with 2 metadata (SetStat1, SetInfo1)</code></pre>
 <p>The <code>membership</code> function associated with each relation can be directly obtained and modified using the corresponding accessor.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="../reference/FuzzyHits-methods.html">membership</a></span>(fuzzy_sets)</a></code></pre></div>
-<pre><code>## [1] 0.14 0.71 0.83 0.82 0.84</code></pre>
+<pre><code>## [1] 0.11 0.46 0.78 0.90 0.60</code></pre>
 <p>Identically to <code>Sets</code>, the <code>relations</code> accessor returns fuzzy relations as <code>Hits</code>, while the <code>as</code> method may be used to format the information as a <code>DataFrame</code>, both of which include the <code>"membership"</code> column, as metadata column and nested under <code>"relationData"</code>, respectively.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="../reference/Sets-methods.html">relations</a></span>(fuzzy_sets)</a></code></pre></div>
 <pre><code>## FuzzyHits object with 5 hits and 3 metadata columns:
 ##            from        to |      extra1    extra2 membership
 ##       &lt;integer&gt; &lt;integer&gt; | &lt;character&gt; &lt;numeric&gt;  &lt;numeric&gt;
-##   [1]         1         1 |         ABC      0.00       0.14
-##   [2]         2         1 |         ABC      0.25       0.71
-##   [3]         2         2 |         ABC      0.50       0.83
-##   [4]         3         2 |         DEF      0.75       0.82
-##   [5]         4         2 |         DEF      1.00       0.84
+##   [1]         1         1 |         ABC      0.00       0.11
+##   [2]         2         1 |         ABC      0.25       0.46
+##   [3]         2         2 |         ABC      0.50       0.78
+##   [4]         3         2 |         DEF      0.75       0.90
+##   [5]         4         2 |         DEF      1.00       0.60
 ##   -------
 ##   nLnode: 4 / nRnode: 2</code></pre>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">as</span>(fuzzy_sets, <span class="st">"DataFrame"</span>)</a></code></pre></div>
 <pre><code>## DataFrame with 5 rows and 5 columns
 ##      element        set  relationData elementInfo     setInfo
 ##   &lt;IdVector&gt; &lt;IdVector&gt;   &lt;DataFrame&gt; &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1          A   geneset1 ABC:0.00:0.14         1:a     100:abc
-## 2          B   geneset1 ABC:0.25:0.71         2:b     100:abc
-## 3          B   geneset2 ABC:0.50:0.83         2:b     200:def
-## 4          C   geneset2 DEF:0.75:0.82         3:c     200:def
-## 5          D   geneset2 DEF:1.00:0.84         4:d     200:def</code></pre>
+## 1          A   geneset1 ABC:0.00:0.11         1:a     100:abc
+## 2          B   geneset1 ABC:0.25:0.46         2:b     100:abc
+## 3          B   geneset2 ABC:0.50:0.78         2:b     200:def
+## 4          C   geneset2 DEF:0.75:0.90         3:c     200:def
+## 5          D   geneset2 DEF:1.00:0.60         4:d     200:def</code></pre>
 </div>
 <div id="the-gosets-class" class="section level2">
 <h2 class="hasAnchor">
@@ -294,9 +294,9 @@
 <pre><code>## FuzzySets with 3 relations between 3 elements and 1 set
 ##         element         set |      extra1    extra2 membership
 ##     &lt;character&gt; &lt;character&gt; | &lt;character&gt; &lt;numeric&gt;  &lt;numeric&gt;
-## [1]           B    geneset2 |         ABC      0.50       0.83
-## [2]           C    geneset2 |         DEF      0.75       0.82
-## [3]           D    geneset2 |         DEF      1.00       0.84
+## [1]           B    geneset2 |         ABC      0.50       0.78
+## [2]           C    geneset2 |         DEF      0.75       0.90
+## [3]           D    geneset2 |         DEF      1.00       0.60
 ## -----------
 ## elementInfo: IdVector with 2 metadata (GeneStat1, GeneInfo1)
 ##     setInfo: IdVector with 2 metadata (SetStat1, SetInfo1)</code></pre>
@@ -337,9 +337,9 @@
 <a class="sourceLine" id="cb37-3" data-line-number="3">fuzzy_matrix</a></code></pre></div>
 <pre><code>##   geneset1 geneset2
 ## A     0.00       NA
-## B     0.71     0.83
-## C       NA     0.82
-## D       NA     0.84</code></pre>
+## B     0.46     0.78
+## C       NA     0.90
+## D       NA     0.60</code></pre>
 </div>
 </div>
 <div id="convert-from" class="section level1">
@@ -370,10 +370,10 @@
 ##         element         set | membership
 ##     &lt;character&gt; &lt;character&gt; |  &lt;numeric&gt;
 ## [1]           A    geneset1 |       0.00
-## [2]           B    geneset1 |       0.71
-## [3]           B    geneset2 |       0.83
-## [4]           C    geneset2 |       0.82
-## [5]           D    geneset2 |       0.84
+## [2]           B    geneset1 |       0.46
+## [3]           B    geneset2 |       0.78
+## [4]           C    geneset2 |       0.90
+## [5]           D    geneset2 |       0.60
 ## -----------
 ## elementInfo: IdVector with 0 metadata
 ##     setInfo: IdVector with 0 metadata</code></pre>
@@ -489,7 +489,7 @@
 <div id="session-info" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<pre><code>## R Under development (unstable) (2019-12-23 r77614)
+<pre><code>## R Under development (unstable) (2019-12-29 r77627)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 16.04.6 LTS
 ## 
@@ -511,7 +511,7 @@
 ## 
 ## other attached packages:
 ## [1] unisets_0.99.0      S4Vectors_0.25.8    BiocGenerics_0.33.0
-## [4] BiocStyle_2.15.2   
+## [4] BiocStyle_2.15.3   
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] SummarizedExperiment_1.17.1 xfun_0.11                  
@@ -531,7 +531,7 @@
 ## [29] AnnotationDbi_1.49.0        GSEABase_1.49.0            
 ## [31] Rcpp_1.0.3                  xtable_1.8-4               
 ## [33] backports_1.1.5             BiocManager_1.30.10        
-## [35] DelayedArray_0.13.0         desc_1.2.0                 
+## [35] DelayedArray_0.13.1         desc_1.2.0                 
 ## [37] graph_1.65.0                annotate_1.65.0            
 ## [39] XVector_0.27.0              fs_1.3.1                   
 ## [41] bit_1.1-14                  Rsamtools_2.3.2            
