@@ -25,6 +25,10 @@ vignette: |
   %\VignettePackage{unisets}
 ---
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(crop = NULL)
+```
+
 # Getting started
 
 ## Bioconductor annotation packages
