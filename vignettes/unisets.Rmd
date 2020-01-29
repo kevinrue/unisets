@@ -27,6 +27,10 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(crop = NULL)
+```
+
 # Overview
 
 The goal of the `r Githubpkg("kevinrue/unisets")` package is to provide a collection of S4 classes to store relationships between elements and sets, with a particular emphasis on gene sets.
