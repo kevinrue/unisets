@@ -1,5 +1,8 @@
+<!-- badges: start -->
 [![Travis build status](https://travis-ci.org/kevinrue/unisets.svg?branch=master)](https://travis-ci.org/kevinrue/unisets)
 [![Coverage status](https://codecov.io/gh/kevinrue/unisets/branch/master/graph/badge.svg)](https://codecov.io/github/kevinrue/unisets?branch=master)
+[![R build status](https://github.com/kevinrue/unisets/workflows/R-CMD-check/badge.svg)](https://github.com/kevinrue/unisets/actions)
+<!-- badges: end -->
 
 # unisets
 

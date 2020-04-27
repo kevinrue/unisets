@@ -76,8 +76,8 @@ setClass("IdVector",
 )
 
 #' @importFrom methods callNextMethod
-#' @importMethodsFrom S4Vectors parallelSlotNames
-setMethod("parallelSlotNames", "IdVector", function(x) {
+#' @importMethodsFrom S4Vectors vertical_slot_names
+setMethod("vertical_slot_names", "IdVector", function(x) {
     c("ids", callNextMethod())
 })
 
